@@ -33,6 +33,9 @@ A typical Vanity configuration directory looks something like this:
 The following software is **required** for Vanity to run:
 
 * [PHP](http://php.net) 5.3.2+
+* [SimpleXML](http://php.net/simplexml)
+* [DOMDocument](http://php.net/dom)
+* Shell access ([shell_exec()](http://php.net/shell_exec), [passthrough()](http://php.net/passthrough))
 
 ### Optional
 This software is **optional**, and is only used if you need to generate additional output formats.

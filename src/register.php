@@ -1,7 +1,6 @@
 <?php
 /**
  * Copyright (c) 2009-2012 [Ryan Parman](http://ryanparman.com)
- * Copyright (c) 2011-2012 [Ryan McCue](http://ryanmccue.info)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,11 +23,20 @@
  * <http://www.opensource.org/licenses/mit-license.php>
  */
 
-namespace Vanity\Event
-{
-	class Console
+
+use Vanity\Event\Dispatcher,
+    Vanity\Event\InputOutput as EventIO;
+
+Dispatcher::get_dispatcher()
+	->addListener('console.fetch.checkout', function(EventIO $event)
 	{
-		const FETCH_CHECKOUT = 'console.fetch.checkout';
-		const FETCH_UPDATE   = 'console.fetch.update';
-	}
-}
+		$event = new Vanity\Console\FetchEvent($event->get_output());
+		return $event->checkout();
+	});
+
+Dispatcher::get_dispatcher()
+	->addListener('console.fetch.update', function(EventIO $event)
+	{
+		$event = new Vanity\Console\FetchEvent($event->get_output());
+		return $event->update();
+	});

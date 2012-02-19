@@ -1,7 +1,6 @@
 <?php
 /**
  * Copyright (c) 2009-2012 [Ryan Parman](http://ryanparman.com)
- * Copyright (c) 2011-2012 [Ryan McCue](http://ryanmccue.info)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal

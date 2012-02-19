@@ -1,7 +1,6 @@
 <?php
 /**
  * Copyright (c) 2009-2012 [Ryan Parman](http://ryanparman.com)
- * Copyright (c) 2011-2012 [Ryan McCue](http://ryanmccue.info)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,14 +23,13 @@
  * <http://www.opensource.org/licenses/mit-license.php>
  */
 
-namespace Vanity\Event\Console
+namespace Vanity\Console
 {
 	use Vanity,
 	    Symfony\Component\EventDispatcher\Event,
 	    Symfony\Component\EventDispatcher\EventDispatcher,
 	    Symfony\Component\Process\Process,
 	    Symfony\Component\Console\Formatter\OutputFormatterStyle as ConsoleFormat,
-	    Vanity\Event\Console,
 	    Vanity\Event\Dispatcher;
 
 	class FetchEvent extends Event
@@ -56,7 +54,7 @@ namespace Vanity\Event\Console
 		);
 
 		/**
-		 * Constructs a new instance of <Vanity\Event\Console\FetchEvent>.
+		 * Constructs a new instance of <Vanity\Console\FetchEvent>.
 		 */
 		public function __construct($output)
 		{

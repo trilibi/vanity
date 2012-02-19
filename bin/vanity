@@ -2,7 +2,6 @@
 <?php
 /**
  * Copyright (c) 2009-2012 [Ryan Parman](http://ryanparman.com)
- * Copyright (c) 2011-2012 [Ryan McCue](http://ryanmccue.info)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -36,11 +35,16 @@ use Symfony\Component\Console\Application,
     Symfony\Component\EventDispatcher\Event,
     Symfony\Component\EventDispatcher\EventDispatcher,
     Symfony\Component\Filesystem\Filesystem,
-    Vanity\Event\Console,
-    Vanity\Event\Dispatcher;
+    Vanity\Console,
+    Vanity\Event\Dispatcher,
+    Vanity\Event\InputOutput as EventIO;
 
+# instantiate
 $vanity_console = new Application('Vanity', VANITY_VERSION);
 Dispatcher::set_dispatcher(new EventDispatcher());
+
+# register events
+include_once VANITY_SYSTEM . '/src/register.php';
 
 # version
 $vanity_console
@@ -57,19 +61,20 @@ $vanity_console
 	->setDescription('Fetches a copy of the latest PHP API Reference from PHP.net. Useful when extending PHP\'s base classes.')
 	->setCode(function(InputInterface $input, OutputInterface $output)
 	{
-		Vanity\Event\Register::fetch();
 		$filesystem = new Filesystem();
 
 		if (!is_dir(VANITY_CACHE_DIR))
 		{
 			if ($filesystem->mkdir(VANITY_CACHE_DIR, 0777))
 			{
-				Dispatcher::get_dispatcher()->dispatch(Console::FETCH_CHECKOUT, new Console\FetchEvent($output));
+				$event = new EventIO($input, $output);
+				Dispatcher::get_dispatcher()->dispatch('console.fetch.checkout', $event);
 			}
 		}
 		else
 		{
-			Dispatcher::get_dispatcher()->dispatch(Console::FETCH_UPDATE, new Console\FetchEvent($output));
+			$event = new EventIO($input, $output);
+			Dispatcher::get_dispatcher()->dispatch('console.fetch.update', $event);
 		}
 	});
 
@@ -78,9 +83,9 @@ $vanity_console
 	->register('parse')
 	->setDescription('Parses the PHP project, producing intermediary JSON definitions. Must be run before `vanity generate`.')
 	->setDefinition(array(
+
 		// What do we call it?
-		new InputOption('product-name', 'n', InputOption::VALUE_REQUIRED, 'The name of the product.', null),
-		new InputOption('product-version', 'v', InputOption::VALUE_REQUIRED, 'The version of the product.', null),
+		new InputOption('product-version', null, InputOption::VALUE_REQUIRED, 'The version of the product.', null),
 
 		// How do we parse this thing?
 		new InputOption('bootstrap', 'b', InputOption::VALUE_OPTIONAL, 'The bootstrap file which informs how the classes should be autoloaded.', null),

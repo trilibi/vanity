@@ -1,7 +1,6 @@
 <?php
 /**
  * Copyright (c) 2009-2012 [Ryan Parman](http://ryanparman.com)
- * Copyright (c) 2011-2012 [Ryan McCue](http://ryanmccue.info)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,34 +25,49 @@
 
 namespace Vanity\Event
 {
-	use Vanity,
-	    Symfony\Component\EventDispatcher\Event,
-	    Symfony\Component\EventDispatcher\EventDispatcher,
-	    Symfony\Component\Process\Process,
-	    Vanity\Event\Console,
-	    Vanity\Event\Dispatcher;
+	use Symfony\Component\EventDispatcher\Event,
+	    Symfony\Component\Console\Input\InputInterface,
+	    Symfony\Component\Console\Output\OutputInterface;
 
-	/**
-	 * Internal event handlers to register.
-	 */
-	class Register
+	class InputOutput extends Event
 	{
 		/**
-		 * Register the event handlers for `vanity fetch`.
+		 * Stores the console Input object.
 		 */
-		public static function fetch()
-		{
-			// Vanity\Event\Console::FETCH_CHECKOUT
-			Dispatcher::get_dispatcher()->addListener(Console::FETCH_CHECKOUT, function(Event $event)
-			{
-				return $event->checkout();
-			});
+		private $input;
 
-			// Vanity\Event\Console::FETCH_UPDATE
-			Dispatcher::get_dispatcher()->addListener(Console::FETCH_UPDATE, function(Event $event)
-			{
-				return $event->update();
-			});
+		/**
+		 * Stores the console Output object.
+		 */
+		private $output;
+
+		/**
+		 * Constructs a new instance of <Vanity\Event\InputOutput>.
+		 *
+		 * @param InputInterface  $input  A <Symfony\Component\Console\Input\InputInterface> object.
+		 * @param OutputInterface $output A <Symfony\Component\Console\Output\OutputInterface> object.
+		 * @return void
+		 */
+		public function __construct(InputInterface $input, OutputInterface $output)
+		{
+			$this->input = $input;
+			$this->output = $output;
+		}
+
+		/**
+		 * Get the Input object.
+		 */
+		public function get_input()
+		{
+			return $this->input;
+		}
+
+		/**
+		 * Get the Output object.
+		 */
+		public function get_output()
+		{
+			return $this->output;
 		}
 	}
 }
