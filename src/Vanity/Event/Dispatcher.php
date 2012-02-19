@@ -37,7 +37,7 @@ namespace Vanity\Event
 		/**
 		 * Retrieve the Event Dispatcher.
 		 */
-		public static function get_dispatcher()
+		public static function get()
 		{
 			return self::$dispatcher;
 		}
@@ -45,7 +45,7 @@ namespace Vanity\Event
 		/**
 		 * Set the Event Dispatcher.
 		 */
-		public static function set_dispatcher(EventDispatcher $dispatcher)
+		public static function set(EventDispatcher $dispatcher)
 		{
 			self::$dispatcher = $dispatcher;
 		}

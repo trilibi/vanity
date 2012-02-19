@@ -23,42 +23,63 @@
  * <http://www.opensource.org/licenses/mit-license.php>
  */
 
-
-use Vanity\Event\Dispatcher,
-    Vanity\Event\InputOutput as EventIO;
-
-
-/*%**********************************************************************%*/
-// CONSOLE
-
-Dispatcher::get()
-	->addListener('console.fetch.checkout', function(EventIO $event)
+namespace Vanity\Config
+{
+	class Store
 	{
-		$event = new Vanity\Console\FetchEvent($event->get_output());
-		return $event->checkout();
-	});
+		/**
+		 * Stores the configuration.
+		 */
+		private static $config;
 
-Dispatcher::get()
-	->addListener('console.fetch.update', function(EventIO $event)
-	{
-		$event = new Vanity\Console\FetchEvent($event->get_output());
-		return $event->update();
-	});
+		/**
+		 * Retrieve the configuration.
+		 */
+		public static function get()
+		{
+			return self::$config;
+		}
 
+		/**
+		 * Set the configuration.
+		 */
+		public static function set($config)
+		{
+			self::$config = self::convert($config);
+		}
 
-/*%**********************************************************************%*/
-// CONFIG
+		/**
+		 * Converts multi-dimensional arrays into period-delimited strings.
+		 *
+		 * @param  array  $config The configuration setting.
+		 * @param  string $prefix The prefix for the node.
+		 * @return array  The configuration array.
+		 */
+		private static function convert(array $config, $prefix = '')
+		{
+			foreach ($config as $key => $value)
+			{
+				if (is_array($value))
+				{
+					unset($config[$key]);
+					$config = array_merge($config, self::convert($value, $key));
+				}
+				else
+				{
+					if ($prefix)
+					{
+						unset($config[$key]);
+						$config[$prefix . '.' . $key] = $value;
+					}
+					else
+					{
+						unset($config[$key]);
+						$config[$key] = $value;
+					}
+				}
+			}
 
-Dispatcher::get()
-	->addListener('config.read', function(EventIO $event)
-	{
-		$event = new Vanity\Config\ConfigEvent($event->get_input(), $event->get_output());
-		return $event->read();
-	});
-
-Dispatcher::get()
-	->addListener('config.display', function(EventIO $event)
-	{
-		$event = new Vanity\Config\ConfigEvent($event->get_input(), $event->get_output());
-		return $event->display();
-	});
+			return $config;
+		}
+	}
+}

@@ -84,14 +84,15 @@ else
 }
 
 $loader->registerNamespaces(array(
-	'Vanity'                               => __DIR__,
-	'Symfony\\Component\\ClassLoader'      => VANITY_VENDOR . '/symfony/class-loader',
-	'Symfony\\Component\\Console'          => VANITY_VENDOR . '/symfony/console',
-	'Symfony\\Component\\EventDispatcher'  => VANITY_VENDOR . '/symfony/event-dispatcher',
-	'Symfony\\Component\\Filesystem'       => VANITY_VENDOR . '/symfony/filesystem',
-	'Symfony\\Component\\Process'          => VANITY_VENDOR . '/symfony/process',
-	'Doctrine\\Common'                     => VANITY_VENDOR . '/doctrine/common/lib',
-	'Docblox'                              => VANITY_VENDOR . '/docblox/docblox/src',
+	'Vanity'                              => __DIR__,
+	'Symfony\\Component\\ClassLoader'     => VANITY_VENDOR . '/symfony/class-loader',
+	'Symfony\\Component\\Console'         => VANITY_VENDOR . '/symfony/console',
+	'Symfony\\Component\\EventDispatcher' => VANITY_VENDOR . '/symfony/event-dispatcher',
+	'Symfony\\Component\\Filesystem'      => VANITY_VENDOR . '/symfony/filesystem',
+	'Symfony\\Component\\Process'         => VANITY_VENDOR . '/symfony/process',
+	'Symfony\\Component\\Yaml'            => VANITY_VENDOR . '/symfony/yaml',
+	'Doctrine\\Common'                    => VANITY_VENDOR . '/doctrine/common/lib',
+	'Docblox'                             => VANITY_VENDOR . '/docblox/docblox/src',
 ));
 
 $loader->register();

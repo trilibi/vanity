@@ -26,11 +26,10 @@
 namespace Vanity\Console
 {
 	use Vanity,
-	    Symfony\Component\EventDispatcher\Event,
-	    Symfony\Component\EventDispatcher\EventDispatcher,
-	    Symfony\Component\Process\Process,
 	    Symfony\Component\Console\Formatter\OutputFormatterStyle as ConsoleFormat,
-	    Vanity\Event\Dispatcher;
+	    Symfony\Component\Console\Output\OutputInterface,
+	    Symfony\Component\EventDispatcher\Event,
+	    Symfony\Component\Process\Process;
 
 	class FetchEvent extends Event
 	{
@@ -55,8 +54,11 @@ namespace Vanity\Console
 
 		/**
 		 * Constructs a new instance of <Vanity\Console\FetchEvent>.
+		 *
+		 * @param Symfony\Component\Console\Output\OutputInterface $output The console output object.
+		 * @return void
 		 */
-		public function __construct($output)
+		public function __construct(OutputInterface $output)
 		{
 			$this->output = $output;
 
