@@ -73,3 +73,10 @@ Dispatcher::get()
 		$event = new Vanity\Parse\ParseEvent($event->get_input(), $event->get_output());
 		return $event->find_project_files();
 	});
+
+Dispatcher::get()
+	->addListener('parser.lexer.get_class_list', function(EventIO $event)
+	{
+		$event = new Vanity\Parse\ParseEvent($event->get_input(), $event->get_output());
+		return $event->get_class_list();
+	});

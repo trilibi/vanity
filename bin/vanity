@@ -158,7 +158,6 @@ $vanity_console
 		Dispatcher::get()->dispatch('parser.lexer.find_project_files', $event);
 		Dispatcher::get()->dispatch('parser.lexer.get_class_list', $event);
 		Dispatcher::get()->dispatch('parser.lexer.read_bootstrap', $event);
-		Dispatcher::get()->dispatch('parser.lexer.determine_type', $event);
 			# parser.lexer.load_class_file
 			# parser.lexer.reflect_class_file
 			# ----

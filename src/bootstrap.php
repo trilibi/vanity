@@ -93,7 +93,7 @@ $loader->registerNamespaces(array(
 	'Symfony\\Component\\Process'         => VANITY_VENDOR . '/symfony/process',
 	'Symfony\\Component\\Yaml'            => VANITY_VENDOR . '/symfony/yaml',
 	'Doctrine\\Common'                    => VANITY_VENDOR . '/doctrine/common/lib',
-	'Docblox'                             => VANITY_VENDOR . '/docblox/docblox/src',
+	'DocBlox'                             => VANITY_VENDOR . '/docblox/docblox/src',
 ));
 
 $loader->register();

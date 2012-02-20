@@ -47,9 +47,14 @@ namespace Vanity\Parse
 		public $output;
 
 		/**
-		 * Stores the Console Output Formatter object.
+		 * Stores the list of parsable files.
 		 */
-		public $formatter;
+		public $parsable_files = array();
+
+		/**
+		 * Stores the list of parsable classes.
+		 */
+		public $parsable_classes = array();
 
 		/**
 		 * Constructs a new instance of <Vanity\Parse\ParseEvent>.
@@ -82,6 +87,7 @@ namespace Vanity\Parse
 
 			foreach ($finder as $file)
 			{
+				self::$parsable_files[] = $file->getRealpath();
 				$file = str_replace(VANITY_PROJECT_WORKING_DIR . '/', '', $file->getRealpath());
 				$this->output->writeln(ConsoleUtil::indent($file, $this->h2_formatter->apply('-> ')));
 				$counter++;
@@ -90,6 +96,29 @@ namespace Vanity\Parse
 			$this->output->writeln('');
 			$this->output->writeln("Matched ${counter} files.");
 			$this->output->writeln('');
+		}
+
+		public function get_class_list()
+		{
+			$this->output->writeln($this->h1_formatter->apply('DOCUMENTABLE CLASSES:'));
+
+			if (!class_exists('\DocBlox_Parallel_Manager'))    require_once VANITY_VENDOR . '/docblox/parallel/Manager.php';
+			if (!class_exists('\DocBlox_Parallel_Worker'))     require_once VANITY_VENDOR . '/docblox/parallel/Worker.php';
+			if (!class_exists('\DocBlox_Parallel_WorkerPipe')) require_once VANITY_VENDOR . '/docblox/parallel/WorkerPipe.php';
+
+			$manager = new \DocBlox_Parallel_Manager();
+			$manager
+				->addWorker(new \DocBlox_Parallel_Worker(function() { sleep(1); return 'a'; }))
+				->addWorker(new \DocBlox_Parallel_Worker(function() { sleep(2); return 'b'; }))
+				->addWorker(new \DocBlox_Parallel_Worker(function() { sleep(3); return 'c'; }))
+				->addWorker(new \DocBlox_Parallel_Worker(function() { sleep(2); return 'd'; }))
+				->addWorker(new \DocBlox_Parallel_Worker(function() { sleep(1); return 'e'; }))
+				->execute();
+
+			foreach ($manager as $worker)
+			{
+				var_dump($worker->getResult());
+			}
 		}
 	}
 }
