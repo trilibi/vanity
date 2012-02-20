@@ -1,0 +1,80 @@
+<?php
+/**
+ * Copyright (c) 2009-2012 [Ryan Parman](http://ryanparman.com)
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * <http://www.opensource.org/licenses/mit-license.php>
+ */
+
+namespace Vanity\Console
+{
+	use Vanity,
+	    Symfony\Component\Console\Formatter\OutputFormatterStyle as ConsoleFormat;
+
+	class Utilities
+	{
+		/**
+		 * Indents the content on the Console.
+		 *
+		 * @param  string $content The textual content to indent.
+		 * @return string The indented text.
+		 */
+		public static function indent($content, $prefix = '')
+		{
+			$contents = explode("\n", $content);
+
+			$contents = array_map(function($line) use (&$prefix)
+			{
+				if (trim($line) !== '')
+				{
+					return TAB . $prefix . $line;
+				}
+
+			}, $contents);
+
+			return implode("\n", $contents);
+		}
+
+		/**
+		 * Converts the number of seconds into HH:MM:SS format.
+		 *
+		 * @param  integer $seconds The number of seconds to format.
+		 * @return string The formatted time.
+		 */
+		public static function time_hms($seconds = 0)
+		{
+			$time = '';
+
+			// First pass
+			$hours = (integer) ($seconds / 3600);
+			$seconds = $seconds % 3600;
+			$minutes = (integer) ($seconds / 60);
+			$seconds = $seconds % 60;
+
+			// Cleanup
+			$time .= ($hours) ? $hours . ':' : '';
+			$time .= ($minutes < 10 && $hours > 0) ? '0' . $minutes : $minutes;
+			$time .= ':';
+			$time .= ($seconds < 10) ? '0' . $seconds : $seconds;
+
+			return $time;
+		}
+	}
+}

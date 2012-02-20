@@ -42,6 +42,7 @@ use Symfony\Component\Console\Application,
 # instantiate
 $vanity_console = new Application('Vanity', VANITY_VERSION);
 Dispatcher::set(new EventDispatcher());
+$defaults = new ConsoleFormat('yellow');
 
 # register events
 include_once VANITY_SYSTEM . '/src/register.php';
@@ -84,40 +85,45 @@ $vanity_console
 	->setDefinition(array(
 
 		// What do we call it?
-		new InputOption('product-version', null, InputOption::VALUE_REQUIRED, 'The version of the product.', null),
-
-		// How do we parse this thing?
-		new InputOption('bootstrap', 'b', InputOption::VALUE_OPTIONAL, 'The bootstrap file which informs how the classes should be autoloaded.', null),
-		new InputOption('match', 'm', InputOption::VALUE_OPTIONAL, 'The pattern of file names to match.', '*.php'),
-
-		// Types of data to exclude?
-		new InputOption('exclude-access', 'A', InputOption::VALUE_OPTIONAL, 'Comma-separated list of the access types to exclude (i.e., private, protected, public, static, final).', 'private'),
-		new InputOption('exclude-classes', 'C', InputOption::VALUE_OPTIONAL, 'Regex pattern of class names to exclude', '/Exception/i'),
-		new InputOption('exclude-methods', 'M', InputOption::VALUE_OPTIONAL, 'Regex pattern of method names to exclude', '/__([a-z]+)/i'),
-
-		// Additional definitions
-		new InputOption('use-changelog', null, InputOption::VALUE_OPTIONAL, 'The name of the CHANGELOG definition to use.', 'changelog.yml'),
-		new InputOption('use-groups', null, InputOption::VALUE_OPTIONAL, 'The name of the method grouping definition to use.', 'groups.yml'),
-		new InputOption('use-seealso', null, InputOption::VALUE_OPTIONAL, 'The name of the "see also" definition to use.', 'seealso.yml'),
-
-		// Extra generation
-		new InputOption('create-indexes', 'i', InputOption::VALUE_OPTIONAL, 'Whether or not to generate indexes for the source.', 'true'),
-		new InputOption('create-todos', 't', InputOption::VALUE_OPTIONAL, 'Whether or not to generate TODOs for the source.', 'true'),
-		new InputOption('pattern-todos', null, InputOption::VALUE_OPTIONAL, 'The regex pattern to use for determining TODOs.', '/@?\s*todo(:|\s)+/i'),
-
-		// Warnings
-		new InputOption('warn-todo', 'W', InputOption::VALUE_OPTIONAL, 'Whether or not to display a warning on the CLI about TODOs in the source code.', 'false'),
-		new InputOption('warn-groups', 'G', InputOption::VALUE_OPTIONAL, 'Whether or not to display a warning on the CLI about ungrouped methods in the `groups.yml` file.', 'true'),
+		new InputOption('product-version', null, InputOption::VALUE_REQUIRED, 'The version of the product.'),
 
 		// Project site integration
-		new InputOption('github', null, InputOption::VALUE_OPTIONAL, 'The pattern of your GitHub project: {user}:{repository}:{tag-branch-or-commit} (e.g., skyzyx:vanity:master).'),
+		new InputOption('github',      null, InputOption::VALUE_OPTIONAL, 'The pattern of your GitHub project: {user}:{repository}:{tag-branch-or-commit} (e.g., skyzyx:vanity:master).'),
 		new InputOption('google-code', null, InputOption::VALUE_OPTIONAL, 'The name of your Google Code project: {project}:{path-to-project-source} (e.g., pubsubhubbub:branches/perl-stable).'),
 
+		// How do we parse this thing?
+		new InputOption('bootstrap', 'b', InputOption::VALUE_OPTIONAL, 'The bootstrap file which informs how the classes should be autoloaded.'),
+		new InputOption('match',     'm', InputOption::VALUE_OPTIONAL, 'The pattern of file names to match. ' . $defaults->apply('(default: *.php)')),
+
+		// Types of data to exclude?
+		new InputOption('exclude-access',  'A', InputOption::VALUE_OPTIONAL, 'Comma-separated list of the access types to exclude (i.e., private, protected, public, static, final). ' . $defaults->apply('(default: private)')),
+		new InputOption('exclude-classes', 'C', InputOption::VALUE_OPTIONAL, 'Regex pattern of class names to exclude. ' . $defaults->apply('(default: /Exception/i)')),
+		new InputOption('exclude-methods', 'M', InputOption::VALUE_OPTIONAL, 'Regex pattern of method names to exclude. ' . $defaults->apply('(default: /__([a-z]+)/i)')),
+
+		// Additional definitions
+		new InputOption('use-changelog', null, InputOption::VALUE_OPTIONAL, 'The name of the CHANGELOG definition to use. ' . $defaults->apply('(default: changelog.yml)')),
+		new InputOption('use-groups',    null, InputOption::VALUE_OPTIONAL, 'The name of the method grouping definition to use. ' . $defaults->apply('(default: groups.yml)')),
+		new InputOption('use-seealso',   null, InputOption::VALUE_OPTIONAL, 'The name of the "see also" definition to use. ' . $defaults->apply('(default: seealso.yml)')),
+
+		// Extra generation
+		new InputOption('generate-indexes', 'i',  InputOption::VALUE_OPTIONAL, 'Whether or not to generate indexes for the source. ' . $defaults->apply('(default: true)')),
+		new InputOption('generate-todos',   't',  InputOption::VALUE_OPTIONAL, 'Whether or not to generate TODOs for the source. ' . $defaults->apply('(default: true)')),
+		new InputOption('pattern-todos',    null, InputOption::VALUE_OPTIONAL, 'The regex pattern to use for determining TODOs. ' . $defaults->apply('(default: /@?\s*todo(:|\s)+/i)')),
+
+		// Warnings
+		new InputOption('warn-todo',   'W', InputOption::VALUE_OPTIONAL, 'Whether or not to display a warning on the CLI about TODOs in the source code. ' . $defaults->apply('(default: false)')),
+		new InputOption('warn-groups', 'G', InputOption::VALUE_OPTIONAL, 'Whether or not to display a warning on the CLI about ungrouped methods in the `groups.yml` file. ' . $defaults->apply('(default: true)')),
+
 		// Project stage
-		new InputOption('stage', 's', InputOption::VALUE_OPTIONAL, 'The stage that the project is currently in (e.g., development, alpha, beta, rc, production).', 'production'),
+		new InputOption('stage', 's', InputOption::VALUE_OPTIONAL, 'The stage that the project is currently in (e.g., development, alpha, beta, rc, production). ' . $defaults->apply('(default: production)')),
 	))
 	->setCode(function(InputInterface $input, OutputInterface $output)
 	{
+		$output->writeln('VANITY ' . VANITY_VERSION);
+		$output->writeln(TAB . 'by Ryan Parman <http://ryanparman.com> and Contributors');
+		$output->writeln(TAB . 'http://vanitydoc.org');
+		$output->writeln('');
+
 		$event = new EventIO($input, $output);
 
 		# config

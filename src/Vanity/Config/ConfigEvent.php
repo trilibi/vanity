@@ -31,7 +31,8 @@ namespace Vanity\Config
 	    Symfony\Component\Console\Output\OutputInterface,
 	    Symfony\Component\EventDispatcher\Event,
 	    Symfony\Component\Yaml\Yaml as YAML,
-	    Vanity\Config\Store as ConfigStore;
+	    Vanity\Config\Store as ConfigStore,
+	    Vanity\Console\Utilities as ConsoleUtil;
 
 	class ConfigEvent extends Event
 	{
@@ -74,32 +75,11 @@ namespace Vanity\Config
 		 */
 		public function read()
 		{
-			$config_cli = array();
-
-			// Non-namespaced
-			$config_cli['product_version'] = $this->input->getOption('product-version');
-			$config_cli['github']          = $this->input->getOption('github');
-			$config_cli['google_code']     = $this->input->getOption('google-code');
-
-			// Parser
-			$config_cli['parser']['bootstrap']       = $this->input->getOption('bootstrap');
-			$config_cli['parser']['match']           = $this->input->getOption('match');
-			$config_cli['parser']['exclude_access']  = $this->input->getOption('exclude-access');
-			$config_cli['parser']['exclude_classes'] = $this->input->getOption('exclude-classes');
-			$config_cli['parser']['exclude_methods'] = $this->input->getOption('exclude-methods');
-			$config_cli['parser']['use_changelog']   = $this->input->getOption('use-changelog');
-			$config_cli['parser']['use_groups']      = $this->input->getOption('use-groups');
-			$config_cli['parser']['use_seealso']     = $this->input->getOption('use-seealso');
-			$config_cli['parser']['create_indexes']  = $this->input->getOption('create-indexes');
-			$config_cli['parser']['create_todos']    = $this->input->getOption('create-todos');
-			$config_cli['parser']['pattern_todos']   = $this->input->getOption('pattern-todos');
-			$config_cli['parser']['warn_todo']       = $this->input->getOption('warn-todo');
-			$config_cli['parser']['warn_groups']     = $this->input->getOption('warn-groups');
-			$config_cli['parser']['stage']           = $this->input->getOption('stage');
-
-			$config_file = YAML::parse(VANITY_PROJECT_CONFIG_DIR . '/config.yml');
-
-			ConfigStore::set(array_merge($config_file, $config_cli));
+			ConfigStore::set(array_merge_recursive(
+				$this->default_values(),
+				$this->file_values(),
+				$this->cli_values()
+			));
 		}
 
 		/**
@@ -109,7 +89,108 @@ namespace Vanity\Config
 		 */
 		public function display()
 		{
-			$this->output->writeln(print_r(ConfigStore::get(), true));
+			$this->output->writeln($this->h1_formatter->apply('ACTIVE CONFIGURATION OPTIONS:'));
+
+			$this->output->writeln(
+				ConsoleUtil::indent(
+					YAML::dump(ConfigStore::get()),
+					$this->h2_formatter->apply('-> ')
+				)
+			);
+		}
+
+		/**
+		 * Return the default config values.
+		 *
+		 * @return array The default config values.
+		 */
+		private function default_values()
+		{
+			$config = array(
+				'product_version' => null,
+				'github'          => null,
+				'google_code'     => null,
+				'parser'          => array(
+					'bootstrap'        => null,
+					'match'            => '*.php',
+					'exclude_access'   => 'private',
+					'exclude_classes'  => '/Exception/i',
+					'exclude_methods'  => '/__([a-z]+)/i',
+					'use_changelog'    => 'changelog.yml',
+					'use_groups'       => 'groups.yml',
+					'use_seealso'      => 'seealso.yml',
+					'generate_indexes' => 'true',
+					'generate_todos'   => 'true',
+					'pattern_todos'    => '/@?\s*todo(:|\s)+/i',
+					'warn_todo'        => 'false',
+					'warn_groups'      => 'true',
+					'stage'            => 'production',
+				)
+			);
+
+			$config = array_filter($config);
+			$config['parser'] = array_filter($config['parser']);
+
+			return $config;
+		}
+
+		/**
+		 * Return the config values passed in the config.yml file.
+		 *
+		 * @return array The config values passed in the config.yml file.
+		 */
+		private function file_values()
+		{
+			$config = YAML::parse(VANITY_PROJECT_CONFIG_DIR . '/config.yml');
+
+			$config = array_filter($config);
+			$config['parser'] = array_filter($config['parser']);
+
+			return $config;
+		}
+
+		/**
+		 * Return the config values passed to the CLI.
+		 *
+		 * @return array The config values passed to the CLI.
+		 */
+		private function cli_values()
+		{
+			$cli = array();
+
+			// Non-namespaced
+			foreach (array(
+				'product-version',
+				'github',
+				'google-code'
+			) as $value) {
+				$cli[str_replace('-', '_', $value)] = $this->input->getOption($value);
+			}
+
+			// Parser-namespaced
+			foreach (array(
+				'bootstrap',
+				'exclude-access',
+				'exclude-classes',
+				'exclude-methods',
+				'generate-indexes',
+				'generate-todos',
+				'match',
+				'pattern-todos',
+				'stage',
+				'use-changelog',
+				'use-groups',
+				'use-seealso',
+				'warn-groups',
+				'warn-todo',
+			) as $value) {
+				$cli['parser'][str_replace('-', '_', $value)] = $this->input->getOption($value);
+			}
+
+			$cli = array_filter($cli);
+			$cli['parser'] = array_filter($cli['parser']);
+
+			return $cli;
 		}
 	}
 }

@@ -59,27 +59,58 @@ namespace Vanity\Config
 		{
 			foreach ($config as $key => $value)
 			{
+				unset($config[$key]);
+
 				if (is_array($value))
 				{
-					unset($config[$key]);
-					$config = array_merge($config, self::convert($value, $key));
+					if (self::is_indexed_array($value))
+					{
+						if ($prefix)
+						{
+							$config[$prefix . '.' . $key] = end($value);
+						}
+						else
+						{
+							$config[$key] = end($value);
+						}
+					}
+					else
+					{
+						$config = array_merge($config, self::convert($value, $key));
+					}
 				}
 				else
 				{
 					if ($prefix)
 					{
-						unset($config[$key]);
 						$config[$prefix . '.' . $key] = $value;
 					}
 					else
 					{
-						unset($config[$key]);
 						$config[$key] = $value;
 					}
 				}
 			}
 
 			return $config;
+		}
+
+		/**
+		 * Determines whether or not the specified array is an indexed array.
+		 *
+		 * @param  array   $array The array to verify.
+		 * @return boolean Whether or not the specified array is an indexed array.
+		 */
+		private static function is_indexed_array(array $array)
+		{
+			$keys = array_keys($array);
+
+			$tested_keys = array_filter($keys, function($key)
+			{
+				return is_int($key);
+			});
+
+			return (count($keys) === count($tested_keys));
 		}
 	}
 }
