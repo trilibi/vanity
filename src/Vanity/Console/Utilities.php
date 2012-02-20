@@ -36,14 +36,20 @@ namespace Vanity\Console
 		 * @param  string $content The textual content to indent.
 		 * @return string The indented text.
 		 */
-		public static function indent($content, $prefix = '')
+		public static function indent($content, $prefix = '', $callback = null)
 		{
+			$callback = $callback? :(function($line) { return $line; });
 			$contents = explode("\n", $content);
 
-			$contents = array_map(function($line) use (&$prefix)
+			$contents = array_map(function($line) use (&$prefix, &$callback)
 			{
 				if (trim($line) !== '')
 				{
+					if (is_callable($callback))
+					{
+						return TAB . $prefix . $callback($line);
+					}
+
 					return TAB . $prefix . $line;
 				}
 
@@ -75,6 +81,23 @@ namespace Vanity\Console
 			$time .= ($seconds < 10) ? '0' . $seconds : $seconds;
 
 			return $time;
+		}
+
+		/**
+		 * Return the number of characters to pad the array key by.
+		 *
+		 * @param  array  $array The array to be tablified.
+		 * @return integer The number of characters to pad the array key by.
+		 */
+		public static function tablify(array $array)
+		{
+			$array = array_keys($array);
+			$array = array_map(function($item)
+			{
+				return strlen($item);
+			}, $array);
+
+			return max($array);
 		}
 	}
 }

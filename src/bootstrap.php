@@ -88,6 +88,7 @@ $loader->registerNamespaces(array(
 	'Symfony\\Component\\ClassLoader'     => VANITY_VENDOR . '/symfony/class-loader',
 	'Symfony\\Component\\Console'         => VANITY_VENDOR . '/symfony/console',
 	'Symfony\\Component\\EventDispatcher' => VANITY_VENDOR . '/symfony/event-dispatcher',
+	'Symfony\\Component\\Finder'          => VANITY_VENDOR . '/symfony/finder',
 	'Symfony\\Component\\Filesystem'      => VANITY_VENDOR . '/symfony/filesystem',
 	'Symfony\\Component\\Process'         => VANITY_VENDOR . '/symfony/process',
 	'Symfony\\Component\\Yaml'            => VANITY_VENDOR . '/symfony/yaml',

@@ -62,3 +62,14 @@ Dispatcher::get()
 		$event = new Vanity\Config\ConfigEvent($event->get_input(), $event->get_output());
 		return $event->display();
 	});
+
+
+/*%**********************************************************************%*/
+// LEXER
+
+Dispatcher::get()
+	->addListener('parser.lexer.find_project_files', function(EventIO $event)
+	{
+		$event = new Vanity\Parse\ParseEvent($event->get_input(), $event->get_output());
+		return $event->find_project_files();
+	});

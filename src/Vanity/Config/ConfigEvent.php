@@ -47,11 +47,6 @@ namespace Vanity\Config
 		public $output;
 
 		/**
-		 * Stores the Console Output Formatter object.
-		 */
-		public $formatter;
-
-		/**
 		 * Constructs a new instance of <Vanity\Console\FetchEvent>.
 		 *
 		 * @param InputInterface  $input  The console input object.
@@ -90,13 +85,33 @@ namespace Vanity\Config
 		public function display()
 		{
 			$this->output->writeln($this->h1_formatter->apply('ACTIVE CONFIGURATION OPTIONS:'));
+			$h2_formatter = $this->h2_formatter;
+			$padding = ConsoleUtil::tablify(ConfigStore::get());
 
 			$this->output->writeln(
 				ConsoleUtil::indent(
 					YAML::dump(ConfigStore::get()),
-					$this->h2_formatter->apply('-> ')
+					$this->h2_formatter->apply('-> '),
+					function ($line) use ($h2_formatter, $padding)
+					{
+						$pieces = explode(': ', $line);
+						$pieces[0] = str_pad($pieces[0], $padding, ' ', STR_PAD_RIGHT);
+						$pieces[1] = $h2_formatter->apply($pieces[1]);
+
+						return implode(' : ', $pieces);
+					}
 				)
 			);
+
+			if (count(ConfigStore::$messages) > 0)
+			{
+				foreach (ConfigStore::$messages as $message)
+				{
+					$this->output->writeln($message);
+				}
+			}
+
+			$this->output->writeln('');
 		}
 
 		/**
@@ -141,12 +156,18 @@ namespace Vanity\Config
 		 */
 		private function file_values()
 		{
-			$config = YAML::parse(VANITY_PROJECT_CONFIG_DIR . '/config.yml');
+			if (file_exists(VANITY_PROJECT_CONFIG_DIR . '/config.yml'))
+			{
+				ConfigStore::$messages[] = 'Merged configuration options from ' . VANITY_PROJECT_CONFIG_DIR . '/config.yml';
+				$config = YAML::parse(VANITY_PROJECT_CONFIG_DIR . '/config.yml');
 
-			$config = array_filter($config);
-			$config['parser'] = array_filter($config['parser']);
+				$config = array_filter($config);
+				$config['parser'] = array_filter($config['parser']);
 
-			return $config;
+				return $config;
+			}
+
+			return array();
 		}
 
 		/**
@@ -189,6 +210,11 @@ namespace Vanity\Config
 
 			$cli = array_filter($cli);
 			$cli['parser'] = array_filter($cli['parser']);
+
+			if (count($cli) > 0)
+			{
+				ConfigStore::$messages[] = 'Merged configuration options from the console.';
+			}
 
 			return $cli;
 		}

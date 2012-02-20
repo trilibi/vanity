@@ -33,10 +33,25 @@ namespace Vanity\Config
 		private static $config;
 
 		/**
+		 * Stores the messages to display.
+		 */
+		public static $messages = array();
+
+		/**
 		 * Retrieve the configuration.
 		 */
-		public static function get()
+		public static function get($key = null)
 		{
+			if ($key)
+			{
+				if (isset(self::$config[$key]))
+				{
+					return self::$config[$key];
+				}
+
+				return null;
+			}
+
 			return self::$config;
 		}
 

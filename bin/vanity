@@ -36,13 +36,19 @@ use Symfony\Component\Console\Application,
     Symfony\Component\EventDispatcher\EventDispatcher,
     Symfony\Component\Filesystem\Filesystem,
     Vanity\Console,
+    Vanity\Console\Utilities as ConsoleUtil,
     Vanity\Event\Dispatcher,
     Vanity\Event\InputOutput as EventIO;
 
 # instantiate
 $vanity_console = new Application('Vanity', VANITY_VERSION);
 Dispatcher::set(new EventDispatcher());
+
+# cli colors
 $defaults = new ConsoleFormat('yellow');
+$h1_formatter = new ConsoleFormat('yellow');
+$h1_formatter->setOption('bold');
+$h2_formatter = new ConsoleFormat('green');
 
 # register events
 include_once VANITY_SYSTEM . '/src/register.php';
@@ -117,11 +123,28 @@ $vanity_console
 		// Project stage
 		new InputOption('stage', 's', InputOption::VALUE_OPTIONAL, 'The stage that the project is currently in (e.g., development, alpha, beta, rc, production). ' . $defaults->apply('(default: production)')),
 	))
-	->setCode(function(InputInterface $input, OutputInterface $output)
+	->setCode(function(InputInterface $input, OutputInterface $output) use ($h1_formatter, $h2_formatter)
 	{
-		$output->writeln('VANITY ' . VANITY_VERSION);
+		$output->writeln('');
+
+		$output->writeln($h1_formatter->apply('VANITY ' . VANITY_VERSION));
 		$output->writeln(TAB . 'by Ryan Parman <http://ryanparman.com> and Contributors');
 		$output->writeln(TAB . 'http://vanitydoc.org');
+		$output->writeln('');
+
+		$environment_variables = array(
+			'USER_DATA'                  => USER_DATA,
+			'VANITY_SYSTEM'              => VANITY_SYSTEM,
+			'VANITY_PROJECT_WORKING_DIR' => VANITY_PROJECT_WORKING_DIR,
+			'VANITY_PROJECT_CONFIG_DIR'  => VANITY_PROJECT_CONFIG_DIR,
+		);
+
+		$padding = ConsoleUtil::tablify($environment_variables);
+		$output->writeln($h1_formatter->apply('ENVIRONMENT VARIABLES:'));
+		foreach ($environment_variables as $key => $value)
+		{
+			$output->writeln(ConsoleUtil::indent(str_pad($key, $padding) . ' : ' . $h2_formatter->apply($value), $h2_formatter->apply('-> ')));
+		}
 		$output->writeln('');
 
 		$event = new EventIO($input, $output);
@@ -131,24 +154,27 @@ $vanity_console
 		Dispatcher::get()->dispatch('config.apply', $event);
 		Dispatcher::get()->dispatch('config.display', $event);
 
-		# parser.lexer.map_entities
-		# parser.lexer.load_partials
-		# parser.lexer.get_class_list
-		# parser.lexer.linkify
-
-		# parser.wiki.open
-		# parser.wiki.read
-		# parser.wiki.convert_to_html
-		# parser.wiki.linkify
+		# lexer
+		Dispatcher::get()->dispatch('parser.lexer.find_project_files', $event);
+		Dispatcher::get()->dispatch('parser.lexer.get_class_list', $event);
+		Dispatcher::get()->dispatch('parser.lexer.read_bootstrap', $event);
+		Dispatcher::get()->dispatch('parser.lexer.determine_type', $event);
+			# parser.lexer.load_class_file
+			# parser.lexer.reflect_class_file
+			# ----
+			# parser.lexer.map_entities
+			# parser.lexer.load_phpdoc_file
+			# parser.lexer.parse_phpdoc_file
+		Dispatcher::get()->dispatch('parser.lexer.load_content_overrides', $event);
+		Dispatcher::get()->dispatch('parser.lexer.linkify', $event);
 
 		# parser.writer.clean_output_dir
-		# parser.writer.definitions
+		# parser.writer.intermediate
 		# parser.writer.todos
 		# parser.writer.indexes
 		# parser.writer.manifest
 		# parser.writer.search
 		# parser.writer.browse
-		# parser.writer.wiki
 	});
 
 # generate
@@ -161,16 +187,20 @@ $vanity_console
 
 		# config
 		Dispatcher::get()->dispatch('config.read', $event);
-		Dispatcher::get()->dispatch('config.apply', $event);
 		Dispatcher::get()->dispatch('config.display', $event);
 
 		# generator.templates.find
 		# generator.templates.copy_static
 
+		# generator.wiki.read_markdown
+		# generator.wiki.convert_to_html
+		# generator.wiki.linkify
+
 		# generator.format.annotated
 		# generator.format.chm
 		# generator.format.docbook
 		# generator.format.epub
+		# generator.format.graphiz
 		# generator.format.html.desktop
 		# generator.format.html.mobile
 		# generator.format.kindle
