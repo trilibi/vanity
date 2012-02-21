@@ -34,6 +34,7 @@ namespace Vanity\Parse
 	    Vanity\Config\Store as ConfigStore,
 	    Vanity\Console\Utilities as ConsoleUtil;
 
+
 	/**
 	 * Handles all parser-related events.
 	 */
@@ -115,7 +116,14 @@ namespace Vanity\Parse
 		 */
 		public function get_class_list()
 		{
+			$class_list = array();
+			$counter = 0;
 			$this->output->writeln($this->h1_formatter->apply('DOCUMENTABLE CLASSES:'));
+
+			// Load the DocBlox_Parser classes
+			require_once VANITY_VENDOR . '/docblox/parallel/Manager.php';
+			require_once VANITY_VENDOR . '/docblox/parallel/Worker.php';
+			require_once VANITY_VENDOR . '/docblox/parallel/WorkerPipe.php';
 
 			// Load the bootstrap, if provided
 			if (ConfigStore::get('parser.bootstrap'))
@@ -123,27 +131,38 @@ namespace Vanity\Parse
 				require_once VANITY_PROJECT_WORKING_DIR . '/' . ConfigStore::get('parser.bootstrap');
 			}
 
-			// Load the DocBlox_Parser classes
-			require_once VANITY_VENDOR . '/docblox/parallel/Manager.php';
-			require_once VANITY_VENDOR . '/docblox/parallel/Worker.php';
-			require_once VANITY_VENDOR . '/docblox/parallel/WorkerPipe.php';
-
 			// Fork the various processes
 			$manager = new \DocBlox_Parallel_Manager();
 			foreach (self::$parsable_files as $class_file)
 			{
 				$manager[] = new \DocBlox_Parallel_Worker(function() use ($class_file)
 				{
+					$before = get_declared_classes();
 					require_once $class_file;
-					return TAB . memory_get_peak_usage() . PHP_EOL;
+					$after = get_declared_classes();
+
+					return array_diff($after, $before);
 				});
 			}
 			$manager->execute();
 
 			foreach ($manager as $worker)
 			{
-				echo $worker->getResult();
+				$class_list = array_merge($class_list, $worker->getResult());
 			}
+
+			$class_list = array_values(array_unique($class_list));
+			sort($class_list);
+
+			foreach ($class_list as $class)
+			{
+				$this->output->writeln(ConsoleUtil::indent($class, $this->h2_formatter->apply('-> ')));
+				$counter++;
+			}
+
+			$this->output->writeln('');
+			$this->output->writeln("Found ${counter} classes to document.");
+			$this->output->writeln('');
 		}
 	}
 }
