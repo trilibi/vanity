@@ -34,6 +34,9 @@ namespace Vanity\Parse
 	    Vanity\Config\Store as ConfigStore,
 	    Vanity\Console\Utilities as ConsoleUtil;
 
+	/**
+	 * Handles all parser-related events.
+	 */
 	class ParseEvent extends Event
 	{
 		/**
@@ -49,12 +52,12 @@ namespace Vanity\Parse
 		/**
 		 * Stores the list of parsable files.
 		 */
-		public $parsable_files = array();
+		public static $parsable_files = array();
 
 		/**
 		 * Stores the list of parsable classes.
 		 */
-		public $parsable_classes = array();
+		public static $parsable_classes = array();
 
 		/**
 		 * Constructs a new instance of <Vanity\Parse\ParseEvent>.
@@ -75,16 +78,23 @@ namespace Vanity\Parse
 			$this->hide_formatter->setOption('bold');
 		}
 
+		/**
+		 * Handles the find_project_files event.
+		 *
+		 * @return void
+		 */
 		public function find_project_files()
 		{
 			$this->output->writeln($this->h1_formatter->apply('MATCHED PROJECT FILES:'));
 			$counter = 0;
 
+			// Symfony Finder instance
 			$finder = Finder::create()
 				->files()
 				->name(ConfigStore::get('parser.match'))
 				->in(VANITY_PROJECT_WORKING_DIR);
 
+			// Handle the list of files
 			foreach ($finder as $file)
 			{
 				self::$parsable_files[] = $file->getRealpath();
@@ -98,26 +108,41 @@ namespace Vanity\Parse
 			$this->output->writeln('');
 		}
 
+		/**
+		 * Handles the get_class_list event.
+		 *
+		 * @return void
+		 */
 		public function get_class_list()
 		{
 			$this->output->writeln($this->h1_formatter->apply('DOCUMENTABLE CLASSES:'));
 
-			if (!class_exists('\DocBlox_Parallel_Manager'))    require_once VANITY_VENDOR . '/docblox/parallel/Manager.php';
-			if (!class_exists('\DocBlox_Parallel_Worker'))     require_once VANITY_VENDOR . '/docblox/parallel/Worker.php';
-			if (!class_exists('\DocBlox_Parallel_WorkerPipe')) require_once VANITY_VENDOR . '/docblox/parallel/WorkerPipe.php';
+			// Load the bootstrap, if provided
+			if (ConfigStore::get('parser.bootstrap'))
+			{
+				require_once VANITY_PROJECT_WORKING_DIR . '/' . ConfigStore::get('parser.bootstrap');
+			}
 
+			// Load the DocBlox_Parser classes
+			require_once VANITY_VENDOR . '/docblox/parallel/Manager.php';
+			require_once VANITY_VENDOR . '/docblox/parallel/Worker.php';
+			require_once VANITY_VENDOR . '/docblox/parallel/WorkerPipe.php';
+
+			// Fork the various processes
 			$manager = new \DocBlox_Parallel_Manager();
-			$manager
-				->addWorker(new \DocBlox_Parallel_Worker(function() { sleep(1); return 'a'; }))
-				->addWorker(new \DocBlox_Parallel_Worker(function() { sleep(2); return 'b'; }))
-				->addWorker(new \DocBlox_Parallel_Worker(function() { sleep(3); return 'c'; }))
-				->addWorker(new \DocBlox_Parallel_Worker(function() { sleep(2); return 'd'; }))
-				->addWorker(new \DocBlox_Parallel_Worker(function() { sleep(1); return 'e'; }))
-				->execute();
+			foreach (self::$parsable_files as $class_file)
+			{
+				$manager[] = new \DocBlox_Parallel_Worker(function() use ($class_file)
+				{
+					require_once $class_file;
+					return TAB . memory_get_peak_usage() . PHP_EOL;
+				});
+			}
+			$manager->execute();
 
 			foreach ($manager as $worker)
 			{
-				var_dump($worker->getResult());
+				echo $worker->getResult();
 			}
 		}
 	}

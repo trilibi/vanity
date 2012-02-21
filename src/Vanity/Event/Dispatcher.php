@@ -36,6 +36,8 @@ namespace Vanity\Event
 
 		/**
 		 * Retrieve the Event Dispatcher.
+		 *
+		 * @return void
 		 */
 		public static function get()
 		{
@@ -44,6 +46,9 @@ namespace Vanity\Event
 
 		/**
 		 * Set the Event Dispatcher.
+		 *
+		 * @param  Symfony\Component\EventDispatcher\EventDispatcher $dispatcher The event dispatcher instance to use.
+		 * @return void
 		 */
 		public static function set(EventDispatcher $dispatcher)
 		{

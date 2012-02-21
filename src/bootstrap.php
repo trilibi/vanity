@@ -64,6 +64,7 @@ define('VANITY_PROJECT_CONFIG_DIR',  VANITY_PROJECT_WORKING_DIR . '/_vanity' );
 /********************************************************/
 // INCLUDES & NAMESPACES
 
+// Load class loaders
 require_once VANITY_VENDOR . '/symfony/class-loader/Symfony/Component/ClassLoader/UniversalClassLoader.php';
 require_once VANITY_VENDOR . '/symfony/class-loader/Symfony/Component/ClassLoader/ApcUniversalClassLoader.php';
 
@@ -74,6 +75,7 @@ use Symfony\Component\ClassLoader\ApcUniversalClassLoader,
 /********************************************************/
 // APP
 
+// Use the best available class loader
 if (extension_loaded('apc'))
 {
 	$loader = new ApcUniversalClassLoader('apc.prefix.');
@@ -83,6 +85,7 @@ else
 	$loader = new UniversalClassLoader();
 }
 
+// Register namespaces with the class loader
 $loader->registerNamespaces(array(
 	'Vanity'                              => __DIR__,
 	'Symfony\\Component\\ClassLoader'     => VANITY_VENDOR . '/symfony/class-loader',

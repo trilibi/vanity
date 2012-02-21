@@ -34,6 +34,9 @@ namespace Vanity\Config
 	    Vanity\Config\Store as ConfigStore,
 	    Vanity\Console\Utilities as ConsoleUtil;
 
+	/**
+	 * Handles all configuration-related events.
+	 */
 	class ConfigEvent extends Event
 	{
 		/**
@@ -55,9 +58,11 @@ namespace Vanity\Config
 		 */
 		public function __construct(InputInterface $input, OutputInterface $output)
 		{
+			// Store the input/output streams
 			$this->input  = $input;
 			$this->output = $output;
 
+			// Instantiate the CLI formatters
 			$this->h1_formatter = new ConsoleFormat('yellow');
 			$this->h1_formatter->setOption('bold');
 			$this->h2_formatter = new ConsoleFormat('green');
@@ -70,6 +75,7 @@ namespace Vanity\Config
 		 */
 		public function read()
 		{
+			// Store the config information
 			ConfigStore::set(array_merge_recursive(
 				$this->default_values(),
 				$this->file_values(),
@@ -84,10 +90,12 @@ namespace Vanity\Config
 		 */
 		public function display()
 		{
+			// Title and formatting
 			$this->output->writeln($this->h1_formatter->apply('ACTIVE CONFIGURATION OPTIONS:'));
 			$h2_formatter = $this->h2_formatter;
 			$padding = ConsoleUtil::tablify(ConfigStore::get());
 
+			// Write the tablified listing to the buffer
 			$this->output->writeln(
 				ConsoleUtil::indent(
 					YAML::dump(ConfigStore::get()),
@@ -103,6 +111,7 @@ namespace Vanity\Config
 				)
 			);
 
+			// Write any stored messages to the buffer
 			if (count(ConfigStore::$messages) > 0)
 			{
 				foreach (ConfigStore::$messages as $message)

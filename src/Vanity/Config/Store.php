@@ -25,6 +25,9 @@
 
 namespace Vanity\Config
 {
+	/**
+	 * Store the configuration data for the app.
+	 */
 	class Store
 	{
 		/**
@@ -82,15 +85,18 @@ namespace Vanity\Config
 					{
 						if ($prefix)
 						{
+							// Only grab the most recent value
 							$config[$prefix . '.' . $key] = end($value);
 						}
 						else
 						{
+							// Only grab the most recent value
 							$config[$key] = end($value);
 						}
 					}
 					else
 					{
+						// Recurse associative arrays
 						$config = array_merge($config, self::convert($value, $key));
 					}
 				}

@@ -31,6 +31,9 @@ namespace Vanity\Console
 	    Symfony\Component\EventDispatcher\Event,
 	    Symfony\Component\Process\Process;
 
+	/**
+	 * Handles all SVN fetching-related events.
+	 */
 	class FetchEvent extends Event
 	{
 		/**
@@ -69,6 +72,8 @@ namespace Vanity\Console
 
 		/**
 		 * Perform a Subversion checkout of the PHP documentation repositories.
+		 *
+		 * @return void
 		 */
 		public function checkout()
 		{
@@ -99,6 +104,8 @@ namespace Vanity\Console
 
 		/**
 		 * Perform a Subversion update of the PHP documentation repositories.
+		 *
+		 * @return void
 		 */
 		public function update()
 		{

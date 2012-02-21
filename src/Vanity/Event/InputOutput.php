@@ -29,6 +29,10 @@ namespace Vanity\Event
 	    Symfony\Component\Console\Input\InputInterface,
 	    Symfony\Component\Console\Output\OutputInterface;
 
+	/**
+	 * Extends <Symfony\Component\EventDispatcher\Event> with explicit support
+	 * for storing the inputs and outputs.
+	 */
 	class InputOutput extends Event
 	{
 		/**

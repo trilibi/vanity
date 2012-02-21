@@ -24,8 +24,11 @@
  * <http://www.opensource.org/licenses/mit-license.php>
  */
 
+
+// Load the bootstrap
 require_once dirname(__DIR__) . '/src/bootstrap.php';
 
+// List the namespaces to use
 use Symfony\Component\Console\Application,
     Symfony\Component\Console\Formatter\OutputFormatterStyle as ConsoleFormat,
     Symfony\Component\Console\Input\InputInterface,
@@ -40,20 +43,20 @@ use Symfony\Component\Console\Application,
     Vanity\Event\Dispatcher,
     Vanity\Event\InputOutput as EventIO;
 
-# instantiate
+// Instantiate
 $vanity_console = new Application('Vanity', VANITY_VERSION);
 Dispatcher::set(new EventDispatcher());
 
-# cli colors
+// CLI colors
 $defaults = new ConsoleFormat('yellow');
 $h1_formatter = new ConsoleFormat('yellow');
 $h1_formatter->setOption('bold');
 $h2_formatter = new ConsoleFormat('green');
 
-# register events
+// Register events
 include_once VANITY_SYSTEM . '/src/register.php';
 
-# version
+// Version
 $vanity_console
 	->register('version')
 	->setDescription('Displays the version number of the software.')
@@ -62,15 +65,17 @@ $vanity_console
 		$output->writeln(sprintf('Vanity %s', VANITY_VERSION));
 	});
 
-# fetch
+// Fetch
 $vanity_console
 	->register('fetch')
 	->setDescription('Fetches a copy of the latest PHP API Reference from PHP.net. Useful when extending PHP\'s base classes.')
 	->setCode(function(InputInterface $input, OutputInterface $output)
 	{
+		// Instantiate
 		$event = new EventIO($input, $output);
 		$filesystem = new Filesystem();
 
+		// Handle a fresh checkout
 		if (!is_dir(VANITY_CACHE_DIR))
 		{
 			if ($filesystem->mkdir(VANITY_CACHE_DIR, 0777))
@@ -78,13 +83,15 @@ $vanity_console
 				Dispatcher::get()->dispatch('console.fetch.checkout', $event);
 			}
 		}
+
+		// Handle an update
 		else
 		{
 			Dispatcher::get()->dispatch('console.fetch.update', $event);
 		}
 	});
 
-# parse
+// Parse
 $vanity_console
 	->register('parse')
 	->setDescription('Parses the PHP project, producing intermediary JSON definitions. Must be run before `vanity generate`.')
@@ -127,11 +134,13 @@ $vanity_console
 	{
 		$output->writeln('');
 
+		// List the application information
 		$output->writeln($h1_formatter->apply('VANITY ' . VANITY_VERSION));
 		$output->writeln(TAB . 'by Ryan Parman <http://ryanparman.com> and Contributors');
 		$output->writeln(TAB . 'http://vanitydoc.org');
 		$output->writeln('');
 
+		// List the primary environment variables
 		$environment_variables = array(
 			'USER_DATA'                  => USER_DATA,
 			'VANITY_SYSTEM'              => VANITY_SYSTEM,
@@ -149,12 +158,12 @@ $vanity_console
 
 		$event = new EventIO($input, $output);
 
-		# config
+		// Config
 		Dispatcher::get()->dispatch('config.read', $event);
 		Dispatcher::get()->dispatch('config.apply', $event);
 		Dispatcher::get()->dispatch('config.display', $event);
 
-		# lexer
+		// Lexer
 		Dispatcher::get()->dispatch('parser.lexer.find_project_files', $event);
 		Dispatcher::get()->dispatch('parser.lexer.get_class_list', $event);
 		Dispatcher::get()->dispatch('parser.lexer.read_bootstrap', $event);
@@ -167,6 +176,7 @@ $vanity_console
 		Dispatcher::get()->dispatch('parser.lexer.load_content_overrides', $event);
 		Dispatcher::get()->dispatch('parser.lexer.linkify', $event);
 
+		// Write the intemediate data
 		# parser.writer.clean_output_dir
 		# parser.writer.intermediate
 		# parser.writer.todos
@@ -176,7 +186,7 @@ $vanity_console
 		# parser.writer.browse
 	});
 
-# generate
+// Generate
 $vanity_console
 	->register('generate')
 	->setDescription('Reads the JSON definitions and merges them with templates to produce the output.')
@@ -184,7 +194,7 @@ $vanity_console
 	{
 		$event = new EventIO($input, $output);
 
-		# config
+		// Config
 		Dispatcher::get()->dispatch('config.read', $event);
 		Dispatcher::get()->dispatch('config.display', $event);
 
