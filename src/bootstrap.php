@@ -27,7 +27,8 @@
 /********************************************************/
 // PREPARATION
 
-if (php_sapi_name() !== 'cli') {
+if (php_sapi_name() !== 'cli')
+{
 	die('Must run from command line');
 }
 
