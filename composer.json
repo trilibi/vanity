@@ -23,7 +23,8 @@
 		"vendor-dir": "src/vendor/"
 	},
 	"repositories": {
-		"docblox": {
+		{
+			"type": "package",
 			"package": {
 				"name": "docblox/docblox",
 				"version": "0.18.1",
@@ -34,7 +35,8 @@
 				}
 			}
 		},
-		"docblox-parallel": {
+		{
+			"type": "package",
 			"package": {
 				"name": "docblox/parallel",
 				"version": "0.0.1",
@@ -54,13 +56,13 @@
 		"ext-json": "*",
 		"ext-pcre": "*",
 
+		"dflydev/markdown": "*",
 		"docblox/docblox": "0.18.1",
 		"docblox/parallel": "*",
-
+		"easybook/easybook": "*",
 		"skyzyx/examplify": ">=1.1",
 		"skyzyx/phpt": ">=1.1",
 		"skyzyx/transmogrifier": ">=1.0",
-
 		"symfony/class-loader": ">2.0",
 		"symfony/console": ">2.0",
 		"symfony/event-dispatcher": ">2.0",
