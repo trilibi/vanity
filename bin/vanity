@@ -105,7 +105,7 @@ $vanity_console
 		new InputOption('google-code', null, InputOption::VALUE_OPTIONAL, 'The name of your Google Code project: {project}:{path-to-project-source} (e.g., pubsubhubbub:branches/perl-stable).'),
 
 		// How do we parse this thing?
-		new InputOption('bootstrap', 'b', InputOption::VALUE_OPTIONAL, 'The bootstrap file which informs how the classes should be autoloaded.'),
+		new InputOption('bootstrap', 'b', InputOption::VALUE_OPTIONAL, 'The bootstrap file which informs how the classes should be autoloaded. PSR-0 autoloading is supported by default.'),
 		new InputOption('match',     'm', InputOption::VALUE_OPTIONAL, 'The pattern of file names to match. ' . $defaults->apply('(default: *.php)')),
 
 		// Types of data to exclude?

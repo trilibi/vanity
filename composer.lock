@@ -1,0 +1,60 @@
+{
+    "hash": "ce024c63d78665717112cb3d7cbe5b32",
+    "packages": [
+        {
+            "package": "dflydev/markdown",
+            "version": "v1.0.2"
+        },
+        {
+            "package": "phpdocumentor/reflection-docblock",
+            "version": "dev-master",
+            "source-reference": "91ef535ae3afdc7410de9cac9a76f3b819a5a43e",
+            "commit-date": "1343364997"
+        },
+        {
+            "package": "skyzyx/examplify",
+            "version": "1.1"
+        },
+        {
+            "package": "symfony/class-loader",
+            "version": "v2.0.16"
+        },
+        {
+            "package": "symfony/console",
+            "version": "v2.0.16"
+        },
+        {
+            "package": "symfony/filesystem",
+            "version": "dev-master",
+            "alias-pretty-version": "2.1.x-dev",
+            "alias-version": "2.1.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/filesystem",
+            "version": "dev-master",
+            "source-reference": "v2.1.0-RC1",
+            "commit-date": "1343491637"
+        },
+        {
+            "package": "symfony/finder",
+            "version": "v2.0.16"
+        },
+        {
+            "package": "symfony/templating",
+            "version": "v2.0.16"
+        },
+        {
+            "package": "symfony/yaml",
+            "version": "v2.0.16"
+        }
+    ],
+    "packages-dev": null,
+    "aliases": [
+
+    ],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "phpdocumentor/reflection-docblock": 20,
+        "symfony/filesystem": 20
+    }
+}
