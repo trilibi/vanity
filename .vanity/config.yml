@@ -1,0 +1,109 @@
+
+# Configurations for the overall Vanity tool
+vanity:
+
+    # The name of the product
+    name: Vanity
+
+    # The version number we should use
+    version: "${tag}"
+
+    # This file is loaded first. Useful for telling Vanity how to load project classes, settings constants, or other things.
+    bootstrap: ./.vanity/bootstrap.php
+
+
+#--------------------------------------------------------------------------#
+
+# API Reference
+api:
+
+    # Where should we start looking for code? (Use * for wildcard. Use ** for recursive wildcard.)
+    input: "./src/**.php"
+
+    # Where should we put the documentation when we're done? (Variables: format, stage, tag)
+    output: "./.vanity/output/${stage}/${tag}/${format}"
+
+    # The file to use as the default page
+    readme: ./README.md
+
+    # The stage that the project is currently in (e.g., development, alpha, beta, rc, production)
+    stage: alpha
+
+    # Point to an online location to view the source. (Variables: line, path)
+    viewsource: "https://github.com/vanity/vanity/tree/vanity3/${path}#L${line}"
+
+    # PCRE regex pattern for matching TODOs in the source code
+    todo: "/@?\s*(todo|fixme)(:|\s).+/i"
+
+    # What should we exclude from the documentation?
+    exclude:
+
+        # Which visibility types should we exclude?
+        visibility: [private]
+
+        # Which classes should we exclude? Pass an array of explicit names, or a PCRE regex pattern as a string.
+        classes: "/Exception/i" # Exceptions
+
+        # Which methods should we exclude? Pass an array of explicit names, or a PCRE regex pattern as a string.
+        methods: "/__([a-z]+)/i" # Magic methods
+
+    # Should we show warnings on the Console in certain cases?
+    warn:
+
+        # Warn if there are TODOs
+        todo: true
+
+        # Warn if there are ungrouped methods
+        ungrouped: true
+
+    # Create a new template name, and the path to the root of that template
+    templates:
+
+        # Fake custom template #1
+        custom_html: ./.vanity/templates/html
+
+        # Fake custom template #2
+        phpwiki: ./.vanity/templates/wiki
+
+    # The documentation formats to produce. Pass an array of one or more templates.
+    # Use built-in template names (below), or one of the custom templates you (might have) defined.
+    # JSON is the format that Vanity uses internally, so you get this one no matter what.
+    #
+    # - chm:           Compiled HTML Manual format, compatible with Windows Help.
+    # - context:       A variant of TEX. Common in the scientific community. [Requires Pandoc]
+    # - dict:          Dictionary format, compatible with Dictionary.app on OS X.
+    # - docx:          Microsoft Word 2003 or later. [Requires Pandoc]
+    # - dot:           The Graphiz DOT format for visualizing class dependencies. [Requires Graphiz]
+    # - epub:          Standard eBook format. Supported by Apple's iBooks app, B&N Nook, Sony Reader, Blackberry Playbook, etc. Does not work with any Kindle.
+    # - html:          Standard, multi-page HTML. (Better for large code bases.)
+    # - html_single:   Single-page HTML. (Better for smaller code bases.)
+    # - ibooks_author: Proprietary format for Apple's iBooks Author app.
+    # - kindle:        Proprietary format for Kindle. [Requires KindleGen]
+    # - latex:         A variant of TEX. Common in the scientific community. [Requires Pandoc]
+    # - man:           A manpage for command-line junkies. [Requires Pandoc]
+    # - markdown:      Markdown is a plain-text format that is commonly used by bloggers and for READMEs.
+    # - mediawiki:     A plain-text format that is supported by MediaWiki. [Requires Pandoc]
+    # - mobile:        A variation of the HTML template that is geared for mobile devices (e.g., phones, tablets).
+    # - pdf:           Proprietary Adobe format that is supported pretty much everywhere. Great for printing.
+    # - rst:           reStructuredText is a plain-text format that is commonly used by bloggers and for READMEs.
+    # - rtf:           Rich text format. Well-supported across nearly all platforms. [Requires Pandoc]
+    # - textile:       Textile is a plain-text format that is commonly used by bloggers and for READMEs. [Requires Pandoc]
+    # - xml:           Standard, no-frills XML.
+    formats: [html, mobile, dict, epub, kindle, man, pdf, mediawiki, rst, xml]
+
+
+#--------------------------------------------------------------------------#
+
+# User Guide
+guide:
+    # Where should we look for the documentation?
+    root: ./doc
+
+    # We're using translations
+    translations:
+
+        # Arbitrary translation #1 (./${root}/en)
+        en: English
+
+        # Arbitrary translation #2 (./${root}/es)
+        es: Español

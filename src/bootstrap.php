@@ -32,9 +32,9 @@ if (php_sapi_name() !== 'cli')
 	die('Must run from command line');
 }
 
+// Init
 $start_time = time();
 error_reporting(-1);
-
 ini_set('display_errors', 1);
 ini_set('log_errors', 0);
 ini_set('html_errors', 0);
@@ -44,22 +44,18 @@ ini_set('html_errors', 0);
 // CONSTANTS
 
 define('TAB', '    ');
-
-define('VANITY_VERSION', '3.0alpha-' . gmdate('Ymd', filemtime(__FILE__)));
-
-define('VANITY_SYSTEM', dirname(__DIR__)              );
-define('VANITY_VENDOR', VANITY_SYSTEM . '/src/vendor' );
-
-define('USER_PROFILE', $_SERVER['HOME'] ?: VANITY_SYSTEM );
-define('USER_DATA',    USER_PROFILE . '/.vanity'         );
-
-define('VANITY_CACHE_DIR',         USER_DATA . '/cache'                    );
-define('VANITY_PHPREF_DIR',        VANITY_CACHE_DIR . '/php'               );
-define('VANITY_ENTITY_GLOBAL_DIR', VANITY_CACHE_DIR . '/entities'          );
-define('VANITY_ENTITY_LANG_DIR',   VANITY_CACHE_DIR . '/language-entities' );
-
-define('VANITY_PROJECT_WORKING_DIR', getcwd()                                );
-define('VANITY_PROJECT_CONFIG_DIR',  VANITY_PROJECT_WORKING_DIR . '/_vanity' );
+define('VANITY_VERSION',             '3.0alpha-' . gmdate('Ymd', filemtime(__FILE__)));
+define('VANITY_SYSTEM',              dirname(__DIR__));
+define('VANITY_VENDOR',              VANITY_SYSTEM . '/vendor');
+define('VANITY_LOGS',                VANITY_SYSTEM . '/logs');
+define('VANITY_USER_PROFILE',        $_SERVER['HOME'] ?: VANITY_SYSTEM );
+define('VANITY_USER_DATA',           VANITY_USER_PROFILE . '/.vanity');
+define('VANITY_CACHE_DIR',           VANITY_USER_DATA . '/cache');
+define('VANITY_PHPREF_DIR',          VANITY_CACHE_DIR . '/php');
+define('VANITY_ENTITY_GLOBAL_DIR',   VANITY_CACHE_DIR . '/entities');
+define('VANITY_ENTITY_LANG_DIR',     VANITY_CACHE_DIR . '/language-entities');
+define('VANITY_PROJECT_WORKING_DIR', getcwd());
+define('VANITY_PROJECT_CONFIG_DIR',  VANITY_PROJECT_WORKING_DIR . '/_vanity');
 
 
 /********************************************************/
@@ -69,8 +65,8 @@ define('VANITY_PROJECT_CONFIG_DIR',  VANITY_PROJECT_WORKING_DIR . '/_vanity' );
 require_once VANITY_VENDOR . '/symfony/class-loader/Symfony/Component/ClassLoader/UniversalClassLoader.php';
 require_once VANITY_VENDOR . '/symfony/class-loader/Symfony/Component/ClassLoader/ApcUniversalClassLoader.php';
 
-use Symfony\Component\ClassLoader\ApcUniversalClassLoader,
-	Symfony\Component\ClassLoader\UniversalClassLoader;
+use Symfony\Component\ClassLoader\ApcUniversalClassLoader;
+use Symfony\Component\ClassLoader\UniversalClassLoader;
 
 
 /********************************************************/
@@ -79,7 +75,7 @@ use Symfony\Component\ClassLoader\ApcUniversalClassLoader,
 // Use the best available class loader
 if (extension_loaded('apc'))
 {
-	$loader = new ApcUniversalClassLoader('apc.prefix.');
+	$loader = new ApcUniversalClassLoader('vanity.');
 }
 else
 {
@@ -87,17 +83,11 @@ else
 }
 
 // Register namespaces with the class loader
-$loader->registerNamespaces(array(
-	'Vanity'                              => __DIR__,
-	'Symfony\\Component\\ClassLoader'     => VANITY_VENDOR . '/symfony/class-loader',
-	'Symfony\\Component\\Console'         => VANITY_VENDOR . '/symfony/console',
-	'Symfony\\Component\\EventDispatcher' => VANITY_VENDOR . '/symfony/event-dispatcher',
-	'Symfony\\Component\\Finder'          => VANITY_VENDOR . '/symfony/finder',
-	'Symfony\\Component\\Filesystem'      => VANITY_VENDOR . '/symfony/filesystem',
-	'Symfony\\Component\\Process'         => VANITY_VENDOR . '/symfony/process',
-	'Symfony\\Component\\Yaml'            => VANITY_VENDOR . '/symfony/yaml',
-	'Doctrine\\Common'                    => VANITY_VENDOR . '/doctrine/common/lib',
-	'DocBlox'                             => VANITY_VENDOR . '/docblox/docblox/src',
+$loader->registerNamespaces(array_merge(
+	include_once VANITY_VENDOR . '/composer/autoload_namespaces.php',
+	array(
+		'Vanity' => __DIR__
+	)
 ));
 
 $loader->register();

@@ -1,2 +1,4 @@
 .DS_Store
+.vanity/output
+logs
 vendor

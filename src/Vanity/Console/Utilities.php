@@ -24,80 +24,78 @@
  */
 
 namespace Vanity\Console
+
+use Vanity;
+
+class Utilities
 {
-	use Vanity,
-	    Symfony\Component\Console\Formatter\OutputFormatterStyle as ConsoleFormat;
-
-	class Utilities
+	/**
+	 * Indents the content on the Console.
+	 *
+	 * @param  string $content The textual content to indent.
+	 * @return string The indented text.
+	 */
+	public static function indent($content, $prefix = '', $callback = null)
 	{
-		/**
-		 * Indents the content on the Console.
-		 *
-		 * @param  string $content The textual content to indent.
-		 * @return string The indented text.
-		 */
-		public static function indent($content, $prefix = '', $callback = null)
+		$callback = $callback? :(function($line) { return $line; });
+		$contents = explode("\n", $content);
+
+		$contents = array_map(function($line) use (&$prefix, &$callback)
 		{
-			$callback = $callback? :(function($line) { return $line; });
-			$contents = explode("\n", $content);
-
-			$contents = array_map(function($line) use (&$prefix, &$callback)
+			if (trim($line) !== '')
 			{
-				if (trim($line) !== '')
+				if (is_callable($callback))
 				{
-					if (is_callable($callback))
-					{
-						return TAB . $prefix . $callback($line);
-					}
-
-					return TAB . $prefix . $line;
+					return TAB . $prefix . $callback($line);
 				}
 
-			}, $contents);
+				return TAB . $prefix . $line;
+			}
 
-			return implode("\n", $contents);
-		}
+		}, $contents);
 
-		/**
-		 * Converts the number of seconds into HH:MM:SS format.
-		 *
-		 * @param  integer $seconds The number of seconds to format.
-		 * @return string The formatted time.
-		 */
-		public static function time_hms($seconds = 0)
+		return implode("\n", $contents);
+	}
+
+	/**
+	 * Converts the number of seconds into HH:MM:SS format.
+	 *
+	 * @param  integer $seconds The number of seconds to format.
+	 * @return string The formatted time.
+	 */
+	public static function time_hms($seconds = 0)
+	{
+		$time = '';
+
+		// First pass
+		$hours = (integer) ($seconds / 3600);
+		$seconds = $seconds % 3600;
+		$minutes = (integer) ($seconds / 60);
+		$seconds = $seconds % 60;
+
+		// Cleanup
+		$time .= ($hours) ? $hours . ':' : '';
+		$time .= ($minutes < 10 && $hours > 0) ? '0' . $minutes : $minutes;
+		$time .= ':';
+		$time .= ($seconds < 10) ? '0' . $seconds : $seconds;
+
+		return $time;
+	}
+
+	/**
+	 * Return the number of characters to pad the array key by.
+	 *
+	 * @param  array  $array The array to be tablified.
+	 * @return integer The number of characters to pad the array key by.
+	 */
+	public static function tablify(array $array)
+	{
+		$array = array_keys($array);
+		$array = array_map(function($item)
 		{
-			$time = '';
+			return strlen($item);
+		}, $array);
 
-			// First pass
-			$hours = (integer) ($seconds / 3600);
-			$seconds = $seconds % 3600;
-			$minutes = (integer) ($seconds / 60);
-			$seconds = $seconds % 60;
-
-			// Cleanup
-			$time .= ($hours) ? $hours . ':' : '';
-			$time .= ($minutes < 10 && $hours > 0) ? '0' . $minutes : $minutes;
-			$time .= ':';
-			$time .= ($seconds < 10) ? '0' . $seconds : $seconds;
-
-			return $time;
-		}
-
-		/**
-		 * Return the number of characters to pad the array key by.
-		 *
-		 * @param  array  $array The array to be tablified.
-		 * @return integer The number of characters to pad the array key by.
-		 */
-		public static function tablify(array $array)
-		{
-			$array = array_keys($array);
-			$array = array_map(function($item)
-			{
-				return strlen($item);
-			}, $array);
-
-			return max($array);
-		}
+		return max($array);
 	}
 }

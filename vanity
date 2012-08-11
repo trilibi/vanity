@@ -26,70 +26,24 @@
 
 
 // Load the bootstrap
-require_once dirname(__DIR__) . '/src/bootstrap.php';
+require_once __DIR__ . '/src/bootstrap.php';
 
 // List the namespaces to use
-use Symfony\Component\Console\Application,
-    Symfony\Component\Console\Formatter\OutputFormatterStyle as ConsoleFormat,
-    Symfony\Component\Console\Input\InputInterface,
-    Symfony\Component\Console\Input\InputArgument,
-    Symfony\Component\Console\Input\InputOption,
-    Symfony\Component\Console\Output\OutputInterface,
-    Symfony\Component\EventDispatcher\Event,
-    Symfony\Component\EventDispatcher\EventDispatcher,
-    Symfony\Component\Filesystem\Filesystem,
-    Vanity\Console,
-    Vanity\Console\Utilities as ConsoleUtil,
-    Vanity\Event\Dispatcher,
-    Vanity\Event\InputOutput as EventIO;
+use Symfony\Component\Console\Application;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Vanity\Event\Dispatcher;
 
 // Instantiate
-$vanity_console = new Application('Vanity', VANITY_VERSION);
-Dispatcher::set(new EventDispatcher());
+Dispatcher::set(new EventDispatcher);
+$console = new Application('Vanity', VANITY_VERSION);
 
-// CLI colors
-$defaults = new ConsoleFormat('yellow');
-$h1_formatter = new ConsoleFormat('yellow');
-$h1_formatter->setOption('bold');
-$h2_formatter = new ConsoleFormat('green');
+$console->add(new Vanity\Command\PHP\Fetch);
 
-// Register events
-include_once VANITY_SYSTEM . '/src/register.php';
+$console->run();
 
-// Version
-$vanity_console
-	->register('version')
-	->setDescription('Displays the version number of the software.')
-	->setCode(function(InputInterface $input, OutputInterface $output)
-	{
-		$output->writeln(sprintf('Vanity %s', VANITY_VERSION));
-	});
 
-// Fetch
-$vanity_console
-	->register('fetch')
-	->setDescription('Fetches a copy of the latest PHP API Reference from PHP.net. Useful when extending PHP\'s base classes.')
-	->setCode(function(InputInterface $input, OutputInterface $output)
-	{
-		// Instantiate
-		$event = new EventIO($input, $output);
-		$filesystem = new Filesystem();
 
-		// Handle a fresh checkout
-		if (!is_dir(VANITY_CACHE_DIR))
-		{
-			if ($filesystem->mkdir(VANITY_CACHE_DIR, 0777))
-			{
-				Dispatcher::get()->dispatch('console.fetch.checkout', $event);
-			}
-		}
-
-		// Handle an update
-		else
-		{
-			Dispatcher::get()->dispatch('console.fetch.update', $event);
-		}
-	});
+/*
 
 // Parse
 $vanity_console
@@ -97,47 +51,14 @@ $vanity_console
 	->setDescription('Parses the PHP project, producing intermediary JSON definitions. Must be run before `vanity generate`.')
 	->setDefinition(array(
 
-		// What do we call it?
-		new InputOption('product-version', null, InputOption::VALUE_REQUIRED, 'The version of the product.'),
-
-		// Project site integration
-		new InputOption('github',      null, InputOption::VALUE_OPTIONAL, 'The pattern of your GitHub project: {user}:{repository}:{tag-branch-or-commit} (e.g., skyzyx:vanity:master).'),
-		new InputOption('google-code', null, InputOption::VALUE_OPTIONAL, 'The name of your Google Code project: {project}:{path-to-project-source} (e.g., pubsubhubbub:branches/perl-stable).'),
-
-		// How do we parse this thing?
-		new InputOption('bootstrap', 'b', InputOption::VALUE_OPTIONAL, 'The bootstrap file which informs how the classes should be autoloaded. PSR-0 autoloading is supported by default.'),
-		new InputOption('match',     'm', InputOption::VALUE_OPTIONAL, 'The pattern of file names to match. ' . $defaults->apply('(default: *.php)')),
-
-		// Types of data to exclude?
-		new InputOption('exclude-access',  'A', InputOption::VALUE_OPTIONAL, 'Comma-separated list of the access types to exclude (i.e., private, protected, public, static, final). ' . $defaults->apply('(default: private)')),
-		new InputOption('exclude-classes', 'C', InputOption::VALUE_OPTIONAL, 'Regex pattern of class names to exclude. ' . $defaults->apply('(default: /Exception/i)')),
-		new InputOption('exclude-methods', 'M', InputOption::VALUE_OPTIONAL, 'Regex pattern of method names to exclude. ' . $defaults->apply('(default: /__([a-z]+)/i)')),
-
 		// Additional definitions
-		new InputOption('use-changelog', null, InputOption::VALUE_OPTIONAL, 'The name of the CHANGELOG definition to use. ' . $defaults->apply('(default: changelog.yml)')),
 		new InputOption('use-groups',    null, InputOption::VALUE_OPTIONAL, 'The name of the method grouping definition to use. ' . $defaults->apply('(default: groups.yml)')),
-		new InputOption('use-seealso',   null, InputOption::VALUE_OPTIONAL, 'The name of the "see also" definition to use. ' . $defaults->apply('(default: seealso.yml)')),
-
-		// Extra generation
-		new InputOption('generate-indexes', 'i',  InputOption::VALUE_OPTIONAL, 'Whether or not to generate indexes for the source. ' . $defaults->apply('(default: true)')),
-		new InputOption('generate-todos',   't',  InputOption::VALUE_OPTIONAL, 'Whether or not to generate TODOs for the source. ' . $defaults->apply('(default: true)')),
-		new InputOption('pattern-todos',    null, InputOption::VALUE_OPTIONAL, 'The regex pattern to use for determining TODOs. ' . $defaults->apply('(default: /@?\s*todo(:|\s)+/i)')),
-
-		// Warnings
-		new InputOption('warn-todo',   'W', InputOption::VALUE_OPTIONAL, 'Whether or not to display a warning on the CLI about TODOs in the source code. ' . $defaults->apply('(default: false)')),
-		new InputOption('warn-groups', 'G', InputOption::VALUE_OPTIONAL, 'Whether or not to display a warning on the CLI about ungrouped methods in the `groups.yml` file. ' . $defaults->apply('(default: true)')),
 
 		// Project stage
 		new InputOption('stage', 's', InputOption::VALUE_OPTIONAL, 'The stage that the project is currently in (e.g., development, alpha, beta, rc, production). ' . $defaults->apply('(default: production)')),
 	))
 	->setCode(function(InputInterface $input, OutputInterface $output) use ($h1_formatter, $h2_formatter)
 	{
-		$output->writeln('');
-
-		// List the application information
-		$output->writeln($h1_formatter->apply('VANITY ' . VANITY_VERSION));
-		$output->writeln(TAB . 'by Ryan Parman <http://ryanparman.com> and Contributors');
-		$output->writeln(TAB . 'http://vanitydoc.org');
 		$output->writeln('');
 
 		// List the primary environment variables
@@ -229,3 +150,4 @@ $vanity_console
 	});
 
 $vanity_console->run();
+*/

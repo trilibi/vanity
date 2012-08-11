@@ -23,36 +23,35 @@
  * <http://www.opensource.org/licenses/mit-license.php>
  */
 
-namespace Vanity\Event
+namespace Vanity\Event;
+
+use Symfony\Component\EventDispatcher\EventDispatcher;
+
+class Dispatcher
 {
-	use Symfony\Component\EventDispatcher\EventDispatcher;
+	/**
+	 * Stores the Event Dispatcher.
+	 */
+	private static $dispatcher;
 
-	class Dispatcher
+	/**
+	 * Retrieve the Event Dispatcher.
+	 *
+	 * @return Symfony\Component\EventDispatcher\EventDispatcher The event dispatcher instance to use.
+	 */
+	public static function get()
 	{
-		/**
-		 * Stores the Event Dispatcher.
-		 */
-		private static $dispatcher;
+		return self::$dispatcher;
+	}
 
-		/**
-		 * Retrieve the Event Dispatcher.
-		 *
-		 * @return void
-		 */
-		public static function get()
-		{
-			return self::$dispatcher;
-		}
-
-		/**
-		 * Set the Event Dispatcher.
-		 *
-		 * @param  Symfony\Component\EventDispatcher\EventDispatcher $dispatcher The event dispatcher instance to use.
-		 * @return void
-		 */
-		public static function set(EventDispatcher $dispatcher)
-		{
-			self::$dispatcher = $dispatcher;
-		}
+	/**
+	 * Set the Event Dispatcher.
+	 *
+	 * @param  Symfony\Component\EventDispatcher\EventDispatcher $dispatcher The event dispatcher instance to use.
+	 * @return void
+	 */
+	public static function set(EventDispatcher $dispatcher)
+	{
+		self::$dispatcher = $dispatcher;
 	}
 }
