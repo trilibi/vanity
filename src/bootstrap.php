@@ -48,6 +48,7 @@ define('VANITY_VERSION',             '3.0alpha-' . gmdate('Ymd', filemtime(__FIL
 define('VANITY_SYSTEM',              dirname(__DIR__));
 define('VANITY_VENDOR',              VANITY_SYSTEM . '/vendor');
 define('VANITY_LOGS',                VANITY_SYSTEM . '/logs');
+define('VANITY_SOURCE',              VANITY_SYSTEM . '/src');
 define('VANITY_USER_PROFILE',        $_SERVER['HOME'] ?: VANITY_SYSTEM );
 define('VANITY_USER_DATA',           VANITY_USER_PROFILE . '/.vanity');
 define('VANITY_CACHE_DIR',           VANITY_USER_DATA . '/cache');
@@ -55,7 +56,7 @@ define('VANITY_PHPREF_DIR',          VANITY_CACHE_DIR . '/php');
 define('VANITY_ENTITY_GLOBAL_DIR',   VANITY_CACHE_DIR . '/entities');
 define('VANITY_ENTITY_LANG_DIR',     VANITY_CACHE_DIR . '/language-entities');
 define('VANITY_PROJECT_WORKING_DIR', getcwd());
-define('VANITY_PROJECT_CONFIG_DIR',  VANITY_PROJECT_WORKING_DIR . '/_vanity');
+define('VANITY_PROJECT_CONFIG_DIR',  VANITY_PROJECT_WORKING_DIR . '/.vanity');
 
 
 /********************************************************/
@@ -76,6 +77,10 @@ use Symfony\Component\ClassLoader\UniversalClassLoader;
 if (extension_loaded('apc'))
 {
 	$loader = new ApcUniversalClassLoader('vanity.');
+}
+elseif (extension_loaded('xcache'))
+{
+	$loader = new XcacheUniversalClassLoader('vanity.');
 }
 else
 {

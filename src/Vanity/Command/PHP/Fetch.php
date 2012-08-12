@@ -36,6 +36,9 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
 use Vanity\Command\Base as BaseCommand;
 
+/**
+ * Command that executes `php:fetch`.
+ */
 class Fetch extends BaseCommand
 {
 	/**
@@ -148,5 +151,7 @@ class Fetch extends BaseCommand
 
 			$this->triggerEvent('php.fetch.update.post');
 		}
+
+		$this->triggerEvent('command.complete');
 	}
 }

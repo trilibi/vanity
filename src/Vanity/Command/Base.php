@@ -33,7 +33,11 @@ use Monolog\Processor\IntrospectionProcessor;
 use stdClass;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Yaml\Yaml as YAML;
+use Vanity\Config\Store as ConfigStore;
+use Vanity\Console\Utilities as ConsoleUtil;
 use Vanity\Event\Dispatcher;
 
 class Base extends Command
@@ -50,18 +54,7 @@ class Base extends Command
 		parent::__construct();
 
 		$filesystem = new Filesystem();
-		$this->formatter = new stdClass();
-
-		// Text styles
-		$this->formatter->green  = new OutputFormatterStyle('green', null, array('bold'));
-		$this->formatter->yellow = new OutputFormatterStyle('yellow', null, array('bold'));
-		$this->formatter->grey   = new OutputFormatterStyle('white');
-
-		// Highlighted styles
-		$this->formatter->info    = new OutputFormatterStyle('white',  'blue',  array('bold'));
-		$this->formatter->success = new OutputFormatterStyle('white',  'green', array('bold'));
-		$this->formatter->warning = new OutputFormatterStyle('white',  'red',   array('bold'));
-		$this->formatter->pending = new OutputFormatterStyle('black',  'white');
+		$this->formatter = ConsoleUtil::formatters();
 
 		// Create logging directory
 		if (!is_dir(VANITY_LOGS))
@@ -85,10 +78,10 @@ class Base extends Command
 
 	/**
 	 * [appInfo description]
-	 * @param  [type] $output [description]
-	 * @return [type]         [description]
+	 * @param  OutputInterface $output [description]
+	 * @return [type]                  [description]
 	 */
-	public function appInfo($output)
+	public function appInfo(OutputInterface $output)
 	{
 		// List the application information
 		$output->writeln($this->formatter->yellow->apply('VANITY ' . VANITY_VERSION));
@@ -106,5 +99,46 @@ class Base extends Command
 	{
 		$this->logger->info('Triggering event:', array($event));
 		Dispatcher::get()->dispatch($event);
+	}
+
+	/**
+	 * Display the configuration to the Console.
+	 *
+	 * @param  OutputInterface $output [description]
+	 * @return void
+	 */
+	public function displayConfig(OutputInterface $output)
+	{
+		// Title and formatting
+		$output->writeln($this->formatter->yellow->apply('ACTIVE CONFIGURATION OPTIONS:'));
+		$padding = ConsoleUtil::tablify(ConfigStore::get());
+		$self = $this;
+
+		// Write the tablified listing to the buffer
+		$output->writeln(
+			ConsoleUtil::indent(
+				YAML::dump(ConfigStore::get(), 1),
+				$this->formatter->green->apply('-> '),
+				function ($line) use ($self, $padding)
+				{
+					$pieces = explode(': ', $line);
+					$pieces[0] = str_pad($pieces[0], $padding, ' ', STR_PAD_RIGHT);
+					$pieces[1] = $self->formatter->gold->apply($pieces[1]);
+
+					return implode(' : ', $pieces);
+				}
+			)
+		);
+
+		// Write any stored messages to the buffer
+		if (count(ConfigStore::$messages) > 0)
+		{
+			foreach (ConfigStore::$messages as $message)
+			{
+				$output->writeln($message);
+			}
+		}
+
+		echo PHP_EOL;
 	}
 }

@@ -23,12 +23,37 @@
  * <http://www.opensource.org/licenses/mit-license.php>
  */
 
-namespace Vanity\Console
+namespace Vanity\Console;
 
-use Vanity;
+use stdClass;
+use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 
 class Utilities
 {
+	/**
+	 * [formatters description]
+	 * @return [type] [description]
+	 */
+	public static function formatters()
+	{
+		$formatter = new stdClass();
+
+		// Text styles
+		$formatter->green     = new OutputFormatterStyle('green', null, array('bold'));
+		$formatter->yellow    = new OutputFormatterStyle('yellow', null, array('bold'));
+		$formatter->gold      = new OutputFormatterStyle('yellow');
+		$formatter->grey      = new OutputFormatterStyle('white');
+		$formatter->dark_grey = new OutputFormatterStyle('black');
+
+		// Highlighted styles
+		$formatter->info    = new OutputFormatterStyle('white',  'blue',  array('bold'));
+		$formatter->success = new OutputFormatterStyle('white',  'green', array('bold'));
+		$formatter->warning = new OutputFormatterStyle('white',  'red',   array('bold'));
+		$formatter->pending = new OutputFormatterStyle('black',  'white');
+
+		return $formatter;
+	}
+
 	/**
 	 * Indents the content on the Console.
 	 *

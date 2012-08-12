@@ -1,4 +1,3 @@
-#! /usr/bin/env php
 <?php
 /**
  * Copyright (c) 2009-2012 [Ryan Parman](http://ryanparman.com)
@@ -25,47 +24,38 @@
  */
 
 
-// Load the bootstrap
-require_once __DIR__ . '/src/bootstrap.php';
+namespace Vanity\Timer;
 
-// List the namespaces to use
-use Symfony\Component\Console\Application;
-use Symfony\Component\EventDispatcher\Event;
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use Vanity\Console\Utilities as ConsoleUtil;
-use Vanity\Event\Dispatcher;
-use Vanity\Timer\Timer;
-
-
-/********************************************************/
-// INSTANTIATE CONSOLE APPLICATION
-
-// Instantiate
-Dispatcher::set(new EventDispatcher);
-$console = new Application('Vanity', VANITY_VERSION);
-
-$console->add(new Vanity\Command\PHP\Fetch);
-$console->add(new Vanity\Command\Reference\Parse);
-
-Timer::start();
-
-
-/********************************************************/
-// GLOBAL EVENTS
-
-// command.complete event
-Dispatcher::get()->addListener('command.complete', function(Event $event)
+/**
+ * Maintains a system timer for the Vanity CLI.
+ *
+ * @author Ryan Parman <http://ryanparman.com>
+ * @link   http://vanitydoc.org
+ */
+class Timer
 {
-	$formatter = ConsoleUtil::formatters();
-	$stop_time = Timer::stop();
+	/**
+	 * Stores the start time.
+	 * @var float
+	 */
+	protected static $start;
 
-	echo PHP_EOL;
-	echo $formatter->pending->apply(' Completed in ' . ConsoleUtil::time_hms($stop_time) . ' (' . $stop_time . ') ') . PHP_EOL;
-	echo PHP_EOL;
-});
+	/**
+	 * Stores the current microtime.
+	 * @return float The current microtime.
+	 */
+	public static function start()
+	{
+		self::$start = microtime(true);
+		return self::$start;
+	}
 
-
-/********************************************************/
-// RUN THE APPLICATION
-
-$console->run();
+	/**
+	 * Gets the difference in time since <start()> was called.
+	 * @return float The microtime delta.
+	 */
+	public static function stop()
+	{
+		return microtime(true) - self::$start;
+	}
+}

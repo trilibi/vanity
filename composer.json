@@ -14,6 +14,20 @@
 			"homepage": "https://github.com/vanity/vanity/contributors"
 		}
 	],
+	"repositories": {
+		"phpdoc_parallel": {
+			"type": "package",
+			"package": {
+				"name": "docblox/parallel",
+				"version": "1.0.0",
+				"source": {
+					"url": "git://github.com/phpDocumentor/Parallel.git",
+					"type": "git",
+					"reference": "origin/master"
+				}
+			}
+		}
+	},
 	"require": {
 		"php": ">=5.3.2",
 
@@ -23,6 +37,7 @@
 		"ext-pcre": "*",
 
 		"dflydev/markdown": "1.0.*",
+		"docblox/parallel": "1.*",
 		"monolog/monolog": "1.1.*",
 		"phpdocumentor/reflection-docblock": "dev-master",
 		"skyzyx/examplify": ">=1.1",

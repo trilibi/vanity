@@ -1,9 +1,13 @@
 {
-    "hash": "36ed9e53de4078960e87e32b8bcda4e8",
+    "hash": "b6638d402db01a9d34ed7e2b03f81eb9",
     "packages": [
         {
             "package": "dflydev/markdown",
             "version": "v1.0.2"
+        },
+        {
+            "package": "docblox/parallel",
+            "version": "1.0.0"
         },
         {
             "package": "monolog/monolog",
