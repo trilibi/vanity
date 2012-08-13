@@ -86,7 +86,7 @@ class ReflectAll
 		echo PHP_EOL;
 		$files = Find::files($this->path_pattern, '*.json');
 		$count = count($files['absolute']);
-		$output->writeln('Wrote ' . $this->formatter->info->apply(" ${count} ") . ' class definition files.');
+		$output->writeln('Wrote ' . $this->formatter->info->apply(" ${count} ") . ' class definition ' . ConsoleUtil::pluralize($count, 'file', 'files') . '.');
 	}
 
 	/**

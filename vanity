@@ -30,11 +30,10 @@ require_once __DIR__ . '/src/bootstrap.php';
 
 // List the namespaces to use
 use Symfony\Component\Console\Application;
-use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use Vanity\Console\Utilities as ConsoleUtil;
+use Vanity\Config\Store as ConfigStore;
 use Vanity\Event\Dispatcher;
-use Vanity\Timer\Timer;
+use Vanity\System\Timer;
 
 
 /********************************************************/
@@ -51,18 +50,9 @@ Timer::start();
 
 
 /********************************************************/
-// GLOBAL EVENTS
+// REGISTER GLOBAL EVENT HANDLERS
 
-// command.complete event
-Dispatcher::get()->addListener('command.complete', function(Event $event)
-{
-	$formatter = ConsoleUtil::formatters();
-	$stop_time = Timer::stop();
-
-	echo PHP_EOL;
-	echo $formatter->pending->apply(' Completed in ' . ConsoleUtil::time_hms(round($stop_time)) . ' (' . $stop_time . ') ') . PHP_EOL;
-	echo PHP_EOL;
-});
+Vanity\Event\RegisterGlobal::events();
 
 
 /********************************************************/

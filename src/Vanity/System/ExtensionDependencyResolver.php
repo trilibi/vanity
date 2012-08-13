@@ -23,45 +23,70 @@
  * <http://www.opensource.org/licenses/mit-license.php>
  */
 
-namespace Vanity\Parse\User\Tag;
 
-use dflydev\markdown\MarkdownExtraParser as Markdown;
-use phpDocumentor\Reflection\DocBlock;
+namespace Vanity\System;
+
+use ReflectionExtension;
 
 /**
- * Implementation of the basic constructor pattern for Tag Handlers.
+ * Resolves system dependencies returned by \ReflectionExtension.
  */
-abstract class AbstractHandler
+class ExtensionDependencyResolver
 {
 	/**
-	 * The tag to handle.
-	 * @var string
-	 */
-	protected $tag;
-
-	/**
-	 * [$markdown description]
+	 * [$list description]
 	 * @var [type]
 	 */
-	protected $markdown;
+	protected $list;
 
 	/**
 	 * [__construct description]
-	 * @param DocBlock\Tag $tag [description]
+	 * @param array $list [description]
 	 */
-	public function __construct(DocBlock\Tag $tag)
+	public function __construct(array $list)
 	{
-		$this->tag = $tag;
-		$this->markdown = new Markdown();
+		$this->list = $list;
 	}
 
 	/**
-	 * [clean description]
-	 * @param  [type] $content [description]
-	 * @return [type]          [description]
+	 * [resolve description]
+	 * @return [type] [description]
 	 */
-	public function clean($content)
+	public function resolve()
 	{
-		return trim(preg_replace('/\s+/', ' ', $content));
+		$queue = $this->list;
+		$done = array();
+
+		while (count($queue))
+		{
+			// Grab an extension name from the queue
+			$extension = array_shift($queue);
+
+			// Mark this one as done, even though we're still working on it
+			$done[] = $extension;
+
+			// Get a reflected object for it
+			$rextension = new ReflectionExtension($extension);
+
+			// Grab a list of extension names that are required dependencies of the current extension
+			$new = array_keys(array_filter($rextension->getDependencies(), function($status)
+			{
+				return ($status === 'Required');
+			}));
+
+			// Go through each new extension name in the list
+			foreach ($new as $item)
+			{
+				// As long as we haven't already process it...
+				if (array_search($item, $done) === false)
+				{
+					// Add it to the todo list.
+					$queue[] = $item;
+				}
+			}
+		}
+
+		sort($done);
+		return $done;
 	}
 }

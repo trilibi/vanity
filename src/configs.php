@@ -43,6 +43,7 @@ return array(
 		'bootstrap' => array(InputOption::VALUE_OPTIONAL, 'This file is loaded first. Useful for telling Vanity how to load project classes, settings constants, or other things.', VANITY_PROJECT_CONFIG_DIR . '/bootstrap.php'),
 		'name'      => array(InputOption::VALUE_OPTIONAL, 'The name of the product.', pathinfo(VANITY_PROJECT_WORKING_DIR, PATHINFO_FILENAME)),
 		'version'   => array(InputOption::VALUE_OPTIONAL, 'The version number we should use.', 'latest'),
+		'reports'   => array(InputOption::VALUE_OPTIONAL, 'The location to use for writing various reports that have been enabled.', VANITY_PROJECT_CONFIG_DIR . '/reports'),
 	),
 
 	// Configurations related to the API Reference
@@ -63,10 +64,18 @@ return array(
 			'visibility' => array(InputOption::VALUE_OPTIONAL, 'Which visibility types should we exclude?', 'private'),
 		),
 
+		// Should we write report files?
+		'report' => array(
+			'dependencies' => array(InputOption::VALUE_OPTIONAL, 'Write a report if there are environment dependencies for the project.', 'false'),
+			'todo'         => array(InputOption::VALUE_OPTIONAL, 'Write a report if there are TODOs.', 'false'),
+			'ungrouped'    => array(InputOption::VALUE_OPTIONAL, 'Write a report if there are ungrouped methods.', 'false'),
+		),
+
 		// Should we show warnings on the Console in certain cases?
 		'warn' => array(
-			'todo'      => array(InputOption::VALUE_OPTIONAL, 'Warn on the console if there are TODOs.', 'false'),
-			'ungrouped' => array(InputOption::VALUE_OPTIONAL, 'Warn on the console if there are ungrouped methods.', 'false'),
+			'dependencies' => array(InputOption::VALUE_OPTIONAL, 'Warn on the console if there are environment dependencies for the project.', 'false'),
+			'todo'         => array(InputOption::VALUE_OPTIONAL, 'Warn on the console if there are TODOs.', 'false'),
+			'ungrouped'    => array(InputOption::VALUE_OPTIONAL, 'Warn on the console if there are ungrouped methods.', 'false'),
 		),
 	),
 

@@ -23,45 +23,10 @@
  * <http://www.opensource.org/licenses/mit-license.php>
  */
 
-namespace Vanity\Parse\User\Tag;
 
-use dflydev\markdown\MarkdownExtraParser as Markdown;
-use phpDocumentor\Reflection\DocBlock;
+namespace Vanity\System;
 
 /**
- * Implementation of the basic constructor pattern for Tag Handlers.
+ * Maintains a collection of warnings for the Vanity CLI.
  */
-abstract class AbstractHandler
-{
-	/**
-	 * The tag to handle.
-	 * @var string
-	 */
-	protected $tag;
-
-	/**
-	 * [$markdown description]
-	 * @var [type]
-	 */
-	protected $markdown;
-
-	/**
-	 * [__construct description]
-	 * @param DocBlock\Tag $tag [description]
-	 */
-	public function __construct(DocBlock\Tag $tag)
-	{
-		$this->tag = $tag;
-		$this->markdown = new Markdown();
-	}
-
-	/**
-	 * [clean description]
-	 * @param  [type] $content [description]
-	 * @return [type]          [description]
-	 */
-	public function clean($content)
-	{
-		return trim(preg_replace('/\s+/', ' ', $content));
-	}
-}
+class WarningCollector extends AbstractCollector {}

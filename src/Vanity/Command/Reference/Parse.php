@@ -99,7 +99,7 @@ class Parse extends BaseCommand
 		// Count the matches
 		echo PHP_EOL;
 		$count = count($files['relative']);
-		$output->writeln('Matched ' . $this->formatter->info->apply(" ${count} ") . ' files.');
+		$output->writeln('Matched ' . $this->formatter->info->apply(" ${count} ") . ' ' . ConsoleUtil::pluralize($count, 'file', 'files') . '.');
 		echo PHP_EOL;
 
 		// Trigger events
@@ -125,7 +125,7 @@ class Parse extends BaseCommand
 		// Count the classes
 		echo PHP_EOL;
 		$count = count($classes);
-		$output->writeln('Found ' . $this->formatter->info->apply(" ${count} ") . ' classes to document.');
+		$output->writeln('Found ' . $this->formatter->info->apply(" ${count} ") . ' ' . ConsoleUtil::pluralize($count, 'class', 'classes') . ' to document.');
 		echo PHP_EOL;
 
 		$this->triggerEvent('reference.parse.class_list.post');
@@ -138,6 +138,21 @@ class Parse extends BaseCommand
 		$reflector->process($output);
 
 		$this->triggerEvent('reference.parse.parsing.post');
+
+		#--------------------------------------------------------------------------#
+
+		if (ConfigStore::get('api.warn.dependencies') === 'true')
+		{
+			$this->triggerEvent('api.warn.dependencies');
+		}
+
+		if (ConfigStore::get('api.report.dependencies') === 'true')
+		{
+			$this->triggerEvent('api.report.dependencies');
+		}
+
 		$this->triggerEvent('command.complete');
+
+		echo PHP_EOL;
 	}
 }

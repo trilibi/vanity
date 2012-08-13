@@ -69,7 +69,7 @@ abstract class AbstractNameTypeVariableDescription extends AbstractHandler imple
 
 		if ($description)
 		{
-			$return['description'] = $description;
+			$return['description'] = $this->markdown->transform($description);
 		}
 
 		return $return;

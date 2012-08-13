@@ -123,4 +123,31 @@ class Utilities
 
 		return max($array);
 	}
+
+	/**
+	 * [json_encode description]
+	 * @param  [type] $data [description]
+	 * @return [type]       [description]
+	 */
+	public static function json_encode($data)
+	{
+		if (version_compare(PHP_VERSION, '5.4.0', '>='))
+		{
+			return json_encode($data, JSON_PRETTY_PRINT);
+		}
+
+		return json_encode($this->data);
+	}
+
+	/**
+	 * [pluralize description]
+	 * @param  [type] $count    [description]
+	 * @param  [type] $singular [description]
+	 * @param  [type] $plural   [description]
+	 * @return [type]           [description]
+	 */
+	public static function pluralize($count, $singular, $plural)
+	{
+		return ($count === 1) ? $singular : $plural;
+	}
 }

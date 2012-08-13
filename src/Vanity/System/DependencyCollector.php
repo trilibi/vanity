@@ -24,35 +24,9 @@
  */
 
 
-namespace Vanity\Timer;
+namespace Vanity\System;
 
 /**
- * Maintains a system timer for the Vanity CLI.
+ * Maintains a collection of dependencies for the Vanity CLI.
  */
-class Timer
-{
-	/**
-	 * Stores the start time.
-	 * @var float
-	 */
-	protected static $start;
-
-	/**
-	 * Stores the current microtime.
-	 * @return float The current microtime.
-	 */
-	public static function start()
-	{
-		self::$start = microtime(true);
-		return self::$start;
-	}
-
-	/**
-	 * Gets the difference in time since <start()> was called.
-	 * @return float The microtime delta.
-	 */
-	public static function stop()
-	{
-		return microtime(true) - self::$start;
-	}
-}
+class DependencyCollector extends AbstractCollector {}

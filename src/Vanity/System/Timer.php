@@ -23,45 +23,36 @@
  * <http://www.opensource.org/licenses/mit-license.php>
  */
 
-namespace Vanity\Parse\User\Tag;
 
-use dflydev\markdown\MarkdownExtraParser as Markdown;
-use phpDocumentor\Reflection\DocBlock;
+namespace Vanity\System;
 
 /**
- * Implementation of the basic constructor pattern for Tag Handlers.
+ * Maintains a system timer for the Vanity CLI.
  */
-abstract class AbstractHandler
+class Timer
 {
 	/**
-	 * The tag to handle.
-	 * @var string
+	 * Stores the start time.
+	 * @var float
 	 */
-	protected $tag;
+	protected static $start;
 
 	/**
-	 * [$markdown description]
-	 * @var [type]
+	 * Stores the current microtime.
+	 * @return float The current microtime.
 	 */
-	protected $markdown;
-
-	/**
-	 * [__construct description]
-	 * @param DocBlock\Tag $tag [description]
-	 */
-	public function __construct(DocBlock\Tag $tag)
+	public static function start()
 	{
-		$this->tag = $tag;
-		$this->markdown = new Markdown();
+		self::$start = microtime(true);
+		return self::$start;
 	}
 
 	/**
-	 * [clean description]
-	 * @param  [type] $content [description]
-	 * @return [type]          [description]
+	 * Gets the difference in time since <start()> was called.
+	 * @return float The microtime delta.
 	 */
-	public function clean($content)
+	public static function stop()
 	{
-		return trim(preg_replace('/\s+/', ' ', $content));
+		return microtime(true) - self::$start;
 	}
 }

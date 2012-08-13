@@ -35,6 +35,7 @@ use Vanity\Config\Store as ConfigStore;
 use Vanity\Console\Utilities as ConsoleUtil;
 use Vanity\Parse\User\Tag;
 use Vanity\Parse\Utilities as ParseUtil;
+use Vanity\System\DependencyCollector;
 
 class Reflect
 {
@@ -94,7 +95,9 @@ class Reflect
 
 		$class_docblock = new DocBlock($rclass_comments);
 
-		$this->data['name'] = $this->class_name;
+		$this->data['name'] = $rclass->getShortName();
+		$this->data['namespace'] = $rclass->getNamespaceName();
+		$this->data['full_name'] = $this->class_name;
 		$this->data['path'] = $short_filename;
 
 		if ($short_description = $class_docblock->getShortDescription())
@@ -353,6 +356,21 @@ class Reflect
 			$entry['name'] = $rmethod->getName();
 			$entry['visibility'] = ParseUtil::methodAccess($rmethod);
 
+			if ($extension = $rmethod->getExtensionName())
+			{
+				$entry['extension'] = $extension;
+				DependencyCollector::add($extension);
+			}
+
+			if ($rmethod->getFileName())
+			{
+				$entry['path'] = str_replace(VANITY_PROJECT_WORKING_DIR . '/', '', $rmethod->getFileName());
+				$entry['lines'] = array(
+					'start' => $rmethod->getStartLine(),
+					'end'   => $rmethod->getEndLine(),
+				);
+			}
+
 			if ($description = $method_docblock->getShortDescription())
 			{
 				$entry['description'] = $this->markdown->transform($description);
@@ -424,15 +442,7 @@ class Reflect
 		$filesystem = new Filesystem();
 		$filesystem->mkdir($directory, 0777);
 
-		// Pretty-print if we can
-		if (version_compare(PHP_VERSION, '5.4.0', '>='))
-		{
-			$encoded_data = json_encode($this->data, JSON_PRETTY_PRINT);
-		}
-		else
-		{
-			$encoded_data = json_encode($this->data);
-		}
+		$encoded_data = ConsoleUtil::json_encode($this->data);
 
 		// Write the file
 		file_put_contents($directory . '/' . $filename, $encoded_data);
