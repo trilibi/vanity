@@ -43,9 +43,52 @@ class LinkHandler extends AbstractNameTypeDescription implements HandlerInterfac
 			unset($return['type']);
 		}
 
-		if (!isset($return['description']))
+		if (isset($return['uri']))
 		{
-			$return['description'] = $return['uri'];
+			// http://example.com
+			if (preg_match('/^https?:/i', $return['uri']))
+			{
+				$return['uri_hint'] = 'url';
+
+				if (!isset($return['description']))
+				{
+					$return['description'] = $return['uri'];
+				}
+			}
+
+			// me@example.com
+			elseif (preg_match('/[\w\._\-\+]+@[\w\._\-\+]+\./i', $return['uri']))
+			{
+				$return['uri_hint'] = 'mail';
+
+				if (!isset($return['description']))
+				{
+					$return['description'] = $return['uri'];
+				}
+			}
+
+			// @example (e.g., Twitter)
+			elseif (preg_match('/^@/', $return['uri']))
+			{
+				$return['uri_hint'] = 'screen_name';
+
+				if (!isset($return['description']))
+				{
+					$return['description'] = $return['uri'];
+				}
+			}
+
+			// gravatar:066da34008adb924c115df7a39779d8d
+			// github:skyzyx
+			elseif (preg_match_all('/\w+:(.+)/i', $return['uri'], $m))
+			{
+				$return['uri_hint'] = 'service';
+
+				if (!isset($return['description']))
+				{
+					$return['description'] = trim($m[1][0]);
+				}
+			}
 		}
 
 		return $return;
