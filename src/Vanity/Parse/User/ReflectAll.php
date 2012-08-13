@@ -28,6 +28,7 @@ namespace Vanity\Parse\User;
 use Symfony\Component\Console\Output\OutputInterface;
 use Vanity\Config\Store as ConfigStore;
 use Vanity\Console\Utilities as ConsoleUtil;
+use Vanity\Find\Find;
 use Vanity\Event\Dispatcher;
 use Vanity\Parse\User\Reflect;
 
@@ -67,7 +68,7 @@ class ReflectAll
 		$output->writeln($this->formatter->yellow->apply('WRITING CLASS DEFINITIONS'));
 
 		// Resolve output path variables
-		Dispatcher::get()->dispatch('vanity.parse.user.reflect.all');
+		Dispatcher::get()->dispatch('parse.user.reflect.all.pre');
 		$this->path_pattern = str_replace('%STAGE%', $this->asciify(ConfigStore::get('api.stage')), $this->path_pattern);
 		$this->path_pattern = str_replace('%VERSION%', $this->asciify(ConfigStore::get('vanity.version')), $this->path_pattern);
 		$this->path_pattern = str_replace('%FORMAT%', 'json', $this->path_pattern);
@@ -78,6 +79,14 @@ class ReflectAll
 			$reflect->process();
 			$reflect->save($this->path_pattern, $output);
 		}
+
+		Dispatcher::get()->dispatch('parse.user.reflect.all.post');
+
+		// Count the classes
+		echo PHP_EOL;
+		$files = Find::files($this->path_pattern, '*.json');
+		$count = count($files['absolute']);
+		$output->writeln('Wrote ' . $this->formatter->info->apply(" ${count} ") . ' class definition files.');
 	}
 
 	/**

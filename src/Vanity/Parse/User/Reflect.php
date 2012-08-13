@@ -204,6 +204,7 @@ class Reflect
 			$entry = array();
 			$entry['name'] = $rconstant_name;
 			$entry['value'] = $rconstant_value;
+			$entry['type'] = gettype($rconstant_value);
 
 			$this->data['constants']['constant'][] = $entry;
 		}
