@@ -421,6 +421,30 @@ class Reflect
 				}
 			}
 
+			// Method parameters
+			if ($count = count($rmethod->getParameters()))
+			{
+				if (!isset($entry['parameters']))
+				{
+					$entry['parameters'] = array();
+				}
+
+				if (!isset($entry['parameters']['count']))
+				{
+					$entry['parameters']['count'] = $count;
+				}
+
+				if (!isset($entry['parameters']['parameter']))
+				{
+					$entry['parameters']['parameter'] = array();
+				}
+
+				foreach ($rmethod->getParameters() as $rparameter)
+				{
+					$entry['parameters']['parameter'][] = $rparameter->getName();
+				}
+			}
+
 			$this->data['methods']['method'][] = $entry;
 		}
 	}
