@@ -23,36 +23,24 @@
  * <http://www.opensource.org/licenses/mit-license.php>
  */
 
+namespace Vanity\Parse\User\Tag;
 
-namespace Vanity\Timer;
+use phpDocumentor\Reflection\DocBlock;
 
 /**
- * Maintains a system timer for the Vanity CLI.
+ * The interface for all tag-specific handlers.
  */
-class Timer
+interface HandlerInterface
 {
 	/**
-	 * Stores the start time.
-	 * @var float
+	 * [__construct description]
+	 * @param DocBlock\Tag $tag [description]
 	 */
-	protected static $start;
+	public function __construct(DocBlock\Tag $tag);
 
 	/**
-	 * Stores the current microtime.
-	 * @return float The current microtime.
+	 * [process description]
+	 * @return [type] [description]
 	 */
-	public static function start()
-	{
-		self::$start = microtime(true);
-		return self::$start;
-	}
-
-	/**
-	 * Gets the difference in time since <start()> was called.
-	 * @return float The microtime delta.
-	 */
-	public static function stop()
-	{
-		return microtime(true) - self::$start;
-	}
+	public function process();
 }

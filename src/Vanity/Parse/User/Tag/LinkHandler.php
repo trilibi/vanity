@@ -23,36 +23,31 @@
  * <http://www.opensource.org/licenses/mit-license.php>
  */
 
+namespace Vanity\Parse\User\Tag;
 
-namespace Vanity\Timer;
+use Vanity\Parse\User\Tag\HandlerInterface;
+use Vanity\Parse\User\Tag\AbstractNameTypeDescription;
 
 /**
- * Maintains a system timer for the Vanity CLI.
+ * The handler for @link tags.
  */
-class Timer
+class LinkHandler extends AbstractNameTypeDescription implements HandlerInterface
 {
-	/**
-	 * Stores the start time.
-	 * @var float
-	 */
-	protected static $start;
-
-	/**
-	 * Stores the current microtime.
-	 * @return float The current microtime.
-	 */
-	public static function start()
+	public function process()
 	{
-		self::$start = microtime(true);
-		return self::$start;
-	}
+		$return = parent::process();
 
-	/**
-	 * Gets the difference in time since <start()> was called.
-	 * @return float The microtime delta.
-	 */
-	public static function stop()
-	{
-		return microtime(true) - self::$start;
+		if (isset($return['type']))
+		{
+			$return['uri'] = $return['type'];
+			unset($return['type']);
+		}
+
+		if (!isset($return['description']))
+		{
+			$return['description'] = $return['uri'];
+		}
+
+		return $return;
 	}
 }

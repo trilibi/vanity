@@ -23,36 +23,40 @@
  * <http://www.opensource.org/licenses/mit-license.php>
  */
 
+namespace Vanity\Parse\User\Tag;
 
-namespace Vanity\Timer;
+use phpDocumentor\Reflection\DocBlock;
+use Vanity\Parse\User\Tag\AbstractHandler;
+use Vanity\Parse\User\Tag\HandlerInterface;
+use Vanity\Parse\Utilities as ParseUtil;
 
 /**
- * Maintains a system timer for the Vanity CLI.
+ * The default handler for name:type:variable:description tags.
  */
-class Timer
+abstract class AbstractNameTypeVariableDescription extends AbstractHandler implements HandlerInterface
 {
 	/**
-	 * Stores the start time.
-	 * @var float
+	 * [process description]
+	 * @return [type] [description]
 	 */
-	protected static $start;
-
-	/**
-	 * Stores the current microtime.
-	 * @return float The current microtime.
-	 */
-	public static function start()
+	public function process()
 	{
-		self::$start = microtime(true);
-		return self::$start;
-	}
+		$content = $this->clean($this->tag->getContent());
+		$content = explode(' ', $content);
+		$type = ParseUtil::elongateType(array_shift($content));
+		$variable = array_shift($content);
+		$description = trim(implode(' ', $content));
 
-	/**
-	 * Gets the difference in time since <start()> was called.
-	 * @return float The microtime delta.
-	 */
-	public static function stop()
-	{
-		return microtime(true) - self::$start;
+		$return = array();
+		$return['name'] = $this->tag->getName();
+		$return['type'] = $type;
+		$return['variable'] = str_replace('$', '', $variable);
+
+		if ($description)
+		{
+			$return['description'] = $description;
+		}
+
+		return $return;
 	}
 }

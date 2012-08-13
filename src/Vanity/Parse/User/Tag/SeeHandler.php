@@ -23,36 +23,44 @@
  * <http://www.opensource.org/licenses/mit-license.php>
  */
 
+namespace Vanity\Parse\User\Tag;
 
-namespace Vanity\Timer;
+use Vanity\Parse\User\Tag\HandlerInterface;
+use Vanity\Parse\User\Tag\AbstractNameTypeDescription;
 
 /**
- * Maintains a system timer for the Vanity CLI.
+ * The handler for @see tags.
  */
-class Timer
+class SeeHandler extends AbstractNameTypeDescription implements HandlerInterface
 {
-	/**
-	 * Stores the start time.
-	 * @var float
-	 */
-	protected static $start;
-
-	/**
-	 * Stores the current microtime.
-	 * @return float The current microtime.
-	 */
-	public static function start()
+	public function process()
 	{
-		self::$start = microtime(true);
-		return self::$start;
-	}
+		$return = parent::process();
 
-	/**
-	 * Gets the difference in time since <start()> was called.
-	 * @return float The microtime delta.
-	 */
-	public static function stop()
-	{
-		return microtime(true) - self::$start;
+		if (isset($return['type']))
+		{
+			$return['entity'] = $return['type'];
+			unset($return['type']);
+		}
+
+		// Property
+		if (preg_match('/(\w+::)?\$\w+/', $return['entity']))
+		{
+			$return['entity_hint'] = 'property';
+		}
+
+		// Method
+		elseif (preg_match('/(\w+::)?[\w_]+\(\)/', $return['entity']))
+		{
+			$return['entity_hint'] = 'method';
+		}
+
+		// URL
+		elseif (preg_match('/https?:/', $return['entity']))
+		{
+			$return['entity_hint'] = 'uri';
+		}
+
+		return $return;
 	}
 }

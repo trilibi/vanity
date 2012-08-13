@@ -33,6 +33,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Vanity\Config\Store as ConfigStore;
 use Vanity\Console\Utilities as ConsoleUtil;
+use Vanity\Parse\User\Tag;
 use Vanity\Parse\Utilities as ParseUtil;
 
 class Reflect
@@ -160,6 +161,28 @@ class Reflect
 
 		#--------------------------------------------------------------------------#
 
+		// Class tags
+		if (count($class_docblock->getTags()))
+		{
+			if (!isset($this->data['metadata']))
+			{
+				$this->data['metadata'] = array();
+			}
+
+			if (!isset($this->data['metadata']['tag']))
+			{
+				$this->data['metadata']['tag'] = array();
+			}
+
+			foreach ($class_docblock->getTags() as $rtag)
+			{
+				$dtag = new Tag($rtag);
+				$this->data['metadata']['tag'][] = $dtag->determine()->process();
+			}
+		}
+
+		#--------------------------------------------------------------------------#
+
 		// Add constants
 		foreach ($rclass_constants as $rconstant_name => $rconstant_value)
 		{
@@ -241,6 +264,26 @@ class Reflect
 				$entry['inheritance']['class'][] = $subentry;
 			}
 
+			// Property tags
+			if (count($property_docblock->getTags()))
+			{
+				if (!isset($entry['metadata']))
+				{
+					$entry['metadata'] = array();
+				}
+
+				if (!isset($entry['metadata']['tag']))
+				{
+					$entry['metadata']['tag'] = array();
+				}
+
+				foreach ($property_docblock->getTags() as $rtag)
+				{
+					$dtag = new Tag($rtag);
+					$entry['metadata']['tag'][] = $dtag->determine()->process();
+				}
+			}
+
 			// Default value, if accessible
 			if ($rproperty->isPublic())
 			{
@@ -280,7 +323,7 @@ class Reflect
 
 		#--------------------------------------------------------------------------#
 
-		// Add methods
+		// Add methods and parameters
 		$rclass_methods = array_values(array_filter($rclass_methods, function($rmethod)
 		{
 			return !preg_match(ConfigStore::get('api.exclude.methods'), $rmethod->getName());
@@ -303,8 +346,61 @@ class Reflect
 				$this->data['methods']['method'] = array();
 			}
 
+			$method_docblock = new DocBlock($rmethod->getDocComment());
+
 			$entry = array();
 			$entry['name'] = $rmethod->getName();
+			$entry['visibility'] = ParseUtil::methodAccess($rmethod);
+
+			if ($description = $method_docblock->getShortDescription())
+			{
+				$entry['description'] = $this->markdown->transform($description);
+			}
+
+			// Method inheritance
+			if (($declaring_class = $rmethod->getDeclaringClass()->getName()) !== $rclass->getName())
+			{
+				if (!isset($entry['inheritance']))
+				{
+					$entry['inheritance'] = array();
+				}
+
+				if (!isset($entry['inheritance']['class']))
+				{
+					$entry['inheritance']['class'] = array();
+				}
+
+				$declaring_class = new ReflectionClass($declaring_class);
+
+				$subentry = array();
+				$subentry['name'] = $declaring_class->getName();
+				if ($declaring_class->getFileName())
+				{
+					$subentry['path'] = str_replace(VANITY_PROJECT_WORKING_DIR . '/', '', $declaring_class->getFileName());
+				}
+
+				$entry['inheritance']['class'][] = $subentry;
+			}
+
+			// Method tags
+			if (count($method_docblock->getTags()))
+			{
+				if (!isset($entry['metadata']))
+				{
+					$entry['metadata'] = array();
+				}
+
+				if (!isset($entry['metadata']['tag']))
+				{
+					$entry['metadata']['tag'] = array();
+				}
+
+				foreach ($method_docblock->getTags() as $rtag)
+				{
+					$dtag = new Tag($rtag);
+					$entry['metadata']['tag'][] = $dtag->determine()->process();
+				}
+			}
 
 			$this->data['methods']['method'][] = $entry;
 		}

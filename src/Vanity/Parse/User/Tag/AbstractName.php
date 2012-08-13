@@ -23,36 +23,25 @@
  * <http://www.opensource.org/licenses/mit-license.php>
  */
 
+namespace Vanity\Parse\User\Tag;
 
-namespace Vanity\Timer;
+use phpDocumentor\Reflection\DocBlock;
+use Vanity\Parse\User\Tag\AbstractHandler;
+use Vanity\Parse\User\Tag\HandlerInterface;
 
 /**
- * Maintains a system timer for the Vanity CLI.
+ * The default handler for no-value tags.
  */
-class Timer
+abstract class AbstractName extends AbstractHandler implements HandlerInterface
 {
 	/**
-	 * Stores the start time.
-	 * @var float
+	 * [process description]
+	 * @return [type] [description]
 	 */
-	protected static $start;
-
-	/**
-	 * Stores the current microtime.
-	 * @return float The current microtime.
-	 */
-	public static function start()
+	public function process()
 	{
-		self::$start = microtime(true);
-		return self::$start;
-	}
-
-	/**
-	 * Gets the difference in time since <start()> was called.
-	 * @return float The microtime delta.
-	 */
-	public static function stop()
-	{
-		return microtime(true) - self::$start;
+		return array(
+			'name'  => $this->tag->getName(),
+		);
 	}
 }

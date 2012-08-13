@@ -273,11 +273,12 @@ class Utilities
 	 * @param  [type] $type [description]
 	 * @return [type]       [description]
 	 */
-	public static function elongate_type($type)
+	public static function elongateType($type)
 	{
 		$types = array(
-			'int' => 'integer',
 			'bool' => 'boolean',
+			'int'  => 'integer',
+			'str'  => 'string',
 		);
 
 		if (isset($types[strtolower($type)]))

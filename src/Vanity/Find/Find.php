@@ -69,11 +69,16 @@ class Find
 		$loader = new UniversalClassLoader();
 
 		// Support PSR-0 autoloading with a composer.json file
+		// @todo: Add support for Composer's classmap autoloading.
 		if (file_exists(VANITY_PROJECT_WORKING_DIR . '/composer.json'))
 		{
 			// Register namespaces with the class loader
 			$composer = json_decode(file_get_contents(VANITY_PROJECT_WORKING_DIR . '/composer.json'), true);
-			$loader->registerNamespaces($composer['autoload']['psr-0']);
+
+			if (isset($composer['autoload']) && isset($composer['autoload']['psr-0']))
+			{
+				$loader->registerNamespaces($composer['autoload']['psr-0']);
+			}
 		}
 
 		$loader->register();
