@@ -27,7 +27,6 @@ namespace Vanity\Parse\User\Tag;
 
 use Vanity\Parse\User\Tag\AbstractNameTypeVariableDescription;
 use Vanity\Parse\User\Tag\HandlerInterface;
-use Vanity\Parse\Utilities as ParseUtil;
 
 /**
  * The handler for @param tags.

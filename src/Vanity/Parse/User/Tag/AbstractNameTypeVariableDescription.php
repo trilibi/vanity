@@ -41,15 +41,30 @@ abstract class AbstractNameTypeVariableDescription extends AbstractHandler imple
 	 */
 	public function process()
 	{
+		$return = array();
+		$return['name'] = $this->tag->getName();
+
 		$content = $this->clean($this->tag->getContent());
 		$content = explode(' ', $content);
-		$type = ParseUtil::elongateType(array_shift($content));
+		$type = array_shift($content);
 		$variable = array_shift($content);
 		$description = trim(implode(' ', $content));
 
-		$return = array();
-		$return['name'] = $this->tag->getName();
-		$return['type'] = $type;
+		if (strpos($type, '|'))
+		{
+			$return['type'] = 'mixed';
+			$return['types'] = explode('|', $type);
+			$return['types'] = array_map(function($type)
+			{
+				return ParseUtil::elongateType($type);
+			},
+			$return['types']);
+		}
+		else
+		{
+			$return['type'] = ParseUtil::elongateType($type);
+		}
+
 		$return['variable'] = str_replace('$', '', $variable);
 
 		if ($description)
