@@ -23,42 +23,62 @@
  * <http://www.opensource.org/licenses/mit-license.php>
  */
 
-namespace Vanity\Event;
-
-use Symfony\Component\EventDispatcher\EventDispatcher;
+namespace Vanity\Parse\User;
 
 /**
- * Maintains the global event dispatcher for the app.
+ * Looks up the value of a given metadata @tag.
  *
  * @author Ryan Parman <http://ryanparman.com>
  * @link   http://vanitydoc.org
  */
-class Dispatcher
+class TagFinder
 {
 	/**
-	 * Stores the Event Dispatcher.
-	 * @var EventDispatcher
+	 * The entry array which contains a `metadata` key.
+	 * @var array
 	 */
-	private static $dispatcher;
+	protected $entry;
 
 	/**
-	 * Retrieve the Event Dispatcher.
+	 * Constructs a new instance of this class.
 	 *
-	 * @return EventDispatcher The event dispatcher instance to use.
+	 * @param array $entry The entry array which contains a `metadata` key.
 	 */
-	public static function get()
+	public function __construct(array $entry)
 	{
-		return self::$dispatcher;
+		$this->entry = $entry;
 	}
 
 	/**
-	 * Set the Event Dispatcher.
+	 * Retrieves the value of the requested metadata @tag.
 	 *
-	 * @param  EventDispatcher $dispatcher The event dispatcher instance to use.
-	 * @return void
+	 * @param  string $data The name of the node to get from the @tag entry.
+	 * @param  string $name The `name` element of the @tag data.
+	 * @param  string $tag  The metadata tag to look inside (e.g., param).
+	 * @return string       The value of the requested node.
 	 */
-	public static function set(EventDispatcher $dispatcher)
+	public function find($data, $name, $tag = 'param')
 	{
-		self::$dispatcher = $dispatcher;
+		if (isset($this->entry['metadata']))
+		{
+			if (isset($this->entry['metadata']['tag']))
+			{
+				$tags = array_values(array_filter($this->entry['metadata']['tag'], function($t) use ($tag, $name)
+				{
+					return (
+						isset($t['name']) &&
+						$t['name'] === $tag &&
+						$t['variable'] === $name
+					);
+				}));
+
+				if (count($tags) && isset($tags[0][$data]))
+				{
+					return $tags[0][$data];
+				}
+			}
+		}
+
+		return null;
 	}
 }

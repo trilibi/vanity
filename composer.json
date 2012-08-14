@@ -36,6 +36,7 @@
 		"ext-json": "*",
 		"ext-pcre": "*",
 
+		"andrewsville/php-token-reflection": "1.3.*",
 		"dflydev/markdown": "1.0.*",
 		"docblox/parallel": "1.*",
 		"monolog/monolog": "1.1.*",

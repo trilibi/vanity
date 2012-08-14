@@ -23,42 +23,37 @@
  * <http://www.opensource.org/licenses/mit-license.php>
  */
 
-namespace Vanity\Event;
 
-use Symfony\Component\EventDispatcher\EventDispatcher;
+namespace Vanity\System;
 
 /**
- * Maintains the global event dispatcher for the app.
- *
- * @author Ryan Parman <http://ryanparman.com>
- * @link   http://vanitydoc.org
+ * Maintains a collection of documentation inconsistencies for the Vanity CLI.
  */
-class Dispatcher
+class DocumentationInconsistencyCollector implements CollectorInterface
 {
 	/**
-	 * Stores the Event Dispatcher.
-	 * @var EventDispatcher
+	 * Stores messages.
+	 * @var array
 	 */
-	private static $dispatcher;
+	protected static $messages = array();
 
 	/**
-	 * Retrieve the Event Dispatcher.
-	 *
-	 * @return EventDispatcher The event dispatcher instance to use.
+	 * [add description]
+	 * @param [type] $message [description]
 	 */
-	public static function get()
+	public static function add($message)
 	{
-		return self::$dispatcher;
+		self::$messages[] = array(
+			'message' => $message,
+		);
 	}
 
 	/**
-	 * Set the Event Dispatcher.
-	 *
-	 * @param  EventDispatcher $dispatcher The event dispatcher instance to use.
-	 * @return void
+	 * [read description]
+	 * @return [type] [description]
 	 */
-	public static function set(EventDispatcher $dispatcher)
+	public static function read()
 	{
-		self::$dispatcher = $dispatcher;
+		return self::$messages;
 	}
 }

@@ -29,4 +29,31 @@ namespace Vanity\System;
 /**
  * Maintains a collection of todos for the Vanity CLI.
  */
-class TodoCollector extends AbstractCollector {}
+class TodoCollector implements CollectorInterface
+{
+	/**
+	 * Stores messages.
+	 * @var array
+	 */
+	protected static $messages = array();
+
+	/**
+	 * [add description]
+	 * @param [type] $message [description]
+	 */
+	public static function add($message)
+	{
+		self::$messages[] = array(
+			'message' => $message,
+		);
+	}
+
+	/**
+	 * [read description]
+	 * @return [type] [description]
+	 */
+	public static function read()
+	{
+		return self::$messages;
+	}
+}

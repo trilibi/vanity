@@ -27,21 +27,29 @@ namespace Vanity\Config;
 
 /**
  * Store the configuration data for the app.
+ *
+ * @author Ryan Parman <http://ryanparman.com>
+ * @link   http://vanitydoc.org
  */
 class Store
 {
 	/**
 	 * Stores the configuration.
+	 * @var array
 	 */
 	private static $config;
 
 	/**
 	 * Stores the messages to display.
+	 * @var array
 	 */
 	public static $messages = array();
 
 	/**
 	 * Retrieve the configuration.
+	 *
+	 * @param  string $key The configuration key to look up.
+	 * @return string|null The value of the configuration key. Returns `null` if key is unmatched.
 	 */
 	public static function get($key = null)
 	{
@@ -60,8 +68,11 @@ class Store
 
 	/**
 	 * Set the configuration.
+	 *
+	 * @param  array $config Configuration data to store.
+	 * @return void
 	 */
-	public static function set($config)
+	public static function set(array $config)
 	{
 		self::$config = $config;
 	}
@@ -71,7 +82,7 @@ class Store
 	 *
 	 * @param  array  $config The configuration setting.
 	 * @param  string $prefix The prefix for the node.
-	 * @return array  The configuration array.
+	 * @return array          The configuration array.
 	 */
 	public static function convert(array $config, $prefix = '')
 	{
@@ -125,7 +136,7 @@ class Store
 	 * Determines whether or not the specified array is an indexed array.
 	 *
 	 * @param  array   $array The array to verify.
-	 * @return boolean Whether or not the specified array is an indexed array.
+	 * @return boolean        Whether or not the specified array is an indexed array.
 	 */
 	private static function is_indexed_array(array $array)
 	{

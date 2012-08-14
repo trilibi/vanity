@@ -38,6 +38,9 @@ use Vanity\Command\Base as BaseCommand;
 
 /**
  * Command that executes `php:fetch`.
+ *
+ * @author Ryan Parman <http://ryanparman.com>
+ * @link   http://vanitydoc.org
  */
 class Fetch extends BaseCommand
 {
@@ -50,6 +53,11 @@ class Fetch extends BaseCommand
 		VANITY_ENTITY_LANG_DIR   => array('http://svn.php.net/repository/phpdoc/en/trunk/', ' --depth files')
 	);
 
+	/**
+	 * The command-line arguments and options.
+	 *
+	 * @return void
+	 */
 	protected function configure()
 	{
 		$this
@@ -57,6 +65,13 @@ class Fetch extends BaseCommand
 			->setDescription('Fetches a copy of the latest PHP API Reference from PHP.net. Useful when extending PHP\'s base classes.');
 	}
 
+	/**
+	 * Execute the logic for the command.
+	 *
+	 * @param  InputInterface  $input  The command-line input.
+	 * @param  OutputInterface $output The command-line output.
+	 * @return void
+	 */
 	protected function execute(InputInterface $input, OutputInterface $output)
 	{
 		$this->logger->info('Running command:', array($this->getName()));
@@ -153,5 +168,7 @@ class Fetch extends BaseCommand
 		}
 
 		$this->triggerEvent('command.complete');
+
+		echo PHP_EOL;
 	}
 }

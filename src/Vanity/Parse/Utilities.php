@@ -31,13 +31,17 @@ use ReflectionProperty;
 
 /**
  * A collection of utilities designed to assist Reflection parsing.
+ *
+ * @author Ryan Parman <http://ryanparman.com>
+ * @link   http://vanitydoc.org
  */
 class Utilities
 {
 	/**
-	 * [methodAccess description]
-	 * @param  ReflectionMethod $o [description]
-	 * @return [type]              [description]
+	 * Returns an array of access/visibility data for a method.
+	 *
+	 * @param  ReflectionMethod $o The method to parse.
+	 * @return array               An array of visibilities that apply to this method.
 	 */
 	public static function methodAccess(ReflectionMethod $o)
 	{
@@ -72,9 +76,10 @@ class Utilities
 	}
 
 	/**
-	 * [propertyAccess description]
-	 * @param  ReflectionProperty $o [description]
-	 * @return [type]                [description]
+	 * Returns an array of access/visibility data for a property.
+	 *
+	 * @param  ReflectionProperty $o The property to parse.
+	 * @return array               An array of visibilities that apply to this property.
 	 */
 	public static function propertyAccess(ReflectionProperty $o)
 	{
@@ -101,9 +106,10 @@ class Utilities
 	}
 
 	/**
-	 * [regex_token description]
-	 * @param  [type] $token [description]
-	 * @return [type]        [description]
+	 * Makes a string regex-ready.
+	 *
+	 * @param  string $token The string to make regex-ready.
+	 * @return string        A regex-ready string.
 	 */
 	public static function makeTokenRegexFriendly($token)
 	{
@@ -113,20 +119,22 @@ class Utilities
 	}
 
 	/**
-	 * [line_numbers description]
-	 * @param  [type] $lnum    [description]
-	 * @param  [type] $content [description]
-	 * @return [type]          [description]
+	 * Pads line numbers based on the length of the largest value.
+	 *
+	 * @param  integer $lnum    The line number to process, generally an array index.
+	 * @param  array   $content An array of lines.
+	 * @return string           A zero-padded number (e.g., "007" for an array of 100+ lines).
 	 */
-	public static function padLineNumbers($lnum, $content)
+	public static function padLineNumbers($lnum, array $content)
 	{
-		return str_pad($lnum + 1, strlen((string) sizeof($content)), '0', STR_PAD_LEFT);
+		return str_pad($lnum + 1, strlen((string) count($content)), '0', STR_PAD_LEFT);
 	}
 
 	/**
-	 * [entitize description]
-	 * @param  [type] $s [description]
-	 * @return [type]    [description]
+	 * Convert (UTF-8) special characters into entities.
+	 *
+	 * @param  string $s A string containing special characters.
+	 * @return string    A string with all special characters converted into entities.
 	 */
 	public static function entitize($s)
 	{
@@ -134,13 +142,14 @@ class Utilities
 	}
 
 	/**
-	 * [size_readable description]
-	 * @param  [type] $size    [description]
-	 * @param  [type] $unit    [description]
-	 * @param  [type] $default [description]
-	 * @return [type]          [description]
+	 * Get the human-formatted file size.
+	 *
+	 * @param  integer $size    The number of bytes to work with.
+	 * @param  string  $unit    A unit of measurement to lock to. [Allowed values: `B`, `kB`, `MB`, `GB`, `TB`, `PB`]
+	 * @param  string  $format  The format to use. Will be passed to {@see php:sprintf()}.
+	 * @return string           The human-formatted file size.
 	 */
-	public static function size($size, $unit = null, $default = null)
+	public static function size($size, $unit = null, $format = '%01.2f %s')
 	{
 		// Units
 		$sizes = array('B', 'kB', 'MB', 'GB', 'TB', 'PB');
@@ -154,12 +163,6 @@ class Utilities
 			$unit = $ii;
 		}
 
-		// Return string
-		if ($default === null)
-		{
-			$default = '%01.2f %s';
-		}
-
 		// Loop
 		$i = 0;
 		while ($unit != $i && $size >= 1024 && $i < $ii)
@@ -168,15 +171,16 @@ class Utilities
 			$i++;
 		}
 
-		return sprintf($default, $size, $sizes[$i]);
+		return sprintf($format, $size, $sizes[$i]);
 	}
 
 	/**
-	 * [unwrap_array description]
-	 * @param  [type] $array [description]
-	 * @return [type]        [description]
+	 * Produces a string representation of the contents of an array.
+	 *
+	 * @param  array  $array The array to "unwrap".
+	 * @return string        A string representation of the contents of an array.
 	 */
-	public static function unwrapArray($array)
+	public static function unwrapArray(array $array)
 	{
 		$out = 'array(';
 		$collect = array();
@@ -222,11 +226,12 @@ class Utilities
 	}
 
 	/**
-	 * [get_parent_classes description]
-	 * @param  [type] $rclass [description]
-	 * @return [type]         [description]
+	 * Collect a list of all parent classes.
+	 *
+	 * @param  ReflectionClass $rclass The class to check for parent classes.
+	 * @return array                   A list of all parent names as strings.
 	 */
-	public static function getParentClasses($rclass)
+	public static function getParentClasses(ReflectionClass $rclass)
 	{
 		$class_list = array();
 
@@ -240,9 +245,10 @@ class Utilities
 	}
 
 	/**
-	 * [clean_docbook description]
-	 * @param  [type] $content [description]
-	 * @return [type]          [description]
+	 * Replaces all known DocBook tags with HTML equivalents.
+	 *
+	 * @param  string $content The content to parse.
+	 * @return string          The content with all DocBook tags replaced.
 	 */
 	public static function cleanDocBook($content)
 	{
@@ -269,9 +275,10 @@ class Utilities
 	}
 
 	/**
-	 * [elongate_type description]
-	 * @param  [type] $type [description]
-	 * @return [type]       [description]
+	 * Converts short-form native types to long-form native types.
+	 *
+	 * @param  string $type The name of the type.
+	 * @return string       The long-form version of the type.
 	 */
 	public static function elongateType($type)
 	{
@@ -290,12 +297,13 @@ class Utilities
 	}
 
 	/**
-	 * [strip_root_element description]
-	 * @param  [type] $xml     [description]
-	 * @param  string $element [description]
-	 * @return [type]          [description]
+	 * Strips the root element of an XML string.
+	 *
+	 * @param  string $xml     A string of XML.
+	 * @param  string $element The name of the root element.
+	 * @return string          A string of XML with the root element stripped.
 	 */
-	public static function strip_root_element($xml, $element = 'listitem')
+	public static function stripRootElement($xml, $element = 'listitem')
 	{
 		$xml = preg_replace('/^<' . $element . '>/i', '', trim($xml));
 		$xml = preg_replace('/<\/' . $element . '>$/i', '', $xml);
@@ -303,10 +311,13 @@ class Utilities
 	}
 
 	/**
-	 * [generate_entity_map description]
-	 * @return [type] [description]
+	 * Generates an entity map for use with PHP.net documentation.
+	 *
+	 * @return array The entity map.
+	 *
+	 * @todo Rewrite this method.
 	 */
-	public static function generate_entity_map()
+	public static function generateEntityMap()
 	{
 		$master_map = array();
 		$glob = array_merge(
@@ -333,9 +344,12 @@ class Utilities
 	}
 
 	/**
-	 * [convert_to_html description]
-	 * @param  [type] $path [description]
-	 * @return [type]       [description]
+	 * Converts the templates into HTML documents based on the file type.
+	 *
+	 * @param  string $path The filename of the template.
+	 * @return string       The converted HTML content from that template.
+	 *
+	 * @todo Rewrite this method.
 	 */
 	public static function convert_to_html($path)
 	{

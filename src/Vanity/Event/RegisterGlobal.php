@@ -33,16 +33,21 @@ use Vanity\Console\Utilities as ConsoleUtil;
 use Vanity\Event\Dispatcher;
 use Vanity\System\Timer;
 use Vanity\System\DependencyCollector;
+use Vanity\System\DocumentationInconsistencyCollector;
 use Vanity\System\ExtensionDependencyResolver;
 
 /**
  * Stores all event handlers that are intended to be run on a global level.
+ *
+ * @author Ryan Parman <http://ryanparman.com>
+ * @link   http://vanitydoc.org
  */
 class RegisterGlobal
 {
 	/**
-	 * [events description]
-	 * @return [type] [description]
+	 * Executes all of the event handlers.
+	 *
+	 * @return void
 	 */
 	public static function events()
 	{
@@ -88,8 +93,34 @@ class RegisterGlobal
 			$count = count($dependencies);
 			echo 'Found ' . $formatter->info->apply(" ${count} ") . ' ' . ConsoleUtil::pluralize($count, 'dependency', 'dependencies') . '.' . PHP_EOL;
 		});
+
+		// api.warn.inconsistencies event
+		Dispatcher::get()->addListener('api.warn.inconsistencies', function(Event $event)
+		{
+			$formatter = ConsoleUtil::formatters();
+			$inconsistencies = DocumentationInconsistencyCollector::read();
+
+			echo PHP_EOL;
+			echo $formatter->yellow->apply('REPORT: DOCUMENTATION INCONSISTENCIES') . PHP_EOL;
+
+			foreach ($inconsistencies as $inconsistency)
+			{
+				echo TAB . $formatter->green->apply('-> ') . $inconsistency['message'] . PHP_EOL;
+			}
+
+			// Count the classes
+			echo PHP_EOL;
+			$count = count($inconsistencies);
+			echo 'Found ' . $formatter->info->apply(" ${count} ") . ' ' . ConsoleUtil::pluralize($count, 'inconsistency', 'inconsistencies') . '.' . PHP_EOL;
+		});
 	}
 
+	/**
+	 * Resolves the list of extension dependencies from the messages that were
+	 * stored using {@see ExtensionDependencyResolver}.
+	 *
+	 * @return array A list of extension dependencies.
+	 */
 	protected static function getDependencies()
 	{
 		// Collect all of the extension names that we received

@@ -28,11 +28,18 @@ namespace Vanity\Console;
 use stdClass;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 
+/**
+ * A collection of utilities for working with console apps.
+ *
+ * @author Ryan Parman <http://ryanparman.com>
+ * @link   http://vanitydoc.org
+ */
 class Utilities
 {
 	/**
-	 * [formatters description]
-	 * @return [type] [description]
+	 * A collection of text formatters for the console.
+	 *
+	 * @return stdClass A collection of text formatters.
 	 */
 	public static function formatters()
 	{
@@ -41,6 +48,7 @@ class Utilities
 		// Text styles
 		$formatter->green     = new OutputFormatterStyle('green', null, array('bold'));
 		$formatter->yellow    = new OutputFormatterStyle('yellow', null, array('bold'));
+		$formatter->_white_   = new OutputFormatterStyle('white', null, array('bold', 'underscore'));
 		$formatter->gold      = new OutputFormatterStyle('yellow');
 		$formatter->grey      = new OutputFormatterStyle('white');
 		$formatter->dark_grey = new OutputFormatterStyle('black');
@@ -58,7 +66,7 @@ class Utilities
 	 * Indents the content on the Console.
 	 *
 	 * @param  string $content The textual content to indent.
-	 * @return string The indented text.
+	 * @return string          The indented text.
 	 */
 	public static function indent($content, $prefix = '', $callback = null)
 	{
@@ -86,7 +94,7 @@ class Utilities
 	 * Converts the number of seconds into HH:MM:SS format.
 	 *
 	 * @param  integer $seconds The number of seconds to format.
-	 * @return string The formatted time.
+	 * @return string           The formatted time.
 	 */
 	public static function time_hms($seconds = 0)
 	{
@@ -111,7 +119,7 @@ class Utilities
 	 * Return the number of characters to pad the array key by.
 	 *
 	 * @param  array  $array The array to be tablified.
-	 * @return integer The number of characters to pad the array key by.
+	 * @return integer       The number of characters to pad the array key by.
 	 */
 	public static function tablify(array $array)
 	{
@@ -125,26 +133,30 @@ class Utilities
 	}
 
 	/**
-	 * [json_encode description]
-	 * @param  [type] $data [description]
-	 * @return [type]       [description]
+	 * Replacement for the built-in {@see php:json_encode()} method that prettifies
+	 * the output when called under PHP 5.4.
+	 *
+	 * @param  array  $data The array to convert into a JSON document.
+	 * @return string       A JSON document.
 	 */
-	public static function json_encode($data)
+	public static function json_encode(array $data)
 	{
 		if (version_compare(PHP_VERSION, '5.4.0', '>='))
 		{
 			return json_encode($data, JSON_PRETTY_PRINT);
 		}
 
-		return json_encode($this->data);
+		return json_encode($data);
 	}
 
 	/**
-	 * [pluralize description]
-	 * @param  [type] $count    [description]
-	 * @param  [type] $singular [description]
-	 * @param  [type] $plural   [description]
-	 * @return [type]           [description]
+	 * Determines whether to return the singular or plural form of a word based
+	 * on the `$count` value.
+	 *
+	 * @param  integer $count    The number of things.
+	 * @param  string  $singular The singular form of a word.
+	 * @param  string  $plural   The plural form of a word.
+	 * @return string            Either the singular or plural form.
 	 */
 	public static function pluralize($count, $singular, $plural)
 	{

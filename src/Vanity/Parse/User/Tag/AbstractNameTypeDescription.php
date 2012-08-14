@@ -52,7 +52,7 @@ abstract class AbstractNameTypeDescription extends AbstractHandler implements Ha
 
 		if ($description)
 		{
-			$return['description'] = $this->markdown->transform($description);
+			$return['description'] = $description;
 		}
 
 		return $return;

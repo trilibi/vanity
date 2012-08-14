@@ -25,11 +25,14 @@
 
 namespace Vanity\Parse\User;
 
-use phpDocumentor\Reflection\DocBlock;
+use phpDocumentor\Reflection\DocBlock\Tag as DBTag;
 use Vanity\Parse\User\TagInterface;
 
 /**
  * Determines the type of "@tag" and hands-off to the appropriate handling class.
+ *
+ * @author Ryan Parman <http://ryanparman.com>
+ * @link   http://vanitydoc.org
  */
 class Tag implements TagInterface
 {
@@ -40,17 +43,15 @@ class Tag implements TagInterface
 	protected $tag;
 
 	/**
-	 * [__construct description]
-	 * @param DocBlock\Tag $tag [description]
+	 * {@inheritdoc}
 	 */
-	public function __construct(DocBlock\Tag $tag)
+	public function __construct(DBTag $tag)
 	{
 		$this->tag = $tag;
 	}
 
 	/**
-	 * [process description]
-	 * @return [type] [description]
+	 * {@inheritdoc}
 	 */
 	public function determine()
 	{

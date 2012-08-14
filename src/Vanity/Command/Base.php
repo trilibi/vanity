@@ -40,16 +40,30 @@ use Vanity\Config\Store as ConfigStore;
 use Vanity\Console\Utilities as ConsoleUtil;
 use Vanity\Event\Dispatcher;
 
+/**
+ * Base class for all Vanity-specific command-line actions.
+ *
+ * @author Ryan Parman <http://ryanparman.com>
+ * @link   http://vanitydoc.org
+ */
 class Base extends Command
 {
-	protected $formatter;
+	/**
+	 * Storage for text formatters.
+	 * @var stdClass
+	 */
+	public $formatter;
+
+	/**
+	 * Storage for loggers.
+	 * @var Logger
+	 */
 	protected $logger;
 
 	/**
-	 * [__construct description]
-	 * @param [type] $name [description]
+	 * Instantiate options for all Vanity-specific commands.
 	 */
-	public function __construct($name = null)
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -77,23 +91,10 @@ class Base extends Command
 	}
 
 	/**
-	 * [appInfo description]
-	 * @param  OutputInterface $output [description]
-	 * @return [type]                  [description]
-	 */
-	public function appInfo(OutputInterface $output)
-	{
-		// List the application information
-		$output->writeln($this->formatter->yellow->apply('VANITY ' . VANITY_VERSION));
-		$output->writeln(TAB . 'by Ryan Parman and Contributors');
-		$output->writeln(TAB . 'http://vanitydoc.org');
-		echo PHP_EOL;
-	}
-
-	/**
-	 * [triggerEvent description]
-	 * @param  [type] $event [description]
-	 * @return [type]        [description]
+	 * Triggers an event and logs it to the INFO log.
+	 *
+	 * @param  string $event The string identifier for the event.
+	 * @return void
 	 */
 	public function triggerEvent($event)
 	{
@@ -104,7 +105,7 @@ class Base extends Command
 	/**
 	 * Display the configuration to the Console.
 	 *
-	 * @param  OutputInterface $output [description]
+	 * @param  OutputInterface $output The command-line output.
 	 * @return void
 	 */
 	public function displayConfig(OutputInterface $output)

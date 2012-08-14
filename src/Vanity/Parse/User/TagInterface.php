@@ -25,22 +25,28 @@
 
 namespace Vanity\Parse\User;
 
-use phpDocumentor\Reflection\DocBlock;
+use phpDocumentor\Reflection\DocBlock\Tag as DBTag;
+use Vanity\Parse\User\Tag\AbstractHandler;
 
 /**
  * The interface for the tag handlers.
+ *
+ * @author Ryan Parman <http://ryanparman.com>
+ * @link   http://vanitydoc.org
  */
 interface TagInterface
 {
 	/**
-	 * [__construct description]
-	 * @param DocBlock\Tag $tag [description]
+	 * Constructs a new instance of this class.
+	 *
+	 * @param Tag $tag The parsed DocBlock tag to handle.
 	 */
-	public function __construct(DocBlock\Tag $tag);
+	public function __construct(DBTag $tag);
 
 	/**
-	 * [process description]
-	 * @return [type] [description]
+	 * Determines which type of tag should be passed to which sub-parser.
+	 *
+	 * @return AbstractHandler An object that extends from {@see AbstractHandler}.
 	 */
 	public function determine();
 }

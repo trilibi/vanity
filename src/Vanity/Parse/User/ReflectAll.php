@@ -32,24 +32,31 @@ use Vanity\Find\Find;
 use Vanity\Event\Dispatcher;
 use Vanity\Parse\User\Reflect;
 
+/**
+ * Handle the job of determining which files to reflect over.
+ *
+ * @author Ryan Parman <http://ryanparman.com>
+ * @link   http://vanitydoc.org
+ */
 class ReflectAll
 {
 	/**
-	 * [$classes description]
-	 * @var [type]
+	 * The list of classes to reflect.
+	 * @var array
 	 */
 	public $classes;
 
 	/**
-	 * [$path_pattern description]
-	 * @var [type]
+	 * The path pattern to handle.
+	 * @var string
 	 */
 	public $path_pattern;
 
 	/**
-	 * [__construct description]
-	 * @param array  $classes      [description]
-	 * @param [type] $path_pattern [description]
+	 * Constructs a new instance of this class.
+	 *
+	 * @param array  $classes      The list of classes to reflect.
+	 * @param string $path_pattern The path pattern to handle.
 	 */
 	public function __construct(array $classes, $path_pattern)
 	{
@@ -59,9 +66,11 @@ class ReflectAll
 	}
 
 	/**
-	 * [process description]
-	 * @param  OutputInterface $output [description]
-	 * @return [type]                  [description]
+	 * Does the work. Determines the appropriate path to write to, and executes
+	 * the class-specific reflector.
+	 *
+	 * @param  OutputInterface $output The command-line output.
+	 * @return void
 	 */
 	public function process(OutputInterface $output)
 	{
@@ -90,9 +99,11 @@ class ReflectAll
 	}
 
 	/**
-	 * [asciify description]
-	 * @param  [type] $s [description]
-	 * @return [type]    [description]
+	 * Removes all characters from a string that are not alphanumeric,
+	 * underscore, hyphen or period. Used for determining ideal filenames.
+	 *
+	 * @param  string $s The string to parse.
+	 * @return string    The string will all non-whitelisted characters removed.
 	 */
 	protected function asciify($s)
 	{

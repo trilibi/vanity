@@ -40,19 +40,12 @@ abstract class AbstractHandler
 	protected $tag;
 
 	/**
-	 * [$markdown description]
-	 * @var [type]
-	 */
-	protected $markdown;
-
-	/**
 	 * [__construct description]
 	 * @param DocBlock\Tag $tag [description]
 	 */
 	public function __construct(DocBlock\Tag $tag)
 	{
 		$this->tag = $tag;
-		$this->markdown = new Markdown();
 	}
 
 	/**

@@ -27,56 +27,97 @@ namespace Vanity\Parse\User;
 
 use ReflectionClass;
 use ReflectionProperty;
+use stdClass;
 use dflydev\markdown\MarkdownExtraParser as Markdown;
 use phpDocumentor\Reflection\DocBlock;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use TokenReflection\Broker;
 use Vanity\Config\Store as ConfigStore;
 use Vanity\Console\Utilities as ConsoleUtil;
 use Vanity\Parse\User\Tag;
+use Vanity\Parse\User\TagFinder;
 use Vanity\Parse\Utilities as ParseUtil;
 use Vanity\System\DependencyCollector;
+use Vanity\System\DocumentationInconsistencyCollector as Inconsistency;
 
+/**
+ * Handle the job of reflecting over a single file.
+ *
+ * @author Ryan Parman <http://ryanparman.com>
+ * @link   http://vanitydoc.org
+ */
 class Reflect
 {
 	/**
-	 * [$class_name description]
-	 * @var [type]
+	 * The class name to reflect.
+	 * @var string
 	 */
 	public $class_name;
 
 	/**
-	 * [$data description]
-	 * @var [type]
+	 * The reflected data to store.
+	 * @var array
 	 */
 	public $data;
 
 	/**
-	 * [$formatter description]
-	 * @var [type]
+	 * Storage for text formatters.
+	 * @var stdClass
 	 */
 	public $formatter;
 
 	/**
-	 * [$markdown description]
-	 * @var [type]
+	 * Storage for the {@see Markdown} class.
+	 * @var Markdown
 	 */
 	public $markdown;
 
 	/**
-	 * [__construct description]
-	 * @param [type] $class [description]
+	 * The {@see Broker} for handling tokenized reflection.
+	 * @var Broker
+	 */
+	public $broker;
+
+	/**
+	 * Storage for all of the Namespace/Alias mappings.
+	 * @var array
+	 */
+	public $aliases;
+
+	/**
+	 * Constructs a new instance of this class.
+	 *
+	 * @param string $class The class name to reflect.
 	 */
 	public function __construct($class)
 	{
 		$this->class_name = $class;
 		$this->formatter = ConsoleUtil::formatters();
 		$this->markdown = new Markdown();
+		$this->broker = new Broker(new Broker\Backend\Memory());
+		$this->aliases = array();
 	}
 
 	/**
-	 * [process description]
-	 * @return [type] [description]
+	 * Reflects over the given class and produces an associative array
+	 * containing all relevant class data.
+	 *
+	 * @return array An associative array containing all relevant class data.
+	 *
+	 * @todo Extract alias resolution into a separate class.
+	 * @todo Extract constant handling into a separate class.
+	 * @todo Extract property handling into a separate class.
+	 * @todo Extract method handling into a separate class.
+	 * @todo Extract parameter handling into a separate class.
+	 * @todo Handle resolving aliases to their local namespace.
+	 * @todo Verify a namespaced class exists after resolution.
+	 * @todo Provide an option to toggle alias resolution (e.g., api.resolve.aliases)
+	 * @todo Add support for @method
+	 * @todo Add support for {@see}
+	 * @todo Add support for {@inheritdoc}
+	 * @todo Add support for @example
+	 * @todo Add support for {@example}
 	 */
 	public function process()
 	{
@@ -164,6 +205,65 @@ class Reflect
 
 		#--------------------------------------------------------------------------#
 
+		// Get a list of aliases that map to their proper namespaces
+		$aliases = array();
+		$class_paths = array();
+		$interface_paths = array();
+
+		if (isset($this->data['inheritance']))
+		{
+			$class_paths = array_values(
+				array_filter($this->data['inheritance']['class'],
+					function($class)
+					{
+						return isset($class['path']);
+					}
+				)
+			);
+		}
+
+		if (isset($this->data['implements']))
+		{
+			$interface_paths = array_values(
+				array_filter($this->data['implements']['interface'],
+					function($interface)
+					{
+						return isset($interface['path']);
+					}
+				)
+			);
+		}
+
+		array_unshift($class_paths, array(
+			'path' => $long_filename
+		));
+
+		while (count($interface_paths))
+		{
+			array_push($class_paths, array_shift($interface_paths));
+		}
+
+		foreach ($class_paths as $class_path)
+		{
+			$tokenized_file = $this->broker->processFile($class_path['path'], true);
+			$aliases = array_merge($aliases,
+				array_map(function($namespace)
+				{
+					return $namespace->getNamespaceAliases();
+				},
+				$tokenized_file->getNamespaces())
+			);
+		}
+
+		foreach ($aliases as $alias)
+		{
+			$this->aliases = array_merge($this->aliases, $alias);
+		}
+
+		ksort($this->aliases);
+
+		#--------------------------------------------------------------------------#
+
 		// Class tags
 		if (count($class_docblock->getTags()))
 		{
@@ -240,7 +340,7 @@ class Reflect
 
 			if ($description = $property_docblock->getShortDescription())
 			{
-				$entry['description'] = $this->markdown->transform($description);
+				$entry['description'] = $description;
 			}
 
 			// Property inheritance
@@ -373,7 +473,7 @@ class Reflect
 
 			if ($description = $method_docblock->getShortDescription())
 			{
-				$entry['description'] = $this->markdown->transform($description);
+				$entry['description'] = $description;
 			}
 
 			// Method inheritance
@@ -441,7 +541,54 @@ class Reflect
 
 				foreach ($rmethod->getParameters() as $rparameter)
 				{
-					$entry['parameters']['parameter'][] = $rparameter->getName();
+					$tag_finder = new TagFinder($entry);
+
+					$param = array();
+					$param['name'] = $rparameter->getName();
+					$param['required'] = !$rparameter->isOptional();
+					$param['passed_by_reference'] = $rparameter->isPassedByReference();
+
+					if ($rparameter->isDefaultValueAvailable())
+					{
+						$param['default'] = $rparameter->getDefaultValue();
+					}
+
+					// Pull-in from @tags
+					if ($_description = $tag_finder->find('description', $param['name']))
+					{
+						$param['description'] = $_description;
+					}
+
+					if ($_type = $tag_finder->find('type', $param['name']))
+					{
+						$param['type'] = $this->resolveNamespace($_type);
+					}
+
+					if ($_types = $tag_finder->find('types', $param['name']))
+					{
+						$param['types'] = $_types;
+					}
+
+					// Type hinting trumps docblock
+					if ($rparameter->getClass())
+					{
+						// @todo: Improve this logic by resolving namespace aliases.
+						if (isset($param['type']) &&
+						    $param['type'] !== $rparameter->getClass()->getName())
+						{
+							Inconsistency::add($rclass->getName() . '::' . $rmethod->getName() . '($' . $rparameter->getName() . ') [' . $param['type'] . ' => ' . $rparameter->getClass()->getName() . ']');
+						}
+
+						$param['type'] = $rparameter->getClass()->getName();
+
+						if (isset($param['types']))
+						{
+							unset($param['types']);
+						}
+					}
+
+
+					$entry['parameters']['parameter'][] = $param;
 				}
 			}
 
@@ -450,12 +597,13 @@ class Reflect
 	}
 
 	/**
-	 * [save description]
-	 * @param  [type] $path   [description]
-	 * @param  [type] $output [description]
-	 * @return [type]         [description]
+	 * Saves the reflected data as a JSON document.
+	 *
+	 * @param  string          $path   The file system path to save the JSON document to.
+	 * @param  OutputInterface $output The command-line output.
+	 * @return void
 	 */
-	public function save($path, OutputInterface $output = null)
+	public function save($path, OutputInterface $output)
 	{
 		// Determine the path & filename
 		$path = $path . '/' . str_replace(array('\\', '_'), '/', $this->class_name) . '.json';
@@ -470,11 +618,25 @@ class Reflect
 
 		// Write the file
 		file_put_contents($directory . '/' . $filename, $encoded_data);
+		$output->writeln(TAB . $this->formatter->green->apply('-> ') . $directory . '/' . $filename);
+	}
 
-		// Output if possible
-		if ($output)
+	/**
+	 * Resolves a namespace alias into a fully-qualified namespace.
+	 *
+	 * @param  string $short A shortened namespace alias.
+	 * @return string        The fully-qualified namespace, if available.
+	 */
+	public function resolveNamespace($short)
+	{
+		if (count($this->aliases))
 		{
-			$output->writeln(TAB . $this->formatter->green->apply('-> ') . $directory . '/' . $filename);
+			if (isset($this->aliases[$short]))
+			{
+				return $this->aliases[$short];
+			}
 		}
+
+		return preg_replace('/^\\\/', '', $short);
 	}
 }

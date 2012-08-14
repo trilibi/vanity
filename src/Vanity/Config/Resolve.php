@@ -41,12 +41,22 @@ use Vanity\Console\Utilities as ConsoleUtil;
  */
 class Resolve
 {
+	/**
+	 * Storage for the command-line input.
+	 * @var InputInterface
+	 */
 	protected $input;
+
+	/**
+	 * Storage for text formatters.
+	 * @var stdClass
+	 */
 	protected $formatter;
 
 	/**
-	 * [__construct description]
-	 * @param InputInterface $input [description]
+	 * Instantiates the {@see Resolve} class.
+	 *
+	 * @param InputInterface $input The command-line input.
 	 */
 	public function __construct(InputInterface $input)
 	{

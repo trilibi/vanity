@@ -29,4 +29,31 @@ namespace Vanity\System;
 /**
  * Maintains a collection of warnings for the Vanity CLI.
  */
-class WarningCollector extends AbstractCollector {}
+class WarningCollector implements CollectorInterface
+{
+	/**
+	 * Stores messages.
+	 * @var array
+	 */
+	protected static $messages = array();
+
+	/**
+	 * [add description]
+	 * @param [type] $message [description]
+	 */
+	public static function add($message)
+	{
+		self::$messages[] = array(
+			'message' => $message,
+		);
+	}
+
+	/**
+	 * [read description]
+	 * @return [type] [description]
+	 */
+	public static function read()
+	{
+		return self::$messages;
+	}
+}

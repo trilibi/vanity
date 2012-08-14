@@ -66,16 +66,18 @@ return array(
 
 		// Should we write report files?
 		'report' => array(
-			'dependencies' => array(InputOption::VALUE_OPTIONAL, 'Write a report if there are environment dependencies for the project.', 'false'),
-			'todo'         => array(InputOption::VALUE_OPTIONAL, 'Write a report if there are TODOs.', 'false'),
-			'ungrouped'    => array(InputOption::VALUE_OPTIONAL, 'Write a report if there are ungrouped methods.', 'false'),
+			'dependencies'    => array(InputOption::VALUE_OPTIONAL, 'Write a report if there are environment dependencies for the project.', 'false'),
+			'inconsistencies' => array(InputOption::VALUE_OPTIONAL, 'Write a report if there are documentation inconsistencies.', 'false'),
+			'todo'            => array(InputOption::VALUE_OPTIONAL, 'Write a report if there are TODOs.', 'false'),
+			'ungrouped'       => array(InputOption::VALUE_OPTIONAL, 'Write a report if there are ungrouped methods.', 'false'),
 		),
 
 		// Should we show warnings on the Console in certain cases?
 		'warn' => array(
-			'dependencies' => array(InputOption::VALUE_OPTIONAL, 'Warn on the console if there are environment dependencies for the project.', 'false'),
-			'todo'         => array(InputOption::VALUE_OPTIONAL, 'Warn on the console if there are TODOs.', 'false'),
-			'ungrouped'    => array(InputOption::VALUE_OPTIONAL, 'Warn on the console if there are ungrouped methods.', 'false'),
+			'dependencies'    => array(InputOption::VALUE_OPTIONAL, 'Warn on the console if there are environment dependencies for the project.', 'false'),
+			'inconsistencies' => array(InputOption::VALUE_OPTIONAL, 'Warn on the console if there are documentation inconsistencies.', 'false'),
+			'todo'            => array(InputOption::VALUE_OPTIONAL, 'Warn on the console if there are TODOs.', 'false'),
+			'ungrouped'       => array(InputOption::VALUE_OPTIONAL, 'Warn on the console if there are ungrouped methods.', 'false'),
 		),
 	),
 

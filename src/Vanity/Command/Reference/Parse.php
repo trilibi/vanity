@@ -39,8 +39,19 @@ use Vanity\Console\Utilities as ConsoleUtil;
 use Vanity\Find\Find;
 use Vanity\Parse\User\ReflectAll;
 
+/**
+ * Command that executes `reference:parse`.
+ *
+ * @author Ryan Parman <http://ryanparman.com>
+ * @link   http://vanitydoc.org
+ */
 class Parse extends BaseCommand
 {
+	/**
+	 * The command-line arguments and options.
+	 *
+	 * @return void
+	 */
 	protected function configure()
 	{
 		$this
@@ -64,6 +75,13 @@ class Parse extends BaseCommand
 		}
 	}
 
+	/**
+	 * Execute the logic for the command.
+	 *
+	 * @param  InputInterface  $input  The command-line input.
+	 * @param  OutputInterface $output The command-line output.
+	 * @return void
+	 */
 	protected function execute(InputInterface $input, OutputInterface $output)
 	{
 		echo PHP_EOL;
@@ -141,15 +159,13 @@ class Parse extends BaseCommand
 
 		#--------------------------------------------------------------------------#
 
-		if (ConfigStore::get('api.warn.dependencies') === 'true')
-		{
-			$this->triggerEvent('api.warn.dependencies');
-		}
+		// Warnings
+		if (ConfigStore::get('api.warn.dependencies') === 'true') { $this->triggerEvent('api.warn.dependencies'); }
+		if (ConfigStore::get('api.warn.inconsistencies') === 'true') { $this->triggerEvent('api.warn.inconsistencies'); }
 
-		if (ConfigStore::get('api.report.dependencies') === 'true')
-		{
-			$this->triggerEvent('api.report.dependencies');
-		}
+		// Reports
+		if (ConfigStore::get('api.report.dependencies') === 'true') { $this->triggerEvent('api.report.dependencies'); }
+		if (ConfigStore::get('api.report.inconsistencies') === 'true') { $this->triggerEvent('api.report.inconsistencies'); }
 
 		$this->triggerEvent('command.complete');
 

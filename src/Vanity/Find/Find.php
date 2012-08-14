@@ -28,13 +28,20 @@ namespace Vanity\Find;
 use Symfony\Component\ClassLoader\UniversalClassLoader;
 use Symfony\Component\Finder\Finder;
 
+/**
+ * Finds the files to parse and the classes inside of them.
+ *
+ * @author Ryan Parman <http://ryanparman.com>
+ * @link   http://vanitydoc.org
+ */
 class Find
 {
 	/**
-	 * [getFiles description]
-	 * @param  string $path    [description]
-	 * @param  string $pattern [description]
-	 * @return [type]          [description]
+	 * Retrieves the list of matching files.
+	 *
+	 * @param  string $path    The file system path to scan.
+	 * @param  string $pattern The filename pattern to match.
+	 * @return array           An array of matching filenames.
 	 */
 	public static function files($path, $pattern)
 	{
@@ -60,17 +67,23 @@ class Find
 	}
 
 	/**
-	 * [getClasses description]
-	 * @param  [type] $files [description]
-	 * @return [type]        [description]
+	 * An array of file paths retrieved from {@see files()}.
+	 *
+	 * @param  array  $files A list of file paths.
+	 * @return array         A list of classes.
 	 */
-	public static function classes($files)
+	public static function classes(array $files)
 	{
 		$loader = new UniversalClassLoader();
 
 		// Support PSR-0 autoloading with a composer.json file
 		// @todo: Add support for Composer's classmap autoloading.
-		if (file_exists(VANITY_PROJECT_WORKING_DIR . '/composer.json'))
+		if (file_exists(VANITY_PROJECT_WORKING_DIR . '/vendor/composer/autoload_namespaces.php'))
+		{
+			// Register namespaces with the class loader
+			$loader->registerNamespaces(include VANITY_PROJECT_WORKING_DIR . '/vendor/composer/autoload_namespaces.php');
+		}
+		elseif (file_exists(VANITY_PROJECT_WORKING_DIR . '/composer.json'))
 		{
 			// Register namespaces with the class loader
 			$composer = json_decode(file_get_contents(VANITY_PROJECT_WORKING_DIR . '/composer.json'), true);
