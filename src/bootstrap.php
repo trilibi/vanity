@@ -62,6 +62,11 @@ define('VANITY_PROJECT_CONFIG_DIR',  VANITY_PROJECT_WORKING_DIR . '/.vanity');
 /********************************************************/
 // INCLUDES & NAMESPACES
 
+require_once VANITY_SOURCE . '/Vanity/System/Store.php';
+
+// Save this for later lookup
+Vanity\System\Store::add('_.classes', get_declared_classes());
+
 // Load class loaders
 require_once VANITY_VENDOR . '/symfony/class-loader/Symfony/Component/ClassLoader/UniversalClassLoader.php';
 require_once VANITY_VENDOR . '/symfony/class-loader/Symfony/Component/ClassLoader/ApcUniversalClassLoader.php';
