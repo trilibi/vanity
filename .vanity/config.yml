@@ -51,10 +51,13 @@ api:
     warn:
 
         # Warn if there are TODOs
-        todo: true
+        todo: "true"
 
         # Warn if there are ungrouped methods
-        ungrouped: true
+        ungrouped: "true"
+
+        # Warn on inconsistent object types in the docblocks
+        inconsistencies: "true"
 
     # Create a new template name, and the path to the root of that template
     templates:
