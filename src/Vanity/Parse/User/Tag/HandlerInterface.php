@@ -25,7 +25,8 @@
 
 namespace Vanity\Parse\User\Tag;
 
-use phpDocumentor\Reflection\DocBlock;
+use phpDocumentor\Reflection\DocBlock\Tag;
+use Vanity\Parse\User\Reflect\AncestryHandler;
 
 /**
  * The interface for all tag-specific handlers.
@@ -34,13 +35,15 @@ interface HandlerInterface
 {
 	/**
 	 * [__construct description]
-	 * @param DocBlock\Tag $tag [description]
+	 * @param Tag   $tag     [description]
+	 * @param array $aliases [description]
 	 */
-	public function __construct(DocBlock\Tag $tag);
+	public function __construct(Tag $tag, AncestryHandler $ancestry);
 
 	/**
 	 * [process description]
-	 * @return [type] [description]
+	 * @param  boolean $elongate [description]
+	 * @return [type]            [description]
 	 */
-	public function process();
+	public function process($elongate = false);
 }

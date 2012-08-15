@@ -35,10 +35,9 @@ use Vanity\Parse\User\Tag\HandlerInterface;
 abstract class AbstractName extends AbstractHandler implements HandlerInterface
 {
 	/**
-	 * [process description]
-	 * @return [type] [description]
+	 * {@inheritdoc}
 	 */
-	public function process()
+	public function process($elongate = false)
 	{
 		return array(
 			'name'  => $this->tag->getName(),

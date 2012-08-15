@@ -25,10 +25,20 @@
 
 namespace Vanity\Parse\User\Tag;
 
+use phpDocumentor\Reflection\DocBlock\Tag;
 use Vanity\Parse\User\Tag\AbstractNameTypeVariableDescription;
 use Vanity\Parse\User\Tag\HandlerInterface;
 
 /**
  * The handler for @param tags.
  */
-class ParamHandler extends AbstractNameTypeVariableDescription implements HandlerInterface {}
+class ParamHandler extends AbstractNameTypeVariableDescription implements HandlerInterface
+{
+	/**
+	 * {@inheritdoc}
+	 */
+	public function process($elongate = false)
+	{
+		return parent::process(true);
+	}
+}

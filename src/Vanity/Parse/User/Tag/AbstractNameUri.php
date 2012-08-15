@@ -36,10 +36,9 @@ use Vanity\Parse\Utilities as ParseUtil;
 abstract class AbstractNameUri extends AbstractHandler implements HandlerInterface
 {
 	/**
-	 * [process description]
-	 * @return [type] [description]
+	 * {@inheritdoc}
 	 */
-	public function process()
+	public function process($elongate = false)
 	{
 		$content = $this->clean($this->tag->getContent());
 		$identifier = null;

@@ -36,19 +36,33 @@ use Vanity\Parse\Utilities as ParseUtil;
 abstract class AbstractNameTypeDescription extends AbstractHandler implements HandlerInterface
 {
 	/**
-	 * [process description]
-	 * @return [type] [description]
+	 * {@inheritdoc}
 	 */
-	public function process()
+	public function process($elongate = false)
 	{
-		$content = $this->clean($this->tag->getContent());
-		$content = explode(' ', $content);
-		$type = ParseUtil::elongateType(array_shift($content));
-		$description = trim(implode(' ', $content));
-
 		$return = array();
 		$return['name'] = $this->tag->getName();
-		$return['type'] = $type;
+
+		$content = $this->clean($this->tag->getContent());
+		$content = explode(' ', $content);
+		$type = array_shift($content);
+		$description = trim(implode(' ', $content));
+
+		if (strpos($type, '|'))
+		{
+			$self = $this;
+			$return['type'] = 'mixed';
+			$return['types'] = explode('|', $type);
+			$return['types'] = array_map(function($type) use ($self, $elongate)
+			{
+				return $elongate ? ParseUtil::elongateType($type, $self->ancestry) : $type;
+			},
+			$return['types']);
+		}
+		else
+		{
+			$return['type'] = $elongate ? ParseUtil::elongateType($type, $this->ancestry) : $type;
+		}
 
 		if ($description)
 		{

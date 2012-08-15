@@ -31,4 +31,13 @@ use Vanity\Parse\User\Tag\AbstractNameTypeDescription;
 /**
  * The handler for @throw/@throws tags.
  */
-class ThrowHandler extends AbstractNameTypeDescription implements HandlerInterface {}
+class ThrowHandler extends AbstractNameTypeDescription implements HandlerInterface
+{
+	/**
+	 * {@inheritdoc}
+	 */
+	public function process($elongate = false)
+	{
+		return parent::process(true);
+	}
+}

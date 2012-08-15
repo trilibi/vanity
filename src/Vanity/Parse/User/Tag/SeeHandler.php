@@ -33,9 +33,12 @@ use Vanity\Parse\User\Tag\AbstractNameTypeDescription;
  */
 class SeeHandler extends AbstractNameTypeDescription implements HandlerInterface
 {
-	public function process()
+	/**
+	 * {@inheritdoc}
+	 */
+	public function process($elongate = false)
 	{
-		$return = parent::process();
+		$return = parent::process(true);
 
 		if (isset($return['type']))
 		{

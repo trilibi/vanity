@@ -31,4 +31,13 @@ use Vanity\Parse\User\Tag\AbstractNameTypeDescription;
 /**
  * The handler for @return/@returns tags.
  */
-class ReturnHandler extends AbstractNameTypeDescription implements HandlerInterface {}
+class ReturnHandler extends AbstractNameTypeDescription implements HandlerInterface
+{
+	/**
+	 * {@inheritdoc}
+	 */
+	public function process($elongate = false)
+	{
+		return parent::process(true);
+	}
+}

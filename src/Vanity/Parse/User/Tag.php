@@ -26,7 +26,34 @@
 namespace Vanity\Parse\User;
 
 use phpDocumentor\Reflection\DocBlock\Tag as DBTag;
+use Vanity\Parse\User\Reflect\AncestryHandler;
 use Vanity\Parse\User\TagInterface;
+use Vanity\Parse\User\Tag\ApiHandler;
+use Vanity\Parse\User\Tag\AuthorHandler;
+use Vanity\Parse\User\Tag\CategoryHandler;
+use Vanity\Parse\User\Tag\CopyrightHandler;
+use Vanity\Parse\User\Tag\DefaultHandler;
+use Vanity\Parse\User\Tag\DeprecatedHandler;
+use Vanity\Parse\User\Tag\EventHandler;
+use Vanity\Parse\User\Tag\FilesourceHandler;
+use Vanity\Parse\User\Tag\FinalHandler;
+use Vanity\Parse\User\Tag\GlobalHandler;
+use Vanity\Parse\User\Tag\IgnoreHandler;
+use Vanity\Parse\User\Tag\InternalHandler;
+use Vanity\Parse\User\Tag\LicenseHandler;
+use Vanity\Parse\User\Tag\LinkHandler;
+use Vanity\Parse\User\Tag\PackageHandler;
+use Vanity\Parse\User\Tag\ParamHandler;
+use Vanity\Parse\User\Tag\PropertyHandler;
+use Vanity\Parse\User\Tag\ReturnHandler;
+use Vanity\Parse\User\Tag\SeeHandler;
+use Vanity\Parse\User\Tag\SinceHandler;
+use Vanity\Parse\User\Tag\ThrowHandler;
+use Vanity\Parse\User\Tag\TodoHandler;
+use Vanity\Parse\User\Tag\UsesHandler;
+use Vanity\Parse\User\Tag\VarHandler;
+use Vanity\Parse\User\Tag\VersionHandler;
+use Vanity\System\Store as SystemStore;
 
 /**
  * Determines the type of "@tag" and hands-off to the appropriate handling class.
@@ -43,11 +70,18 @@ class Tag implements TagInterface
 	protected $tag;
 
 	/**
+	 * Storage for ancestry.
+	 * @var AncestryHandler
+	 */
+	public $ancestry;
+
+	/**
 	 * {@inheritdoc}
 	 */
-	public function __construct(DBTag $tag)
+	public function __construct(DBTag $tag, AncestryHandler $ancestry)
 	{
 		$this->tag = $tag;
+		$this->ancestry = $ancestry;
 	}
 
 	/**
@@ -55,91 +89,94 @@ class Tag implements TagInterface
 	 */
 	public function determine()
 	{
+		// Where are we?
+		SystemStore::add('_.current', SystemStore::get('_.current') . ' [@' . $this->tag->getName() . ']');
+
 		switch (strtolower($this->tag->getName()))
 		{
 			case 'api':
-				return new Tag\ApiHandler($this->tag);
+				return new ApiHandler($this->tag, $this->ancestry);
 
 			case 'author':
-				return new Tag\AuthorHandler($this->tag);
+				return new AuthorHandler($this->tag, $this->ancestry);
 
 			case 'category':
-				return new Tag\CategoryHandler($this->tag);
+				return new CategoryHandler($this->tag, $this->ancestry);
 
 			case 'copyright':
-				return new Tag\CopyrightHandler($this->tag);
+				return new CopyrightHandler($this->tag, $this->ancestry);
 
 			case 'deprecated':
 			case 'depreciated':
-				return new Tag\DeprecatedHandler($this->tag);
+				return new DeprecatedHandler($this->tag, $this->ancestry);
 
 			case 'event':
-				return new Tag\EventHandler($this->tag);
+				return new EventHandler($this->tag, $this->ancestry);
 
 			case 'filesource':
-				return new Tag\FilesourceHandler($this->tag);
+				return new FilesourceHandler($this->tag, $this->ancestry);
 
 			case 'final':
-				return new Tag\FinalHandler($this->tag);
+				return new FinalHandler($this->tag, $this->ancestry);
 
 			case 'global':
-				return new Tag\GlobalHandler($this->tag);
+				return new GlobalHandler($this->tag, $this->ancestry);
 
 			case 'ignore':
-				return new Tag\IgnoreHandler($this->tag);
+				return new IgnoreHandler($this->tag, $this->ancestry);
 
 			case 'internal':
-				return new Tag\InternalHandler($this->tag);
+				return new InternalHandler($this->tag, $this->ancestry);
 
 			case 'license':
-				return new Tag\LicenseHandler($this->tag);
+				return new LicenseHandler($this->tag, $this->ancestry);
 
 			case 'link':
-				return new Tag\LinkHandler($this->tag);
+				return new LinkHandler($this->tag, $this->ancestry);
 
 			case 'package':
 			case 'subpackage':
-				return new Tag\PackageHandler($this->tag);
+				return new PackageHandler($this->tag, $this->ancestry);
 
 			case 'param':
-				return new Tag\ParamHandler($this->tag);
+				return new ParamHandler($this->tag, $this->ancestry);
 
 			case 'property':
 			case 'property-read':
 			case 'property-write':
-				return new Tag\PropertyHandler($this->tag);
+				return new PropertyHandler($this->tag, $this->ancestry);
 
 			case 'return':
 			case 'returns':
-				return new Tag\ReturnHandler($this->tag);
+				return new ReturnHandler($this->tag, $this->ancestry);
 
 			case 'see':
-				return new Tag\SeeHandler($this->tag);
+				return new SeeHandler($this->tag, $this->ancestry);
 
 			case 'since':
 			case 'available':
-				return new Tag\SinceHandler($this->tag);
+				return new SinceHandler($this->tag, $this->ancestry);
 
 			case 'throw':
 			case 'throws':
-				return new Tag\ThrowHandler($this->tag);
+				return new ThrowHandler($this->tag, $this->ancestry);
 
 			case 'todo':
 			case 'fixme':
-				return new Tag\TodoHandler($this->tag);
+				return new TodoHandler($this->tag, $this->ancestry);
 
 			case 'uses':
 			case 'used-by':
-				return new Tag\UsesHandler($this->tag);
+				return new UsesHandler($this->tag, $this->ancestry);
 
 			case 'var':
-				return new Tag\VarHandler($this->tag);
+				return new VarHandler($this->tag, $this->ancestry);
 
 			case 'version':
-				return new Tag\VersionHandler($this->tag);
+				return new VersionHandler($this->tag, $this->ancestry);
 
 			default:
-				return new Tag\DefaultHandler($this->tag);
+				return new DefaultHandler($this->tag, $this->ancestry);
 		}
 	}
 }

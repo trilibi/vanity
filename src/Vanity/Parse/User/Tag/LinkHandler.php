@@ -33,9 +33,13 @@ use Vanity\Parse\User\Tag\AbstractNameTypeDescription;
  */
 class LinkHandler extends AbstractNameTypeDescription implements HandlerInterface
 {
-	public function process()
+	/**
+	 * [process description]
+	 * @return [type] [description]
+	 */
+	public function process($elongate = false)
 	{
-		$return = parent::process();
+		$return = parent::process($elongate);
 
 		if (isset($return['type']))
 		{

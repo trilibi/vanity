@@ -33,9 +33,9 @@ use Vanity\Parse\User\Tag\AbstractNameUri;
  */
 class AuthorHandler extends AbstractNameUri implements HandlerInterface
 {
-	public function process()
+	public function process($elongate = false)
 	{
-		$return = parent::process();
+		$return = parent::process($elongate);
 
 		if (isset($return['identifier']))
 		{

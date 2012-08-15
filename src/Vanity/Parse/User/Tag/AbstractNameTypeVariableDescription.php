@@ -36,10 +36,9 @@ use Vanity\Parse\Utilities as ParseUtil;
 abstract class AbstractNameTypeVariableDescription extends AbstractHandler implements HandlerInterface
 {
 	/**
-	 * [process description]
-	 * @return [type] [description]
+	 * {@inheritdoc}
 	 */
-	public function process()
+	public function process($elongate = false)
 	{
 		$return = array();
 		$return['name'] = $this->tag->getName();
@@ -52,17 +51,18 @@ abstract class AbstractNameTypeVariableDescription extends AbstractHandler imple
 
 		if (strpos($type, '|'))
 		{
+			$self = $this;
 			$return['type'] = 'mixed';
 			$return['types'] = explode('|', $type);
-			$return['types'] = array_map(function($type)
+			$return['types'] = array_map(function($type) use ($self, $elongate)
 			{
-				return ParseUtil::elongateType($type);
+				return $elongate ? ParseUtil::elongateType($type, $self->ancestry) : $type;
 			},
 			$return['types']);
 		}
 		else
 		{
-			$return['type'] = ParseUtil::elongateType($type);
+			$return['type'] = $elongate ? ParseUtil::elongateType($type, $this->ancestry) : $type;
 		}
 
 		$return['variable'] = str_replace('$', '', $variable);

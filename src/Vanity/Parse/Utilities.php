@@ -28,6 +28,9 @@ namespace Vanity\Parse;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionProperty;
+use Vanity\Parse\User\Reflect\AncestryHandler;
+use Vanity\System\Backtrace;
+use Vanity\System\Store as SystemStore;
 
 /**
  * A collection of utilities designed to assist Reflection parsing.
@@ -55,36 +58,6 @@ class Utilities
 		{
 			if ($o->isAbstract()) $accesses[] = 'abstract';
 		}
-		if (method_exists($o, 'isPrivate'))
-		{
-			if ($o->isPrivate()) $accesses[] = 'private';
-		}
-		if (method_exists($o, 'isProtected'))
-		{
-			if ($o->isProtected()) $accesses[] = 'protected';
-		}
-		if (method_exists($o, 'isPublic'))
-		{
-			if ($o->isPublic()) $accesses[] = 'public';
-		}
-		if (method_exists($o, 'isStatic'))
-		{
-			if ($o->isStatic()) $accesses[] = 'static';
-		}
-
-		return $accesses;
-	}
-
-	/**
-	 * Returns an array of access/visibility data for a property.
-	 *
-	 * @param  ReflectionProperty $o The property to parse.
-	 * @return array               An array of visibilities that apply to this property.
-	 */
-	public static function propertyAccess(ReflectionProperty $o)
-	{
-		$accesses = array();
-
 		if (method_exists($o, 'isPrivate'))
 		{
 			if ($o->isPrivate()) $accesses[] = 'private';
@@ -226,25 +199,6 @@ class Utilities
 	}
 
 	/**
-	 * Collect a list of all parent classes.
-	 *
-	 * @param  ReflectionClass $rclass The class to check for parent classes.
-	 * @return array                   A list of all parent names as strings.
-	 */
-	public static function getParentClasses(ReflectionClass $rclass)
-	{
-		$class_list = array();
-
-		while ($parent_class = $rclass->getParentClass())
-		{
-			$class_list[] = $parent_class->getName();
-			$rclass = $parent_class;
-		}
-
-		return $class_list;
-	}
-
-	/**
 	 * Replaces all known DocBook tags with HTML equivalents.
 	 *
 	 * @param  string $content The content to parse.
@@ -276,11 +230,13 @@ class Utilities
 
 	/**
 	 * Converts short-form native types to long-form native types.
+	 * Also resolves namespace aliases with a provided alias mapping.
 	 *
-	 * @param  string $type The name of the type.
-	 * @return string       The long-form version of the type.
+	 * @param  string          $type      The name of the type.
+	 * @param  AncestryHandler $ancestry  The ancestry data for the class.
+	 * @return string                     The long-form version of the type.
 	 */
-	public static function elongateType($type)
+	public static function elongateType($type, AncestryHandler $ancestry)
 	{
 		$types = array(
 			'bool' => 'boolean',
@@ -293,7 +249,7 @@ class Utilities
 			return $types[strtolower($type)];
 		}
 
-		return $type;
+		return $ancestry->resolveNamespace($type);
 	}
 
 	/**

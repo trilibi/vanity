@@ -26,7 +26,8 @@
 namespace Vanity\Parse\User\Tag;
 
 use dflydev\markdown\MarkdownExtraParser as Markdown;
-use phpDocumentor\Reflection\DocBlock;
+use phpDocumentor\Reflection\DocBlock\Tag;
+use Vanity\Parse\User\Reflect\AncestryHandler;
 
 /**
  * Implementation of the basic constructor pattern for Tag Handlers.
@@ -37,15 +38,21 @@ abstract class AbstractHandler
 	 * The tag to handle.
 	 * @var string
 	 */
-	protected $tag;
+	public $tag;
 
 	/**
-	 * [__construct description]
-	 * @param DocBlock\Tag $tag [description]
+	 * Storage for ancestry.
+	 * @var AncestryHandler
 	 */
-	public function __construct(DocBlock\Tag $tag)
+	public $ancestry;
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function __construct(Tag $tag, AncestryHandler $ancestry)
 	{
 		$this->tag = $tag;
+		$this->ancestry = $ancestry;
 	}
 
 	/**

@@ -26,6 +26,7 @@
 namespace Vanity\Parse\User;
 
 use phpDocumentor\Reflection\DocBlock\Tag as DBTag;
+use Vanity\Parse\User\Reflect\AncestryHandler;
 use Vanity\Parse\User\Tag\AbstractHandler;
 
 /**
@@ -39,9 +40,10 @@ interface TagInterface
 	/**
 	 * Constructs a new instance of this class.
 	 *
-	 * @param Tag $tag The parsed DocBlock tag to handle.
+	 * @param Tag             $tag       The parsed DocBlock tag to handle.
+	 * @param AncestryHandler $ancestry  The ancestry data for the class.
 	 */
-	public function __construct(DBTag $tag);
+	public function __construct(DBTag $tag, AncestryHandler $ancestry);
 
 	/**
 	 * Determines which type of tag should be passed to which sub-parser.
