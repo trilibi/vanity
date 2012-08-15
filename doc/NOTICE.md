@@ -4,10 +4,12 @@ See below for complete copyright and licensing notices.
 
 
 ## Vanity
-<http://github.com/skyzyx/vanity>
+<http://vanitydoc.org>
 
 * Copyright 2009-2012 [Ryan Parman](http://ryanparman.com)
-* Copyright 2011-2012 [Ryan McCue](http://ryanmccue.info)
+* Portions copyright 2011-2012 [Ryan McCue](http://ryanmccue.info)
+* Portions copyright 2011-2012 [Amazon Web Services, LLC.](http://aws.amazon.com)
+* Copyright [CONTRIBUTORS](https://github.com/vanity/vanity/contributors)
 
 Licensed under the MIT License (the "License"). You may not use this file except in
 compliance with the License. A copy of the License is located at
@@ -19,23 +21,45 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
 language governing permissions and limitations under the License.
 
 
-## DocBlox
-
-## DocBlox Parallel
-
 ## Examplify!
+<https://github.com/skyzyx/examplify>
 
-## jQuery
+* Copyright 2010-2012 [Ryan Parman](http://ryanparman.com)
+* Copyright [CONTRIBUTORS](https://github.com/skyzyx/examplify/contributors)
 
-## PHPT
+Licensed under the MIT License (the "License"). You may not use this file except in
+compliance with the License. A copy of the License is located at
+
+<http://opensource.org/licenses/MIT>
+
+or in the "LICENSE-MIT.md" file accompanying this file. This file is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
+language governing permissions and limitations under the License.
 
 
-## SimplePie Compatibility Test
-<http://simplepie.org>
+## Monolog
+<https://github.com/Seldaek/monolog>
 
-* Copyright 2004-2010 [Ryan Parman](http://ryanparman.com)
-* Copyright 2005-2010 [Geoffrey Sneddon](http://gsnedders.com)
-* Copyright 2008-2011 [Ryan McCue](http://ryanmccue.info)
+* Copyright [Jordi Boggiano](http://nelm.io/jordi)
+* Copyright [CONTRIBUTORS](https://github.com/Seldaek/monolog/contributors)
+
+Licensed under the MIT License (the "License"). You may not use this file except in
+compliance with the License. A copy of the License is located at
+
+<http://opensource.org/licenses/MIT>
+
+or in the "LICENSE-MIT.md" file accompanying this file. This file is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
+language governing permissions and limitations under the License.
+
+
+## PHP Markdown & Extra
+<https://github.com/dflydev/dflydev-markdown>
+
+* Copyright [John Gruber](http://daringfireball.net) (original Perl implementation)
+* Copyright [Michel Fortin](http://michelf.com) (original PHP port)
+* Copyright [Dragonfly Development](http://dflydev.com) (update with PSR-0 and Composer support)
+* Copyright [CONTRIBUTORS](https://github.com/dflydev/dflydev-markdown/contributors)
 
 Licensed under the BSD License (1999) (the "License"). You may not use this file except in
 compliance with the License. A copy of the License is located at
@@ -47,155 +71,61 @@ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License
 language governing permissions and limitations under the License.
 
 
-## Symfony Class Loader
-<https://github.com/symfony/ClassLoader>
+## PHP Token Reflection
+<https://github.com/Andrewsville/PHP-Token-Reflection>
+
+* Copyright 2011-2012 Ondřej Nešpor
+* Copyright 2011-2012 Jaroslav Hanslík
+* Copyright [CONTRIBUTORS](https://github.com/Andrewsville/PHP-Token-Reflection/contributors)
+
+Licensed under the BSD License (1999) (the "License"). You may not use this file except in
+compliance with the License. A copy of the License is located at
+
+<http://opensource.org/licenses/BSD-3-Clause>
+
+or in the "LICENSE-BSD1999.md" file accompanying this file. This file is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
+language governing permissions and limitations under the License.
+
+
+## Reflection DocBlock
+<https://github.com/phpDocumentor/ReflectionDocBlock>
+
+* Copyright 2010-2011 [Mike van Riel](http://www.naenius.com)
+* Copyright [CONTRIBUTORS](https://github.com/phpDocumentor/ReflectionDocBlock/contributors)
+
+Licensed under the MIT License (the "License"). You may not use this file except in
+compliance with the License. A copy of the License is located at
+
+<http://opensource.org/licenses/MIT>
+
+or in the "LICENSE-MIT.md" file accompanying this file. This file is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
+language governing permissions and limitations under the License.
+
+
+## SimplePie Compatibility Test
+<http://simplepie.org>
+
+* Copyright 2004-2010 [Ryan Parman](http://ryanparman.com)
+* Copyright 2005-2010 [Geoffrey Sneddon](http://gsnedders.com)
+* Copyright 2008-2012 [Ryan McCue](http://ryanmccue.info)
+
+Licensed under the BSD License (1999) (the "License"). You may not use this file except in
+compliance with the License. A copy of the License is located at
+
+<http://opensource.org/licenses/BSD-3-Clause>
+
+or in the "LICENSE-BSD1999.md" file accompanying this file. This file is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
+language governing permissions and limitations under the License.
+
+
+## Symfony 2 Components
+<https://github.com/symfony>
 
 * Copyright [Fabien Potencier](http://fabien.potencier.org)
 * Copyright [CONTRIBUTORS](https://github.com/symfony/ClassLoader/contributors)
-
-Licensed under the MIT License (the "License"). You may not use this file except in
-compliance with the License. A copy of the License is located at
-
-<http://opensource.org/licenses/MIT>
-
-or in the "LICENSE-MIT.md" file accompanying this file. This file is distributed on an "AS IS" BASIS, WITHOUT
-WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
-language governing permissions and limitations under the License.
-
-
-## Symfony Console
-<https://github.com/symfony/Console>
-
-* Copyright [Fabien Potencier](http://fabien.potencier.org)
-* Copyright [CONTRIBUTORS](https://github.com/symfony/EventDispatcher/contributors)
-
-Licensed under the MIT License (the "License"). You may not use this file except in
-compliance with the License. A copy of the License is located at
-
-<http://opensource.org/licenses/MIT>
-
-or in the "LICENSE-MIT.md" file accompanying this file. This file is distributed on an "AS IS" BASIS, WITHOUT
-WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
-language governing permissions and limitations under the License.
-
-
-## Symfony Event Dispatcher
-<https://github.com/symfony/EventDispatcher>
-
-* Copyright [Fabien Potencier](http://fabien.potencier.org)
-* Copyright [CONTRIBUTORS](https://github.com/symfony/EventDispatcher/contributors)
-
-Licensed under the MIT License (the "License"). You may not use this file except in
-compliance with the License. A copy of the License is located at
-
-<http://opensource.org/licenses/MIT>
-
-or in the "LICENSE-MIT.md" file accompanying this file. This file is distributed on an "AS IS" BASIS, WITHOUT
-WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
-language governing permissions and limitations under the License.
-
-
-## Symfony Filesystem
-<https://github.com/symfony/Filesystem>
-
-* Copyright [Fabien Potencier](http://fabien.potencier.org)
-* Copyright [CONTRIBUTORS](https://github.com/symfony/EventDispatcher/contributors)
-
-Licensed under the MIT License (the "License"). You may not use this file except in
-compliance with the License. A copy of the License is located at
-
-<http://opensource.org/licenses/MIT>
-
-or in the "LICENSE-MIT.md" file accompanying this file. This file is distributed on an "AS IS" BASIS, WITHOUT
-WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
-language governing permissions and limitations under the License.
-
-
-## Symfony Finder
-<https://github.com/symfony/Finder>
-
-* Copyright [Fabien Potencier](http://fabien.potencier.org)
-* Copyright [CONTRIBUTORS](https://github.com/symfony/EventDispatcher/contributors)
-
-Licensed under the MIT License (the "License"). You may not use this file except in
-compliance with the License. A copy of the License is located at
-
-<http://opensource.org/licenses/MIT>
-
-or in the "LICENSE-MIT.md" file accompanying this file. This file is distributed on an "AS IS" BASIS, WITHOUT
-WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
-language governing permissions and limitations under the License.
-
-
-## Symfony Process
-<https://github.com/symfony/Process>
-
-* Copyright [Fabien Potencier](http://fabien.potencier.org)
-* Copyright [CONTRIBUTORS](https://github.com/symfony/EventDispatcher/contributors)
-
-Licensed under the MIT License (the "License"). You may not use this file except in
-compliance with the License. A copy of the License is located at
-
-<http://opensource.org/licenses/MIT>
-
-or in the "LICENSE-MIT.md" file accompanying this file. This file is distributed on an "AS IS" BASIS, WITHOUT
-WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
-language governing permissions and limitations under the License.
-
-
-## Symfony Templating
-<https://github.com/symfony/Templating>
-
-* Copyright [Fabien Potencier](http://fabien.potencier.org)
-* Copyright [CONTRIBUTORS](https://github.com/symfony/EventDispatcher/contributors)
-
-Licensed under the MIT License (the "License"). You may not use this file except in
-compliance with the License. A copy of the License is located at
-
-<http://opensource.org/licenses/MIT>
-
-or in the "LICENSE-MIT.md" file accompanying this file. This file is distributed on an "AS IS" BASIS, WITHOUT
-WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
-language governing permissions and limitations under the License.
-
-
-## Symfony Validator
-<https://github.com/symfony/Validator>
-
-* Copyright [Fabien Potencier](http://fabien.potencier.org)
-* Copyright [CONTRIBUTORS](https://github.com/symfony/Validator/contributors)
-
-Licensed under the MIT License (the "License"). You may not use this file except in
-compliance with the License. A copy of the License is located at
-
-<http://opensource.org/licenses/MIT>
-
-or in the "LICENSE-MIT.md" file accompanying this file. This file is distributed on an "AS IS" BASIS, WITHOUT
-WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
-language governing permissions and limitations under the License.
-
-
-## Symfony YAML
-<https://github.com/symfony/Yaml>
-
-* Copyright [Fabien Potencier](http://fabien.potencier.org)
-* Copyright [CONTRIBUTORS](https://github.com/symfony/Yaml/contributors)
-
-Licensed under the MIT License (the "License"). You may not use this file except in
-compliance with the License. A copy of the License is located at
-
-<http://opensource.org/licenses/MIT>
-
-or in the "LICENSE-MIT.md" file accompanying this file. This file is distributed on an "AS IS" BASIS, WITHOUT
-WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
-language governing permissions and limitations under the License.
-
-
-## Transmogrifier
-<https://github.com/skyzyx/transmogrifier>
-
-* Copyright 2010-2011 [Omer Hassan](https://code.google.com/u/113495690012051782542/)
-* Copyright 2012 [Ryan Parman](http://ryanparman.com)
 
 Licensed under the MIT License (the "License"). You may not use this file except in
 compliance with the License. A copy of the License is located at
