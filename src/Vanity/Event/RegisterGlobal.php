@@ -81,7 +81,7 @@ class RegisterGlobal
 			$dependencies = self::getDependencies();
 
 			echo PHP_EOL;
-			echo $formatter->yellow->apply('REPORT: DEPENDENCIES') . PHP_EOL;
+			echo $formatter->yellow->apply('REPORT: DEPENDENCIES ON EXTENSIONS') . PHP_EOL;
 
 			foreach ($dependencies as $dependency)
 			{
@@ -101,7 +101,17 @@ class RegisterGlobal
 			$inconsistencies = DocumentationInconsistencyCollector::read();
 
 			echo PHP_EOL;
-			echo $formatter->yellow->apply('REPORT: DOCUMENTATION INCONSISTENCIES') . PHP_EOL;
+			echo $formatter->yellow->apply('REPORT: DOCBLOCK "TYPE" INCONSISTENCIES') . PHP_EOL;
+
+			// We really need \Array->apply(), don't we?
+			echo 'Tags where type is inferred: ' .
+				implode(', ',
+					array_map(function($w) use ($formatter) {
+						return $formatter->green->apply($w);
+					},
+					explode(', ', '@param, @return, @returns, @see, @throw, @throws, @uses, @used-by, @var')
+				)
+			) . '.' . PHP_EOL;
 
 			foreach ($inconsistencies as $inconsistency)
 			{
