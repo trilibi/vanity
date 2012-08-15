@@ -44,7 +44,7 @@ Dispatcher::set(new EventDispatcher);
 $console = new Application('Vanity', VANITY_VERSION);
 
 $console->add(new Vanity\Command\PHP\Fetch);
-$console->add(new Vanity\Command\Reference\Parse);
+$console->add(new Vanity\Command\Parse\API);
 
 Timer::start();
 

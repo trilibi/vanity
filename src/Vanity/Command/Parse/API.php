@@ -24,7 +24,7 @@
  */
 
 
-namespace Vanity\Command\Reference;
+namespace Vanity\Command\Parse;
 
 use Exception;
 use phpDocumentor\Reflection\DocBlock;
@@ -40,12 +40,12 @@ use Vanity\Find\Find;
 use Vanity\Parse\User\ReflectAll;
 
 /**
- * Command that executes `reference:parse`.
+ * Command that executes `parse:api`.
  *
  * @author Ryan Parman <http://ryanparman.com>
  * @link   http://vanitydoc.org
  */
-class Parse extends BaseCommand
+class API extends BaseCommand
 {
 	/**
 	 * The command-line arguments and options.
@@ -55,7 +55,7 @@ class Parse extends BaseCommand
 	protected function configure()
 	{
 		$this
-			->setName('reference:parse')
+			->setName('parse:api')
 			->setDescription('Parse the content of the source code and docblocks and produce JSON documents to be used for the project\'s API Reference.')
 		;
 
