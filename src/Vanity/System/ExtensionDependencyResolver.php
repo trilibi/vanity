@@ -34,14 +34,15 @@ use ReflectionExtension;
 class ExtensionDependencyResolver
 {
 	/**
-	 * [$list description]
-	 * @var [type]
+	 * Storage for the list of dependencies.
+	 * @var array
 	 */
 	protected $list;
 
 	/**
-	 * [__construct description]
-	 * @param array $list [description]
+	 * Constructs a new instance of this class.
+	 *
+	 * @param array $list The list of extension names with dependencies to resolve.
 	 */
 	public function __construct(array $list)
 	{
@@ -49,8 +50,9 @@ class ExtensionDependencyResolver
 	}
 
 	/**
-	 * [resolve description]
-	 * @return [type] [description]
+	 * Resolve the dependencies.
+	 *
+	 * @return array A resolved list of dependencies.
 	 */
 	public function resolve()
 	{
