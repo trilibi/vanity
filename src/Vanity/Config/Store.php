@@ -37,7 +37,7 @@ class Store
 	 * Stores the configuration.
 	 * @var array
 	 */
-	private static $config;
+	protected static $config = array();
 
 	/**
 	 * Stores the messages to display.
@@ -74,7 +74,19 @@ class Store
 	 */
 	public static function set(array $config)
 	{
-		self::$config = $config;
+		self::$config = array_merge(self::$config, $config);
+	}
+
+	/**
+	 * Add a configuration.
+	 *
+	 * @param  string $key    The key to use for lookups.
+	 * @param  mixed  $config Configuration data to store.
+	 * @return void
+	 */
+	public static function add($key, $config)
+	{
+		self::$config[$key] = $config;
 	}
 
 	/**
