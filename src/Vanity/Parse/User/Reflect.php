@@ -136,13 +136,11 @@ class Reflect
 	 *
 	 * @todo Extract method handling into a separate class.
 	 * @todo Extract parameter handling into a separate class.
-	 * @todo Provide an option to toggle alias resolution (e.g., api.resolve.aliases)
 	 * @todo Add support for @method
 	 * @todo Add support for {@see}
 	 * @todo Add support for {@inheritdoc}
 	 * @todo Add support for @example
 	 * @todo Add support for {@example}
-	 * @todo Handle true vs. "true" config passing.
 	 */
 	public function process()
 	{

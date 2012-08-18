@@ -53,6 +53,8 @@ class RegisterGlobal
 	 */
 	public static function events()
 	{
+		$self = get_called_class();
+
 		// command.complete event
 		Dispatcher::get()->addListener('command.complete', function(Event $event)
 		{
@@ -77,10 +79,10 @@ class RegisterGlobal
 		});
 
 		// api.warn.dependencies event
-		Dispatcher::get()->addListener('api.warn.dependencies', function(Event $event)
+		Dispatcher::get()->addListener('api.warn.dependencies', function(Event $event) use (&$self)
 		{
 			$formatter = ConsoleUtil::formatters();
-			$dependencies = self::getDependencies();
+			$dependencies = $self::getDependencies();
 
 			echo PHP_EOL;
 			echo $formatter->yellow->apply('REPORT: DEPENDENCIES ON EXTENSIONS') . PHP_EOL;
@@ -133,7 +135,7 @@ class RegisterGlobal
 	 *
 	 * @return array A list of extension dependencies.
 	 */
-	protected static function getDependencies()
+	public static function getDependencies()
 	{
 		// Collect all of the extension names that we received
 		$dependencies = array_map(function($entry)

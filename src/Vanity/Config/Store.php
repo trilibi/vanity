@@ -59,6 +59,11 @@ class Store
 		{
 			if (isset(self::$config[$key]))
 			{
+				if (strtolower(self::$config[$key]) === 'true' || strtolower(self::$config[$key]) === 'false')
+				{
+					return strtolower(self::$config[$key]) === 'true' ? true : false;
+				}
+
 				return self::$config[$key];
 			}
 

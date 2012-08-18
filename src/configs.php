@@ -30,13 +30,6 @@
 
 use Symfony\Component\Console\Input\InputOption;
 
-/*
-InputOption::VALUE_NONE
-InputOption::VALUE_REQUIRED
-InputOption::VALUE_OPTIONAL
-InputOption::VALUE_IS_ARRAY
-*/
-
 return array(
 
 	// Configurations for the overall Vanity tool
@@ -50,13 +43,14 @@ return array(
 	// Configurations related to the API Reference
 	'api' => array(
 
-		'formats'    => array(InputOption::VALUE_OPTIONAL, 'Comma-separated list of one or more documentation formats. JSON is used internally, so you get this one no matter what.', NULL),
-		'input'      => array(InputOption::VALUE_OPTIONAL, 'Where should we start looking for code? (Use * for wildcard.)', VANITY_PROJECT_WORKING_DIR . '/src/*.php'),
-		'output'     => array(InputOption::VALUE_OPTIONAL, 'Where should we put the documentation when we\'re done? (Variables: format, stage, tag)', VANITY_PROJECT_CONFIG_DIR . '/output/%VERSION%%STAGE%/%FORMAT%'),
-		'readme'     => array(InputOption::VALUE_OPTIONAL, 'The file to use as the default page.', 'README.*'),
-		'stage'      => array(InputOption::VALUE_OPTIONAL, 'The stage that the project is currently in. Can be any ASCII value. (e.g., development, alpha, beta, rc, production).', ''),
-		'todo'       => array(InputOption::VALUE_OPTIONAL, 'PCRE regex pattern for matching TODOs in the source code.', '/@?\s*(todo|fixme)(:|\s).+/i'),
-		'viewsource' => array(InputOption::VALUE_OPTIONAL, 'Point to an online location to view the source. (Variables: line, path)', NULL),
+		'formats'         => array(InputOption::VALUE_OPTIONAL, 'Comma-separated list of one or more documentation formats. JSON is used internally, so you get this one no matter what.', NULL),
+		'input'           => array(InputOption::VALUE_OPTIONAL, 'Where should we start looking for code? (Use * for wildcard.)', VANITY_PROJECT_WORKING_DIR . '/src/*.php'),
+		'output'          => array(InputOption::VALUE_OPTIONAL, 'Where should we put the documentation when we\'re done? (Variables: format, stage, tag)', VANITY_PROJECT_CONFIG_DIR . '/output/%VERSION%-%STAGE%/%FORMAT%'),
+		'readme'          => array(InputOption::VALUE_OPTIONAL, 'The file to use as the default page.', 'README.*'),
+		'resolve_aliases' => array(InputOption::VALUE_OPTIONAL, 'Whether or not to resolve namespace aliases to fully-qualified namespaces for type lookups.', true),
+		'stage'           => array(InputOption::VALUE_OPTIONAL, 'The stage that the project is currently in. Can be any ASCII value. (e.g., development, alpha, beta, rc, production).', NULL),
+		'todo'            => array(InputOption::VALUE_OPTIONAL, 'PCRE regex pattern for matching TODOs in the source code.', '/@?\s*(todo|fixme)(:|\s).+/i'),
+		'viewsource'      => array(InputOption::VALUE_OPTIONAL, 'Point to an online location to view the source. (Variables: line, path)', NULL),
 
 		// What should we exclude from the documentation?
 		'exclude' => array(
@@ -67,18 +61,18 @@ return array(
 
 		// Should we write report files?
 		'report' => array(
-			'dependencies'    => array(InputOption::VALUE_OPTIONAL, 'Write a report if there are environment dependencies for the project.', 'false'),
-			'inconsistencies' => array(InputOption::VALUE_OPTIONAL, 'Write a report if there are documentation inconsistencies.', 'false'),
-			'todo'            => array(InputOption::VALUE_OPTIONAL, 'Write a report if there are TODOs.', 'false'),
-			'ungrouped'       => array(InputOption::VALUE_OPTIONAL, 'Write a report if there are ungrouped methods.', 'false'),
+			'dependencies'    => array(InputOption::VALUE_OPTIONAL, 'Write a report if there are environment dependencies for the project.', false),
+			'inconsistencies' => array(InputOption::VALUE_OPTIONAL, 'Write a report if there are documentation inconsistencies.', false),
+			'todo'            => array(InputOption::VALUE_OPTIONAL, 'Write a report if there are TODOs.', false),
+			'ungrouped'       => array(InputOption::VALUE_OPTIONAL, 'Write a report if there are ungrouped methods.', false),
 		),
 
 		// Should we show warnings on the Console in certain cases?
 		'warn' => array(
-			'dependencies'    => array(InputOption::VALUE_OPTIONAL, 'Warn on the console if there are environment dependencies for the project.', 'false'),
-			'inconsistencies' => array(InputOption::VALUE_OPTIONAL, 'Warn on the console if there are documentation inconsistencies.', 'false'),
-			'todo'            => array(InputOption::VALUE_OPTIONAL, 'Warn on the console if there are TODOs.', 'false'),
-			'ungrouped'       => array(InputOption::VALUE_OPTIONAL, 'Warn on the console if there are ungrouped methods.', 'false'),
+			'dependencies'    => array(InputOption::VALUE_OPTIONAL, 'Warn on the console if there are environment dependencies for the project.', false),
+			'inconsistencies' => array(InputOption::VALUE_OPTIONAL, 'Warn on the console if there are documentation inconsistencies.', false),
+			'todo'            => array(InputOption::VALUE_OPTIONAL, 'Warn on the console if there are TODOs.', false),
+			'ungrouped'       => array(InputOption::VALUE_OPTIONAL, 'Warn on the console if there are ungrouped methods.', false),
 		),
 	),
 

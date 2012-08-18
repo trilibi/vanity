@@ -67,8 +67,13 @@ class API extends BaseCommand
 		{
 			list($type, $description, $default) = $details;
 
-			if ($default)
+			if (!is_null($default))
 			{
+				if (is_bool($default))
+				{
+					$default = $default ? 'true' : 'false';
+				}
+
 				$description .= ConsoleUtil::formatters()->gold->apply(' (default: ' . $default . ')');
 			}
 
@@ -161,12 +166,12 @@ class API extends BaseCommand
 		#--------------------------------------------------------------------------#
 
 		// Warnings
-		if (ConfigStore::get('api.warn.dependencies') === 'true') { $this->triggerEvent('api.warn.dependencies'); }
-		if (ConfigStore::get('api.warn.inconsistencies') === 'true') { $this->triggerEvent('api.warn.inconsistencies'); }
+		if (ConfigStore::get('api.warn.dependencies')) { $this->triggerEvent('api.warn.dependencies'); }
+		if (ConfigStore::get('api.warn.inconsistencies')) { $this->triggerEvent('api.warn.inconsistencies'); }
 
 		// Reports
-		if (ConfigStore::get('api.report.dependencies') === 'true') { $this->triggerEvent('api.report.dependencies'); }
-		if (ConfigStore::get('api.report.inconsistencies') === 'true') { $this->triggerEvent('api.report.inconsistencies'); }
+		if (ConfigStore::get('api.report.dependencies')) { $this->triggerEvent('api.report.dependencies'); }
+		if (ConfigStore::get('api.report.inconsistencies')) { $this->triggerEvent('api.report.inconsistencies'); }
 
 		$this->triggerEvent('command.complete');
 

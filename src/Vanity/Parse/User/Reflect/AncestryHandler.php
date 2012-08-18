@@ -31,6 +31,7 @@ use Reflector;
 use ReflectionClass;
 use ReflectionException;
 use TokenReflection\Broker;
+use Vanity\Config\Store as ConfigStore;
 use Vanity\Console\Utilities as ConsoleUtil;
 use Vanity\System\DocumentationInconsistencyCollector as Inconsistency;
 use Vanity\System\Store as SystemStore;
@@ -80,8 +81,13 @@ class AncestryHandler
 	 */
 	public function __construct(Reflector $reflector)
 	{
+		// Should we resolve aliases?
+		if (ConfigStore::get('api.resolve_aliases'))
+		{
+			$this->broker = new Broker(new Broker\Backend\Memory());
+		}
+
 		$this->aliases = array();
-		$this->broker = new Broker(new Broker\Backend\Memory());
 		$this->class = $reflector;
 		$this->implements = array();
 		$this->inherits = array();
@@ -94,60 +100,89 @@ class AncestryHandler
 	 */
 	public function getNamespaces()
 	{
-		$aliases = array();
-		$class_paths = array();
-		$interface_paths = array();
-
-		// Get classes with paths
-		if (isset($this->inherits['class']) && count($this->inherits['class']))
+		// Should we resolve aliases?
+		if (ConfigStore::get('api.resolve_aliases'))
 		{
-			$class_paths = array_values(
-				array_filter($this->inherits['class'],
-					function($class)
+			$aliases = array();
+			$fqcns = array();
+			$class_paths = array();
+			$interface_paths = array();
+
+			// Get classes with paths
+			if (isset($this->inherits['class']) && count($this->inherits['class']))
+			{
+				$class_paths = array_values(
+					array_filter($this->inherits['class'],
+						function($class)
+						{
+							return isset($class['path']);
+						}
+					)
+				);
+			}
+
+			// Get interfaces with paths
+			if (isset($this->implements['interface']) && count($this->implements['interface']))
+			{
+				$interface_paths = array_values(
+					array_filter($this->implements['interface'],
+						function($interface)
+						{
+							return isset($interface['path']);
+						}
+					)
+				);
+			}
+
+			// Produce a singular list
+			while (count($interface_paths))
+			{
+				array_push($class_paths, array_shift($interface_paths));
+			}
+			array_push($class_paths, array('path' => $this->class->getFileName()));
+
+			// Go through each file and get a mapping of aliases to namespaces
+			foreach ($class_paths as $class_path)
+			{
+				$tokenized_file = $this->broker->processFile($class_path['path'], true);
+
+				// Grab aliased namespaces and fully-qualified class names
+				$aliases = array_merge($aliases,
+					array_map(function($namespace)
 					{
-						return isset($class['path']);
-					}
-				)
-			);
-		}
+						$units = array();
 
-		// Get interfaces with paths
-		if (isset($this->implements['interface']) && count($this->implements['interface']))
-		{
-			$interface_paths = array_values(
-				array_filter($this->implements['interface'],
-					function($interface)
-					{
-						return isset($interface['path']);
-					}
-				)
-			);
-		}
+						foreach ($namespace->getClasses() as $class)
+						{
+							$fq_class_name = $class->getName();
+							$short_class_name = explode('\\', $fq_class_name);
+							$short_class_name = end($short_class_name);
 
-		// Produce a singular list
-		while (count($interface_paths))
-		{
-			array_push($class_paths, array_shift($interface_paths));
-		}
-		array_push($class_paths, array('path' => $this->class->getFileName()));
+							$units[$short_class_name] = $fq_class_name;
 
-		// Go through each file and get a mapping of aliases to namespaces
-		foreach ($class_paths as $class_path)
-		{
-			$tokenized_file = $this->broker->processFile($class_path['path'], true);
-			$aliases = array_merge($aliases,
-				array_map(function($namespace)
+							foreach ($class->getInterfaces() as $interface)
+							{
+								$fq_interface_name = $interface->getName();
+								$short_interface_name = explode('\\', $fq_interface_name);
+								$short_interface_name = end($short_interface_name);
+
+								$units[$short_interface_name] = $fq_interface_name;
+							}
+						}
+
+						$units = array_merge($units, $namespace->getNamespaceAliases());
+
+						return $units;
+					},
+					$tokenized_file->getNamespaces())
+				);
+
+				// Flatten the list
+				foreach ($aliases as $alias)
 				{
-					return $namespace->getNamespaceAliases();
-				},
-				$tokenized_file->getNamespaces())
-			);
-		}
-
-		// Flatten the list
-		foreach ($aliases as $alias)
-		{
-			$this->aliases = array_merge($this->aliases, $alias);
+					$this->aliases = array_merge($this->aliases, $alias);
+				}
+			}
 		}
 
 		// Include native class types
