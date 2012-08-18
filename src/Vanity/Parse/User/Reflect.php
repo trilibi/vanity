@@ -133,14 +133,6 @@ class Reflect
 	 * containing all relevant class data.
 	 *
 	 * @return array An associative array containing all relevant class data.
-	 *
-	 * @todo Extract method handling into a separate class.
-	 * @todo Extract parameter handling into a separate class.
-	 * @todo Add support for @method
-	 * @todo Add support for {@see}
-	 * @todo Add support for {@inheritdoc}
-	 * @todo Add support for @example
-	 * @todo Add support for {@example}
 	 */
 	public function process()
 	{
