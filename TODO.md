@@ -1,5 +1,18 @@
 # TODO
 
+## Already Done
+
+* <strike>Build a console-based application using the Symfony Console component. (5)</strike>
+* <strike>Reflect the source code and construct a structured JSON document. (8)</strike>
+* <strike>Add support for parsing DocBlocks for descriptions and @tags. (5)</strike>
+* <strike>Merge data from @param tags with ReflectionParameter data to get a complete picture of parameters. (3)</strike>
+* <strike>Add support for resolving namespace aliases back into fully-qualified namespaces (i.e., namespaces, aliases, class heirarchies, implementation heirarchies). (8)</strike>
+* <strike>Add support for logging. (2)</strike>
+* <strike>Establish a pattern of notifying various actions with events and event handlers. (3)</strike>
+* <strike>Add support for collecting and logging mismatched parameter data so that we can find and fix it. (3)</strike>
+* <strike>Add support for determining the list of PHP extensions that are requirements for the extended code. (2)</strike>
+
+
 ## Stage 1: API Reflection and Tokenization
 
 * Synchronize the format of event names and fix existing ones (e.g., parser.method.tag.param, config.api.warn.todo). (2)
@@ -39,16 +52,31 @@
 * Develop a documentation landing page with links out to various other types of documentation content. (2)
 * Develop a template for Desktop HTML output. (8)
 * Develop a template for reStructuredText output. (5)
+* [TBD]
 
 
 ## Stage 4: User Guide Parsing
 
-* Leverage [Sphinx]() to convert RST source files into structured JSON for portability.
+* Implement a pattern for importing documentation content. (2)
+* Determine best way to order/group/tag individual chapters/guides. (3)
+* Leverage [Sphinx](http://sphinx.pocoo.org) (or possibly [Pandoc](http://johnmacfarlane.net/pandoc/)) to convert reStructuredText source files into structured JSON for improved portability. (???)
+* [TBD]
 
 
 ## Stage 5: User Guide Output Templating
 
+* Design a template that can be used for both Sphinx as well as HTML output. (???)
+* Should maintain UI across both sets of docs as though they were a unified set of docs.
+* [TBD]
+
 
 ## Stage 6: Bundling and Distribution
 
-* Produce a .phar package for app distribution.
+* Compress documentation into downloadable bundles (e.g., zip, tbz2). (2)
+* Produce a .phar package for app distribution. (2)
+
+
+# Pandoc Notes
+## RST to Markdown
+pandoc index.rst --output index.md --read rst --write markdown --template templates/default.markdown --smart --standalone --number-sections --chapters --atx-headers --strict
+
