@@ -1,5 +1,5 @@
 {
-    "hash": "4ae60ff4675c42aedba843d87de11f70",
+    "hash": "a775ce0a905f3b17d030e324e0122510",
     "packages": [
         {
             "package": "andrewsville/php-token-reflection",
@@ -58,6 +58,12 @@
         {
             "package": "symfony/yaml",
             "version": "v2.0.16"
+        },
+        {
+            "package": "vanity/pandoc-templates",
+            "version": "dev-master",
+            "source-reference": "83eb58b85dc4b14085ef2189728d59dccfdebc81",
+            "commit-date": "1345420078"
         }
     ],
     "packages-dev": null,
@@ -66,6 +72,7 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "phpdocumentor/reflection-docblock": 20
+        "phpdocumentor/reflection-docblock": 20,
+        "vanity/pandoc-templates": 20
     }
 }

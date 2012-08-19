@@ -80,3 +80,6 @@
 ## RST to Markdown
 pandoc index.rst --output index.md --read rst --write markdown --template templates/default.markdown --smart --standalone --number-sections --chapters --atx-headers --strict
 
+## RST to Word
+pandoc index.rst --output index.docx --read rst --write docx  --reference-docx docx_styles.docx --smart --number-sections --chapters
+
