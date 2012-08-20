@@ -77,9 +77,31 @@
 
 
 # Pandoc Notes
+## RST to DocBook
+
+## RST to HTML(5)
+
+## RST to LaTeX
+pandoc index.rst --output index.latex --read rst --write latex --template ../../vendor/vanity/pandoc-templates/default.latex --latex-engine=lualatex --variable mainfont="SourceSansPro-Regular" --variable sansfont="SourceSansPro-Regular" --variable monofont="MesloLGS" --toc --number-sections --chapters --no-tex-ligatures
+
 ## RST to Markdown
-pandoc index.rst --output index.md --read rst --write markdown --template templates/default.markdown --smart --standalone --number-sections --chapters --atx-headers --strict
+pandoc index.rst --output index.md --read rst --write markdown --template ../../vendor/vanity/pandoc-templates/default.markdown --toc --smart --standalone --number-sections --chapters --atx-headers --strict
+
+## RST to MediaWiki
+pandoc index.rst --output index.wiki --read rst --write mediawiki --template ../../vendor/vanity/pandoc-templates/default.mediawiki --toc --standalone
+
+## RST to OpenDocument (ODT)
+pandoc index.rst --output index.odt --read rst --write odt  --reference-odt ../../src/Pandoc/templates/odt_styles.odt --toc --number-sections --chapters
+
+## RST to PDF
+pandoc index.rst --output index.pdf --read rst --template ../../vendor/vanity/pandoc-templates/default.latex --latex-engine=lualatex --variable mainfont="SourceSansPro-Regular" --variable sansfont="SourceSansPro-Regular" --variable monofont="MesloLGS" --toc --number-sections --chapters --no-tex-ligatures
+
+## RST to RTF
+pandoc index.rst --output index.rtf --read rst --write rtf --template ../../vendor/vanity/pandoc-templates/default.rtf --toc --smart --standalone --number-sections --chapters
+
+## RST to Textile
+pandoc index.rst --output index.textile --read rst --write textile --template ../../vendor/vanity/pandoc-templates/default.textile --toc --standalone --number-sections --chapters
 
 ## RST to Word
-pandoc index.rst --output index.docx --read rst --write docx  --reference-docx docx_styles.docx --smart --number-sections --chapters
+pandoc index.rst --output index.docx --read rst --write docx  --reference-docx ../../src/Pandoc/templates/docx_styles.docx --toc --number-sections --chapters
 

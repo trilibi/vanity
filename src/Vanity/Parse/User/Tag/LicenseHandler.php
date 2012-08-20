@@ -57,8 +57,9 @@ class LicenseHandler extends AbstractNameTypeDescription implements HandlerInter
 					case 'agpl':
 					case 'agpl3':
 					case 'agpl-3.0':
+					case 'agpl-3.0+':
 						$return['uri'] = 'http://opensource.org/licenses/AGPL-3.0';
-						$return['description'] = 'GNU Affero General Public License, Version 3';
+						$return['description'] = 'GNU Affero General Public License, Version 3.0';
 						break;
 
 					case 'apache2':
@@ -67,10 +68,20 @@ class LicenseHandler extends AbstractNameTypeDescription implements HandlerInter
 						$return['description'] = 'Apache License, Version 2.0';
 						break;
 
+					case 'bsd-4-clause':
+					case 'bsd-original':
+					case 'original-bsd':
+					case 'bsd-1990':
+						$return['uri'] = 'https://secure.wikimedia.org/wikipedia/en/wiki/BSD_licenses#4-clause_license_.28original_.22BSD_License.22.29';
+						$return['description'] = '"Original" BSD 4-clause License (1990)';
+						break;
+
 					case 'bsd-3-clause':
+					case 'bsd-simplified':
+					case 'simplified-bsd':
 					case 'bsd-1999':
 						$return['uri'] = 'http://opensource.org/licenses/BSD-3-Clause';
-						$return['description'] = 'BSD 3-clause License (1999)';
+						$return['description'] = '"Simplified" BSD 3-clause License (1999)';
 						break;
 
 					case 'bsd-2-clause':
@@ -82,19 +93,33 @@ class LicenseHandler extends AbstractNameTypeDescription implements HandlerInter
 
 					case 'gpl2':
 					case 'gpl-2.0':
+					case 'gpl-2.0+':
 						$return['uri'] = 'http://opensource.org/licenses/GPL-2.0';
-						$return['description'] = 'GNU General Public License, Version 2';
+						$return['description'] = 'GNU General Public License, Version 2.0';
 						break;
 
 					case 'gpl':
 					case 'gpl3':
 					case 'gpl-3.0':
+					case 'gpl-3.0+':
 						$return['uri'] = 'http://opensource.org/licenses/GPL-3.0';
-						$return['description'] = 'GNU General Public License, Version 3';
+						$return['description'] = 'GNU General Public License, Version 3.0';
+						break;
+
+					case 'json':
+						$return['uri'] = 'http://www.json.org/license.html';
+						$return['description'] = 'JSON License';
+						break;
+
+					case 'lgpl-2.0':
+					case 'lgpl-2.0+':
+						$return['uri'] = 'http://www.gnu.org/licenses/old-licenses/lgpl-2.0.html';
+						$return['description'] = 'GNU Lesser General Public License, Version 2.0';
 						break;
 
 					case 'lgpl2':
 					case 'lgpl-2.1':
+					case 'lgpl-2.1+':
 						$return['uri'] = 'http://opensource.org/licenses/LGPL-2.1';
 						$return['description'] = 'GNU Lesser General Public License, Version 2.1';
 						break;
@@ -102,20 +127,33 @@ class LicenseHandler extends AbstractNameTypeDescription implements HandlerInter
 					case 'lgpl':
 					case 'lgpl3':
 					case 'lgpl-3.0':
+					case 'lgpl-3.0+':
 						$return['uri'] = 'http://opensource.org/licenses/LGPL-3.0';
-						$return['description'] = 'GNU Lesser General Public License, Version 3';
+						$return['description'] = 'GNU Lesser General Public License, Version 3.0';
 						break;
 
 					case 'mit':
+					case 'x11':
 						$return['uri'] = 'http://opensource.org/licenses/MIT';
-						$return['description'] = 'MIT License';
+						$return['description'] = 'MIT/X11 License';
+						break;
+
+					case 'mpl-1.0':
+						$return['uri'] = 'https://www.mozilla.org/MPL/1.0/';
+						$return['description'] = 'Mozilla Public License, Version 1.0';
+						break;
+
+					case 'mpl1':
+					case 'mpl-1.1':
+						$return['uri'] = 'https://www.mozilla.org/MPL/1.1/';
+						$return['description'] = 'Mozilla Public License, Version 1.1';
 						break;
 
 					case 'mpl':
 					case 'mpl2':
 					case 'mpl-2.0':
-						$return['uri'] = 'http://opensource.org/licenses/MPL-2.0';
-						$return['description'] = 'Mozilla Public License, Version 2';
+						$return['uri'] = 'https://www.mozilla.org/MPL/2.0/';
+						$return['description'] = 'Mozilla Public License, Version 2.0';
 						break;
 
 					case 'php':
@@ -127,9 +165,17 @@ class LicenseHandler extends AbstractNameTypeDescription implements HandlerInter
 						$return['description'] = 'PHP License, Version 3.01';
 						break;
 
-					case 'w3c':
-						$return['uri'] = 'http://opensource.org/licenses/W3C';
-						$return['description'] = 'W3C Software Notice and License';
+					case 'public-domain':
+					case 'unlicense':
+					case 'unlicensed':
+					case 'none':
+						$return['uri'] = 'http://unlicense.org';
+						$return['description'] = 'Unlicense';
+						break;
+
+					case 'wtfpl':
+						$return['uri'] = 'http://wtfpl.org';
+						$return['description'] = '"Do Whatever The Fuck You Want" Public License';
 						break;
 
 					case 'zlib':

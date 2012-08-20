@@ -13,20 +13,19 @@ Vanity supports a complete documentation experience, and supports the generation
 The following software is **required** for Vanity to run:
 
 * [PHP](http://php.net) 5.3.2+
-* [SimpleXML](http://php.net/simplexml)
-* [DOMDocument](http://php.net/dom)
 
 ### Optional
 This software is **optional**, and is only used if you need to generate additional output formats.
 
 * [pandoc](http://johnmacfarlane.net/pandoc/) (for generating **anything** besides Desktop/Mobile HTML)
-* [pdfTeX](http://www.tug.org/applications/pdftex/) (for generating PDFs)
+* [texlive-latex]() (for generating LaTeX, PDF or ePub output)
 * [KindleGen](http://www.amazon.com/gp/feature.html?ie=UTF8&docId=1000234621) (for generating Kindle-compatible eBooks)
+* [Source Sans](http://sourceforge.net/projects/sourcesans.adobe/) (sans-serif font used for _text_ in PDF and ePub)
+* [Meslo LG](https://github.com/andreberg/Meslo-Font/) (monospaced font used for _code_ in PDF and ePub)
 
 
 ## Authors, Copyright & Licensing
 * Copyright (c) 2009-2012 [Ryan Parman](http://ryanparman.com).
-* Copyright (c) 2011-2012 [Ryan McCue](http://ryanmccue.info).
 
 See also the list of [contributors](./contributors) who participated in this project.
 
