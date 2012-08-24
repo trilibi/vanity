@@ -1,3 +1,4 @@
+*.sublime-*
 .DS_Store
 .vanity/output
 .vanity/reports

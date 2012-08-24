@@ -34,6 +34,7 @@ return array(
 
 	// Configurations for the overall Vanity tool
 	'vanity' => array(
+		'basedir'   => array(InputOption::VALUE_OPTIONAL, 'This file is loaded first. Useful for telling Vanity how to load project classes, settings constants, or other things.', VANITY_PROJECT_CONFIG_DIR . '/bootstrap.php'),
 		'bootstrap' => array(InputOption::VALUE_OPTIONAL, 'This file is loaded first. Useful for telling Vanity how to load project classes, settings constants, or other things.', VANITY_PROJECT_CONFIG_DIR . '/bootstrap.php'),
 		'name'      => array(InputOption::VALUE_OPTIONAL, 'The name of the product.', pathinfo(VANITY_PROJECT_WORKING_DIR, PATHINFO_FILENAME)),
 		'version'   => array(InputOption::VALUE_OPTIONAL, 'The version number we should use.', 'latest'),
