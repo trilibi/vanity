@@ -72,14 +72,23 @@ This software is **optional**, and is only used if you need to generate addition
 
 ## On the shoulders of giants
 Vanity uses a number of off-the-shelf components to handle a variety of complex
-tasks. These include several Symfony 2 components, the DocBlock parser from
-phpDocumentor 2, the PHP Tokenizer from ApiGen, a modern Markdown module,
-Monolog for logging, Pandoc for format transliteration, and Twitter Bootstrap
-and jQuery for much of the front-end code.
+tasks. These include several [Symfony 2 components](https://github.com/symfony/),
+the [DocBlock parser](https://github.com/phpDocumentor/ReflectionDocBlock) from
+phpDocumentor 2, the [PHP Tokenizer](https://github.com/Andrewsville/PHP-Token-Reflection)
+from ApiGen, a modern [Markdown module](https://github.com/dflydev/dflydev-markdown),
+[Monolog](https://github.com/Seldaek/monolog) for logging,
+[Pandoc](http://johnmacfarlane.net/pandoc/) for format transliteration, and
+[Twitter Bootstrap](http://twitter.github.com/bootstrap/)
+and [jQuery](http://jquery.com) for much of the front-end code.
 
-The feature set for Vanity 3 was inspired by projects such as phpDocumentor,
-ApiGen, Sami, Rails API, Ingredients.app, Apple's developer docs, Parse, Stripe
-and PHP.net.
+The feature set for Vanity 3 was inspired by projects such as
+[phpDocumentor](http://phpdoc.org), [ApiGen](http://apigen.org),
+[Sami](https://github.com/fabpot/Sami), [Rails API](http://railsapi.com),
+[Ingredients.app](http://fileability.net/ingredients/),
+[Apple](https://developer.apple.com/library/mac/navigation/),
+[Parse](https://parse.com/docs/rest), Stripe's [REST](https://stripe.com/docs/api)
+and [JavaScript](https://stripe.com/docs/stripe.js) APIs, and
+[PHP.net](http://php.net/json_encode).
 
 A big thanks goes out to [Jeremy Lindblom](http://webdevilaz.com) and
 [Michael Dowling](http://mtdowling.com) for frequent feedback,
