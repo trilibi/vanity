@@ -29,16 +29,18 @@
 // AVAILABLE CONFIGURATION-RELATED OPTIONS
 
 use Symfony\Component\Console\Input\InputOption;
+use Vanity\System\Store as SystemStore;
 
 return array(
 
 	// Configurations for the overall Vanity tool
 	'vanity' => array(
-		'basedir'   => array(InputOption::VALUE_OPTIONAL, 'This file is loaded first. Useful for telling Vanity how to load project classes, settings constants, or other things.', VANITY_PROJECT_CONFIG_DIR . '/bootstrap.php'),
-		'bootstrap' => array(InputOption::VALUE_OPTIONAL, 'This file is loaded first. Useful for telling Vanity how to load project classes, settings constants, or other things.', VANITY_PROJECT_CONFIG_DIR . '/bootstrap.php'),
-		'name'      => array(InputOption::VALUE_OPTIONAL, 'The name of the product.', pathinfo(VANITY_PROJECT_WORKING_DIR, PATHINFO_FILENAME)),
-		'version'   => array(InputOption::VALUE_OPTIONAL, 'The version number we should use.', 'latest'),
-		'reports'   => array(InputOption::VALUE_OPTIONAL, 'The location to use for writing various reports that have been enabled.', VANITY_PROJECT_CONFIG_DIR . '/reports'),
+		'view_config' => array(InputOption::VALUE_NONE,     'Display Vanity\'s configuration settings, and stop.', null),
+		'config_dir'  => array(InputOption::VALUE_OPTIONAL, 'The directory which contains the project\'s Vanity configuration. Vanity will use this for resolving default paths.', SystemStore::get('_.project_config_dir')),
+		'bootstrap'   => array(InputOption::VALUE_OPTIONAL, 'This file is loaded first. Useful for telling Vanity how to load project classes, settings constants, or other things.', '%VANITY.CONFIG_DIR%/bootstrap.php'),
+		'name'        => array(InputOption::VALUE_OPTIONAL, 'The name of the product.', pathinfo(VANITY_PROJECT_WORKING_DIR, PATHINFO_FILENAME)),
+		'version'     => array(InputOption::VALUE_OPTIONAL, 'The version number we should use.', 'latest'),
+		'reports'     => array(InputOption::VALUE_OPTIONAL, 'The location to use for writing various reports that have been enabled.', '%VANITY.CONFIG_DIR%/reports'),
 	),
 
 	// Configurations related to the API Reference
@@ -46,8 +48,8 @@ return array(
 
 		'formats'         => array(InputOption::VALUE_OPTIONAL, 'Comma-separated list of one or more documentation formats. JSON is used internally, so you get this one no matter what.', NULL),
 		'input'           => array(InputOption::VALUE_OPTIONAL, 'Where should we start looking for code? (Use * for wildcard.)', VANITY_PROJECT_WORKING_DIR . '/src/*.php'),
-		'output'          => array(InputOption::VALUE_OPTIONAL, 'Where should we put the documentation when we\'re done? (Variables: format, stage, tag)', VANITY_PROJECT_CONFIG_DIR . '/output/%VERSION%-%STAGE%/%FORMAT%'),
-		'readme'          => array(InputOption::VALUE_OPTIONAL, 'The file to use as the default page.', 'README.*'),
+		'output'          => array(InputOption::VALUE_OPTIONAL, 'Where should we put the documentation when we\'re done? (Variables: format, stage, tag)', '%VANITY.CONFIG_DIR%/output/%VERSION%-%STAGE%/%FORMAT%'),
+		'readme'          => array(InputOption::VALUE_OPTIONAL, 'The file to use as the default page.', VANITY_PROJECT_WORKING_DIR . '/README.*'),
 		'resolve_aliases' => array(InputOption::VALUE_OPTIONAL, 'Whether or not to resolve namespace aliases to fully-qualified namespaces for type lookups.', true),
 		'stage'           => array(InputOption::VALUE_OPTIONAL, 'The stage that the project is currently in. Can be any ASCII value. (e.g., development, alpha, beta, rc, production).', NULL),
 		'todo'            => array(InputOption::VALUE_OPTIONAL, 'PCRE regex pattern for matching TODOs in the source code.', '/@?\s*(todo|fixme)(:|\s).+/i'),

@@ -31,6 +31,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Yaml\Yaml as YAML;
 use Vanity\Config\Store as ConfigStore;
 use Vanity\Console\Utilities as ConsoleUtil;
+use Vanity\System\Store as SystemStore;
 
 /**
  * Resolves configurations passed to the Vanity CLI application.
@@ -56,6 +57,12 @@ class Resolve
 	protected $formatter;
 
 	/**
+	 * Storage for the config "variable" hashmap.
+	 * @var array
+	 */
+	protected $variable_map;
+
+	/**
 	 * Instantiates the {@see Resolve} class.
 	 *
 	 * @param InputInterface $input The command-line input.
@@ -64,6 +71,7 @@ class Resolve
 	{
 		$this->input = $input;
 		$this->formatter = ConsoleUtil::formatters();
+		$this->variable_map = array();
 	}
 
 	/**
@@ -73,12 +81,54 @@ class Resolve
 	 */
 	public function read()
 	{
+		$resolved_configs = array();
+
+		// Merge all possible configuration types
+		$config_store = array_merge(
+			$this->defaultValues(),
+			$this->fileValues(),
+			$this->cliValues()
+		);
+
+		// Resolve the realpath for the config directory
+		if (isset($config_store['vanity.config_dir']) && realpath($config_store['vanity.config_dir']))
+		{
+			$config_store['vanity.config_dir'] = realpath($config_store['vanity.config_dir']);
+		}
+
+		// Update the persistent variable map
+		foreach ($config_store as $config => $value)
+		{
+			$this->variable_map['%' . strtoupper($config) . '%'] = $value;
+		}
+
+		// Resolve the values
+		foreach ($config_store as $config => $value)
+		{
+			$resolved_configs[$config] = $this->resolveVariables($value);
+		}
+
 		// Store the config information
-		ConfigStore::set(array_merge(
-			$this->default_values(),
-			$this->file_values(),
-			$this->cli_values()
-		));
+		ConfigStore::set($resolved_configs);
+	}
+
+	/**
+	 * Resolves `%VARIABLE%`-style "variables" from configuration values.
+	 *
+	 * @param  string $s The value to resolve variables for.
+	 * @return string    The value with the variables resolved.
+	 */
+	public function resolveVariables($s)
+	{
+		foreach ($this->variable_map as $variable => $value)
+		{
+			if (is_string($s) && strpos($s, $variable) !== false)
+			{
+				$s = str_replace($variable, $value, $s);
+			}
+		}
+
+		return $s;
 	}
 
 	/**
@@ -86,7 +136,7 @@ class Resolve
 	 *
 	 * @return array The default config values.
 	 */
-	private function default_values()
+	private function defaultValues()
 	{
 		$options = include VANITY_SOURCE . '/configs.php';
 		$config = ConfigStore::convert($options);
@@ -107,12 +157,15 @@ class Resolve
 	 *
 	 * @return array The config values passed in the config.yml file.
 	 */
-	private function file_values()
+	private function fileValues()
 	{
-		if (file_exists(VANITY_PROJECT_CONFIG_DIR . '/config.yml'))
+		// Use the config directory passed to the CLI
+		$config_dir = $this->cliValues(true) ?: SystemStore::get('_.project_config_dir');
+
+		if (file_exists($config_dir . '/config.yml'))
 		{
-			ConfigStore::$messages[] = 'Merged configuration options from ' . $this->formatter->info->apply(' ' . VANITY_PROJECT_CONFIG_DIR . '/config.yml ');
-			$options = YAML::parse(VANITY_PROJECT_CONFIG_DIR . '/config.yml');
+			ConfigStore::$messages[] = 'Merged configuration options from ' . $this->formatter->info->apply(' ' . $config_dir . '/config.yml ');
+			$options = YAML::parse($config_dir . '/config.yml');
 
 			$config = ConfigStore::convert($options);
 			$config = array_filter($config);
@@ -126,9 +179,10 @@ class Resolve
 	/**
 	 * Return the config values passed to the CLI.
 	 *
-	 * @return array The config values passed to the CLI.
+	 * @param  boolean $returnConfigDir Whether or not to return the configuration directory directly.
+	 * @return array                    The config values passed to the CLI.
 	 */
-	private function cli_values()
+	private function cliValues($returnConfigDir = false)
 	{
 		$available_configs = include VANITY_SOURCE . '/configs.php';
 		$available_configs = array_keys(ConfigStore::convert($available_configs));
@@ -140,6 +194,13 @@ class Resolve
 		}
 
 		$config = array_filter($config);
+
+		if ($returnConfigDir)
+		{
+			return (isset($config['vanity.config_dir']) && file_exists($config['vanity.config_dir'])) ?
+				realpath($config['vanity.config_dir']) :
+				null;
+		}
 
 		if (count($config) > 0)
 		{

@@ -99,6 +99,8 @@ class API extends BaseCommand
 		$config->read();
 		$this->displayConfig($output);
 
+		if ($input->getOption('vanity.view_config')) exit;
+
 		// Load the bootstrap, if any
 		if (file_exists($bootstrap = ConfigStore::get('vanity.bootstrap')))
 		{

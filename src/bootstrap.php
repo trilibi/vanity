@@ -57,7 +57,6 @@ define('VANITY_PHPREF_DIR',          VANITY_CACHE_DIR . '/php');
 define('VANITY_ENTITY_GLOBAL_DIR',   VANITY_CACHE_DIR . '/entities');
 define('VANITY_ENTITY_LANG_DIR',     VANITY_CACHE_DIR . '/language-entities');
 define('VANITY_PROJECT_WORKING_DIR', getcwd());
-define('VANITY_PROJECT_CONFIG_DIR',  VANITY_PROJECT_WORKING_DIR . '/.vanity');
 
 
 /********************************************************/
@@ -67,6 +66,7 @@ require_once VANITY_SOURCE . '/Vanity/System/Store.php';
 
 // Save this for later lookup
 Vanity\System\Store::add('_.classes', get_declared_classes());
+Vanity\System\Store::add('_.project_config_dir', VANITY_PROJECT_WORKING_DIR . '/.vanity');
 
 // Load class loaders
 require_once VANITY_VENDOR . '/symfony/class-loader/Symfony/Component/ClassLoader/UniversalClassLoader.php';

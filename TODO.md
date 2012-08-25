@@ -12,6 +12,10 @@
 * <strike>Add support for collecting and logging mismatched parameter data so that we can find and fix it. (3)</strike>
 * <strike>Add support for determining the list of PHP extensions that are requirements for the extended code. (2)</strike>
 
+**To account for:**
+
+* <strike>Enable a custom directory for configuration data. (2)</strike>
+
 
 ## Stage 1: API Reflection and Tokenization
 

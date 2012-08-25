@@ -27,7 +27,7 @@ api:
     #readme: ./README.md
 
     # The stage that the project is currently in (e.g., development, alpha, beta, rc, production)
-    stage: -dev
+    stage: dev
 
     # Point to an online location to view the source. (Variables: line, path)
     viewsource: "https://github.com/vanity/vanity/tree/vanity3/%PATH%#L%LINE%"
