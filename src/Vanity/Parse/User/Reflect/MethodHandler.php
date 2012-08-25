@@ -227,7 +227,6 @@ class MethodHandler
 					// Type hinting trumps docblock
 					if ($rparameter->getClass())
 					{
-						// @todo: Improve this logic by resolving namespace aliases.
 						if (isset($param['type']) &&
 						    $param['type'] !== $rparameter->getClass()->getName())
 						{

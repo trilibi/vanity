@@ -190,30 +190,6 @@ class Utilities
 	}
 
 	/**
-	 * Converts short-form native types to long-form native types.
-	 * Also resolves namespace aliases with a provided alias mapping.
-	 *
-	 * @param  string          $type      The name of the type.
-	 * @param  AncestryHandler $ancestry  The ancestry data for the class.
-	 * @return string                     The long-form version of the type.
-	 */
-	public static function elongateType($type, AncestryHandler $ancestry)
-	{
-		$types = array(
-			'bool' => 'boolean',
-			'int'  => 'integer',
-			'str'  => 'string',
-		);
-
-		if (isset($types[strtolower($type)]))
-		{
-			return $types[strtolower($type)];
-		}
-
-		return $ancestry->resolveNamespace($type);
-	}
-
-	/**
 	 * Strips the root element of an XML string.
 	 *
 	 * @param  string $xml     A string of XML.

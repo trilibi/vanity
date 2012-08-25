@@ -58,9 +58,10 @@ abstract class AbstractHandler
 	}
 
 	/**
-	 * [clean description]
-	 * @param  [type] $content [description]
-	 * @return [type]          [description]
+	 * Trims excess whitespace.
+	 *
+	 * @param  string $content The content to clean excess whitespace from.
+	 * @return string          The content with excess whitespace removed.
 	 */
 	public function clean($content)
 	{

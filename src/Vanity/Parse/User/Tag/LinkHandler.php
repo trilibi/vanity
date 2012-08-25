@@ -36,8 +36,9 @@ use Vanity\Parse\User\Tag\AbstractNameTypeDescription;
 class LinkHandler extends AbstractNameTypeDescription implements HandlerInterface
 {
 	/**
-	 * [process description]
-	 * @return [type] [description]
+	 * Process the intended structure of @link tags.
+	 *
+	 * @return array The contents of a @link tag, broken into elements.
 	 */
 	public function process($elongate = false)
 	{

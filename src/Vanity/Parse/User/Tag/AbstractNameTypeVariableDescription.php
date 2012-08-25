@@ -28,6 +28,7 @@
 namespace Vanity\Parse\User\Tag;
 
 use phpDocumentor\Reflection\DocBlock;
+use Vanity\Parse\User\Reflect\AncestryHandler;
 use Vanity\Parse\User\Tag\AbstractHandler;
 use Vanity\Parse\User\Tag\HandlerInterface;
 use Vanity\Parse\Utilities as ParseUtil;
@@ -58,13 +59,13 @@ abstract class AbstractNameTypeVariableDescription extends AbstractHandler imple
 			$return['types'] = explode('|', $type);
 			$return['types'] = array_map(function($type) use ($self, $elongate)
 			{
-				return $elongate ? ParseUtil::elongateType($type, $self->ancestry) : $type;
+				return $elongate ? AncestryHandler::elongateType($type, $self->ancestry) : $type;
 			},
 			$return['types']);
 		}
 		else
 		{
-			$return['type'] = $elongate ? ParseUtil::elongateType($type, $this->ancestry) : $type;
+			$return['type'] = $elongate ? AncestryHandler::elongateType($type, $this->ancestry) : $type;
 		}
 
 		$return['variable'] = str_replace('$', '', $variable);

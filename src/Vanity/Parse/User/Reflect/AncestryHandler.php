@@ -187,24 +187,7 @@ class AncestryHandler
 
 		// Include native class types
 		$classes = SystemStore::get('_.classes');
-		$classes = array_merge($classes, array(
-			# http://php.net/types
-			'array',
-			'boolean',
-			'callable',
-			'callback',
-			'double',
-			'integer',
-			'float',
-			'mixed',
-			'null',
-			'NULL',
-			'number',
-			'object',
-			'resource',
-			'string',
-			'void',
-		));
+		$classes = array_merge($classes, self::listNativeTypes());
 		$native_classmap = array_combine($classes, $classes);
 		$this->aliases = array_merge($this->aliases, $native_classmap);
 		$this->aliases['self'] = $this->class->getName();
@@ -345,5 +328,58 @@ class AncestryHandler
 				}
 			}
 		}
+	}
+
+	/**
+	 * Returns a list of the native types that were manually culled from
+	 * http://php.net/types
+	 *
+	 * @return array A list of the native types
+	 */
+	public static function listNativeTypes()
+	{
+		return array(
+			'array',
+			'boolean',
+			'callable',
+			'callback',
+			'double',
+			'integer',
+			'float',
+			'mixed',
+			'null',
+			'NULL',
+			'number',
+			'object',
+			'resource',
+			'string',
+			'void',
+		);
+	}
+
+	/**
+	 * Converts short-form native types to long-form native types.
+	 * Also resolves namespace aliases with a provided alias mapping.
+	 *
+	 * @param  string          $type      The name of the type.
+	 * @param  AncestryHandler $ancestry  The ancestry data for the class.
+	 * @return string                     The long-form version of the type.
+	 */
+	public static function elongateType($type, AncestryHandler $ancestry)
+	{
+		$native_types = self::listNativeTypes();
+		$native_types = array_combine($native_types, $native_types);
+		$native_types = array_merge($native_types, array(
+			'bool' => 'boolean',
+			'int'  => 'integer',
+			'str'  => 'string',
+		));
+
+		if (isset($native_types[strtolower($type)]))
+		{
+			return $native_types[strtolower($type)];
+		}
+
+		return $ancestry->resolveNamespace($type);
 	}
 }

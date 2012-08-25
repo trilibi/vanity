@@ -39,8 +39,7 @@ class WarningCollector implements CollectorInterface
 	protected static $messages = array();
 
 	/**
-	 * [add description]
-	 * @param [type] $message [description]
+	 * {@inheritdoc}
 	 */
 	public static function add($message)
 	{
@@ -50,8 +49,7 @@ class WarningCollector implements CollectorInterface
 	}
 
 	/**
-	 * [read description]
-	 * @return [type] [description]
+	 * {@inheritdoc}
 	 */
 	public static function read()
 	{
