@@ -3,15 +3,18 @@
 **Vanity enables you to create a world-class documentation experience for your
 PHP projects.**
 
+## What makes Vanity different?
 By supporting a more _complete_ documentation experience than an API Reference
 alone, Vanity makes it easy to produce user guides, cookbooks & tutorials,
 screencasts and more!
 
+### Speed
 At its core, Vanity is designed for speed. By focusing exclusively on PHP, it is
 able to leverage PHP's super-fast reflection engine to document your source code.
 When Vanity encounters something that isn't supported by the reflection engine, it
 switches into tokenization mode to provide additional data.
 
+### Helpfulness
 Using this thorough understanding of your source code, Vanity can optionally
 provide feedback about system requirements, inconsistent documentation, and other
 things that can pro-actively help you provide a better documentation experience
@@ -20,17 +23,20 @@ for your users. Vanity also encourages best practices by supporting
 [PSR-0](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md)
 standard out-of-the-box.
 
+### User-experience
 Vanity's templates were designed with user-experience and style in mind. You get
 attractive templates right out of the box that are designed for humans first.
 They're also designed to rank highly in organic search engine results, making it
 easy for your customers to find the latest information.
 
+### Customizability
 Do you like to tweak things? Would you like to support a new output type? Vanity's
 strict separation of its data from its templates makes it easy to modify an existing
 template, or even write an entirely new one yourself. Vanity is fundamentally
 designed to be flexible and customizable so that it can easily work with your
 projects.
 
+### Not quite yet!
 **Vanity 3 is not yet ready for prime-time!** It is still being actively re-written
 from the ground-up. Most of the core is working, but none of the templating engine
 work has been started yet. Check the [TODO.md] file for more information.
