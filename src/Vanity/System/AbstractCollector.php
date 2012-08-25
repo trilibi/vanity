@@ -39,10 +39,7 @@ abstract class AbstractCollector implements CollectorInterface
 	protected static $messages = array();
 
 	/**
-	 * Adds a message to the stack.
-	 *
-	 * @param  mixed $message A message to add to the stack. Typically the value is a string, although there are no implicit restrictions.
-	 * @return void
+	 * {@inheritdoc}
 	 */
 	public static function add($message)
 	{
@@ -52,9 +49,7 @@ abstract class AbstractCollector implements CollectorInterface
 	}
 
 	/**
-	 * Reads all of the messages from the stack.
-	 *
-	 * @return array All of the messages in the stack.
+	 * {@inheritdoc}
 	 */
 	public static function read()
 	{

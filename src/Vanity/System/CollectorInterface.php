@@ -33,14 +33,17 @@ namespace Vanity\System;
 interface CollectorInterface
 {
 	/**
-	 * [add description]
-	 * @param [type] $message [description]
+	 * Adds a message to the stack.
+	 *
+	 * @param  mixed $message A message to add to the stack. Typically the value is a string, although there are no implicit restrictions.
+	 * @return void
 	 */
 	public static function add($message);
 
 	/**
-	 * [read description]
-	 * @return [type] [description]
+	 * Reads all of the messages from the stack.
+	 *
+	 * @return array All of the messages in the stack.
 	 */
 	public static function read();
 }

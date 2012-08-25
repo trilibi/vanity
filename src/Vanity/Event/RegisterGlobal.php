@@ -62,7 +62,7 @@ class RegisterGlobal
 			$stop_time = Timer::stop();
 
 			echo PHP_EOL;
-			echo $formatter->pending->apply(' Completed in ' . ConsoleUtil::time_hms(round($stop_time)) . ' (' . $stop_time . ') ') . PHP_EOL;
+			echo $formatter->pending->apply(' Completed in ' . ConsoleUtil::timeHMS(round($stop_time)) . ' (' . $stop_time . ') ') . PHP_EOL;
 		});
 
 		// api.report.dependencies event

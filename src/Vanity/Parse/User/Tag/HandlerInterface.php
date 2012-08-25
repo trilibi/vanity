@@ -36,16 +36,18 @@ use Vanity\Parse\User\Reflect\AncestryHandler;
 interface HandlerInterface
 {
 	/**
-	 * [__construct description]
-	 * @param Tag   $tag     [description]
-	 * @param array $aliases [description]
+	 * Constructs a new instance.
+	 *
+	 * @param Tag             $tag      A docblock tag to handle.
+	 * @param AncestryHandler $ancestry The ancestry of the object to document.
 	 */
 	public function __construct(Tag $tag, AncestryHandler $ancestry);
 
 	/**
-	 * [process description]
-	 * @param  boolean $elongate [description]
-	 * @return [type]            [description]
+	 * Does the work to process the docblock tag.
+	 *
+	 * @param  boolean $elongate Whether or not to "elongate" native types.
+	 * @return array             An array containing the pieces of the docblock tag.
 	 */
 	public function process($elongate = false);
 }

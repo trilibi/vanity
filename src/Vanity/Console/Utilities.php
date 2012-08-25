@@ -98,7 +98,7 @@ class Utilities
 	 * @param  integer $seconds The number of seconds to format.
 	 * @return string           The formatted time.
 	 */
-	public static function time_hms($seconds = 0)
+	public static function timeHMS($seconds = 0)
 	{
 		$time = '';
 

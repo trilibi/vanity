@@ -111,7 +111,7 @@ class Store
 
 			if (is_array($value))
 			{
-				if (self::is_indexed_array($value))
+				if (self::isIndexedArray($value))
 				{
 					if ($prefix)
 					{
@@ -157,7 +157,7 @@ class Store
 	 * @param  array   $array The array to verify.
 	 * @return boolean        Whether or not the specified array is an indexed array.
 	 */
-	private static function is_indexed_array(array $array)
+	private static function isIndexedArray(array $array)
 	{
 		$keys = array_keys($array);
 

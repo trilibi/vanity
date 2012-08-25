@@ -35,6 +35,9 @@ use Vanity\Parse\User\Tag\AbstractNameUri;
  */
 class AuthorHandler extends AbstractNameUri implements HandlerInterface
 {
+	/**
+	 * {@inheritdoc}
+	 */
 	public function process($elongate = false)
 	{
 		$return = parent::process($elongate);

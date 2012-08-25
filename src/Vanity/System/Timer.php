@@ -40,6 +40,7 @@ class Timer
 
 	/**
 	 * Stores the current microtime.
+	 *
 	 * @return float The current microtime.
 	 */
 	public static function start()
@@ -49,7 +50,8 @@ class Timer
 	}
 
 	/**
-	 * Gets the difference in time since <start()> was called.
+	 * Gets the difference in time since {@see start()} was called.
+	 *
 	 * @return float The microtime delta.
 	 */
 	public static function stop()

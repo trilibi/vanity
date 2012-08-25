@@ -35,6 +35,9 @@ use Vanity\Parse\User\Tag\AbstractNameTypeDescription;
  */
 class LicenseHandler extends AbstractNameTypeDescription implements HandlerInterface
 {
+	/**
+	 * {@inheritdoc}
+	 */
 	public function process($elongate = false)
 	{
 		$return = parent::process($elongate);

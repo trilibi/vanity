@@ -244,7 +244,7 @@ class Utilities
 	 *
 	 * @todo Rewrite this method.
 	 */
-	public static function convert_to_html($path)
+	public static function convertToHTML($path)
 	{
 		$pathinfo = pathinfo($path);
 		$extension = strtolower($pathinfo['extension']);
