@@ -17,14 +17,13 @@
 * <strike>Enable a custom directory for configuration data. (1)</strike>
 * <strike>Make type-matching of native types case-insensitive. (1)</strike>
 * <strike>Add support for resolving the `self` keyword. (1)</strike>
+* <strike>Extract method handling into a separate class. (3)</strike>
 
 
 ## Stage 1: API Reflection and Tokenization
 
 * Synchronize the format of event names and fix existing ones (e.g., parser.method.tag.param, config.api.warn.todo). (2)
 * Synchronize the coding style (currently a mix of SimplePie-style and PSR-1). (3)
-* Extract method handling into a separate class. (3)
-* Extract parameter handling into a separate class. (2)
 * Add support for @property tags. (1)
 	* Merge data from @property tags into the main "properties" hash. (2)
 * Add support for @method tags. (1)
