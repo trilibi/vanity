@@ -84,7 +84,8 @@ and PHP.net.
 A big thanks goes out to [Jeremy Lindblom](http://webdevilaz.com) and
 [Michael Dowling](http://mtdowling.com) for frequent feedback,
 [Ryan McCue](http://ryanmccue.info) for contributing to earlier versions of Vanity
-(especially around Windows support), and to all of the CloudFusion and
+(especially around Windows support), Mr. Zachary Bartholomew Layne for teaching me
+how to be a better documentation writer, and to all of the CloudFusion and
 [AWS SDK for PHP](http://aws.amazon.com/sdkforphp) customers who provided feedback
 at one point or another about something that we could have been doing better.
 This project wouldn't exist without you!
