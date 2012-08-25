@@ -70,6 +70,26 @@ This software is **optional**, and is only used if you need to generate addition
 {TBD}
 
 
+## On the shoulders of giants
+Vanity uses a number of off-the-shelf components to handle a variety of complex
+tasks. These include several Symfony 2 components, the DocBlock parser from
+phpDocumentor 2, the PHP Tokenizer from ApiGen, a modern Markdown module,
+Monolog for logging, Pandoc for format transliteration, and Twitter Bootstrap
+and jQuery for much of the front-end code.
+
+The feature set for Vanity 3 was inspired by projects such as phpDocumentor,
+ApiGen, Sami, Rails API, Ingredients.app, Apple's developer docs, Parse, Stripe
+and PHP.net.
+
+A big thanks goes out to [Jeremy Lindblom](http://webdevilaz.com) and
+[Michael Dowling](http://mtdowling.com) for frequent feedback,
+[Ryan McCue](http://ryanmccue.info) for contributing to earlier versions of Vanity
+(especially around Windows support), and to all of the CloudFusion and
+[AWS SDK for PHP](http://aws.amazon.com/sdkforphp) customers who provided feedback
+at one point or another about something that we could have been doing better.
+This project wouldn't exist without you!
+
+
 ## Authors, Copyright & Licensing
 * Copyright (c) 2009-2012 [Ryan Parman](http://ryanparman.com).
 
