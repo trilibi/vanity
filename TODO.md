@@ -15,6 +15,8 @@
 **To account for:**
 
 * <strike>Enable a custom directory for configuration data. (1)</strike>
+* <strike>Make type-matching of native types case-insensitive. (1)</strike>
+* <strike>Add support for resolving the `self` keyword. (1)</strike>
 
 
 ## Stage 1: API Reflection and Tokenization
