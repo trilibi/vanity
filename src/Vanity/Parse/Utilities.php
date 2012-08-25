@@ -27,9 +27,6 @@
 
 namespace Vanity\Parse;
 
-use ReflectionClass;
-use ReflectionMethod;
-use ReflectionProperty;
 use Vanity\Parse\User\Reflect\AncestryHandler;
 use Vanity\System\Backtrace;
 use Vanity\System\Store as SystemStore;
@@ -42,44 +39,6 @@ use Vanity\System\Store as SystemStore;
  */
 class Utilities
 {
-	/**
-	 * Returns an array of access/visibility data for a method.
-	 *
-	 * @param  ReflectionMethod $o The method to parse.
-	 * @return array               An array of visibilities that apply to this method.
-	 */
-	public static function methodAccess(ReflectionMethod $o)
-	{
-		$accesses = array();
-
-		if (method_exists($o, 'isFinal'))
-		{
-			if ($o->isFinal()) $accesses[] = 'final';
-		}
-		if (method_exists($o, 'isAbstract'))
-		{
-			if ($o->isAbstract()) $accesses[] = 'abstract';
-		}
-		if (method_exists($o, 'isPrivate'))
-		{
-			if ($o->isPrivate()) $accesses[] = 'private';
-		}
-		if (method_exists($o, 'isProtected'))
-		{
-			if ($o->isProtected()) $accesses[] = 'protected';
-		}
-		if (method_exists($o, 'isPublic'))
-		{
-			if ($o->isPublic()) $accesses[] = 'public';
-		}
-		if (method_exists($o, 'isStatic'))
-		{
-			if ($o->isStatic()) $accesses[] = 'static';
-		}
-
-		return $accesses;
-	}
-
 	/**
 	 * Makes a string regex-ready.
 	 *

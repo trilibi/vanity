@@ -188,24 +188,26 @@ class AncestryHandler
 		// Include native class types
 		$classes = SystemStore::get('_.classes');
 		$classes = array_merge($classes, array(
-			// http://php.net/types
+			# http://php.net/types
+			'array',
 			'boolean',
+			'callable',
+			'callback',
+			'double',
 			'integer',
 			'float',
-			'double',
-			'string',
-			'array',
+			'mixed',
+			'null',
+			'NULL',
+			'number',
 			'object',
 			'resource',
-			'NULL',
-			'null',
-			'callable',
-			'mixed',
-			'number',
-			'callback',
+			'string',
+			'void',
 		));
 		$native_classmap = array_combine($classes, $classes);
 		$this->aliases = array_merge($this->aliases, $native_classmap);
+		$this->aliases['self'] = $this->class->getName();
 
 		// Sort the list
 		ksort($this->aliases);

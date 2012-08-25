@@ -14,7 +14,7 @@
 
 **To account for:**
 
-* <strike>Enable a custom directory for configuration data. (2)</strike>
+* <strike>Enable a custom directory for configuration data. (1)</strike>
 
 
 ## Stage 1: API Reflection and Tokenization
