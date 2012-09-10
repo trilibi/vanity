@@ -109,4 +109,3 @@ pandoc index.rst --output index.textile --read rst --write textile --template ..
 
 ## RST to Word
 pandoc index.rst --output index.docx --read rst --write docx  --reference-docx ../../src/Pandoc/templates/docx_styles.docx --toc --number-sections --chapters
-
