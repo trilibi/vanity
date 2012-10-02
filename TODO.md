@@ -11,9 +11,6 @@
 * ~~Establish a pattern of notifying various actions with events and event handlers. (3)~~
 * ~~Add support for collecting and logging mismatched parameter data so that we can find and fix it. (3)~~
 * ~~Add support for determining the list of PHP extensions that are requirements for the extended code. (2)~~
-
-**To account for:**
-
 * ~~Enable a custom directory for configuration data. (1)~~
 * ~~Make type-matching of native types case-insensitive. (1)~~
 * ~~Add support for resolving the `self` keyword. (1)~~
@@ -39,7 +36,7 @@
 * Implement support for linking to PHP functions/classes. (2)
 
 
-## Stage 2: PHP Documentation Tokenization
+## Stage 2: PHP Documentation Tokenization (delaying)
 
 * Identifying and looking up the correct file(s) for extended PHP classes. (2)
 * Normalize the DocBook and XML Schema source into something sensible. (2)
