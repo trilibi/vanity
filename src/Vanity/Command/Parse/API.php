@@ -107,7 +107,7 @@ class API extends BaseCommand
 			include_once $bootstrap;
 		}
 
-		$this->triggerEvent('reference.parse.files.pre');
+		$this->triggerEvent('vanity.command.parse.api.files.pre');
 
 		$output->writeln($this->formatter->yellow->apply('MATCHED FILES:'));
 
@@ -129,11 +129,11 @@ class API extends BaseCommand
 		echo PHP_EOL;
 
 		// Trigger events
-		$this->triggerEvent('reference.parse.files.post');
+		$this->triggerEvent('vanity.command.parse.api.files.post');
 
 		#--------------------------------------------------------------------------#
 
-		$this->triggerEvent('reference.parse.class_list.pre');
+		$this->triggerEvent('vanity.command.parse.api.classlist.pre');
 
 		// Find the classes
 		$output->writeln($this->formatter->yellow->apply('MATCHED CLASSES:'));
@@ -154,28 +154,28 @@ class API extends BaseCommand
 		$output->writeln('Found ' . $this->formatter->info->apply(" ${count} ") . ' ' . ConsoleUtil::pluralize($count, 'class', 'classes') . ' to document.');
 		echo PHP_EOL;
 
-		$this->triggerEvent('reference.parse.class_list.post');
+		$this->triggerEvent('vanity.command.parse.api.classlist.post');
 
 		#--------------------------------------------------------------------------#
 
-		$this->triggerEvent('reference.parse.parsing.pre');
+		$this->triggerEvent('vanity.command.parse.api.reflection.pre');
 
 		$reflector = new ReflectAll($classes, ConfigStore::get('api.output'));
 		$reflector->process($output);
 
-		$this->triggerEvent('reference.parse.parsing.post');
+		$this->triggerEvent('vanity.command.parse.api.reflection.post');
 
 		#--------------------------------------------------------------------------#
 
 		// Warnings
-		if (ConfigStore::get('api.warn.dependencies')) { $this->triggerEvent('api.warn.dependencies'); }
-		if (ConfigStore::get('api.warn.inconsistencies')) { $this->triggerEvent('api.warn.inconsistencies'); }
+		if (ConfigStore::get('api.warn.dependencies')) { $this->triggerEvent('vanity.command.parse.api.warn.dependencies'); }
+		if (ConfigStore::get('api.warn.inconsistencies')) { $this->triggerEvent('vanity.command.parse.api.warn.inconsistencies'); }
 
 		// Reports
-		if (ConfigStore::get('api.report.dependencies')) { $this->triggerEvent('api.report.dependencies'); }
-		if (ConfigStore::get('api.report.inconsistencies')) { $this->triggerEvent('api.report.inconsistencies'); }
+		if (ConfigStore::get('api.report.dependencies')) { $this->triggerEvent('vanity.command.parse.api.report.dependencies'); }
+		if (ConfigStore::get('api.report.inconsistencies')) { $this->triggerEvent('vanity.command.parse.api.report.inconsistencies'); }
 
-		$this->triggerEvent('command.complete');
+		$this->triggerEvent('vanity.command.complete');
 
 		echo PHP_EOL;
 	}

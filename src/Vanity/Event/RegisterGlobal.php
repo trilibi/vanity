@@ -55,8 +55,8 @@ class RegisterGlobal
 	{
 		$self = get_called_class();
 
-		// command.complete event
-		Dispatcher::get()->addListener('command.complete', function(Event $event)
+		// vanity.command.complete event
+		Dispatcher::get()->addListener('vanity.command.complete', function(Event $event)
 		{
 			$formatter = ConsoleUtil::formatters();
 			$stop_time = Timer::stop();
@@ -65,8 +65,8 @@ class RegisterGlobal
 			echo $formatter->pending->apply(' Completed in ' . ConsoleUtil::timeHMS(round($stop_time)) . ' (' . $stop_time . ') ') . PHP_EOL;
 		});
 
-		// api.report.dependencies event
-		Dispatcher::get()->addListener('api.report.dependencies', function(Event $event)
+		// vanity.command.parse.api.report.dependencies event
+		Dispatcher::get()->addListener('vanity.command.parse.api.report.dependencies', function(Event $event)
 		{
 			// jsonify!
 			$json = ConsoleUtil::json_encode(self::getDependencies());
@@ -78,8 +78,8 @@ class RegisterGlobal
 			file_put_contents(ConfigStore::get('vanity.reports') . '/dependencies.json', $json);
 		});
 
-		// api.warn.dependencies event
-		Dispatcher::get()->addListener('api.warn.dependencies', function(Event $event) use (&$self)
+		// vanity.command.parse.api.warn.dependencies event
+		Dispatcher::get()->addListener('vanity.command.parse.api.warn.dependencies', function(Event $event) use (&$self)
 		{
 			$formatter = ConsoleUtil::formatters();
 			$dependencies = $self::getDependencies();
@@ -98,8 +98,8 @@ class RegisterGlobal
 			echo 'Found ' . $formatter->info->apply(" ${count} ") . ' ' . ConsoleUtil::pluralize($count, 'dependency', 'dependencies') . '.' . PHP_EOL;
 		});
 
-		// api.warn.inconsistencies event
-		Dispatcher::get()->addListener('api.warn.inconsistencies', function(Event $event)
+		// vanity.command.parse.api.warn.inconsistencies event
+		Dispatcher::get()->addListener('vanity.command.parse.api.warn.inconsistencies', function(Event $event)
 		{
 			$formatter = ConsoleUtil::formatters();
 			$inconsistencies = DocumentationInconsistencyCollector::read();

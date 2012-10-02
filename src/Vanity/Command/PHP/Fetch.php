@@ -89,7 +89,7 @@ class Fetch extends BaseCommand
 
 			try {
 				$filesystem->mkdir(VANITY_CACHE_DIR, 0777);
-				$this->triggerEvent('php.fetch.checkout.pre');
+				$this->triggerEvent('vanity.command.php.fetch.checkout.pre');
 
 				$output->writeln($this->formatter->yellow->apply('PHP DOCUMENTATION CHECKOUT'));
 				$output->writeln('Downloading the PHP documentation for the first time. This may take a few minutes.');
@@ -120,7 +120,7 @@ class Fetch extends BaseCommand
 					echo PHP_EOL;
 				}
 
-				$this->triggerEvent('php.fetch.checkout.post');
+				$this->triggerEvent('vanity.command.php.fetch.checkout.post');
 			}
 			catch (IOException $e)
 			{
@@ -134,7 +134,7 @@ class Fetch extends BaseCommand
 		{
 			$this->logger->info('Cache directory already exists.', array(VANITY_CACHE_DIR));
 
-			$this->triggerEvent('php.fetch.update.pre');
+			$this->triggerEvent('vanity.command.php.fetch.update.pre');
 
 			$output->writeln($this->formatter->yellow->apply('PHP DOCUMENTATION UPDATE'));
 			$output->writeln('Updating the PHP documentation.');
@@ -165,10 +165,10 @@ class Fetch extends BaseCommand
 				echo PHP_EOL;
 			}
 
-			$this->triggerEvent('php.fetch.update.post');
+			$this->triggerEvent('vanity.command.php.fetch.update.post');
 		}
 
-		$this->triggerEvent('command.complete');
+		$this->triggerEvent('vanity.command.complete');
 
 		echo PHP_EOL;
 	}
