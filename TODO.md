@@ -2,29 +2,29 @@
 
 ## Already Done
 
-* <strike>Build a console-based application using the Symfony Console component. (5)</strike>
-* <strike>Reflect the source code and construct a structured JSON document. (8)</strike>
-* <strike>Add support for parsing DocBlocks for descriptions and @tags. (5)</strike>
-* <strike>Merge data from @param tags with ReflectionParameter data to get a complete picture of parameters. (3)</strike>
-* <strike>Add support for resolving namespace aliases back into fully-qualified namespaces (i.e., namespaces, aliases, class heirarchies, implementation heirarchies). (8)</strike>
-* <strike>Add support for logging. (2)</strike>
-* <strike>Establish a pattern of notifying various actions with events and event handlers. (3)</strike>
-* <strike>Add support for collecting and logging mismatched parameter data so that we can find and fix it. (3)</strike>
-* <strike>Add support for determining the list of PHP extensions that are requirements for the extended code. (2)</strike>
+* ~~Build a console-based application using the Symfony Console component. (5)~~
+* ~~Reflect the source code and construct a structured JSON document. (8)~~
+* ~~Add support for parsing DocBlocks for descriptions and @tags. (5)~~
+* ~~Merge data from @param tags with ReflectionParameter data to get a complete picture of parameters. (3)~~
+* ~~Add support for resolving namespace aliases back into fully-qualified namespaces (i.e., namespaces, aliases, class heirarchies, implementation heirarchies). (8)~~
+* ~~Add support for logging. (2)~~
+* ~~Establish a pattern of notifying various actions with events and event handlers. (3)~~
+* ~~Add support for collecting and logging mismatched parameter data so that we can find and fix it. (3)~~
+* ~~Add support for determining the list of PHP extensions that are requirements for the extended code. (2)~~
 
 **To account for:**
 
-* <strike>Enable a custom directory for configuration data. (1)</strike>
-* <strike>Make type-matching of native types case-insensitive. (1)</strike>
-* <strike>Add support for resolving the `self` keyword. (1)</strike>
-* <strike>Extract method handling into a separate class. (3)</strike>
-* <strike>Synchronize the coding style (currently a mix of SimplePie-style and PSR-1). (3)</strike>
+* ~~Enable a custom directory for configuration data. (1)~~
+* ~~Make type-matching of native types case-insensitive. (1)~~
+* ~~Add support for resolving the `self` keyword. (1)~~
+* ~~Extract method handling into a separate class. (3)~~
+* ~~Synchronize the coding style (currently a mix of SimplePie-style and PSR-1). (3)~~
 
 
 ## Stage 1: API Reflection and Tokenization
 
-* <strike>Synchronize the format of event names and fix existing ones (e.g., parser.method.tag.param, config.api.warn.todo). (1)</strike>
-* <strike>Add a custom Event type which allows contextual storage. (1)</strike>
+* ~~Synchronize the format of event names and fix existing ones (e.g., parser.method.tag.param, config.api.warn.todo). (1)~~
+* ~~Add a custom Event type which allows contextual storage. (1)~~
 * Add support for @property tags. (1)
 	* Merge data from @property tags into the main "properties" hash. (2)
 * Add support for @method tags. (1)
