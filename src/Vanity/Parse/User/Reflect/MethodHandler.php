@@ -37,6 +37,7 @@ use Vanity\Parse\User\Reflect\AncestryHandler;
 use Vanity\Parse\User\Tag;
 use Vanity\Parse\User\TagFinder;
 use Vanity\System\DependencyCollector;
+use Vanity\System\DocumentationInconsistencyCollector as Inconsistency;
 use Vanity\System\Store as SystemStore;
 
 /**
@@ -230,7 +231,8 @@ class MethodHandler
 						if (isset($param['type']) &&
 						    $param['type'] !== $rparameter->getClass()->getName())
 						{
-							Inconsistency::add($this->rclass->getName() . '::' . $rmethod->getName() . '($' . $rparameter->getName() . ') [' . $param['type'] . ' => ' . $rparameter->getClass()->getName() . ']');
+							// @todo: Resolve namespace of declaring class.
+							Inconsistency::add($this->class->getName() . '::' . $rmethod->getName() . '($' . $rparameter->getName() . ') [' . $param['type'] . ' => ' . $rparameter->getClass()->getName() . ']');
 						}
 
 						$param['type'] = $rparameter->getClass()->getName();

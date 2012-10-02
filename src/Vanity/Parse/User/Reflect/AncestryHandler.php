@@ -75,6 +75,12 @@ class AncestryHandler
 	protected $inherits;
 
 	/**
+	 * Stores the raw namespaces for everything we're importing.
+	 * @var array
+	 */
+	protected $namespaces;
+
+	/**
 	 * Constructs a new instance of this class.
 	 *
 	 * @param Reflector $reflector The reflector to work with.
@@ -91,6 +97,7 @@ class AncestryHandler
 		$this->class = $reflector;
 		$this->implements = array();
 		$this->inherits = array();
+		$this->namespaces = array();
 	}
 
 	/**
@@ -115,6 +122,18 @@ class AncestryHandler
 					array_filter($this->inherits['class'],
 						function($class)
 						{
+							if (isset($class['name']))
+							{
+								// Is this a user-defined class?
+								if (strpos($class['name'], '\\') !== false)
+								{
+									$cn = explode('\\', $class['name']);
+									array_pop($cn);
+									$this->namespaces[] = implode('\\', $cn);
+									unset($cn);
+								}
+							}
+
 							return isset($class['path']);
 						}
 					)
@@ -128,6 +147,18 @@ class AncestryHandler
 					array_filter($this->implements['interface'],
 						function($interface)
 						{
+							if (isset($interface['name']))
+							{
+								// Is this a user-defined class?
+								if (strpos($interface['name'], '\\') !== false)
+								{
+									$in = explode('\\', $interface['name']);
+									array_pop($in);
+									$this->namespaces[] = implode('\\', $in);
+									unset($in);
+								}
+							}
+
 							return isset($interface['path']);
 						}
 					)
@@ -184,6 +215,9 @@ class AncestryHandler
 				}
 			}
 		}
+
+		// Flatten the list of namespaces
+		$this->namespaces = array_values(array_unique($this->namespaces));
 
 		// Include native class types
 		$classes = SystemStore::get('_.classes');
@@ -300,6 +334,7 @@ class AncestryHandler
 		}
 		else
 		{
+			// Handle implicit aliases in the same namespace.
 			try
 			{
 				$namespace = $this->class->getNamespaceName() . '\\' . $short;
@@ -310,21 +345,45 @@ class AncestryHandler
 			}
 			catch (ReflectionException $e)
 			{
+				// Handle implicit namespaces in an extended/implemented namespace.
 				try
 				{
-					$class = preg_replace('/^\\\/', '', $short);
-					new ReflectionClass($class);
+					foreach ($this->namespaces as $ns)
+					{
+						try
+						{
+							$namespace = $ns . '\\' . $short;
+							new ReflectionClass($namespace);
 
-					// If we didn't throw an exception, we're good.
-					return $class;
+							// If we didn't throw an exception, we're good.
+							return $namespace;
+						}
+						catch (ReflectionException $e) {}
+					}
+
+					throw new ReflectionException();
 				}
 				catch (ReflectionException $e)
 				{
-					$formatter = ConsoleUtil::formatters();
-					Inconsistency::add($class . $formatter->gold->apply(' => ' . SystemStore::get('_.current')));
+					// Try removing the beginning '\' to see if we find a match.
+					try
+					{
+						$class = preg_replace('/^\\\/', '', $short);
+						new ReflectionClass($class);
 
-					// No match. Return it as-is (without any starting backslash).
-					return $class;
+						// If we didn't throw an exception, we're good.
+						return $class;
+					}
+
+					// Complain and return the class name as-is.
+					catch (ReflectionException $e)
+					{
+						$formatter = ConsoleUtil::formatters();
+						Inconsistency::add($class . $formatter->gold->apply(' => ' . SystemStore::get('_.current')));
+
+						// No match. Return it as-is (without any starting backslash).
+						return $class;
+					}
 				}
 			}
 		}
