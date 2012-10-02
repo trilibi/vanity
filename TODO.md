@@ -23,7 +23,8 @@
 
 ## Stage 1: API Reflection and Tokenization
 
-* Synchronize the format of event names and fix existing ones (e.g., parser.method.tag.param, config.api.warn.todo). (2)
+* <strike>Synchronize the format of event names and fix existing ones (e.g., parser.method.tag.param, config.api.warn.todo). (1)</strike>
+* <strike>Add a custom Event type which allows contextual storage. (1)</strike>
 * Add support for @property tags. (1)
 	* Merge data from @property tags into the main "properties" hash. (2)
 * Add support for @method tags. (1)

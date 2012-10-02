@@ -36,6 +36,7 @@ use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
 use Vanity\Command\Base as BaseCommand;
+use Vanity\Event\Event\Store as EventStore;
 
 /**
  * Command that executes `php:fetch`.
@@ -89,7 +90,10 @@ class Fetch extends BaseCommand
 
 			try {
 				$filesystem->mkdir(VANITY_CACHE_DIR, 0777);
-				$this->triggerEvent('vanity.command.php.fetch.checkout.pre');
+				$this->triggerEvent('vanity.command.php.fetch.checkout.pre', new EventStore(array(
+					'cache_dir' => VANITY_CACHE_DIR,
+					'type'      => 'checkout'
+				)));
 
 				$output->writeln($this->formatter->yellow->apply('PHP DOCUMENTATION CHECKOUT'));
 				$output->writeln('Downloading the PHP documentation for the first time. This may take a few minutes.');
@@ -120,7 +124,10 @@ class Fetch extends BaseCommand
 					echo PHP_EOL;
 				}
 
-				$this->triggerEvent('vanity.command.php.fetch.checkout.post');
+				$this->triggerEvent('vanity.command.php.fetch.checkout.post', new EventStore(array(
+					'cache_dir' => VANITY_CACHE_DIR,
+					'type'      => 'update'
+				)));
 			}
 			catch (IOException $e)
 			{
@@ -134,7 +141,10 @@ class Fetch extends BaseCommand
 		{
 			$this->logger->info('Cache directory already exists.', array(VANITY_CACHE_DIR));
 
-			$this->triggerEvent('vanity.command.php.fetch.update.pre');
+			$this->triggerEvent('vanity.command.php.fetch.update.pre', new EventStore(array(
+				'cache_dir' => VANITY_CACHE_DIR,
+				'type'      => 'update'
+			)));
 
 			$output->writeln($this->formatter->yellow->apply('PHP DOCUMENTATION UPDATE'));
 			$output->writeln('Updating the PHP documentation.');
@@ -165,7 +175,10 @@ class Fetch extends BaseCommand
 				echo PHP_EOL;
 			}
 
-			$this->triggerEvent('vanity.command.php.fetch.update.post');
+			$this->triggerEvent('vanity.command.php.fetch.update.post', new EventStore(array(
+				'cache_dir' => VANITY_CACHE_DIR,
+				'type'      => 'update'
+			)));
 		}
 
 		$this->triggerEvent('vanity.command.complete');

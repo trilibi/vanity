@@ -37,6 +37,7 @@ use Vanity\Command\Base as BaseCommand;
 use Vanity\Config\Resolve as ConfigResolve;
 use Vanity\Config\Store as ConfigStore;
 use Vanity\Console\Utilities as ConsoleUtil;
+use Vanity\Event\Event\Store as EventStore;
 use Vanity\Find\Find;
 use Vanity\Parse\User\ReflectAll;
 
@@ -107,14 +108,16 @@ class API extends BaseCommand
 			include_once $bootstrap;
 		}
 
-		$this->triggerEvent('vanity.command.parse.api.files.pre');
-
 		$output->writeln($this->formatter->yellow->apply('MATCHED FILES:'));
 
 		// Parse the pattern to determine the files to match
 		$path = pathinfo(ConfigStore::get('api.input'), PATHINFO_DIRNAME);
 		$pattern = pathinfo(ConfigStore::get('api.input'), PATHINFO_BASENAME);
 		$files = Find::files($path, $pattern);
+
+		$this->triggerEvent('vanity.command.parse.api.files.pre', new EventStore(array(
+			'files' => &$files
+		)));
 
 		// Display the list of matches
 		foreach ($files['relative'] as $file)
@@ -129,11 +132,11 @@ class API extends BaseCommand
 		echo PHP_EOL;
 
 		// Trigger events
-		$this->triggerEvent('vanity.command.parse.api.files.post');
+		$this->triggerEvent('vanity.command.parse.api.files.post', new EventStore(array(
+			'files' => &$files
+		)));
 
 		#--------------------------------------------------------------------------#
-
-		$this->triggerEvent('vanity.command.parse.api.classlist.pre');
 
 		// Find the classes
 		$output->writeln($this->formatter->yellow->apply('MATCHED CLASSES:'));
@@ -141,6 +144,10 @@ class API extends BaseCommand
 		{
 			return !preg_match(ConfigStore::get('api.exclude.classes'), $class);
 		});
+
+		$this->triggerEvent('vanity.command.parse.api.classlist.pre', new EventStore(array(
+			'classes' => &$classes
+		)));
 
 		// Display the classes
 		foreach ($classes as $class)
@@ -154,26 +161,47 @@ class API extends BaseCommand
 		$output->writeln('Found ' . $this->formatter->info->apply(" ${count} ") . ' ' . ConsoleUtil::pluralize($count, 'class', 'classes') . ' to document.');
 		echo PHP_EOL;
 
-		$this->triggerEvent('vanity.command.parse.api.classlist.post');
+		$this->triggerEvent('vanity.command.parse.api.classlist.post', new EventStore(array(
+			'classes' => &$classes
+		)));
 
 		#--------------------------------------------------------------------------#
 
-		$this->triggerEvent('vanity.command.parse.api.reflection.pre');
-
 		$reflector = new ReflectAll($classes, ConfigStore::get('api.output'));
+
+		$this->triggerEvent('vanity.command.parse.api.reflection.pre', new EventStore(array(
+			'reflector' => &$reflector
+		)));
+
 		$reflector->process($output);
 
-		$this->triggerEvent('vanity.command.parse.api.reflection.post');
+		$this->triggerEvent('vanity.command.parse.api.reflection.post', new EventStore(array(
+			'reflector' => &$reflector
+		)));
 
 		#--------------------------------------------------------------------------#
 
 		// Warnings
-		if (ConfigStore::get('api.warn.dependencies')) { $this->triggerEvent('vanity.command.parse.api.warn.dependencies'); }
-		if (ConfigStore::get('api.warn.inconsistencies')) { $this->triggerEvent('vanity.command.parse.api.warn.inconsistencies'); }
+		if (ConfigStore::get('api.warn.dependencies'))
+		{
+			$this->triggerEvent('vanity.command.parse.api.warn.dependencies');
+		}
+
+		if (ConfigStore::get('api.warn.inconsistencies'))
+		{
+			$this->triggerEvent('vanity.command.parse.api.warn.inconsistencies');
+		}
 
 		// Reports
-		if (ConfigStore::get('api.report.dependencies')) { $this->triggerEvent('vanity.command.parse.api.report.dependencies'); }
-		if (ConfigStore::get('api.report.inconsistencies')) { $this->triggerEvent('vanity.command.parse.api.report.inconsistencies'); }
+		if (ConfigStore::get('api.report.dependencies'))
+		{
+			$this->triggerEvent('vanity.command.parse.api.report.dependencies');
+		}
+
+		if (ConfigStore::get('api.report.inconsistencies'))
+		{
+			$this->triggerEvent('vanity.command.parse.api.report.inconsistencies');
+		}
 
 		$this->triggerEvent('vanity.command.complete');
 

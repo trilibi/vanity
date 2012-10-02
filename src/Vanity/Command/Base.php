@@ -35,6 +35,7 @@ use stdClass;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml as YAML;
 use Vanity\Config\Store as ConfigStore;
@@ -94,13 +95,14 @@ class Base extends Command
 	/**
 	 * Triggers an event and logs it to the INFO log.
 	 *
-	 * @param  string $event The string identifier for the event.
+	 * @param  string $event       The string identifier for the event.
+	 * @param  Event  $eventObject An object that extends the {@see Symfony\Component\EventDispatcher\Event} object.
 	 * @return void
 	 */
-	public function triggerEvent($event)
+	public function triggerEvent($event, Event $eventObject = null)
 	{
 		$this->logger->info('Triggering event:', array($event));
-		Dispatcher::get()->dispatch($event);
+		Dispatcher::get()->dispatch($event, $eventObject);
 	}
 
 	/**
