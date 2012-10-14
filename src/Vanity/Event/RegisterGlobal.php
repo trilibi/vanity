@@ -32,7 +32,7 @@ use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\Filesystem\Filesystem;
 use Vanity\Config\Store as ConfigStore;
 use Vanity\Console\Utilities as ConsoleUtil;
-use Vanity\Event\Dispatcher;
+use Vanity\GlobalObject\Dispatcher;
 use Vanity\System\Timer;
 use Vanity\System\DependencyCollector;
 use Vanity\System\DocumentationInconsistencyCollector;

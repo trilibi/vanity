@@ -30,18 +30,48 @@
 require_once __DIR__ . '/src/bootstrap.php';
 
 // List the namespaces to use
+use Monolog\Logger as Monolog;
+use Monolog\Handler\StreamHandler;
+use Monolog\Processor\IntrospectionProcessor;
 use Symfony\Component\Console\Application;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\Filesystem\Filesystem;
 use Vanity\Config\Store as ConfigStore;
-use Vanity\Event\Dispatcher;
+use Vanity\GlobalObject\Dispatcher;
+use Vanity\GlobalObject\Logger;
 use Vanity\System\Timer;
 
 
 /********************************************************/
 // INSTANTIATE CONSOLE APPLICATION
 
-// Instantiate
+// Instantiate Event Dispatcher
 Dispatcher::set(new EventDispatcher);
+
+// Instantiate FileSystem handler
+$filesystem = new Filesystem();
+
+// Create logging directory
+if (!is_dir(VANITY_LOGS))
+{
+	if (!$filesystem->mkdir(VANITY_LOGS, 0777))
+	{
+		throw new Exception('Vanity was unable to create the logging directory at ' . VANITY_LOGS);
+	}
+}
+
+// Construct logging handlers
+$streamInfo  = new StreamHandler(VANITY_LOGS . '/info.log',  Monolog::INFO);
+$streamDebug = new StreamHandler(VANITY_LOGS . '/debug.log', Monolog::DEBUG);
+$streamDebug->pushProcessor(new IntrospectionProcessor);
+
+// Instantiate the logger
+$logger = new Monolog('Vanity');
+$logger->pushHandler($streamInfo);
+$logger->pushHandler($streamDebug);
+Logger::set($logger);
+
+// Instantiate Application
 $console = new Application('Vanity', VANITY_VERSION);
 
 $console->add(new Vanity\Command\PHP\Fetch);

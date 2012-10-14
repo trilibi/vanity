@@ -27,8 +27,11 @@
 
 namespace Vanity\Parse\User\Tag;
 
+use Vanity\Console\Utilities as ConsoleUtil;
 use Vanity\Parse\User\Tag\HandlerInterface;
 use Vanity\Parse\User\Tag\AbstractNameTypeDescription;
+use Vanity\System\DocumentationInconsistencyCollector as Inconsistency;
+use Vanity\System\Store as SystemStore;
 
 /**
  * The handler for @see tags.
@@ -63,6 +66,10 @@ class SeeHandler extends AbstractNameTypeDescription implements HandlerInterface
 		// URL
 		elseif (preg_match('/https?:/', $return['entity']))
 		{
+			// Used @see when @link was more appropriate
+			$formatter = ConsoleUtil::formatters();
+			Inconsistency::add('Used @see when @link was more appropriate. => ' . $formatter->gold->apply(SystemStore::get('_.current')));
+
 			$return['entity_hint'] = 'uri';
 		}
 

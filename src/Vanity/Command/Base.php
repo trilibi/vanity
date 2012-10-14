@@ -28,9 +28,6 @@
 namespace Vanity\Command;
 
 use Exception;
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
-use Monolog\Processor\IntrospectionProcessor;
 use stdClass;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
@@ -40,7 +37,8 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml as YAML;
 use Vanity\Config\Store as ConfigStore;
 use Vanity\Console\Utilities as ConsoleUtil;
-use Vanity\Event\Dispatcher;
+use Vanity\GlobalObject\Dispatcher;
+use Vanity\GlobalObject\Logger;
 
 /**
  * Base class for all Vanity-specific command-line actions.
@@ -57,39 +55,12 @@ class Base extends Command
 	public $formatter;
 
 	/**
-	 * Storage for loggers.
-	 * @var Logger
-	 */
-	protected $logger;
-
-	/**
 	 * Instantiate options for all Vanity-specific commands.
 	 */
 	public function __construct()
 	{
 		parent::__construct();
-
-		$filesystem = new Filesystem();
 		$this->formatter = ConsoleUtil::formatters();
-
-		// Create logging directory
-		if (!is_dir(VANITY_LOGS))
-		{
-			if (!$filesystem->mkdir(VANITY_LOGS, 0777))
-			{
-				throw new Exception('Vanity was unable to create the logging directory at ' . VANITY_LOGS);
-			}
-		}
-
-		// Construct logging handlers
-		$streamInfo  = new StreamHandler(VANITY_LOGS . '/info.log',  Logger::INFO);
-		$streamDebug = new StreamHandler(VANITY_LOGS . '/debug.log', Logger::DEBUG);
-		$streamDebug->pushProcessor(new IntrospectionProcessor);
-
-		// Instantiate the logger
-		$this->logger = new Logger('Vanity');
-		$this->logger->pushHandler($streamInfo);
-		$this->logger->pushHandler($streamDebug);
 	}
 
 	/**
@@ -101,7 +72,7 @@ class Base extends Command
 	 */
 	public function triggerEvent($event, Event $eventObject = null)
 	{
-		$this->logger->info('Triggering event:', array($event));
+		Logger::get()->info('Triggering event:', array($event));
 		Dispatcher::get()->dispatch($event, $eventObject);
 	}
 

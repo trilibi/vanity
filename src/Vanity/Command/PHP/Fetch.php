@@ -37,6 +37,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
 use Vanity\Command\Base as BaseCommand;
 use Vanity\Event\Event\Store as EventStore;
+use Vanity\GlobalObject\Logger;
 
 /**
  * Command that executes `php:fetch`.
@@ -76,7 +77,7 @@ class Fetch extends BaseCommand
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output)
 	{
-		$this->logger->info('Running command:', array($this->getName()));
+		Logger::get()->info('Running command:', array($this->getName()));
 		echo PHP_EOL;
 
 		// Instantiate
@@ -85,8 +86,8 @@ class Fetch extends BaseCommand
 		// Handle a fresh checkout
 		if (!$filesystem->exists(VANITY_CACHE_DIR))
 		{
-			$this->logger->info('Cache directory does not exist.');
-			$this->logger->info('Attempting to create:', array(VANITY_CACHE_DIR));
+			Logger::get()->info('Cache directory does not exist.');
+			Logger::get()->info('Attempting to create:', array(VANITY_CACHE_DIR));
 
 			try {
 				$filesystem->mkdir(VANITY_CACHE_DIR, 0777);
@@ -106,7 +107,7 @@ class Fetch extends BaseCommand
 					$output->writeln($this->formatter->green->apply($url));
 
 					$svn = "svn co ${url} ${write_to}${append}";
-					$this->logger->debug($svn);
+					Logger::get()->debug($svn);
 					$process = new Process($svn);
 					$process->run(function($type, $buffer) use ($output)
 					{
@@ -131,7 +132,7 @@ class Fetch extends BaseCommand
 			}
 			catch (IOException $e)
 			{
-				$this->logger->info('Failed to create user cache directory. Halting.', array(VANITY_CACHE_DIR));
+				Logger::get()->info('Failed to create user cache directory. Halting.', array(VANITY_CACHE_DIR));
 				throw new IOException('Vanity was unable to create the user cache directory at ' . VANITY_CACHE_DIR . ', or was unable to set the permissions to 0777.');
 			}
 		}
@@ -139,7 +140,7 @@ class Fetch extends BaseCommand
 		// Handle an update
 		else
 		{
-			$this->logger->info('Cache directory already exists.', array(VANITY_CACHE_DIR));
+			Logger::get()->info('Cache directory already exists.', array(VANITY_CACHE_DIR));
 
 			$this->triggerEvent('vanity.command.php.fetch.update.pre', new EventStore(array(
 				'cache_dir' => VANITY_CACHE_DIR,
@@ -157,7 +158,7 @@ class Fetch extends BaseCommand
 				$output->writeln($this->formatter->green->apply($url));
 
 				$svn = "svn up ${write_to}${append}";
-				$this->logger->debug($svn);
+				Logger::get()->debug($svn);
 				$process = new Process($svn);
 				$process->run(function($type, $buffer) use ($output)
 				{

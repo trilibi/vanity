@@ -25,12 +25,42 @@
  */
 
 
-namespace Vanity\Parse\User\Tag;
+namespace Vanity\GlobalObject;
 
-use Vanity\Parse\User\Tag\HandlerInterface;
-use Vanity\Parse\User\Tag\AbstractName;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
- * The handler for @ignore tags.
+ * Maintains the global event dispatcher for the app.
+ *
+ * @author Ryan Parman <http://ryanparman.com>
+ * @link   http://vanitydoc.org
  */
-class IgnoreHandler extends AbstractName implements HandlerInterface {}
+class Dispatcher
+{
+	/**
+	 * Stores the Event Dispatcher.
+	 * @var EventDispatcher
+	 */
+	private static $dispatcher;
+
+	/**
+	 * Retrieve the Event Dispatcher.
+	 *
+	 * @return EventDispatcher The event dispatcher instance to use.
+	 */
+	public static function get()
+	{
+		return self::$dispatcher;
+	}
+
+	/**
+	 * Set the Event Dispatcher.
+	 *
+	 * @param  EventDispatcher $dispatcher The event dispatcher instance to use.
+	 * @return void
+	 */
+	public static function set(EventDispatcher $dispatcher)
+	{
+		self::$dispatcher = $dispatcher;
+	}
+}

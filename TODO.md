@@ -16,7 +16,8 @@
 * ~~Add support for resolving the `self` keyword. (1)~~
 * ~~Extract method handling into a separate class. (3)~~
 * ~~Synchronize the coding style (currently a mix of SimplePie-style and PSR-1). (3)~~
-
+* Add event hooks for all @tags (3).
+* Add complete support for license identifiers <http://www.spdx.org/licenses/>.
 
 ## Stage 1: API Reflection and Tokenization
 

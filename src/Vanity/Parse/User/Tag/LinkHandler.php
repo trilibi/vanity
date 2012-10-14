@@ -72,19 +72,9 @@ class LinkHandler extends AbstractNameTypeDescription implements HandlerInterfac
 				}
 			}
 
-			// @example (e.g., Twitter)
-			elseif (preg_match('/^@/', $return['uri']))
-			{
-				$return['uri_hint'] = 'screen_name';
-
-				if (!isset($return['description']))
-				{
-					$return['description'] = $return['uri'];
-				}
-			}
-
 			// gravatar:066da34008adb924c115df7a39779d8d
 			// github:skyzyx
+			// twitter:skyzyx
 			elseif (preg_match_all('/\w+:(.+)/i', $return['uri'], $m))
 			{
 				$return['uri_hint'] = 'service';

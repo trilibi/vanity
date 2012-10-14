@@ -102,9 +102,6 @@ class Tag implements TagInterface
 			case 'author':
 				return new AuthorHandler($this->tag, $this->ancestry);
 
-			case 'category':
-				return new CategoryHandler($this->tag, $this->ancestry);
-
 			case 'copyright':
 				return new CopyrightHandler($this->tag, $this->ancestry);
 
@@ -112,20 +109,12 @@ class Tag implements TagInterface
 			case 'depreciated':
 				return new DeprecatedHandler($this->tag, $this->ancestry);
 
+			case 'dispatches':
 			case 'event':
 				return new EventHandler($this->tag, $this->ancestry);
 
-			case 'filesource':
-				return new FilesourceHandler($this->tag, $this->ancestry);
-
-			case 'final':
-				return new FinalHandler($this->tag, $this->ancestry);
-
 			case 'global':
 				return new GlobalHandler($this->tag, $this->ancestry);
-
-			case 'ignore':
-				return new IgnoreHandler($this->tag, $this->ancestry);
 
 			case 'internal':
 				return new InternalHandler($this->tag, $this->ancestry);
@@ -137,7 +126,6 @@ class Tag implements TagInterface
 				return new LinkHandler($this->tag, $this->ancestry);
 
 			case 'package':
-			case 'subpackage':
 				return new PackageHandler($this->tag, $this->ancestry);
 
 			case 'param':
@@ -152,7 +140,10 @@ class Tag implements TagInterface
 			case 'returns':
 				return new ReturnHandler($this->tag, $this->ancestry);
 
+			case 'alias':
 			case 'see':
+			case 'uses':
+			case 'used-by':
 				return new SeeHandler($this->tag, $this->ancestry);
 
 			case 'since':
@@ -167,10 +158,7 @@ class Tag implements TagInterface
 			case 'fixme':
 				return new TodoHandler($this->tag, $this->ancestry);
 
-			case 'uses':
-			case 'used-by':
-				return new UsesHandler($this->tag, $this->ancestry);
-
+			case 'type':
 			case 'var':
 				return new VarHandler($this->tag, $this->ancestry);
 

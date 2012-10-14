@@ -31,7 +31,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Vanity\Config\Store as ConfigStore;
 use Vanity\Console\Utilities as ConsoleUtil;
 use Vanity\Find\Find;
-use Vanity\Event\Dispatcher;
+use Vanity\GlobalObject\Dispatcher;
 use Vanity\Parse\User\Reflect;
 
 /**

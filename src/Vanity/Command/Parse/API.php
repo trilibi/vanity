@@ -39,6 +39,7 @@ use Vanity\Config\Store as ConfigStore;
 use Vanity\Console\Utilities as ConsoleUtil;
 use Vanity\Event\Event\Store as EventStore;
 use Vanity\Find\Find;
+use Vanity\GlobalObject\Logger;
 use Vanity\Parse\User\ReflectAll;
 
 /**
@@ -93,7 +94,7 @@ class API extends BaseCommand
 	{
 		echo PHP_EOL;
 
-		$this->logger->info('Running command:', array($this->getName()));
+		Logger::get()->info('Running command:', array($this->getName()));
 
 		// Resolve the configuration and display it
 		$config = new ConfigResolve($input);

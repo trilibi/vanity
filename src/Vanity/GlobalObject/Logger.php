@@ -25,8 +25,9 @@
  */
 
 
-namespace Vanity\Event;
+namespace Vanity\GlobalObject;
 
+use Monolog\Logger as Monolog;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
@@ -35,32 +36,32 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
  * @author Ryan Parman <http://ryanparman.com>
  * @link   http://vanitydoc.org
  */
-class Dispatcher
+class Logger
 {
 	/**
-	 * Stores the Event Dispatcher.
-	 * @var EventDispatcher
+	 * Storage for loggers.
+	 * @var Monolog
 	 */
-	private static $dispatcher;
+	protected static $logger;
 
 	/**
-	 * Retrieve the Event Dispatcher.
+	 * Retrieve the Logger.
 	 *
-	 * @return EventDispatcher The event dispatcher instance to use.
+	 * @return Monolog A reference to the Monolog logger.
 	 */
 	public static function get()
 	{
-		return self::$dispatcher;
+		return self::$logger;
 	}
 
 	/**
-	 * Set the Event Dispatcher.
+	 * Set the Logger.
 	 *
-	 * @param  EventDispatcher $dispatcher The event dispatcher instance to use.
+	 * @param  Monolog $logger The logger instance to use.
 	 * @return void
 	 */
-	public static function set(EventDispatcher $dispatcher)
+	public static function set(Monolog $logger)
 	{
-		self::$dispatcher = $dispatcher;
+		self::$logger = $logger;
 	}
 }
