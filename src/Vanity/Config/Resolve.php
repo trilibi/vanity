@@ -46,19 +46,19 @@ class Resolve
 {
 	/**
 	 * Storage for the command-line input.
-	 * @var InputInterface
+	 * @type InputInterface
 	 */
 	protected $input;
 
 	/**
 	 * Storage for text formatters.
-	 * @var stdClass
+	 * @type stdClass
 	 */
 	protected $formatter;
 
 	/**
 	 * Storage for the config "variable" hashmap.
-	 * @var array
+	 * @type array
 	 */
 	protected $variable_map;
 

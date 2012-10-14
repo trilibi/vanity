@@ -52,55 +52,55 @@ class Reflect
 {
 	/**
 	 * The class name to reflect.
-	 * @var string
+	 * @type string
 	 */
 	public $class_name;
 
 	/**
 	 * Stores a copy of the reflected class.
-	 * @var ReflectionClass
+	 * @type ReflectionClass
 	 */
 	public $rclass;
 
 	/**
 	 * Stores a copy of the class constants.
-	 * @var array
+	 * @type array
 	 */
 	public $constants;
 
 	/**
 	 * Stores a copy of the class properties.
-	 * @var array
+	 * @type array
 	 */
 	public $properties;
 
 	/**
 	 * Stores a copy of the class tags.
-	 * @var array
+	 * @type array
 	 */
 	public $class_tags;
 
 	/**
 	 * The reflected data to store.
-	 * @var array
+	 * @type array
 	 */
 	public $data;
 
 	/**
 	 * Storage for class ancestry data.
-	 * @var AncestryHandler
+	 * @type AncestryHandler
 	 */
 	public $ancestry;
 
 	/**
 	 * Storage for mapping of aliases to namespaces.
-	 * @var array
+	 * @type array
 	 */
 	public $aliases;
 
 	/**
 	 * Storage for text formatters.
-	 * @var stdClass
+	 * @type stdClass
 	 */
 	public $formatter;
 

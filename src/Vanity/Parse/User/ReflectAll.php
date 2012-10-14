@@ -44,13 +44,13 @@ class ReflectAll
 {
 	/**
 	 * The list of classes to reflect.
-	 * @var array
+	 * @type array
 	 */
 	public $classes;
 
 	/**
 	 * The path pattern to handle.
-	 * @var string
+	 * @type string
 	 */
 	public $path_pattern;
 

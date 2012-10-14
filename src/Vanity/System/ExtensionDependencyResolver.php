@@ -36,7 +36,7 @@ class ExtensionDependencyResolver
 {
 	/**
 	 * Storage for the list of dependencies.
-	 * @var array
+	 * @type array
 	 */
 	protected $list;
 

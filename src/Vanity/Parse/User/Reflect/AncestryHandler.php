@@ -46,37 +46,37 @@ class AncestryHandler
 {
 	/**
 	 * Storage for all of the Namespace/Alias mappings.
-	 * @var array
+	 * @type array
 	 */
 	protected $aliases;
 
 	/**
 	 * The {@see Broker} for handling tokenized reflection.
-	 * @var Broker
+	 * @type Broker
 	 */
 	protected $broker;
 
 	/**
 	 * The {@see ReflectionClass} which represents the class to work with.
-	 * @var ReflectionClass
+	 * @type ReflectionClass
 	 */
 	protected $class;
 
 	/**
 	 * Discovers the interfaces that this class implements.
-	 * @var array
+	 * @type array
 	 */
 	protected $implements;
 
 	/**
 	 * Discovers the classes that this class inherits from.
-	 * @var array
+	 * @type array
 	 */
 	protected $inherits;
 
 	/**
 	 * Stores the raw namespaces for everything we're importing.
-	 * @var array
+	 * @type array
 	 */
 	protected $namespaces;
 

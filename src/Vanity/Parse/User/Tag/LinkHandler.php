@@ -71,19 +71,6 @@ class LinkHandler extends AbstractNameTypeDescription implements HandlerInterfac
 					$return['description'] = $return['uri'];
 				}
 			}
-
-			// gravatar:066da34008adb924c115df7a39779d8d
-			// github:skyzyx
-			// twitter:skyzyx
-			elseif (preg_match_all('/\w+:(.+)/i', $return['uri'], $m))
-			{
-				$return['uri_hint'] = 'service';
-
-				if (!isset($return['description']))
-				{
-					$return['description'] = trim($m[1][0]);
-				}
-			}
 		}
 
 		return $return;

@@ -37,13 +37,13 @@ class Store
 {
 	/**
 	 * Stores the configuration.
-	 * @var array
+	 * @type array
 	 */
 	protected static $config = array();
 
 	/**
 	 * Stores the messages to display.
-	 * @var array
+	 * @type array
 	 */
 	public static $messages = array();
 

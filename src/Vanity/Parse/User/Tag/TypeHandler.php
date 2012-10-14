@@ -25,14 +25,33 @@
  */
 
 
-namespace Vanity\Dictionary;
+namespace Vanity\Parse\User\Tag;
+
+use phpDocumentor\Reflection\DocBlock\Tag;
+use Vanity\Console\Utilities as ConsoleUtil;
+use Vanity\Parse\User\Tag\HandlerInterface;
+use Vanity\Parse\User\Tag\AbstractNameTypeDescription;
+use Vanity\System\DocumentationInconsistencyCollector as Inconsistency;
+use Vanity\System\Store as SystemStore;
+
 
 /**
- * Maintains a global list of supported shortnames for services.
- *
- * @author Ryan Parman <http://ryanparman.com>
- * @link   http://vanitydoc.org
+ * The handler for @type/@var tags.
  */
-class Services
+class TypeHandler extends AbstractNameTypeDescription implements HandlerInterface
 {
+	/**
+	 * {@inheritdoc}
+	 */
+	public function process($elongate = false)
+	{
+		// Used @var, which is deprecated
+		if (strtolower($this->tag) === 'var')
+		{
+			$formatter = ConsoleUtil::formatters();
+			Inconsistency::add('The @var keyword is deprecated. Use @type instead. => ' . $formatter->gold->apply(SystemStore::get('_.current')));
+		}
+
+		return parent::process(true);
+	}
 }

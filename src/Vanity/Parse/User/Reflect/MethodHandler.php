@@ -50,19 +50,19 @@ class MethodHandler
 {
 	/**
 	 * The {@see ReflectionClass} which represents the class to work with.
-	 * @var ReflectionClass
+	 * @type ReflectionClass
 	 */
 	protected $class;
 
 	/**
 	 * Storage for the methods.
-	 * @var array
+	 * @type array
 	 */
 	protected $methods;
 
 	/**
 	 * Storage for ancestry.
-	 * @var AncestryHandler
+	 * @type AncestryHandler
 	 */
 	public $ancestry;
 

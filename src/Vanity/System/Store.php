@@ -37,7 +37,7 @@ class Store
 {
 	/**
 	 * Stores the configuration.
-	 * @var array
+	 * @type array
 	 */
 	protected static $config = array();
 

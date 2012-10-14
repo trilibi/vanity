@@ -42,19 +42,19 @@ class ConstantHandler
 {
 	/**
 	 * The {@see ReflectionClass} which represents the class to work with.
-	 * @var ReflectionClass
+	 * @type ReflectionClass
 	 */
 	protected $class;
 
 	/**
 	 * Storage for the constants.
-	 * @var array
+	 * @type array
 	 */
 	protected $constants;
 
 	/**
 	 * Storage for ancestry.
-	 * @var AncestryHandler
+	 * @type AncestryHandler
 	 */
 	public $ancestry;
 

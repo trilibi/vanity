@@ -37,13 +37,13 @@ abstract class AbstractHandler
 {
 	/**
 	 * The tag to handle.
-	 * @var string
+	 * @type string
 	 */
 	public $tag;
 
 	/**
 	 * Storage for ancestry.
-	 * @var AncestryHandler
+	 * @type AncestryHandler
 	 */
 	public $ancestry;
 

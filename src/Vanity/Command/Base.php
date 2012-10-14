@@ -50,7 +50,7 @@ class Base extends Command
 {
 	/**
 	 * Storage for text formatters.
-	 * @var stdClass
+	 * @type stdClass
 	 */
 	public $formatter;
 

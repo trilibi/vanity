@@ -40,7 +40,7 @@ class Logger
 {
 	/**
 	 * Storage for loggers.
-	 * @var Monolog
+	 * @type Monolog
 	 */
 	protected static $logger;
 

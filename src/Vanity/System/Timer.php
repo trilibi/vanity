@@ -34,7 +34,7 @@ class Timer
 {
 	/**
 	 * Stores the start time.
-	 * @var float
+	 * @type float
 	 */
 	protected static $start;
 

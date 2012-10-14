@@ -57,7 +57,7 @@ use Vanity\Parse\User\Tag\SinceHandler;
 use Vanity\Parse\User\Tag\ThrowHandler;
 use Vanity\Parse\User\Tag\TodoHandler;
 use Vanity\Parse\User\Tag\UsesHandler;
-use Vanity\Parse\User\Tag\VarHandler;
+use Vanity\Parse\User\Tag\TypeHandler;
 use Vanity\Parse\User\Tag\VersionHandler;
 use Vanity\System\Store as SystemStore;
 
@@ -71,13 +71,13 @@ class Tag implements TagInterface
 {
 	/**
 	 * The tag to handle.
-	 * @var string
+	 * @type string
 	 */
 	protected $tag;
 
 	/**
 	 * Storage for ancestry.
-	 * @var AncestryHandler
+	 * @type AncestryHandler
 	 */
 	public $ancestry;
 
@@ -188,7 +188,7 @@ class Tag implements TagInterface
 
 			case 'type':
 			case 'var':
-				$processed = new VarHandler($this->tag, $this->ancestry);
+				$processed = new TypeHandler($this->tag, $this->ancestry);
 				break;
 
 			case 'version':

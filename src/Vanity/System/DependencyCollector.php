@@ -34,7 +34,7 @@ class DependencyCollector implements CollectorInterface
 {
 	/**
 	 * Stores messages.
-	 * @var array
+	 * @type array
 	 */
 	protected static $messages = array();
 

@@ -38,7 +38,7 @@ class Licenses
 {
 	/**
 	 * Stores an in-memory copy of the license list.
-	 * @var array
+	 * @type array
 	 */
 	private static $licenses = null;
 

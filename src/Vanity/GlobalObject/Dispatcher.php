@@ -39,7 +39,7 @@ class Dispatcher
 {
 	/**
 	 * Stores the Event Dispatcher.
-	 * @var EventDispatcher
+	 * @type EventDispatcher
 	 */
 	private static $dispatcher;
 

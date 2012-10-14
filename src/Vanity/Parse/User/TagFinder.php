@@ -37,7 +37,7 @@ class TagFinder
 {
 	/**
 	 * The entry array which contains a `metadata` key.
-	 * @var array
+	 * @type array
 	 */
 	protected $entry;
 

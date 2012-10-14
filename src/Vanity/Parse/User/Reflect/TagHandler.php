@@ -44,19 +44,19 @@ class TagHandler
 {
 	/**
 	 * The {@see Reflector} which represents the reflector to work with.
-	 * @var Reflector
+	 * @type Reflector
 	 */
 	protected $reflector;
 
 	/**
 	 * Storage for the docblocks.
-	 * @var array
+	 * @type array
 	 */
 	protected $docblock;
 
 	/**
 	 * Storage for ancestry.
-	 * @var AncestryHandler
+	 * @type AncestryHandler
 	 */
 	public $ancestry;
 
