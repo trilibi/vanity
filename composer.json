@@ -42,6 +42,7 @@
 		"monolog/monolog": "1.1.*",
 		"phpdocumentor/reflection-docblock": "dev-master",
 		"skyzyx/examplify": ">=1.1",
+		"skyzyx/spdx-licenses": "*",
 		"symfony/class-loader": "2.0.*",
 		"symfony/console": "2.0.*",
 		"symfony/event-dispatcher": "2.0.*",

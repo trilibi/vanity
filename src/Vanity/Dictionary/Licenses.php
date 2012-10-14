@@ -25,45 +25,55 @@
  */
 
 
-namespace Vanity\Parse\User\Tag;
-
-use phpDocumentor\Reflection\DocBlock\Tag;
-use Vanity\Parse\User\Reflect\AncestryHandler;
+namespace Vanity\Dictionary;
 
 /**
- * Implementation of the basic constructor pattern for Tag Handlers.
+ * Maintains a global list of supported shortnames for licenses.
+ *
+ * @author Ryan Parman <http://ryanparman.com>
+ * @link   http://vanitydoc.org
+ * @link   http://www.spdx.org/licenses/
  */
-abstract class AbstractHandler
+class Licenses
 {
 	/**
-	 * The tag to handle.
-	 * @var string
+	 * Stores an in-memory copy of the license list.
+	 * @var array
 	 */
-	public $tag;
+	private static $licenses = null;
 
 	/**
-	 * Storage for ancestry.
-	 * @var AncestryHandler
+	 * Retrieve license information based on its short code.
+	 *
+	 * @return array Information about the specified short code.
 	 */
-	public $ancestry;
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function __construct(Tag $tag, AncestryHandler $ancestry)
+	public static function get($code)
 	{
-		$this->tag = $tag;
-		$this->ancestry = $ancestry;
+		if (is_null(self::$licenses))
+		{
+			self::parseAndCache();
+		}
+
+		if (isset(self::$licenses[$code]))
+		{
+			return self::$licenses[$code];
+		}
+
+		return false;
 	}
 
 	/**
-	 * Trims excess whitespace.
+	 * Parse and cache the SPDX license list.
 	 *
-	 * @param  string $content The content to clean excess whitespace from.
-	 * @return string          The content with excess whitespace removed.
+	 * @return void
 	 */
-	public function clean($content)
+	protected static function parseAndCache()
 	{
-		return trim(preg_replace('/\s+/', ' ', $content));
+		$json = VANITY_VENDOR . '/skyzyx/spdx-licenses/spdx-licenses.json';
+
+		if (file_exists($json))
+		{
+			self::$licenses = json_decode(file_get_contents($json), true);
+		}
 	}
 }

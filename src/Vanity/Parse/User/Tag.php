@@ -28,6 +28,10 @@
 namespace Vanity\Parse\User;
 
 use phpDocumentor\Reflection\DocBlock\Tag as DBTag;
+use Symfony\Component\EventDispatcher\Event;
+use Vanity\Event\Event\Store as EventStore;
+use Vanity\GlobalObject\Dispatcher;
+use Vanity\GlobalObject\Logger;
 use Vanity\Parse\User\Reflect\AncestryHandler;
 use Vanity\Parse\User\TagInterface;
 use Vanity\Parse\User\Tag\ApiHandler;
@@ -94,79 +98,126 @@ class Tag implements TagInterface
 		// Where are we?
 		SystemStore::add('_.current', SystemStore::get('_.current') . ' [@' . $this->tag->getName() . ']');
 
-		switch (strtolower($this->tag->getName()))
+		$tag = strtolower($this->tag->getName());
+
+		$this->triggerEvent("vanity.parse.user.tag.${tag}.pre", new EventStore(array(
+			'tag'      => &$tag,
+			'ancestry' => $this->ancestry,
+		)));
+
+		switch ($tag)
 		{
 			case 'api':
-				return new ApiHandler($this->tag, $this->ancestry);
+				$processed = new ApiHandler($this->tag, $this->ancestry);
+				break;
 
 			case 'author':
-				return new AuthorHandler($this->tag, $this->ancestry);
+				$processed = new AuthorHandler($this->tag, $this->ancestry);
+				break;
 
 			case 'copyright':
-				return new CopyrightHandler($this->tag, $this->ancestry);
+				$processed = new CopyrightHandler($this->tag, $this->ancestry);
+				break;
 
 			case 'deprecated':
 			case 'depreciated':
-				return new DeprecatedHandler($this->tag, $this->ancestry);
+				$processed = new DeprecatedHandler($this->tag, $this->ancestry);
+				break;
 
 			case 'dispatches':
 			case 'event':
-				return new EventHandler($this->tag, $this->ancestry);
+				$processed = new EventHandler($this->tag, $this->ancestry);
+				break;
 
 			case 'global':
-				return new GlobalHandler($this->tag, $this->ancestry);
+				$processed = new GlobalHandler($this->tag, $this->ancestry);
+				break;
 
 			case 'internal':
-				return new InternalHandler($this->tag, $this->ancestry);
+				$processed = new InternalHandler($this->tag, $this->ancestry);
+				break;
 
 			case 'license':
-				return new LicenseHandler($this->tag, $this->ancestry);
+				$processed = new LicenseHandler($this->tag, $this->ancestry);
+				break;
 
 			case 'link':
-				return new LinkHandler($this->tag, $this->ancestry);
+				$processed = new LinkHandler($this->tag, $this->ancestry);
+				break;
 
 			case 'package':
-				return new PackageHandler($this->tag, $this->ancestry);
+				$processed = new PackageHandler($this->tag, $this->ancestry);
+				break;
 
 			case 'param':
-				return new ParamHandler($this->tag, $this->ancestry);
+				$processed = new ParamHandler($this->tag, $this->ancestry);
+				break;
 
 			case 'property':
 			case 'property-read':
 			case 'property-write':
-				return new PropertyHandler($this->tag, $this->ancestry);
+				$processed = new PropertyHandler($this->tag, $this->ancestry);
+				break;
 
 			case 'return':
 			case 'returns':
-				return new ReturnHandler($this->tag, $this->ancestry);
+				$processed = new ReturnHandler($this->tag, $this->ancestry);
+				break;
 
 			case 'alias':
 			case 'see':
 			case 'uses':
 			case 'used-by':
-				return new SeeHandler($this->tag, $this->ancestry);
+				$processed = new SeeHandler($this->tag, $this->ancestry);
+				break;
 
 			case 'since':
 			case 'available':
-				return new SinceHandler($this->tag, $this->ancestry);
+				$processed = new SinceHandler($this->tag, $this->ancestry);
+				break;
 
 			case 'throw':
 			case 'throws':
-				return new ThrowHandler($this->tag, $this->ancestry);
+				$processed = new ThrowHandler($this->tag, $this->ancestry);
+				break;
 
 			case 'todo':
 			case 'fixme':
-				return new TodoHandler($this->tag, $this->ancestry);
+				$processed = new TodoHandler($this->tag, $this->ancestry);
+				break;
 
 			case 'type':
 			case 'var':
-				return new VarHandler($this->tag, $this->ancestry);
+				$processed = new VarHandler($this->tag, $this->ancestry);
+				break;
 
 			case 'version':
-				return new VersionHandler($this->tag, $this->ancestry);
+				$processed = new VersionHandler($this->tag, $this->ancestry);
+				break;
 
 			default:
-				return new DefaultHandler($this->tag, $this->ancestry);
+				$processed = new DefaultHandler($this->tag, $this->ancestry);
+				break;
 		}
+
+		$this->triggerEvent("vanity.parse.user.tag.${tag}.post", new EventStore(array(
+			'tag'      => &$tag,
+			'ancestry' => $this->ancestry,
+		)));
+
+		return $processed;
+	}
+
+	/**
+	 * Triggers an event and logs it to the INFO log.
+	 *
+	 * @param  string $event       The string identifier for the event.
+	 * @param  Event  $eventObject An object that extends the {@see Symfony\Component\EventDispatcher\Event} object.
+	 * @return void
+	 */
+	public function triggerEvent($event, Event $eventObject = null)
+	{
+		Logger::get()->info('Triggering event:', array($event));
+		Dispatcher::get()->dispatch($event, $eventObject);
 	}
 }

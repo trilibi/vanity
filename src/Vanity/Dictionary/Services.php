@@ -25,45 +25,14 @@
  */
 
 
-namespace Vanity\Parse\User\Tag;
-
-use phpDocumentor\Reflection\DocBlock\Tag;
-use Vanity\Parse\User\Reflect\AncestryHandler;
+namespace Vanity\Dictionary;
 
 /**
- * Implementation of the basic constructor pattern for Tag Handlers.
+ * Maintains a global list of supported shortnames for services.
+ *
+ * @author Ryan Parman <http://ryanparman.com>
+ * @link   http://vanitydoc.org
  */
-abstract class AbstractHandler
+class Services
 {
-	/**
-	 * The tag to handle.
-	 * @var string
-	 */
-	public $tag;
-
-	/**
-	 * Storage for ancestry.
-	 * @var AncestryHandler
-	 */
-	public $ancestry;
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function __construct(Tag $tag, AncestryHandler $ancestry)
-	{
-		$this->tag = $tag;
-		$this->ancestry = $ancestry;
-	}
-
-	/**
-	 * Trims excess whitespace.
-	 *
-	 * @param  string $content The content to clean excess whitespace from.
-	 * @return string          The content with excess whitespace removed.
-	 */
-	public function clean($content)
-	{
-		return trim(preg_replace('/\s+/', ' ', $content));
-	}
 }
