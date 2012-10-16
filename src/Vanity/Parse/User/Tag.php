@@ -96,7 +96,7 @@ class Tag implements TagInterface
 	public function determine()
 	{
 		// Where are we?
-		SystemStore::add('_.current', SystemStore::get('_.current') . ' [@' . $this->tag->getName() . ']');
+		SystemStore::add('_.current', preg_replace('/\[@([^\]]*)\]/', ' [@' . $this->tag->getName() . ']', SystemStore::get('_.current')));
 
 		$tag = strtolower($this->tag->getName());
 

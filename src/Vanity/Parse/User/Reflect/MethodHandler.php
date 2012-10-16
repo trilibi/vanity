@@ -173,7 +173,7 @@ class MethodHandler
 				foreach ($method_docblock->getTags() as $rtag)
 				{
 					$dtag = new Tag($rtag, $this->ancestry);
-					$entry['metadata']['tag'][] = $dtag->determine()->process();
+					$entry['metadata']['tag'][] = $dtag->determine()->process(ConfigStore::get('api.resolve_aliases'));
 				}
 			}
 

@@ -27,10 +27,43 @@
 
 namespace Vanity\Parse\User\Tag;
 
+use Vanity\Parse\User\Reflect\AncestryHandler;
 use Vanity\Parse\User\Tag\HandlerInterface;
-use Vanity\Parse\User\Tag\AbstractNameTypeDescription;
+use Vanity\Parse\User\Tag\AbstractHandler;
 
 /**
  * The handler for @event tags.
  */
-class EventHandler extends AbstractNameTypeDescription implements HandlerInterface {}
+class EventHandler extends AbstractHandler implements HandlerInterface
+{
+	/**
+	 * {@inheritdoc}
+	 */
+	public function process($elongate = false)
+	{
+		$return = array();
+		$return['name'] = $this->tag->getName();
+
+		$content = $this->clean($this->tag->getContent());
+
+		if (preg_match('/(<([^>]*)>)?\s*([^\s]*)\s*(.*)?/', $content, $m))
+		{
+			if (!empty($m[2]))
+			{
+				$return['type'] = $elongate ? AncestryHandler::elongateType($m[2], $this->ancestry) : $m[2];
+			}
+
+			if (!empty($m[3]))
+			{
+				$return['dispatches'] = $m[3];
+			}
+
+			if (!empty($m[4]))
+			{
+				$return['description'] = $m[4];
+			}
+		}
+
+		return $return;
+	}
+}

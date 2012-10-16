@@ -31,6 +31,7 @@ use Reflector;
 use ReflectionClass;
 use ReflectionException;
 use phpDocumentor\Reflection\DocBlock;
+use Vanity\Config\Store as ConfigStore;
 use Vanity\Parse\User\Reflect\AncestryHandler;
 use Vanity\Parse\User\Tag;
 
@@ -113,7 +114,7 @@ class TagHandler
 			foreach ($tags as $rtag)
 			{
 				$dtag = new Tag($rtag, $this->ancestry);
-				$metadata['tag'][] = $dtag->determine()->process();
+				$metadata['tag'][] = $dtag->determine()->process(ConfigStore::get('api.resolve_aliases'));
 			}
 		}
 
