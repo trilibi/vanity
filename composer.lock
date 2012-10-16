@@ -1,5 +1,5 @@
 {
-    "hash": "c8fdd67889e604f304a1f015db328522",
+    "hash": "5970e0f1165e37b691bbb5cc139e23d1",
     "packages": [
         {
             "name": "andrewsville/php-token-reflection",
@@ -173,19 +173,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock",
-                "reference": "aa61de97617af66c60c52c08facd62653ea7fafb"
+                "reference": "5941846e99dd010be13babce5ffaf7dbf77bda24"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/phpDocumentor/ReflectionDocBlock/zipball/aa61de97617af66c60c52c08facd62653ea7fafb",
-                "reference": "aa61de97617af66c60c52c08facd62653ea7fafb",
+                "url": "https://github.com/phpDocumentor/ReflectionDocBlock/zipball/5941846e99dd010be13babce5ffaf7dbf77bda24",
+                "reference": "5941846e99dd010be13babce5ffaf7dbf77bda24",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2",
                 "dflydev/markdown": "1.0.*"
             },
-            "time": "1349008156",
+            "time": "1350331279",
             "type": "library",
             "installation-source": "source",
             "autoload": {
@@ -243,8 +243,39 @@
             ]
         },
         {
+            "name": "skyzyx/service-listing",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/skyzyx/service-listing",
+                "reference": "d161f24ba0f447815f0b535c9d05936878a0afcf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/skyzyx/service-listing/zipball/d161f24ba0f447815f0b535c9d05936878a0afcf",
+                "reference": "d161f24ba0f447815f0b535c9d05936878a0afcf",
+                "shasum": ""
+            },
+            "time": "1350424566",
+            "type": "library",
+            "installation-source": "source",
+            "license": [
+                "Public Domain"
+            ],
+            "authors": [
+                {
+                    "name": "Contributors",
+                    "homepage": "http://github.com/skyzyx/service-listing/contributors"
+                }
+            ],
+            "description": "A JSON list of services.",
+            "keywords": [
+                "license"
+            ]
+        },
+        {
             "name": "skyzyx/spdx-licenses",
-            "version": "1.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/skyzyx/spdx-licenses",
@@ -256,9 +287,9 @@
                 "reference": "1.0",
                 "shasum": ""
             },
-            "time": "2012-10-13 23:51:33",
+            "time": "1350217362",
             "type": "library",
-            "installation-source": "dist",
+            "installation-source": "source",
             "license": [
                 "Public Domain"
             ],
@@ -673,6 +704,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "phpdocumentor/reflection-docblock": 20,
+        "skyzyx/service-listing": 20,
+        "skyzyx/spdx-licenses": 20,
         "vanity/pandoc-templates": 20
     }
 }
