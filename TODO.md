@@ -25,6 +25,8 @@
 * ~~Add a custom Event type which allows contextual storage. (1)~~
 * ~~Add fully-qualified class name resolution to the @see handler. (1)~~
 * ~~Add support for @event tags. (3)~~
+* ~~Add service enhancement support for @link. (2)~~
+* ~~Add service enhancement support for @author. (2)~~
 * ~~Add support for @property tags. (1)~~
 	* ~~Merge data from @property tags into the main "properties" hash. (2)~~
 * Add support for @method tags. (1)

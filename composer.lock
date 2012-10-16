@@ -248,15 +248,15 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/skyzyx/service-listing",
-                "reference": "d161f24ba0f447815f0b535c9d05936878a0afcf"
+                "reference": "8163246365c5ef17d1e33ae321de5813dced6017"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/skyzyx/service-listing/zipball/d161f24ba0f447815f0b535c9d05936878a0afcf",
-                "reference": "d161f24ba0f447815f0b535c9d05936878a0afcf",
+                "url": "https://github.com/skyzyx/service-listing/zipball/8163246365c5ef17d1e33ae321de5813dced6017",
+                "reference": "8163246365c5ef17d1e33ae321de5813dced6017",
                 "shasum": ""
             },
-            "time": "1350424566",
+            "time": "1350428437",
             "type": "library",
             "installation-source": "source",
             "license": [

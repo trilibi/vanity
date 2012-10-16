@@ -25,68 +25,59 @@
  */
 
 
-namespace Vanity\Parse\User\Tag;
-
-use Vanity\Dictionary\Services;
-use Vanity\Parse\User\Tag\HandlerInterface;
-use Vanity\Parse\User\Tag\AbstractNameTypeDescription;
+namespace Vanity\Dictionary;
 
 /**
- * The handler for @link tags.
+ * Maintains a global list of supported shortnames for services.
+ *
+ * @author Ryan Parman <http://ryanparman.com>
+ * @link   http://vanitydoc.org
  */
-class LinkHandler extends AbstractNameTypeDescription implements HandlerInterface
+class Services
 {
 	/**
-	 * {@inheritdoc}
+	 * Stores an in-memory copy of the service list.
+	 * @type array
 	 */
-	public function process($elongate = false)
+	private static $services = null;
+
+	/**
+	 * Retrieve service information based on its short code.
+	 *
+	 * @param  string $code The service shortcode.
+	 * @param  string $user The username or identifier for the user of the service.
+	 * @return array        Information about the specified short code.
+	 */
+	public static function get($code, $user)
 	{
-		$return = parent::process($elongate);
-
-		if (isset($return['type']))
+		if (is_null(self::$services))
 		{
-			$return['uri'] = $return['type'];
-			unset($return['type']);
+			self::parseAndCache();
 		}
 
-		if (isset($return['uri']))
+		if (isset(self::$services[$code]))
 		{
-			// http://example.com
-			if (preg_match('/^https?:/i', $return['uri']))
-			{
-				$return['uri_hint'] = 'url';
+			$info = self::$services[$code];
+			$info['uri'] = str_replace('{user}', $user, $info['uri']);
 
-				if (!isset($return['description']))
-				{
-					$return['description'] = $return['uri'];
-				}
-			}
-
-			// me@example.com
-			elseif (preg_match('/[\w\._\-\+]+@[\w\._\-\+]+\./i', $return['uri']))
-			{
-				$return['uri_hint'] = 'mail';
-
-				if (!isset($return['description']))
-				{
-					$return['description'] = $return['uri'];
-				}
-			}
-
-			// service:user
-			elseif (preg_match('/^(\w*)((:|@)(\/\/)?)(.*)$/', $return['uri'], $m) &&
-			        $data = Services::get($m[1], $m[5]))
-			{
-				$return['uri_hint'] = 'url';
-				$return['uri'] = $data['uri'];
-
-				if (!isset($return['description']))
-				{
-					$return['description'] = $data['long'];
-				}
-			}
+			return $info;
 		}
 
-		return $return;
+		return false;
+	}
+
+	/**
+	 * Parse and cache the service list.
+	 *
+	 * @return void
+	 */
+	protected static function parseAndCache()
+	{
+		$json = VANITY_VENDOR . '/skyzyx/service-listing/services.json';
+
+		if (file_exists($json))
+		{
+			self::$services = json_decode(file_get_contents($json), true);
+		}
 	}
 }

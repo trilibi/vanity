@@ -28,6 +28,7 @@
 namespace Vanity\Parse\User\Tag;
 
 use phpDocumentor\Reflection\DocBlock;
+use Vanity\Dictionary\Services;
 use Vanity\Parse\User\Tag\AbstractHandler;
 use Vanity\Parse\User\Tag\HandlerInterface;
 use Vanity\Parse\Utilities as ParseUtil;
@@ -77,18 +78,17 @@ abstract class AbstractNameUri extends AbstractHandler implements HandlerInterfa
 				$return['uri_hint'] = 'mail';
 			}
 
-			// @example (e.g., Twitter)
-			elseif (preg_match('/^@/', $return['uri']))
+			// service:user
+			elseif (preg_match('/^(\w*)((:|@)(\/\/)?)(.*)$/', $return['uri'], $m) &&
+			        $data = Services::get($m[1], $m[5]))
 			{
-				$return['uri_hint'] = 'screen_name';
-			}
-
-			// gravatar:066da34008adb924c115df7a39779d8d
-			// github:skyzyx
-			elseif (preg_match_all('/\w+:(.+)/i', $return['uri'], $m))
-			{
-				$return['identifier'] = trim($m[1][0]);
 				$return['uri_hint'] = 'service';
+				$return['uri'] = $data['uri'];
+
+				if (!isset($return['description']))
+				{
+					$return['description'] = $data['long'];
+				}
 			}
 		}
 
