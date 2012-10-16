@@ -302,11 +302,22 @@ class AncestryHandler
 	}
 
 	/**
+	 * Retrieve the current class name.
+	 *
+	 * @return string The current class name.
+	 */
+	public function getClass()
+	{
+		return $this->class->getName();
+	}
+
+	/**
 	 * Collect a list of all parent classes.
 	 *
-	 * @return array A list of all parent names as strings.
+	 * @param  integer $index The indexed entry to retrieve. The default value is `null`.
+	 * @return array          A list of all parent names as strings.
 	 */
-	protected function getParentClasses()
+	public function getParentClasses($index = null)
 	{
 		$class_list = array();
 		$rclass = $this->class;
@@ -315,6 +326,11 @@ class AncestryHandler
 		{
 			$class_list[] = $parent_class->getName();
 			$rclass = $parent_class;
+		}
+
+		if (!is_null($index))
+		{
+			return $class_list[$index];
 		}
 
 		return $class_list;

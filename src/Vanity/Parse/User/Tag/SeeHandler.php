@@ -73,6 +73,19 @@ class SeeHandler extends AbstractNameTypeDescription implements HandlerInterface
 			$return['entity_hint'] = 'uri';
 		}
 
+		// Do we need to resolve?
+		if (strpos($return['entity'], '::') !== false)
+		{
+			list($class, $entity) = explode('::', $return['entity']);
+			$class = $this->ancestry->resolveNamespace($class);
+			$return['entity'] = implode('::', array($class, $entity));
+		}
+		else
+		{
+			$class = $this->ancestry->getClass();
+			$return['entity'] = implode('::', array($class, $return['entity']));
+		}
+
 		return $return;
 	}
 }

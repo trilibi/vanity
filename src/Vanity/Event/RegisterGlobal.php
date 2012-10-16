@@ -113,7 +113,7 @@ class RegisterGlobal
 					array_map(function($w) use ($formatter) {
 						return $formatter->green->apply($w);
 					},
-					explode(', ', '@param, @return, @returns, @see, @throw, @throws, @uses, @used-by, @var')
+					explode(', ', '@param, @return, @returns, @see, @throw, @throws, @uses, @used-by, @type, @var')
 				)
 			) . '.' . PHP_EOL;
 

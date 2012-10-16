@@ -195,6 +195,20 @@ class Reflect
 			$this->data['properties'] = $properties;
 		}
 
+		// Add meta-properties
+		if (isset($this->data['metadata']) && isset($this->data['properties']))
+		{
+			$new = $this->formatMetaProperties($this->data['metadata']);
+			$this->data['properties']['property'] = array_merge($this->data['properties']['property'], $new);
+			$this->data['properties']['count'] += count($new);
+		}
+		elseif (isset($this->data['metadata']))
+		{
+			$new = $this->formatMetaProperties($this->data['metadata']);
+			$this->data['properties']['property'] = $new;
+			$this->data['properties']['count'] = count($new);
+		}
+
 		// Add methods
 		if ($methods = $this->methods->getMethods())
 		{
@@ -225,5 +239,52 @@ class Reflect
 		// Write the file
 		file_put_contents($directory . '/' . $filename, $encoded_data);
 		$output->writeln(TAB . $this->formatter->green->apply('-> ') . $directory . '/' . $filename);
+	}
+
+	/**
+	 * Removes meta-properties from the metadata collection, and reformats them
+	 * to fit with real properties.
+	 *
+	 * @param  array &$metadata The source metadata.
+	 * @return array           The reformatted array of meta-properties.
+	 */
+	public function formatMetaProperties(&$metadata)
+	{
+		$reformatted = array();
+
+		if (isset($metadata['tag']) && count($metadata['tag']) > 0)
+		{
+			foreach ($metadata['tag'] as $index => $tag)
+			{
+				if (isset($tag['name']) && $tag['name'] === 'property')
+				{
+					$rf = array();
+					$rf['name'] = $tag['variable'];
+					$rf['visibility'] = array(
+						'public'
+					);
+					$rf['metadata'] = array(
+						'tag' => array(
+							array(
+								'name'        => 'type',
+								'type'        => $tag['type'],
+								'description' => $tag['description'],
+							)
+						)
+					);
+
+					$reformatted[] = $rf;
+					unset($metadata['tag'][$index]);
+				}
+			}
+
+			// Remove if empty
+			if (count($this->data['metadata']['tag']) === 0)
+			{
+				unset($this->data['metadata']);
+			}
+		}
+
+		return $reformatted;
 	}
 }

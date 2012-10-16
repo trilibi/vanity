@@ -23,8 +23,9 @@
 
 * ~~Synchronize the format of event names and fix existing ones (e.g., parser.method.tag.param, config.api.warn.todo). (1)~~
 * ~~Add a custom Event type which allows contextual storage. (1)~~
-* Add support for @property tags. (1)
-	* Merge data from @property tags into the main "properties" hash. (2)
+* ~~Add fully-qualified class name resolution to the @see handler. (1)~~
+* ~~Add support for @property tags. (1)~~
+	* ~~Merge data from @property tags into the main "properties" hash. (2)~~
 * Add support for @method tags. (1)
 	* Merge data from @method tags into the main "methods" hash. (3)
 * Add support for @example tags. (3)
@@ -35,6 +36,7 @@
 * Implement warnings/reports for TODOs. (3)
 * Implement cross-linking support. (3)
 * Implement support for linking to PHP functions/classes. (2)
+* Keep track of aliases and add metadata to the aliased methods. (2)
 
 
 ## Stage 2: PHP Documentation Tokenization (delaying)
