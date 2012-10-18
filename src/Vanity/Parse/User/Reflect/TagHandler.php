@@ -27,9 +27,6 @@
 
 namespace Vanity\Parse\User\Reflect;
 
-use Reflector;
-use ReflectionClass;
-use ReflectionException;
 use phpDocumentor\Reflection\DocBlock;
 use Vanity\Config\Store as ConfigStore;
 use Vanity\Parse\User\Reflect\AncestryHandler;
@@ -43,12 +40,6 @@ use Vanity\Parse\User\Tag;
  */
 class TagHandler
 {
-	/**
-	 * The {@see Reflector} which represents the reflector to work with.
-	 * @type Reflector
-	 */
-	protected $reflector;
-
 	/**
 	 * Storage for the docblocks.
 	 * @type array
@@ -64,14 +55,13 @@ class TagHandler
 	/**
 	 * Constructs a new instance of this class.
 	 *
-	 * @param Reflector       $reflector The reflector to work with.
-	 * @param AncestryHandler $ancestry  The ancestry data for the class.
+	 * @param string          $docblock The docblock to work with.
+	 * @param AncestryHandler $ancestry The ancestry data for the class.
 	 */
-	public function __construct(Reflector $reflector, AncestryHandler $ancestry)
+	public function __construct($docblock, AncestryHandler $ancestry)
 	{
-		$this->reflector = $reflector;
+		$this->docblock = new DocBlock($docblock);
 		$this->ancestry = $ancestry;
-		$this->docblock = new DocBlock($this->reflector->getDocComment());
 	}
 
 	/**

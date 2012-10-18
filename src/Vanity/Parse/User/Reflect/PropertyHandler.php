@@ -85,7 +85,7 @@ class PropertyHandler
 
 		foreach ($rproperties as $rproperty)
 		{
-			$_tags = new TagHandler($rproperty, $this->ancestry);
+			$_tags = new TagHandler($rproperty->getDocComment(), $this->ancestry);
 
 			if (!isset($this->properties['count']))
 			{

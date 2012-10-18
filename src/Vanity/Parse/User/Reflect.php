@@ -122,7 +122,7 @@ class Reflect
 		$this->constants   = new ConstantHandler($this->rclass, $this->ancestry);
 		$this->properties  = new PropertyHandler($this->rclass, $this->ancestry);
 		$this->methods     = new MethodHandler($this->rclass, $this->ancestry);
-		$this->class_tags  = new TagHandler($this->rclass, $this->ancestry);
+		$this->class_tags  = new TagHandler($this->rclass->getDocComment(), $this->ancestry);
 
 		$this->formatter   = ConsoleUtil::formatters();
 	}

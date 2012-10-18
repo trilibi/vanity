@@ -48,10 +48,6 @@ abstract class AbstractNameTypeVariableDescription extends AbstractHandler imple
 		$return['type'] = 'void';
 
 		$content = $this->clean($this->tag->getContent());
-		// $content = explode(' ', $content);
-		// $type = array_shift($content);
-		// $variable = array_shift($content);
-		// $description = trim(implode(' ', $content));
 
 		preg_match('/((\w+|\|*\\*)\s+)?(\$\w+|\w+\(([^\)]*)\))\s*(.*)?/i', $content, $m);
 		list($____a, $____a, $type, $variable, $____a, $description) = $m;
@@ -71,6 +67,8 @@ abstract class AbstractNameTypeVariableDescription extends AbstractHandler imple
 		{
 			$return['type'] = $elongate ? AncestryHandler::elongateType($type, $this->ancestry) : $type;
 		}
+
+		$return['variable'] = $variable;
 
 		if ($description)
 		{
