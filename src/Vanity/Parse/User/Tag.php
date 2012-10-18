@@ -48,6 +48,7 @@ use Vanity\Parse\User\Tag\IgnoreHandler;
 use Vanity\Parse\User\Tag\InternalHandler;
 use Vanity\Parse\User\Tag\LicenseHandler;
 use Vanity\Parse\User\Tag\LinkHandler;
+use Vanity\Parse\User\Tag\MethodHandler;
 use Vanity\Parse\User\Tag\PackageHandler;
 use Vanity\Parse\User\Tag\ParamHandler;
 use Vanity\Parse\User\Tag\PropertyHandler;
@@ -143,6 +144,10 @@ class Tag implements TagInterface
 
 			case 'link':
 				$processed = new LinkHandler($this->tag, $this->ancestry);
+				break;
+
+			case 'method':
+				$processed = new MethodHandler($this->tag, $this->ancestry);
 				break;
 
 			case 'package':

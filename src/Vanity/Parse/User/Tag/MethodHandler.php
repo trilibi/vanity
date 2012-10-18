@@ -32,18 +32,15 @@ use Vanity\Parse\User\Tag\AbstractNameTypeVariableDescription;
 use Vanity\Parse\User\Tag\HandlerInterface;
 
 /**
- * The handler for @property tags.
+ * The handler for @method tags.
  */
-class PropertyHandler extends AbstractNameTypeVariableDescription implements HandlerInterface
+class MethodHandler extends AbstractNameTypeVariableDescription implements HandlerInterface
 {
 	/**
 	 * {@inheritdoc}
 	 */
 	public function process($elongate = false)
 	{
-		$return = parent::process(true);
-		$return['variable'] = str_replace('$', '', $return['variable']);
-
-		return $return;
+		return parent::process(true);
 	}
 }
