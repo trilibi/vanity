@@ -29,6 +29,7 @@ namespace Vanity\Parse\User\Tag;
 
 use phpDocumentor\Reflection\DocBlock;
 use Vanity\Parse\User\Reflect\AncestryHandler;
+use Vanity\Parse\User\Reflect\TagHandler;
 use Vanity\Parse\User\Tag\AbstractHandler;
 use Vanity\Parse\User\Tag\HandlerInterface;
 use Vanity\Parse\Utilities as ParseUtil;
@@ -70,10 +71,12 @@ abstract class AbstractNameTypeVariableDescription extends AbstractHandler imple
 
 		$return['variable'] = $variable;
 
+		// @todo: Add support for resolving sub-blocks.
 		if ($description)
 		{
 			$return['description'] = $description;
 		}
+
 
 		return $return;
 	}

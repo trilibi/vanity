@@ -29,8 +29,11 @@
 * ~~Add service enhancement support for @author. (2)~~
 * ~~Add support for @property tags. (1)~~
 	* ~~Merge data from @property tags into the main "properties" hash. (2)~~
-* Add support for @method tags. (1)
+* ~~Add support for @method tags. (1)~~
+	* Add support for handling sub-blocks for @method. (8)
 	* Merge data from @method tags into the main "methods" hash. (3)
+* Add support for handling sub-blocks for @property. (2)
+* Add support for handling sub-blocks for @param. (2)
 * Add support for inline {@see} tags. (1)
 * Add support for inline {@inheritdoc} tags. (2)
 * Add support for inline {@example} tags. (1)
