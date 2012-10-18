@@ -1,5 +1,5 @@
 {
-    "hash": "5970e0f1165e37b691bbb5cc139e23d1",
+    "hash": "735ed9753ff0128acc68ed12bd9b63f8",
     "packages": [
         {
             "name": "andrewsville/php-token-reflection",
@@ -165,42 +165,6 @@
             "keywords": [
                 "log",
                 "logging"
-            ]
-        },
-        {
-            "name": "phpdocumentor/reflection-docblock",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phpDocumentor/ReflectionDocBlock",
-                "reference": "5941846e99dd010be13babce5ffaf7dbf77bda24"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/phpDocumentor/ReflectionDocBlock/zipball/5941846e99dd010be13babce5ffaf7dbf77bda24",
-                "reference": "5941846e99dd010be13babce5ffaf7dbf77bda24",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.2",
-                "dflydev/markdown": "1.0.*"
-            },
-            "time": "1350331279",
-            "type": "library",
-            "installation-source": "source",
-            "autoload": {
-                "psr-0": {
-                    "phpDocumentor\\Reflection": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Mike van Riel",
-                    "email": "mike.vanriel@naenius.com"
-                }
             ]
         },
         {
@@ -695,6 +659,46 @@
                 "formatting",
                 "epub"
             ]
+        },
+        {
+            "name": "vanity/reflection-docblock",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vanity/ReflectionDocBlock",
+                "reference": "7600995ec6bbba70ecdae4512c56e6c100688970"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/vanity/ReflectionDocBlock/zipball/7600995ec6bbba70ecdae4512c56e6c100688970",
+                "reference": "7600995ec6bbba70ecdae4512c56e6c100688970",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2",
+                "dflydev/markdown": "1.0.*"
+            },
+            "time": "1350534672",
+            "type": "library",
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "phpDocumentor\\Reflection": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mike van Riel",
+                    "email": "mike.vanriel@naenius.com"
+                },
+                {
+                    "name": "Ryan Parman",
+                    "email": "ryan@ryanparman.com"
+                }
+            ]
         }
     ],
     "packages-dev": null,
@@ -703,7 +707,7 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "phpdocumentor/reflection-docblock": 20,
+        "vanity/reflection-docblock": 20,
         "skyzyx/service-listing": 20,
         "skyzyx/spdx-licenses": 20,
         "vanity/pandoc-templates": 20

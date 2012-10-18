@@ -44,39 +44,46 @@ abstract class AbstractNameTypeVariableDescription extends AbstractHandler imple
 	 */
 	public function process($elongate = false)
 	{
-		$return = array();
-		$return['name'] = $this->tag->getName();
-		$return['type'] = 'void';
+		$return = array(
+			'name'        => $this->tag->getName(),
+			'type'        => 'void',
+			'variable'    => null,
+			'arguments'   => null,
+			'description' => null,
+		);
 
 		$content = $this->clean($this->tag->getContent());
 
-		preg_match('/((\w+|\|*\\*)\s+)?(\$\w+|\w+\(([^\)]*)\))\s*(.*)?/i', $content, $m);
-		list($____a, $____a, $type, $variable, $____a, $description) = $m;
-
-		if (strpos($type, '|'))
+		// Pattern from github:phpDocumentor/ReflectionDocBlock
+		if (preg_match('/^[\s]*(?:([\w\|_\\\\]+)[\s]+)?(?:[\w_]+\(\)[\s]+)?([\w\|_\\\\]+)\(([^\)]*)\)[\s]*(.*)/u', $content, $m))
 		{
-			$self = $this;
-			$return['type'] = 'mixed';
-			$return['types'] = explode('|', $type);
-			$return['types'] = array_map(function($type) use ($self, $elongate)
+			list(, $type, $variable, $arguments, $description) = $m;
+
+			if ($type && strpos($type, '|'))
 			{
-				return $elongate ? AncestryHandler::elongateType($type, $self->ancestry) : $type;
-			},
-			$return['types']);
-		}
-		else
-		{
-			$return['type'] = $elongate ? AncestryHandler::elongateType($type, $this->ancestry) : $type;
-		}
+				$self = $this;
+				$return['type'] = 'mixed';
+				$return['types'] = explode('|', $type);
+				$return['types'] = array_map(function($type) use ($self, $elongate)
+				{
+					return $elongate ? AncestryHandler::elongateType($type, $self->ancestry) : $type;
+				},
+				$return['types']);
+			}
+			elseif ($type)
+			{
+				$return['type'] = $elongate ? AncestryHandler::elongateType($type, $this->ancestry) : $type;
+			}
 
-		$return['variable'] = $variable;
+			$return['variable'] = $variable;
+			$return['arguments'] = $arguments;
 
-		// @todo: Add support for resolving sub-blocks.
-		if ($description)
-		{
-			$return['description'] = $description;
+			// @todo: Add support for resolving sub-blocks.
+			if ($description)
+			{
+				$return['description'] = $description;
+			}
 		}
-
 
 		return $return;
 	}
