@@ -41,6 +41,5 @@ class ParamHandler extends AbstractNameTypeVariableDescription implements Handle
 	 */
 	public function process($elongate = false)
 	{
-		return parent::process(true);
 	}
 }

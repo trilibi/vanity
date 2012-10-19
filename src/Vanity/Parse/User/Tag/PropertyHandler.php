@@ -41,8 +41,39 @@ class PropertyHandler extends AbstractNameTypeVariableDescription implements Han
 	 */
 	public function process($elongate = false)
 	{
-		$return = parent::process(true);
-		$return['variable'] = str_replace('$', '', $return['variable']);
+		$content = $this->clean($this->tag->getContent());
+
+		$return = array(
+			'raw'         => $content,
+			'name'        => $this->tag->getName(),
+			'type'        => 'void',
+			'property'    => null,
+			'description' => null,
+		);
+
+		$pattern = '/
+			^[\s]*                # Preceding whitespace
+			(?:
+				([\w\|_\\\\]+)    # Type, if exists
+				[\s]+
+			)?
+			\$([\w\|_\\\\]+)      # Property name
+			[\s]*
+			(.*)                  # Description
+		/ux';
+
+		if (preg_match($pattern, $content, $m))
+		{
+			list(, $type, $property, $description) = $m;
+
+			$return['property'] = $property;
+
+			$return = array_merge(
+				$return,
+				$this->handleType($type, $elongate),
+				$this->handleDescription($description, $elongate)
+			);
+		}
 
 		return $return;
 	}

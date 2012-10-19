@@ -246,7 +246,7 @@ class Reflect
 	 * to fit with real properties.
 	 *
 	 * @param  array &$metadata The source metadata.
-	 * @return array           The reformatted array of meta-properties.
+	 * @return array            The reformatted array of meta-properties.
 	 */
 	public function formatMetaProperties(&$metadata)
 	{
@@ -259,7 +259,8 @@ class Reflect
 				if (isset($tag['name']) && $tag['name'] === 'property')
 				{
 					$rf = array();
-					$rf['name'] = $tag['variable'];
+					$rf['raw'] = $tag['raw'];
+					$rf['name'] = $tag['property'];
 					$rf['visibility'] = array(
 						'public'
 					);
@@ -272,6 +273,89 @@ class Reflect
 							)
 						)
 					);
+
+					$reformatted[] = $rf;
+					unset($metadata['tag'][$index]);
+				}
+			}
+
+			// Remove if empty
+			if (count($this->data['metadata']['tag']) === 0)
+			{
+				unset($this->data['metadata']);
+			}
+		}
+
+		return $reformatted;
+	}
+
+	/**
+	 * Removes meta-methods from the metadata collection, and reformats them
+	 * to fit with real methods.
+	 *
+	 * @param  array &$metadata The source metadata.
+	 * @return array            The reformatted array of meta-methods.
+	 */
+	public function formatMetaMethods(&$metadata)
+	{
+		$reformatted = array();
+
+		if (isset($metadata['tag']) && count($metadata['tag']) > 0)
+		{
+			foreach ($metadata['tag'] as $index => $tag)
+			{
+				if (isset($tag['name']) && $tag['name'] === 'method')
+				{
+					$rf = array();
+					$rf['name'] = $tag['method'];
+					$rf['visibility'] = array(
+						'public'
+					);
+					$rf['path'] = '';
+					$rf['description'] = $tag['description'];
+					$rf['metadata'] = array(
+						'tag' => array()
+					);
+
+					// foreach ()
+					// {
+					// 	$rf['metadata']['tag'][] = array(
+					// 		'name'        => 'param',
+					// 		'type'        => 'void',
+					// 		'variable'    => null,
+					// 		'arguments'   => null,
+					// 		'description' => null,
+					// 	);
+					// }
+
+/*
+{
+    {
+        "name": "return",
+        "type": "Guzzle\\Service\\Builder\\ServiceBuilder"
+    }
+
+    "parameters": {
+        "count": 2,
+        "parameter": [
+            {
+                "name": "config",
+                "required": false,
+                "passed_by_reference": false,
+                "default": null
+            },
+            {
+                "name": "globalParameters",
+                "required": false,
+                "passed_by_reference": false,
+                "default": [
+
+                ]
+            }
+        ]
+    }
+},
+*/
 
 					$reformatted[] = $rf;
 					unset($metadata['tag'][$index]);

@@ -37,53 +37,71 @@ use Vanity\Parse\Utilities as ParseUtil;
 /**
  * The default handler for name:type:variable:description tags.
  */
-abstract class AbstractNameTypeVariableDescription extends AbstractHandler implements HandlerInterface
+abstract class AbstractNameTypeVariableDescription extends AbstractHandler
 {
 	/**
-	 * {@inheritdoc}
+	 * Handle the type/types for the tag.
+	 *
+	 * @param  string  $type     The raw type that has been parsed from the tag.
+	 * @param  boolean $elongate Whether or not to elongate/resolve classes and aliases.
+	 * @return array             An array containing a `type` and `types` key that should be merged back into the
+	 *                           parent node.
 	 */
-	public function process($elongate = false)
+	public function handleType($type, $elongate)
 	{
-		$return = array(
-			'name'        => $this->tag->getName(),
-			'type'        => 'void',
-			'variable'    => null,
-			'arguments'   => null,
-			'description' => null,
-		);
+		$return = array();
 
-		$content = $this->clean($this->tag->getContent());
-
-		// Pattern from github:phpDocumentor/ReflectionDocBlock
-		if (preg_match('/^[\s]*(?:([\w\|_\\\\]+)[\s]+)?(?:[\w_]+\(\)[\s]+)?([\w\|_\\\\]+)\(([^\)]*)\)[\s]*(.*)/u', $content, $m))
+		if ($type && strpos($type, '|'))
 		{
-			list(, $type, $variable, $arguments, $description) = $m;
-
-			if ($type && strpos($type, '|'))
+			$self = $this;
+			$return['type'] = 'mixed';
+			$return['types'] = explode('|', $type);
+			$return['types'] = array_map(function($type) use ($self, $elongate)
 			{
-				$self = $this;
-				$return['type'] = 'mixed';
-				$return['types'] = explode('|', $type);
-				$return['types'] = array_map(function($type) use ($self, $elongate)
-				{
-					return $elongate ? AncestryHandler::elongateType($type, $self->ancestry) : $type;
-				},
-				$return['types']);
-			}
-			elseif ($type)
-			{
-				$return['type'] = $elongate ? AncestryHandler::elongateType($type, $this->ancestry) : $type;
-			}
-
-			$return['variable'] = $variable;
-			$return['arguments'] = $arguments;
-
-			// @todo: Add support for resolving sub-blocks.
-			if ($description)
-			{
-				$return['description'] = $description;
-			}
+				return $elongate ? AncestryHandler::elongateType($type, $self->ancestry) : $type;
+			},
+			$return['types']);
 		}
+		elseif ($type)
+		{
+			$return['type'] = $elongate ? AncestryHandler::elongateType($type, $this->ancestry) : $type;
+		}
+
+		return $return;
+	}
+
+	/**
+	 * Handle the arguments for the tag.
+	 *
+	 * @param  string  $arguments The raw arguments that have been parsed from the tag.
+	 * @param  boolean $elongate  Whether or not to elongate/resolve classes and aliases.
+	 * @return array              An array containing a `type` and `types` key that should be merged back into the
+	 *                            parent node.
+	 */
+	public function handleArguments($arguments, $elongate)
+	{
+		$return = array();
+
+		$return['arguments'] = $arguments;
+
+		return $return;
+	}
+
+	/**
+	 * Handle the arguments for the tag.
+	 *
+	 * @todo: Add support for resolving sub-blocks.
+	 *
+	 * @param  string  $description The raw description that have been parsed from the tag.
+	 * @param  boolean $elongate    Whether or not to elongate/resolve classes and aliases.
+	 * @return array                An array containing a `type` and `types` key that should be merged back into the
+	 *                              parent node.
+	 */
+	public function handleDescription($description, $elongate)
+	{
+		$return = array();
+
+		$return['description'] = $description;
 
 		return $return;
 	}

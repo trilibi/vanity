@@ -41,6 +41,54 @@ class MethodHandler extends AbstractNameTypeVariableDescription implements Handl
 	 */
 	public function process($elongate = false)
 	{
-		return parent::process(true);
+		$content = $this->clean($this->tag->getContent());
+
+		$return = array(
+			'raw'         => $content,
+			'name'        => $this->tag->getName(),
+			'type'        => 'void',
+			'method'      => null,
+			'arguments'   => null,
+			'description' => null,
+		);
+
+		// Pattern from github:phpDocumentor/ReflectionDocBlock
+		$pattern = '/
+			^[\s]*                     # Preceding whitespace
+			(?:
+				([\w\|_\\\\]+)         # Type, if exists
+				[\s]+
+			)?
+			(?:
+				[\w_]+\(\)[\s]+        # Method, if exists
+			)?
+			([\w\|_\\\\]+)             # Method name (with parameters)
+			\(
+				(
+					.*?
+					(?:
+						(\()(.*?\))*   # Method arguments that may contain nested arrays
+					)?
+				)
+			\)
+			[\s]*
+			(.*)                       # Description
+		/ux';
+
+		if (preg_match($pattern, $content, $m))
+		{
+			list(, $type, $method, $arguments, , , $description) = $m;
+
+			$return['method'] = $method;
+
+			$return = array_merge(
+				$return,
+				$this->handleType($type, $elongate),
+				$this->handleArguments($arguments, $elongate),
+				$this->handleDescription($description, $elongate)
+			);
+		}
+
+		return $return;
 	}
 }
