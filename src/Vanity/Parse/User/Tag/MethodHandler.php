@@ -52,7 +52,7 @@ class MethodHandler extends AbstractNameTypeVariableDescription implements Handl
 			'description' => null,
 		);
 
-		// Pattern from github:phpDocumentor/ReflectionDocBlock
+		// Pattern modified from github:phpDocumentor/ReflectionDocBlock
 		$pattern = '/
 			^[\s]*                     # Preceding whitespace
 			(?:

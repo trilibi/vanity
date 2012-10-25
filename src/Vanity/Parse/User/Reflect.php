@@ -260,7 +260,7 @@ class Reflect
 				{
 					$rf = array();
 					$rf['raw'] = $tag['raw'];
-					$rf['name'] = $tag['property'];
+					$rf['name'] = $tag['variable'];
 					$rf['visibility'] = array(
 						'public'
 					);
@@ -317,17 +317,19 @@ class Reflect
 						'tag' => array()
 					);
 
-					// foreach ()
-					// {
-					// 	$rf['metadata']['tag'][] = array(
-					// 		'name'        => 'param',
-					// 		'type'        => 'void',
-					// 		'variable'    => null,
-					// 		'arguments'   => null,
-					// 		'description' => null,
-					// 	);
-					// }
+					// @todo: Add support for @param.
+					// $rf['metadata']['tag'][] = array(
+					// 	'name'        => 'return',
+					// 	'type'        => 'void',
+					// 	'variable'    => null,
+					// 	'arguments'   => null,
+					// 	'description' => null,
+					// );
 
+					// $rf['metadata']['tag'][] = array(
+					// 	'name' => 'return',
+					// 	'type' => (isset($tag['type']) ? $tag['type'] : 'void'),
+					// )
 /*
 {
     {

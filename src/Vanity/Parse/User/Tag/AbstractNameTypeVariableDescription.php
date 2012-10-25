@@ -40,6 +40,48 @@ use Vanity\Parse\Utilities as ParseUtil;
 abstract class AbstractNameTypeVariableDescription extends AbstractHandler
 {
 	/**
+	 * {@inheritdoc}
+	 */
+	public function process($elongate = false)
+	{
+		$content = $this->clean($this->tag->getContent());
+
+		$return = array(
+			'raw'         => $content,
+			'name'        => $this->tag->getName(),
+			'type'        => 'void',
+			'variable'    => null,
+			'description' => null,
+		);
+
+		$pattern = '/
+			^[\s]*                # Preceding whitespace
+			(?:
+				([\w\|_\\\\]+)    # Type, if exists
+				[\s]+
+			)?
+			\$([\w\|_\\\\]+)      # Variable name
+			[\s]*
+			(.*)                  # Description
+		/ux';
+
+		if (preg_match($pattern, $content, $m))
+		{
+			list(, $type, $variable, $description) = $m;
+
+			$return['variable'] = $variable;
+
+			$return = array_merge(
+				$return,
+				$this->handleType($type, $elongate),
+				$this->handleDescription($description, $elongate)
+			);
+		}
+
+		return $return;
+	}
+
+	/**
 	 * Handle the type/types for the tag.
 	 *
 	 * @param  string  $type     The raw type that has been parsed from the tag.
