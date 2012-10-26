@@ -143,7 +143,12 @@ class API extends BaseCommand
 		$output->writeln($this->formatter->yellow->apply('MATCHED CLASSES:'));
 		$classes = array_filter(Find::classes($files['absolute']), function($class)
 		{
-			return !preg_match(ConfigStore::get('api.exclude.classes'), $class);
+			if ($regex = ConfigStore::get('api.exclude.classes'))
+			{
+				return !preg_match($regex, $class);
+			}
+
+			return true;
 		});
 
 		$this->triggerEvent('vanity.command.parse.api.classlist.pre', new EventStore(array(

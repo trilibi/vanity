@@ -46,18 +46,18 @@ return array(
 	// Configurations related to the API Reference
 	'api' => array(
 
-		'formats'         => array(InputOption::VALUE_OPTIONAL, 'Comma-separated list of one or more documentation formats. JSON is used internally, so you get this one no matter what.', NULL),
+		'formats'         => array(InputOption::VALUE_OPTIONAL, 'Comma-separated list of one or more documentation formats. JSON is used internally, so you get this one no matter what.', null),
 		'input'           => array(InputOption::VALUE_OPTIONAL, 'Where should we start looking for code? (Use * for wildcard.)', VANITY_PROJECT_WORKING_DIR . '/src/*.php'),
 		'output'          => array(InputOption::VALUE_OPTIONAL, 'Where should we put the documentation when we\'re done? (Variables: format, stage, tag)', '%VANITY.CONFIG_DIR%/output/%VERSION%-%STAGE%/%FORMAT%'),
 		'readme'          => array(InputOption::VALUE_OPTIONAL, 'The file to use as the default page.', VANITY_PROJECT_WORKING_DIR . '/README.*'),
 		'resolve_aliases' => array(InputOption::VALUE_OPTIONAL, 'Whether or not to resolve namespace aliases to fully-qualified namespaces for type lookups.', true),
-		'stage'           => array(InputOption::VALUE_OPTIONAL, 'The stage that the project is currently in. Can be any ASCII value. (e.g., development, alpha, beta, rc, production).', NULL),
+		'stage'           => array(InputOption::VALUE_OPTIONAL, 'The stage that the project is currently in. Can be any ASCII value. (e.g., development, alpha, beta, rc, production).', null),
 		'todo'            => array(InputOption::VALUE_OPTIONAL, 'PCRE regex pattern for matching TODOs in the source code.', '/@?\s*(todo|fixme)(:|\s).+/i'),
-		'viewsource'      => array(InputOption::VALUE_OPTIONAL, 'Point to an online location to view the source. (Variables: line, path)', NULL),
+		'viewsource'      => array(InputOption::VALUE_OPTIONAL, 'Point to an online location to view the source. (Variables: line, path)', null),
 
 		// What should we exclude from the documentation?
 		'exclude' => array(
-			'classes'    => array(InputOption::VALUE_OPTIONAL, 'Which classes should we exclude? Pass an array of explicit names, or a PCRE regex pattern as a string.', '/Exception/i'),
+			'classes'    => array(InputOption::VALUE_OPTIONAL, 'Which classes should we exclude? Pass an array of explicit names, or a PCRE regex pattern as a string.', null),
 			'methods'    => array(InputOption::VALUE_OPTIONAL, 'Which methods should we exclude? Pass an array of explicit names, or a PCRE regex pattern as a string.', '/__([a-z]+)/i'),
 			'visibility' => array(InputOption::VALUE_OPTIONAL, 'Which visibility types should we exclude?', 'private'),
 		),

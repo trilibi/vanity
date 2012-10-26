@@ -147,7 +147,7 @@ class Resolve
 			$config[$name] = $default;
 		}
 
-		$config = array_filter($config);
+		// $config = array_filter($config);
 
 		return $config;
 	}
