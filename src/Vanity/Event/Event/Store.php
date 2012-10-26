@@ -40,6 +40,7 @@ class Store extends Event
 {
 	/**
 	 * Stores the configuration.
+	 *
 	 * @type array
 	 */
 	protected $__config = array();

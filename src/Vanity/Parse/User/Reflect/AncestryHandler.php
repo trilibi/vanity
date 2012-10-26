@@ -427,6 +427,7 @@ class AncestryHandler
 			'number',
 			'object',
 			'resource',
+			'stdClass',
 			'string',
 			'void',
 		);

@@ -41,7 +41,7 @@ class LinkHandler extends AbstractNameTypeDescription implements HandlerInterfac
 	 */
 	public function process($elongate = false)
 	{
-		$return = parent::process($elongate);
+		$return = parent::process(false);
 
 		if (isset($return['type']))
 		{

@@ -58,7 +58,7 @@ class SeeHandler extends AbstractNameTypeDescription implements HandlerInterface
 		}
 
 		// Method
-		elseif (preg_match('/(\w+::)?[\w_]+\(\)/', $return['entity']))
+		elseif (preg_match('/(\w+::)?[\w_]+(\(\))?/', $return['entity']))
 		{
 			$return['entity_hint'] = 'method';
 		}
