@@ -1,5 +1,5 @@
 {
-    "hash": "735ed9753ff0128acc68ed12bd9b63f8",
+    "hash": "f2c2e706510781e4e652335d4c8fb601",
     "packages": [
         {
             "name": "andrewsville/php-token-reflection",
@@ -108,17 +108,6 @@
             ]
         },
         {
-            "name": "docblox/parallel",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "git://github.com/phpDocumentor/Parallel.git",
-                "reference": "origin/master"
-            },
-            "type": "library",
-            "installation-source": "source"
-        },
-        {
             "name": "monolog/monolog",
             "version": "1.1.0",
             "source": {
@@ -165,6 +154,42 @@
             "keywords": [
                 "log",
                 "logging"
+            ]
+        },
+        {
+            "name": "phpdocumentor/reflection-docblock",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phpDocumentor/ReflectionDocBlock",
+                "reference": "5941846e99dd010be13babce5ffaf7dbf77bda24"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/phpDocumentor/ReflectionDocBlock/zipball/5941846e99dd010be13babce5ffaf7dbf77bda24",
+                "reference": "5941846e99dd010be13babce5ffaf7dbf77bda24",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2",
+                "dflydev/markdown": "1.0.*"
+            },
+            "time": "1350331279",
+            "type": "library",
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "phpDocumentor\\Reflection": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mike van Riel",
+                    "email": "mike.vanriel@naenius.com"
+                }
             ]
         },
         {
@@ -270,17 +295,17 @@
         },
         {
             "name": "symfony/class-loader",
-            "version": "v2.0.17",
+            "version": "v2.0.18",
             "target-dir": "Symfony/Component/ClassLoader",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/ClassLoader",
-                "reference": "v2.0.17"
+                "reference": "v2.0.18"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/ClassLoader/zipball/v2.0.17",
-                "reference": "v2.0.17",
+                "url": "https://github.com/symfony/ClassLoader/zipball/v2.0.18",
+                "reference": "v2.0.18",
                 "shasum": ""
             },
             "require": {
@@ -312,23 +337,23 @@
         },
         {
             "name": "symfony/console",
-            "version": "v2.0.17",
+            "version": "v2.0.18",
             "target-dir": "Symfony/Component/Console",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console",
-                "reference": "v2.0.17"
+                "reference": "v2.0.18"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Console/zipball/v2.0.17",
-                "reference": "v2.0.17",
+                "url": "https://github.com/symfony/Console/zipball/v2.0.18",
+                "reference": "v2.0.18",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2"
             },
-            "time": "2012-07-19 22:25:32",
+            "time": "2012-09-28 07:21:46",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -354,17 +379,17 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v2.0.17",
+            "version": "v2.0.18",
             "target-dir": "Symfony/Component/EventDispatcher",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/EventDispatcher",
-                "reference": "v2.0.17"
+                "reference": "v2.0.18"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/EventDispatcher/zipball/v2.0.17",
-                "reference": "v2.0.17",
+                "url": "https://github.com/symfony/EventDispatcher/zipball/v2.0.18",
+                "reference": "v2.0.18",
                 "shasum": ""
             },
             "require": {
@@ -447,17 +472,17 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v2.0.17",
+            "version": "v2.0.18",
             "target-dir": "Symfony/Component/Finder",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Finder",
-                "reference": "v2.0.17"
+                "reference": "v2.0.18"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Finder/zipball/v2.0.17",
-                "reference": "v2.0.17",
+                "url": "https://github.com/symfony/Finder/zipball/v2.0.18",
+                "reference": "v2.0.18",
                 "shasum": ""
             },
             "require": {
@@ -489,23 +514,23 @@
         },
         {
             "name": "symfony/process",
-            "version": "v2.0.17",
+            "version": "v2.0.18",
             "target-dir": "Symfony/Component/Process",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Process",
-                "reference": "v2.0.17"
+                "reference": "v2.0.18"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Process/zipball/v2.0.17",
-                "reference": "v2.0.17",
+                "url": "https://github.com/symfony/Process/zipball/v2.0.18",
+                "reference": "v2.0.18",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2"
             },
-            "time": "2012-05-20 09:15:10",
+            "time": "2012-10-06 05:46:45",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -531,17 +556,17 @@
         },
         {
             "name": "symfony/templating",
-            "version": "v2.0.17",
+            "version": "v2.0.18",
             "target-dir": "Symfony/Component/Templating",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Templating",
-                "reference": "v2.0.17"
+                "reference": "v2.0.18"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Templating/zipball/v2.0.17",
-                "reference": "v2.0.17",
+                "url": "https://github.com/symfony/Templating/zipball/v2.0.18",
+                "reference": "v2.0.18",
                 "shasum": ""
             },
             "require": {
@@ -573,17 +598,17 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.0.17",
+            "version": "v2.0.18",
             "target-dir": "Symfony/Component/Yaml",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Yaml",
-                "reference": "v2.0.17"
+                "reference": "v2.0.18"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/symfony/Yaml/zipball/v2.0.17",
-                "reference": "v2.0.17",
+                "url": "https://github.com/symfony/Yaml/zipball/v2.0.18",
+                "reference": "v2.0.18",
                 "shasum": ""
             },
             "require": {
@@ -659,46 +684,6 @@
                 "formatting",
                 "epub"
             ]
-        },
-        {
-            "name": "vanity/reflection-docblock",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/vanity/ReflectionDocBlock",
-                "reference": "7600995ec6bbba70ecdae4512c56e6c100688970"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://github.com/vanity/ReflectionDocBlock/zipball/7600995ec6bbba70ecdae4512c56e6c100688970",
-                "reference": "7600995ec6bbba70ecdae4512c56e6c100688970",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.2",
-                "dflydev/markdown": "1.0.*"
-            },
-            "time": "1350534672",
-            "type": "library",
-            "installation-source": "source",
-            "autoload": {
-                "psr-0": {
-                    "phpDocumentor\\Reflection": "src/"
-                }
-            },
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Mike van Riel",
-                    "email": "mike.vanriel@naenius.com"
-                },
-                {
-                    "name": "Ryan Parman",
-                    "email": "ryan@ryanparman.com"
-                }
-            ]
         }
     ],
     "packages-dev": null,
@@ -707,7 +692,7 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
-        "vanity/reflection-docblock": 20,
+        "phpdocumentor/reflection-docblock": 20,
         "skyzyx/service-listing": 20,
         "skyzyx/spdx-licenses": 20,
         "vanity/pandoc-templates": 20

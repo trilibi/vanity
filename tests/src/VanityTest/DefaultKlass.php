@@ -10,6 +10,9 @@ use VanityTest\Test\Klass;
 use VanityTest\Test\KlassInterface;
 
 /**
+ * This {@internal}} description has a simple {@internal Description. }} tag. It also has a nested
+ * {@internal Description that also has a {@internal}} tag. }} tag.
+ *
  * @uses Klass
  * @version 1.2.3
  *

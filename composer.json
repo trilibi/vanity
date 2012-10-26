@@ -24,9 +24,8 @@
 
 		"andrewsville/php-token-reflection": "1.3.*",
 		"dflydev/markdown": "1.0.*",
-		"docblox/parallel": "1.*",
 		"monolog/monolog": "1.1.*",
-		"vanity/reflection-docblock": "dev-master",
+		"phpdocumentor/reflection-docblock": "dev-master",
 		"skyzyx/examplify": ">=1.1",
 		"skyzyx/service-listing": "dev-master",
 		"skyzyx/spdx-licenses": "dev-master",
