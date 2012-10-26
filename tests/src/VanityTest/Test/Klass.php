@@ -2,7 +2,7 @@
 namespace VanityTest\Test;
 
 use stdClass;
-use VanityTest\Default;
+use VanityTest\DefaultKlass;
 use VanityTest\Exception\TestException;
 
 /**
@@ -29,7 +29,7 @@ use VanityTest\Exception\TestException;
  * @fixme This is something that needs to be fixed.
  * @todo  This is something that needs to be fixed.
  *
- * @used-by Default
+ * @used-by DefaultKlass
  */
 class Klass
 {

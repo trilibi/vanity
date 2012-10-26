@@ -19,7 +19,7 @@ interface KlassInterface
 	 * @param  integer $number This is the integer parameter.
 	 * @return integer         This is the return type of the method.
 	 */
-	public function setNumber(integer $number);
+	public function setNumber($number);
 
 	/**
 	 * This is a description of a boolean method.
@@ -27,7 +27,7 @@ interface KlassInterface
 	 * @param  boolean $trueFalse This is the boolean parameter.
 	 * @return boolean            This is the return type of the method.
 	 */
-	public function setBoolean(boolean $trueFalse);
+	public function setBoolean($trueFalse);
 
 	/**
 	 * This is a description of an array method.

@@ -1,6 +1,11 @@
 <?php
 namespace VanityTest;
 
+require_once __DIR__ . '/Test/KlassInterface.php';
+require_once __DIR__ . '/Test/Klass.php';
+require_once __DIR__ . '/Exception/TestException.php';
+
+use SimpleXMLElement;
 use VanityTest\Test\Klass;
 use VanityTest\Test\KlassInterface;
 
@@ -28,7 +33,7 @@ use VanityTest\Test\KlassInterface;
  *     @return string The description of the string response.
  * }
  */
-class Default extends Klass implements KlassInterface
+class DefaultKlass extends Klass implements KlassInterface
 {
 	/**************************************************************************/
 	// PROPERTIES
@@ -51,12 +56,12 @@ class Default extends Klass implements KlassInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setNumber(integer $number) {}
+	public function setNumber($number) {}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setBoolean(boolean $trueFalse) {}
+	public function setBoolean($trueFalse) {}
 
 	/**
 	 * {@inheritdoc}

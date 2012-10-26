@@ -3,4 +3,5 @@
 .vanity/output
 .vanity/reports
 logs
+tests/.vanity/output
 vendor

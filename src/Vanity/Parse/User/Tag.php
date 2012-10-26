@@ -171,8 +171,6 @@ class Tag implements TagInterface
 
 			case 'alias':
 			case 'see':
-			case 'uses':
-			case 'used-by':
 				$processed = new SeeHandler($this->tag, $this->ancestry);
 				break;
 
@@ -194,6 +192,11 @@ class Tag implements TagInterface
 			case 'type':
 			case 'var':
 				$processed = new TypeHandler($this->tag, $this->ancestry);
+				break;
+
+			case 'uses':
+			case 'used-by':
+				$processed = new UsesHandler($this->tag, $this->ancestry);
 				break;
 
 			case 'version':
