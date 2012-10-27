@@ -25,79 +25,38 @@
  */
 
 
-namespace Vanity\Parse\User\Reflect;
+namespace Vanity\Parse\User\Tag;
 
-use phpDocumentor\Reflection\DocBlock;
-use Vanity\Config\Store as ConfigStore;
+use Vanity\Console\Utilities as ConsoleUtil;
 use Vanity\Parse\User\Reflect\AncestryHandler;
-use Vanity\Parse\User\Tag;
+use Vanity\Parse\User\Tag\HandlerInterface;
+use Vanity\Parse\User\Tag\AbstractNameTypeDescription;
+use Vanity\System\DocumentationInconsistencyCollector as Inconsistency;
+use Vanity\System\Store as SystemStore;
 
 /**
- * Handle tags for a class.
- *
- * @author Ryan Parman <http://ryanparman.com>
- * @link   http://vanitydoc.org
+ * The handler for @internal tags.
  */
-class TagHandler
+class InlineInternalHandler
 {
 	/**
-	 * Storage for the docblocks.
-	 * @type array
+	 * {@inheritdoc}
 	 */
-	protected $docblock;
-
-	/**
-	 * Storage for ancestry.
-	 * @type AncestryHandler
-	 */
-	public $ancestry;
-
-	/**
-	 * Constructs a new instance of this class.
-	 *
-	 * @param string          $docblock The docblock to work with.
-	 * @param AncestryHandler $ancestry The ancestry data for the class.
-	 */
-	public function __construct($docblock, AncestryHandler $ancestry)
+	public function __construct($description, AncestryHandler $ancestry)
 	{
-		$this->docblock = new DocBlock($docblock);
+		$this->description = $description;
 		$this->ancestry = $ancestry;
 	}
 
 	/**
-	 * Get the full description.
-	 *
-	 * @return string The description.
+	 * {@inheritdoc}
 	 */
-	public function getDescription()
+	public function process($elongate = false)
 	{
-		return $this->docblock->getShortDescription() . $this->docblock->getLongDescription()->getContents();
-	}
+		$pattern = '/\{\@internal(.*?)\}\}/ux';
 
-	/**
-	 * Retrieve the tags for the class.
-	 *
-	 * @return array A list of tags.
-	 */
-	public function getTags()
-	{
-		$metadata = array();
-		$tags = $this->docblock->getTags();
+		$this->description = preg_replace($pattern, '', $this->description);
 
-		if (count($tags))
-		{
-			if (!isset($metadata['tag']))
-			{
-				$metadata['tag'] = array();
-			}
-
-			foreach ($tags as $rtag)
-			{
-				$dtag = new Tag($rtag, $this->ancestry);
-				$metadata['tag'][] = $dtag->determine()->process(ConfigStore::get('api.resolve_aliases'));
-			}
-		}
-
-		return $metadata;
+		return $this->description;
 	}
 }

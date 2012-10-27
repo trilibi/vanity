@@ -35,6 +35,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Vanity\Console\Utilities as ConsoleUtil;
 use Vanity\Parse\User\Reflect\AncestryHandler;
 use Vanity\Parse\User\Reflect\ConstantHandler;
+use Vanity\Parse\User\Reflect\InlineTagHandler;
 use Vanity\Parse\User\Reflect\MethodHandler;
 use Vanity\Parse\User\Reflect\PropertyHandler;
 use Vanity\Parse\User\Reflect\TagHandler;
@@ -64,19 +65,25 @@ class Reflect
 
 	/**
 	 * Stores a copy of the class constants.
-	 * @type array
+	 * @type ConstantHandler
 	 */
 	public $constants;
 
 	/**
 	 * Stores a copy of the class properties.
-	 * @type array
+	 * @type PropertyHandler
 	 */
 	public $properties;
 
 	/**
+	 * Stores a copy of the class methods.
+	 * @type MethodHandler
+	 */
+	public $methods;
+
+	/**
 	 * Stores a copy of the class tags.
-	 * @type array
+	 * @type TagHandler
 	 */
 	public $class_tags;
 
@@ -153,16 +160,11 @@ class Reflect
 
 		#--------------------------------------------------------------------------#
 
-		// Add short descriptions
-		if ($short_description = $this->class_tags->getShortDescription())
+		// Add description
+		if ($description = $this->class_tags->getDescription())
 		{
-			$this->data['short_description'] = $short_description;
-		}
-
-		// Add long descriptions
-		if ($long_description = $this->class_tags->getLongDescription())
-		{
-			$this->data['long_description'] = $long_description;
+			$description = new InlineTagHandler($description, $this->ancestry);
+			$this->data['description'] = $description->getDescription();
 		}
 
 		// Add inheritance chain

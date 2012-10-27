@@ -105,7 +105,7 @@ class PropertyHandler
 			// Where are we?
 			SystemStore::add('_.current', $this->class->getName() . '::$' . $rproperty->getName());
 
-			if ($description = $_tags->getShortDescription())
+			if ($description = $_tags->getDescription())
 			{
 				$entry['description'] = $description;
 			}

@@ -32,9 +32,9 @@
 * ~~Add support for @method tags. (1)~~
 	* ~~Fix broken regexes for methods. (5)~~
 	* Merge data from @method tags into the main "methods" hash. (3)
-	* Add support for handling sub-blocks for @method. (8)
-* Add support for handling sub-blocks for @property. (2)
-* Add support for handling sub-blocks for @param. (2)
+	* Add support for handling sub-blocks for @method. (8) (delaying)
+* Add support for handling sub-blocks for @property. (2) (delaying)
+* Add support for handling sub-blocks for @param. (2) (delaying)
 * Add support for inline {@see} tags. (1)
 * Add support for inline {@inheritdoc} tags. (2)
 * Add support for inline {@example} tags. (1)
