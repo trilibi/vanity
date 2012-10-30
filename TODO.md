@@ -1,6 +1,6 @@
 # TODO
 
-## Already Done
+## Stage 0: Bootstrapping the App
 
 * ~~Build a console-based application using the Symfony Console component. (5)~~
 * ~~Reflect the source code and construct a structured JSON document. (8)~~
@@ -8,22 +8,22 @@
 * ~~Merge data from @param tags with ReflectionParameter data to get a complete picture of parameters. (3)~~
 * ~~Add support for resolving namespace aliases back into fully-qualified namespaces (i.e., namespaces, aliases, class heirarchies, implementation heirarchies). (8)~~
 * ~~Add support for logging. (2)~~
-* ~~Establish a pattern of notifying various actions with events and event handlers. (3)~~
-* ~~Add support for collecting and logging mismatched parameter data so that we can find and fix it. (3)~~
 * ~~Add support for determining the list of PHP extensions that are requirements for the extended code. (2)~~
 * ~~Enable a custom directory for configuration data. (1)~~
-* ~~Make type-matching of native types case-insensitive. (1)~~
-* ~~Add support for resolving the `self` keyword. (1)~~
-* ~~Extract method handling into a separate class. (3)~~
 * ~~Synchronize the coding style (currently a mix of SimplePie-style and PSR-1). (3)~~
-* ~~Add event hooks for all @tags. (2)~~
-* ~~Add complete support for license identifiers <http://www.spdx.org/licenses/>. (2)~~
 
 ## Stage 1: API Reflection and Tokenization
 
+* ~~Establish a pattern of notifying various actions with events and event handlers. (3)~~
+* ~~Add support for collecting and logging mismatched parameter data so that we can find and fix it. (3)~~
 * ~~Synchronize the format of event names and fix existing ones (e.g., parser.method.tag.param, config.api.warn.todo). (1)~~
 * ~~Add a custom Event type which allows contextual storage. (1)~~
+* ~~Make type-matching of native types case-insensitive. (1)~~
+* ~~Add support for resolving the `self` keyword. (1)~~
 * ~~Add fully-qualified class name resolution to the @see handler. (1)~~
+* ~~Extract method handling into a separate class. (3)~~
+* ~~Add event hooks for all @tags. (2)~~
+* ~~Add complete support for license identifiers <http://www.spdx.org/licenses/>. (2)~~
 * ~~Add support for @event tags. (3)~~
 * ~~Add service enhancement support for @link. (2)~~
 * ~~Add service enhancement support for @author. (2)~~
@@ -35,6 +35,7 @@
 	* Add support for handling sub-blocks for @method. (8) (delaying)
 * Add support for handling sub-blocks for @property. (2) (delaying)
 * Add support for handling sub-blocks for @param. (2) (delaying)
+* Add support for reliably parsing inline tags. (5)
 * Add support for inline {@see} tags. (1)
 * Add support for inline {@inheritdoc} tags. (2)
 * Add support for inline {@example} tags. (1)
