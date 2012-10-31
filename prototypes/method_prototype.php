@@ -331,7 +331,7 @@ var_dump($response-&gt;isOK());</pre>
 			</div>
 		</div>
 
-		<p class="footnote" align="center">Copyright &copy; 2010&ndash;2012 Amazon Web Services, LLC</p>
+		<p class="footnote" align="center">Copyright &copy; 2010&ndash;2012 Amazon Web Services, Inc.</p>
 		<div id="bottom-spacer"></div>
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript" charset="utf-8"></script>
