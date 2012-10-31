@@ -123,8 +123,42 @@ abstract class AbstractNameTypeVariableDescription extends AbstractHandler
 	public function handleArguments($arguments, $elongate)
 	{
 		$return = array();
+		$return['arguments'] = array();
+		$arguments = trim($arguments);
 
-		$return['arguments'] = $arguments;
+		if ($arguments)
+		{
+			foreach (explode(',', $arguments) as $argument)
+			{
+				preg_match('/^((\w*)[\s]*)?(&)?\$(\w*)([\s]*=[\s]*(.*))?$/', trim($argument), $matches);
+
+				@list(,,$type,$pbr,$name,,$default) = $matches;
+				$pieces = array(
+					'name' => $name,
+					'type' => $type,
+					'required' => (!$default),
+					'passed_by_reference' => (boolean) $pbr,
+				);
+
+				if ($type && strpos($type, '|'))
+				{
+					$self = $this;
+					$pieces['type'] = 'mixed';
+					$pieces['types'] = explode('|', $type);
+					$pieces['types'] = array_map(function($type) use ($self, $elongate)
+					{
+						return $elongate ? AncestryHandler::elongateType($type, $self->ancestry) : $type;
+					},
+					$pieces['types']);
+				}
+				elseif ($type)
+				{
+					$pieces['type'] = $elongate ? AncestryHandler::elongateType($type, $this->ancestry) : $type;
+				}
+
+				$return['arguments'][] = $pieces;
+			}
+		}
 
 		return $return;
 	}

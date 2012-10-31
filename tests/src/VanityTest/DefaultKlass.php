@@ -30,9 +30,9 @@ use VanityTest\Test\KlassInterface;
  *
  * @method string getString()
  * @method void setInteger(integer $integer)
- * @method setString(integer $integer)
+ * @method setString(integer $integer, Klass $class)
  *
- * @method string getString(array $options) {
+ * @method string getString(integer $integer, string &$string, SimpleXMLElement $xml='<?xml>', array $options = array()) {
  *     This gets the string from something we've fetched.
  *
  *     @param array $options {

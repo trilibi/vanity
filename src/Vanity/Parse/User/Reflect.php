@@ -215,6 +215,20 @@ class Reflect
 		{
 			$this->data['methods'] = $methods;
 		}
+
+		// Add meta-methods
+		if (isset($this->data['metadata']) && isset($this->data['methods']))
+		{
+			$new = $this->formatMetaMethods($this->data['metadata']);
+			$this->data['methods']['method'] = array_merge($this->data['methods']['method'], $new);
+			$this->data['methods']['count'] += count($new);
+		}
+		elseif (isset($this->data['metadata']))
+		{
+			$new = $this->formatMetaMethods($this->data['metadata']);
+			$this->data['methods']['method'] = $new;
+			$this->data['methods']['count'] = count($new);
+		}
 	}
 
 	/**
@@ -308,57 +322,26 @@ class Reflect
 				if (isset($tag['name']) && $tag['name'] === 'method')
 				{
 					$rf = array();
+					$rf['raw'] = $tag['raw'];
 					$rf['name'] = $tag['method'];
-					$rf['visibility'] = array(
-						'public'
+					$rf['visibility'] = array('public');
+
+					if ($description = $tag['description'])
+					{
+						$rf['description'] = $description;
+					}
+
+					if ($arguments = $tag['arguments'])
+					{
+						$rf['parameters'] = array(
+							'count' => count($arguments),
+							'parameter' => $arguments,
+						);
+					}
+
+					$rf['return'] = array(
+						'type' => $tag['type']
 					);
-					$rf['path'] = '';
-					$rf['description'] = $tag['description'];
-					$rf['metadata'] = array(
-						'tag' => array()
-					);
-
-					// @todo: Add support for @param.
-					// $rf['metadata']['tag'][] = array(
-					// 	'name'        => 'return',
-					// 	'type'        => 'void',
-					// 	'variable'    => null,
-					// 	'arguments'   => null,
-					// 	'description' => null,
-					// );
-
-					// $rf['metadata']['tag'][] = array(
-					// 	'name' => 'return',
-					// 	'type' => (isset($tag['type']) ? $tag['type'] : 'void'),
-					// )
-/*
-{
-    {
-        "name": "return",
-        "type": "Guzzle\\Service\\Builder\\ServiceBuilder"
-    }
-
-    "parameters": {
-        "count": 2,
-        "parameter": [
-            {
-                "name": "config",
-                "required": false,
-                "passed_by_reference": false,
-                "default": null
-            },
-            {
-                "name": "globalParameters",
-                "required": false,
-                "passed_by_reference": false,
-                "default": [
-
-                ]
-            }
-        ]
-    }
-},
-*/
 
 					$reformatted[] = $rf;
 					unset($metadata['tag'][$index]);

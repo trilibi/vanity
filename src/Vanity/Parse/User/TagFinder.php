@@ -44,9 +44,9 @@ class TagFinder
 	/**
 	 * Constructs a new instance of this class.
 	 *
-	 * @param array $entry The entry array which contains a `metadata` key.
+	 * @param array &$entry The entry array which contains a `metadata` key.
 	 */
-	public function __construct(array $entry)
+	public function __construct(array &$entry)
 	{
 		$this->entry = $entry;
 	}
@@ -82,5 +82,36 @@ class TagFinder
 		}
 
 		return null;
+	}
+
+	/**
+	 * Deletes a reference to the requested metadata @tag.
+	 *
+	 * @param  string  $name The `name` element of the @tag data.
+	 * @param  string  $tag  The metadata tag to look inside (e.g., param).
+	 * @return boolean       Whether or not the delete was successful. A value of `true` indicates that the value was
+	 *                       successfully deleted, or otherwise does not exist. A value of `false` indicates that the
+	 *                       deletion was unsuccessful.
+	 */
+	public function delete($name, $tag = 'param')
+	{
+		if (isset($this->entry['metadata']))
+		{
+			if (isset($this->entry['metadata']['tag']))
+			{
+				foreach ($this->entry['metadata']['tag'] as $index => $t)
+				{
+					if (isset($t['name']) &&
+					    $t['name'] === $tag &&
+					    $t['variable'] === $name)
+					{
+						unset($this->entry['metadata']['tag'][$index]);
+						return !isset($this->entry['metadata']['tag'][$index]);
+					}
+				}
+			}
+		}
+
+		return true;
 	}
 }

@@ -96,6 +96,8 @@ class MethodHandler
 
 		foreach ($rclass_methods as $rmethod)
 		{
+			$_tags = new TagHandler($rmethod->getDocComment(), $this->ancestry);
+
 			if (!isset($this->methods['count']))
 			{
 				$this->methods['count'] = count($rclass_methods);
@@ -132,7 +134,7 @@ class MethodHandler
 				}
 			}
 
-			if ($description = $method_docblock->getShortDescription())
+			if ($description = $_tags->getDescription())
 			{
 				$entry['description'] = $description;
 			}
@@ -230,6 +232,10 @@ class MethodHandler
 						$param['types'] = $_types;
 					}
 
+					// Clean-up
+					// @todo: Find out why this doesn't work.
+					$tag_finder->delete($param['name']);
+
 					// Type hinting trumps docblock
 					if ($rparameter->getClass())
 					{
@@ -248,8 +254,24 @@ class MethodHandler
 						}
 					}
 
-
 					$entry['parameters']['parameter'][] = $param;
+				}
+			}
+
+			// Return value
+			$entry['return'] = array('type' => 'void');
+			if (isset($entry['metadata']))
+			{
+				if (isset($entry['metadata']['tag']))
+				{
+					foreach ($entry['metadata']['tag'] as $tag)
+					{
+						if (isset($tag['name']) && $tag['name'] === 'return')
+						{
+							$entry['return'] = $tag;
+							unset($entry['return']['name']);
+						}
+					}
 				}
 			}
 
