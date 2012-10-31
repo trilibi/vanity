@@ -34,32 +34,11 @@ use Vanity\GlobalObject\Dispatcher;
 use Vanity\GlobalObject\Logger;
 use Vanity\Parse\User\Reflect\AncestryHandler;
 use Vanity\Parse\User\TagInterface;
-use Vanity\Parse\User\Tag\ApiHandler;
-use Vanity\Parse\User\Tag\AuthorHandler;
-use Vanity\Parse\User\Tag\CategoryHandler;
-use Vanity\Parse\User\Tag\CopyrightHandler;
 use Vanity\Parse\User\Tag\DefaultHandler;
-use Vanity\Parse\User\Tag\DeprecatedHandler;
-use Vanity\Parse\User\Tag\EventHandler;
-use Vanity\Parse\User\Tag\FilesourceHandler;
-use Vanity\Parse\User\Tag\FinalHandler;
-use Vanity\Parse\User\Tag\GlobalHandler;
-use Vanity\Parse\User\Tag\IgnoreHandler;
+use Vanity\Parse\User\Tag\ExampleHandler;
 use Vanity\Parse\User\Tag\InternalHandler;
-use Vanity\Parse\User\Tag\LicenseHandler;
 use Vanity\Parse\User\Tag\LinkHandler;
-use Vanity\Parse\User\Tag\MethodHandler;
-use Vanity\Parse\User\Tag\PackageHandler;
-use Vanity\Parse\User\Tag\ParamHandler;
-use Vanity\Parse\User\Tag\PropertyHandler;
-use Vanity\Parse\User\Tag\ReturnHandler;
 use Vanity\Parse\User\Tag\SeeHandler;
-use Vanity\Parse\User\Tag\SinceHandler;
-use Vanity\Parse\User\Tag\ThrowHandler;
-use Vanity\Parse\User\Tag\TodoHandler;
-use Vanity\Parse\User\Tag\UsesHandler;
-use Vanity\Parse\User\Tag\TypeHandler;
-use Vanity\Parse\User\Tag\VersionHandler;
 use Vanity\System\Store as SystemStore;
 
 /**
@@ -109,7 +88,7 @@ class InlineTag implements TagInterface
 		switch ($tag)
 		{
 			case 'example':
-				$processed = new EventHandler($this->tag, $this->ancestry);
+				$processed = new ExampleHandler($this->tag, $this->ancestry);
 				break;
 
 			case 'internal':

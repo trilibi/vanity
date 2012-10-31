@@ -41,6 +41,7 @@ use Vanity\Parse\User\Tag\CopyrightHandler;
 use Vanity\Parse\User\Tag\DefaultHandler;
 use Vanity\Parse\User\Tag\DeprecatedHandler;
 use Vanity\Parse\User\Tag\EventHandler;
+use Vanity\Parse\User\Tag\ExampleHandler;
 use Vanity\Parse\User\Tag\FilesourceHandler;
 use Vanity\Parse\User\Tag\FinalHandler;
 use Vanity\Parse\User\Tag\GlobalHandler;
@@ -128,6 +129,10 @@ class Tag implements TagInterface
 			case 'dispatches':
 			case 'event':
 				$processed = new EventHandler($this->tag, $this->ancestry);
+				break;
+
+			case 'example':
+				$processed = new ExampleHandler($this->tag, $this->ancestry);
 				break;
 
 			case 'global':

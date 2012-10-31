@@ -21,7 +21,9 @@ use VanityTest\Test\KlassInterface;
  * Nested: {@internal}
  *
  * I also have a link to {@link http://google.com Google}, and a test of the
- * service resolution: {@link adn:skyzyx}.
+ * service resolution: {@link adn:skyzyx}. Oh, and here's a cool
+ * {@example http://example.com/source.phps} and another one with a description:
+ * {@example http://example.com/source.phps My example source}.
  *
  * @uses Klass
  * @version 1.2.3
@@ -45,6 +47,9 @@ use VanityTest\Test\KlassInterface;
  *
  *     @return string The description of the string response.
  * }
+ *
+ * @example  http://example.com/source.phps
+ * @example  http://example.com/source.phps Source code example.
  */
 class DefaultKlass extends Klass implements KlassInterface
 {
