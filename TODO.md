@@ -1,40 +1,5 @@
 # TODO
 
-## Done
-
-* ~~Build a console-based application using the Symfony Console component. (5)~~
-* ~~Reflect the source code and construct a structured JSON document. (8)~~
-* ~~Add support for parsing DocBlocks for descriptions and @tags. (5)~~
-* ~~Merge data from @param tags with ReflectionParameter data to get a complete picture of parameters. (3)~~
-* ~~Add support for resolving namespace aliases back into fully-qualified namespaces (i.e., namespaces, aliases, class heirarchies, implementation heirarchies). (8)~~
-* ~~Add support for logging. (2)~~
-* ~~Add support for determining the list of PHP extensions that are requirements for the extended code. (2)~~
-* ~~Enable a custom directory for configuration data. (1)~~
-* ~~Synchronize the coding style (currently a mix of SimplePie-style and PSR-1). (3)~~
-* ~~Establish a pattern of notifying various actions with events and event handlers. (3)~~
-* ~~Add support for collecting and logging mismatched parameter data so that we can find and fix it. (3)~~
-* ~~Synchronize the format of event names and fix existing ones (e.g., parser.method.tag.param, config.api.warn.todo). (1)~~
-* ~~Add a custom Event type which allows contextual storage. (1)~~
-* ~~Make type-matching of native types case-insensitive. (1)~~
-* ~~Add support for resolving the `self` keyword. (1)~~
-* ~~Add fully-qualified class name resolution to the @see handler. (1)~~
-* ~~Extract method handling into a separate class. (3)~~
-* ~~Add event hooks for all @tags. (2)~~
-* ~~Add complete support for license identifiers <http://www.spdx.org/licenses/>. (2)~~
-* ~~Add support for @event tags. (3)~~
-* ~~Add service enhancement support for @link. (2)~~
-* ~~Add service enhancement support for @author. (2)~~
-* ~~Add support for @property tags. (1)~~
-* ~~Merge data from @property tags into the main "properties" hash. (2)~~
-* ~~Add support for @method tags. (1)~~
-* ~~Fix broken regexes for methods. (5)~~
-* ~~Add support for reliably parsing inline tags. (5)~~
-* ~~Add support for inline {@see} tags. (2)~~
-* ~~Add support for inline {@internal} tags. (1)~~
-* ~~Add support for inline {@example} tags. (1)~~
-* ~~Add support for inline {@example} tags. (1)~~
-
-
 ## Stage 1: API Reflection and Tokenization
 
 * Merge data from @method tags into the main "methods" hash. (3)
@@ -90,3 +55,38 @@
 
 * Compress documentation into downloadable bundles (e.g., zip, tbz2). (2)
 * Produce a .phar package for app distribution. (2)
+
+
+## Done
+
+* ~~Build a console-based application using the Symfony Console component. (5)~~
+* ~~Reflect the source code and construct a structured JSON document. (8)~~
+* ~~Add support for parsing DocBlocks for descriptions and @tags. (5)~~
+* ~~Merge data from @param tags with ReflectionParameter data to get a complete picture of parameters. (3)~~
+* ~~Add support for resolving namespace aliases back into fully-qualified namespaces (i.e., namespaces, aliases, class heirarchies, implementation heirarchies). (8)~~
+* ~~Add support for logging. (2)~~
+* ~~Add support for determining the list of PHP extensions that are requirements for the extended code. (2)~~
+* ~~Enable a custom directory for configuration data. (1)~~
+* ~~Synchronize the coding style (currently a mix of SimplePie-style and PSR-1). (3)~~
+* ~~Establish a pattern of notifying various actions with events and event handlers. (3)~~
+* ~~Add support for collecting and logging mismatched parameter data so that we can find and fix it. (3)~~
+* ~~Synchronize the format of event names and fix existing ones (e.g., parser.method.tag.param, config.api.warn.todo). (1)~~
+* ~~Add a custom Event type which allows contextual storage. (1)~~
+* ~~Make type-matching of native types case-insensitive. (1)~~
+* ~~Add support for resolving the `self` keyword. (1)~~
+* ~~Add fully-qualified class name resolution to the @see handler. (1)~~
+* ~~Extract method handling into a separate class. (3)~~
+* ~~Add event hooks for all @tags. (2)~~
+* ~~Add complete support for license identifiers <http://www.spdx.org/licenses/>. (2)~~
+* ~~Add support for @event tags. (3)~~
+* ~~Add service enhancement support for @link. (2)~~
+* ~~Add service enhancement support for @author. (2)~~
+* ~~Add support for @property tags. (1)~~
+* ~~Merge data from @property tags into the main "properties" hash. (2)~~
+* ~~Add support for @method tags. (1)~~
+* ~~Fix broken regexes for methods. (5)~~
+* ~~Add support for reliably parsing inline tags. (5)~~
+* ~~Add support for inline {@see} tags. (2)~~
+* ~~Add support for inline {@internal} tags. (1)~~
+* ~~Add support for inline {@example} tags. (1)~~
+* ~~Add support for inline {@example} tags. (1)~~
