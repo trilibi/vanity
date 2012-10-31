@@ -322,7 +322,7 @@ class Reflect
 				if (isset($tag['name']) && $tag['name'] === 'method')
 				{
 					$rf = array();
-					$rf['raw'] = $tag['raw'];
+					// $rf['raw'] = $tag['raw'];
 					$rf['name'] = $tag['method'];
 					$rf['visibility'] = array('public');
 
