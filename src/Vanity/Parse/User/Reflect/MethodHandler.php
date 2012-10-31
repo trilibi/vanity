@@ -125,6 +125,11 @@ class MethodHandler
 					'start' => $rmethod->getStartLine(),
 					'end'   => $rmethod->getEndLine(),
 				);
+
+				if ($viewsource = ConfigStore::get('api.viewsource'))
+				{
+					$entry['viewsource'] = str_replace(array('%PATH%', '%LINE%'), array($entry['path'], $entry['lines']['start']), $viewsource);
+				}
 			}
 
 			if ($description = $method_docblock->getShortDescription())
