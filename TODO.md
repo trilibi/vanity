@@ -1,6 +1,6 @@
 # TODO
 
-## Stage 0: Bootstrapping the App
+## Done
 
 * ~~Build a console-based application using the Symfony Console component. (5)~~
 * ~~Reflect the source code and construct a structured JSON document. (8)~~
@@ -11,9 +11,6 @@
 * ~~Add support for determining the list of PHP extensions that are requirements for the extended code. (2)~~
 * ~~Enable a custom directory for configuration data. (1)~~
 * ~~Synchronize the coding style (currently a mix of SimplePie-style and PSR-1). (3)~~
-
-## Stage 1: API Reflection and Tokenization
-
 * ~~Establish a pattern of notifying various actions with events and event handlers. (3)~~
 * ~~Add support for collecting and logging mismatched parameter data so that we can find and fix it. (3)~~
 * ~~Synchronize the format of event names and fix existing ones (e.g., parser.method.tag.param, config.api.warn.todo). (1)~~
@@ -28,15 +25,19 @@
 * ~~Add service enhancement support for @link. (2)~~
 * ~~Add service enhancement support for @author. (2)~~
 * ~~Add support for @property tags. (1)~~
-	* ~~Merge data from @property tags into the main "properties" hash. (2)~~
+* ~~Merge data from @property tags into the main "properties" hash. (2)~~
 * ~~Add support for @method tags. (1)~~
-	* ~~Fix broken regexes for methods. (5)~~
-	* Merge data from @method tags into the main "methods" hash. (3)
+* ~~Fix broken regexes for methods. (5)~~
 * ~~Add support for reliably parsing inline tags. (5)~~
 * ~~Add support for inline {@see} tags. (2)~~
 * ~~Add support for inline {@internal} tags. (1)~~
 * ~~Add support for inline {@example} tags. (1)~~
 * ~~Add support for inline {@example} tags. (1)~~
+
+
+## Stage 1: API Reflection and Tokenization
+
+* Merge data from @method tags into the main "methods" hash. (3)
 * Add support for inline {@inheritdoc} tags. (2)
 * Add support for method grouping. (3)
 * Implement warnings/reports for TODOs. (3)
@@ -89,33 +90,3 @@
 
 * Compress documentation into downloadable bundles (e.g., zip, tbz2). (2)
 * Produce a .phar package for app distribution. (2)
-
-
-# Pandoc Notes
-## RST to DocBook
-
-## RST to HTML(5)
-
-## RST to LaTeX
-pandoc index.rst --output index.latex --read rst --write latex --template ../../vendor/vanity/pandoc-templates/default.latex --latex-engine=lualatex --variable mainfont="SourceSansPro-Regular" --variable sansfont="SourceSansPro-Regular" --variable monofont="MesloLGS" --toc --number-sections --chapters --no-tex-ligatures
-
-## RST to Markdown
-pandoc index.rst --output index.md --read rst --write markdown --template ../../vendor/vanity/pandoc-templates/default.markdown --toc --smart --standalone --number-sections --chapters --atx-headers --strict
-
-## RST to MediaWiki
-pandoc index.rst --output index.wiki --read rst --write mediawiki --template ../../vendor/vanity/pandoc-templates/default.mediawiki --toc --standalone
-
-## RST to OpenDocument (ODT)
-pandoc index.rst --output index.odt --read rst --write odt  --reference-odt ../../src/Pandoc/templates/odt_styles.odt --toc --number-sections --chapters
-
-## RST to PDF
-pandoc index.rst --output index.pdf --read rst --template ../../vendor/vanity/pandoc-templates/default.latex --latex-engine=lualatex --variable mainfont="SourceSansPro-Regular" --variable sansfont="SourceSansPro-Regular" --variable monofont="MesloLGS" --toc --number-sections --chapters --no-tex-ligatures
-
-## RST to RTF
-pandoc index.rst --output index.rtf --read rst --write rtf --template ../../vendor/vanity/pandoc-templates/default.rtf --toc --smart --standalone --number-sections --chapters
-
-## RST to Textile
-pandoc index.rst --output index.textile --read rst --write textile --template ../../vendor/vanity/pandoc-templates/default.textile --toc --standalone --number-sections --chapters
-
-## RST to Word
-pandoc index.rst --output index.docx --read rst --write docx  --reference-docx ../../src/Pandoc/templates/docx_styles.docx --toc --number-sections --chapters
