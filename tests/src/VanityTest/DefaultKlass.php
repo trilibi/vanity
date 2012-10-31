@@ -10,8 +10,18 @@ use VanityTest\Test\Klass;
 use VanityTest\Test\KlassInterface;
 
 /**
- * This {@internal} description has a simple {@internal Description.} tag. It also has a nested
- * {@internal Description that also has a {@internal} tag.} tag.
+ * This internal description has a simple description. It also has a nested
+ * {@internal Description tag.} tag.
+ *
+ * We also have a {@see Klass} and {@see KlassInterface Description.}
+ * class references, a {@see setHash()} method reference, a
+ * {@see SimpleXMLElement::asXML()} remote method reference, and a
+ * {@see $override} property reference.
+ *
+ * Nested: {@internal}
+ *
+ * I also have a link to {@link http://google.com Google}, and a test of the
+ * service resolution: {@link adn:skyzyx}.
  *
  * @uses Klass
  * @version 1.2.3

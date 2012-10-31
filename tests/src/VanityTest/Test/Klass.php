@@ -80,6 +80,7 @@ class Klass
     /**
      * @alias setStandardClass()
      * @see setStandardClass()
+     * @see DefaultKlass
      */
 	public function setStdClass(stdClass $class) {}
 

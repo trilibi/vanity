@@ -28,9 +28,11 @@
 namespace Vanity\Parse\User\Reflect;
 
 use phpDocumentor\Reflection\DocBlock;
+use phpDocumentor\Reflection\DocBlock\Tag as DBTag;
 use Vanity\Config\Store as ConfigStore;
 use Vanity\Parse\User\Reflect\AncestryHandler;
 use Vanity\Parse\User\Tag;
+use Vanity\Parse\User\InlineTag;
 
 /**
  * Handle tags for a class.
@@ -71,7 +73,30 @@ class TagHandler
 	 */
 	public function getDescription()
 	{
-		return $this->docblock->getShortDescription() . $this->docblock->getLongDescription()->getContents();
+		$output = array($this->docblock->getShortDescription());
+		$parsed_contents = $this->docblock->getLongDescription()->getParsedContents();
+
+		if (is_array($parsed_contents) && count($parsed_contents) > 0)
+		{
+			foreach ($parsed_contents as $content)
+			{
+				if (is_string($content))
+				{
+					$output[] = $content;
+				}
+				elseif ($content instanceof DBTag)
+				{
+					$dtag = new InlineTag($content, $this->ancestry);
+					$output[] = $dtag->determine()->process(ConfigStore::get('api.resolve_aliases'));
+				}
+				else
+				{
+					Logger::get()->info('Unknown inline tag object:', array(__FILE__, print_r($content, true)));
+				}
+			}
+		}
+
+		return $output;
 	}
 
 	/**

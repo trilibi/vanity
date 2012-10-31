@@ -163,8 +163,7 @@ class Reflect
 		// Add description
 		if ($description = $this->class_tags->getDescription())
 		{
-			$description = new InlineTagHandler($description, $this->ancestry);
-			$this->data['description'] = $description->getDescription();
+			$this->data['description'] = $description;
 		}
 
 		// Add inheritance chain

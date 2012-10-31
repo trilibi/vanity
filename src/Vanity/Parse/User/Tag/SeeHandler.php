@@ -58,9 +58,15 @@ class SeeHandler extends AbstractNameTypeDescription implements HandlerInterface
 		}
 
 		// Method
-		elseif (preg_match('/(\w+::)?[\w_]+(\(\))?/', $return['entity']))
+		elseif (preg_match('/(\w+::)?[\w_]+(\(\))/', $return['entity']))
 		{
 			$return['entity_hint'] = 'method';
+		}
+
+		// Method
+		elseif (preg_match('/[\w_]+/', $return['entity']))
+		{
+			$return['entity_hint'] = 'class';
 		}
 
 		// URL
@@ -80,7 +86,10 @@ class SeeHandler extends AbstractNameTypeDescription implements HandlerInterface
 			$class = $this->ancestry->resolveNamespace($class);
 			$return['entity'] = implode('::', array($class, $entity));
 		}
-		else
+		elseif (
+			$return['entity_hint'] === 'method' ||
+			$return['entity_hint'] === 'property'
+		)
 		{
 			$class = $this->ancestry->getClass();
 			$return['entity'] = implode('::', array($class, $return['entity']));
