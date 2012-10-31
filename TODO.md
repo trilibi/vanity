@@ -35,11 +35,12 @@
 	* Add support for handling sub-blocks for @method. (8) (delaying)
 * Add support for handling sub-blocks for @property. (2) (delaying)
 * Add support for handling sub-blocks for @param. (2) (delaying)
-* Add support for reliably parsing inline tags. (5)
-* Add support for inline {@see} tags. (1)
+* ~~Add support for reliably parsing inline tags. (5)~~
+* ~~Add support for inline {@see} tags. (2)~~
+* ~~Add support for inline {@internal} tags. (1)~~
 * Add support for inline {@inheritdoc} tags. (2)
 * Add support for inline {@example} tags. (1)
-* Add support for @example tags. (3)
+* Add support for inline {@example} tags. (1)
 * Add support for method grouping. (3)
 * Implement warnings/reports for TODOs. (3)
 * Implement cross-linking support. (3)
