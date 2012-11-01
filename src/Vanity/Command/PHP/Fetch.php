@@ -182,6 +182,7 @@ class Fetch extends BaseCommand
 			)));
 		}
 
+		$this->triggerLogMessageEvent();
 		$this->triggerEvent('vanity.command.complete');
 
 		echo PHP_EOL;

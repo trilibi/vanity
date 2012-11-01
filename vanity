@@ -35,10 +35,10 @@ use Monolog\Handler\StreamHandler;
 use Monolog\Processor\IntrospectionProcessor;
 use Symfony\Component\Console\Application;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\Filesystem\Filesystem;
 use Vanity\Config\Store as ConfigStore;
 use Vanity\GlobalObject\Dispatcher;
 use Vanity\GlobalObject\Logger;
+use Vanity\System\Store as SystemStore;
 use Vanity\System\Timer;
 
 
@@ -48,21 +48,14 @@ use Vanity\System\Timer;
 // Instantiate Event Dispatcher
 Dispatcher::set(new EventDispatcher);
 
-// Instantiate FileSystem handler
-$filesystem = new Filesystem();
-
-// Create logging directory
-if (!is_dir(VANITY_LOGS))
-{
-	if (!$filesystem->mkdir(VANITY_LOGS, 0777))
-	{
-		throw new Exception('Vanity was unable to create the logging directory at ' . VANITY_LOGS);
-	}
-}
+$time = time();
+$vanity_logs = sys_get_temp_dir();
+SystemStore::add('_.log_dir', $vanity_logs);
+SystemStore::add('_.run_time', $time);
 
 // Construct logging handlers
-$streamInfo  = new StreamHandler(VANITY_LOGS . '/info.log',  Monolog::INFO);
-$streamDebug = new StreamHandler(VANITY_LOGS . '/debug.log', Monolog::DEBUG);
+$streamInfo  = new StreamHandler($vanity_logs . "/vanity-run-${time}-info.log",  Monolog::INFO);
+$streamDebug = new StreamHandler($vanity_logs . "/vanity-run-${time}-debug.log", Monolog::DEBUG);
 $streamDebug->pushProcessor(new IntrospectionProcessor);
 
 // Instantiate the logger

@@ -30,8 +30,10 @@ namespace Vanity\Event;
 use ReflectionExtension;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
 use Vanity\Config\Store as ConfigStore;
 use Vanity\Console\Utilities as ConsoleUtil;
+use Vanity\Event\Event\Store as EventStore;
 use Vanity\GlobalObject\Dispatcher;
 use Vanity\System\Timer;
 use Vanity\System\DependencyCollector;
@@ -63,6 +65,35 @@ class RegisterGlobal
 
 			echo PHP_EOL;
 			echo $formatter->pending->apply(' Completed in ' . ConsoleUtil::timeHMS(round($stop_time)) . ' (' . $stop_time . ') ') . PHP_EOL;
+		});
+
+		// vanity.command.log_path event
+		Dispatcher::get()->addListener('vanity.command.log_path', function(EventStore $event)
+		{
+			$finder = new Finder();
+			$formatter = ConsoleUtil::formatters();
+			$log_path = $event->get('log_path');
+			$time = $event->get('time');
+
+			echo PHP_EOL;
+			echo $formatter->yellow->apply('LOG FILES FOR THIS RUN') . PHP_EOL;
+
+			$files = $finder
+				->files()
+				->name("vanity-run-${time}-*.log")
+				->depth(0)
+				->in($log_path);
+
+			$count = 0;
+			foreach ($files as $file)
+			{
+				$count++;
+				echo TAB . $formatter->green->apply('-> ') . $file->getRealpath() . PHP_EOL;
+			}
+
+			// Count the classes
+			echo PHP_EOL;
+			echo 'Found ' . $formatter->info->apply(" ${count} ") . ' log ' . ConsoleUtil::pluralize($count, 'file', 'files') . '.' . PHP_EOL;
 		});
 
 		// vanity.command.parse.api.report.dependencies event

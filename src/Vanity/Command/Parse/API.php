@@ -209,6 +209,7 @@ class API extends BaseCommand
 			$this->triggerEvent('vanity.command.parse.api.report.inconsistencies');
 		}
 
+		$this->triggerLogMessageEvent();
 		$this->triggerEvent('vanity.command.complete');
 
 		echo PHP_EOL;

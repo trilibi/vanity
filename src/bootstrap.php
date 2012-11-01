@@ -48,7 +48,6 @@ define('TAB', '    ');
 define('VANITY_VERSION',             '3.0alpha-' . gmdate('Ymd', filemtime(__FILE__)));
 define('VANITY_SYSTEM',              dirname(__DIR__));
 define('VANITY_VENDOR',              VANITY_SYSTEM . '/vendor');
-define('VANITY_LOGS',                VANITY_SYSTEM . '/logs');
 define('VANITY_SOURCE',              VANITY_SYSTEM . '/src');
 define('VANITY_USER_PROFILE',        $_SERVER['HOME'] ?: VANITY_SYSTEM );
 define('VANITY_USER_DATA',           VANITY_USER_PROFILE . '/.vanity');

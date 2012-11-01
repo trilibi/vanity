@@ -30,6 +30,9 @@ namespace Vanity\Command;
 use Exception;
 use stdClass;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\Event;
@@ -37,8 +40,10 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Yaml\Yaml as YAML;
 use Vanity\Config\Store as ConfigStore;
 use Vanity\Console\Utilities as ConsoleUtil;
+use Vanity\Event\Event\Store as EventStore;
 use Vanity\GlobalObject\Dispatcher;
 use Vanity\GlobalObject\Logger;
+use Vanity\System\Store as SystemStore;
 
 /**
  * Base class for all Vanity-specific command-line actions.
@@ -115,5 +120,18 @@ class Base extends Command
 		}
 
 		echo PHP_EOL;
+	}
+
+	/**
+	 * Trigger an event containing the log path.
+	 *
+	 * @return void
+	 */
+	public function triggerLogMessageEvent()
+	{
+		$this->triggerEvent('vanity.command.log_path', new EventStore(array(
+			'log_path' => SystemStore::get('_.log_dir'),
+			'time' => SystemStore::get('_.run_time'),
+		)));
 	}
 }
