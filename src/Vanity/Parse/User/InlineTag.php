@@ -36,6 +36,7 @@ use Vanity\Parse\User\Reflect\AncestryHandler;
 use Vanity\Parse\User\TagInterface;
 use Vanity\Parse\User\Tag\DefaultHandler;
 use Vanity\Parse\User\Tag\ExampleHandler;
+use Vanity\Parse\User\Tag\InheritdocHandler;
 use Vanity\Parse\User\Tag\InternalHandler;
 use Vanity\Parse\User\Tag\LinkHandler;
 use Vanity\Parse\User\Tag\SeeHandler;
@@ -91,8 +92,12 @@ class InlineTag implements TagInterface
 				$processed = new ExampleHandler($this->tag, $this->ancestry);
 				break;
 
+			case 'inheritdoc':
+				$processed = new InheritdocHandler($this->tag, $this->ancestry);
+				break;
+
 			case 'internal':
-				$processed = new DefaultHandler($this->tag, $this->ancestry);
+				$processed = new InternalHandler($this->tag, $this->ancestry);
 				break;
 
 			case 'link':
