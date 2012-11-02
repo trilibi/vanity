@@ -144,8 +144,6 @@ class Reflect
 	{
 		// REFLECT ALL THE THINGS!
 		$rclass_methods = $this->rclass->getMethods();
-		sort($rclass_methods);
-
 		$long_filename = $this->rclass->getFileName();
 		$short_filename = str_replace(VANITY_PROJECT_WORKING_DIR . '/', '', $long_filename);
 
@@ -210,6 +208,16 @@ class Reflect
 			$this->data['properties']['count'] = count($new);
 		}
 
+		// Sort the properties alphabetically
+		usort($this->data['properties']['property'], function($a, $b)
+		{
+			$a = $a['name'];
+			$b = $b['name'];
+
+			if ($a === $b) return 0;
+			return ($a < $b) ? -1 : 1;
+		});
+
 		// Add methods
 		if ($methods = $this->methods->getMethods())
 		{
@@ -228,6 +236,32 @@ class Reflect
 			$new = $this->formatMetaMethods($this->data['metadata']);
 			$this->data['methods']['method'] = $new;
 			$this->data['methods']['count'] = count($new);
+		}
+
+		// Sort the methods alphabetically
+		usort($this->data['methods']['method'], function($a, $b)
+		{
+			$a = $a['name'];
+			$b = $b['name'];
+
+			if ($a === $b) return 0;
+			return ($a < $b) ? -1 : 1;
+		});
+
+		// Sort the metadata tags, post edit from @method, @property and @return
+		if (isset($this->data['metadata']))
+		{
+			$this->data['metadata']['tag'] = array_values($this->data['metadata']['tag']);
+
+			// Sort the tags alphabetically
+			usort($this->data['metadata']['tag'], function($a, $b)
+			{
+				$a = $a['name'];
+				$b = $b['name'];
+
+				if ($a === $b) return 0;
+				return ($a < $b) ? -1 : 1;
+			});
 		}
 	}
 

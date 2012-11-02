@@ -96,8 +96,6 @@ class MethodHandler
 
 		foreach ($rclass_methods as $rmethod)
 		{
-			$_tags = new TagHandler($rmethod->getDocComment(), $this->ancestry);
-
 			if (!isset($this->methods['count']))
 			{
 				$this->methods['count'] = count($rclass_methods);
@@ -108,7 +106,22 @@ class MethodHandler
 				$this->methods['method'] = array();
 			}
 
+			$_tags = new TagHandler($rmethod->getDocComment(), $this->ancestry);
 			$method_docblock = new DocBlock($rmethod->getDocComment());
+			$temp_rmethod = $rmethod;
+
+			// Can we just do a straight-up inherit?
+			// @todo: Do a better job of handling {@inheritdoc} according to the spec.
+			while (strpos($method_docblock->getShortDescription(), '{@inheritdoc}') !== false)
+			{
+				$temp_rmethod = $temp_rmethod                               # Class::method()
+				                    ->getDeclaringClass()                   # Class
+				                    ->getParentClass()                      # ParentClass
+				                    ->getMethod($temp_rmethod->getName());  # ParentClass::method()
+
+				$_tags = new TagHandler($temp_rmethod->getDocComment(), $this->ancestry);
+				$method_docblock = new DocBlock($temp_rmethod->getDocComment());
+			}
 
 			$entry = array();
 			$entry['name'] = $rmethod->getName();

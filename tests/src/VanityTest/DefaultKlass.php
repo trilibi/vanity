@@ -30,9 +30,9 @@ use VanityTest\Test\KlassInterface;
  *
  * @method string getString()
  * @method void setInteger(integer $integer)
- * @method setString(integer $integer, Klass $class)
+ * @method setString1(integer $integer, Klass $class)
  *
- * @method string getString(integer $integer, string &$string, SimpleXMLElement $xml='<?xml>', array $options = array()) {
+ * @method string getString2(integer $integer, string &$string, SimpleXMLElement $xml='<?xml>', array $options = array()) {
  *     This gets the string from something we've fetched.
  *
  *     @param array $options {
@@ -62,37 +62,42 @@ class DefaultKlass extends Klass implements KlassInterface
 	 */
 	public $override = null;
 
+	/**
+	 * {@inheritdoc}
+	 */
+	public $mixed = null;
+
 
 	/**************************************************************************/
 	// METHODS
 
 	/**
-	 * {@inheritdoc}
+	 * String documentation.
 	 */
 	public function setString($string) {}
 
 	/**
-	 * {@inheritdoc}
+	 * Number documentation.
 	 */
 	public function setNumber($number) {}
 
 	/**
-	 * {@inheritdoc}
+	 * Boolean documentation.
 	 */
 	public function setBoolean($trueFalse) {}
 
 	/**
-	 * {@inheritdoc}
+	 * Array documentation.
 	 */
 	public function setArray(array $list) {}
 
 	/**
-	 * {@inheritdoc}
+	 * Mixed documentation.
 	 */
 	public function setMixed($mixed) {}
 
 	/**
-	 * {@inheritdoc}
+	 * XML documentation.
 	 */
 	public function setXML(SimpleXMLElement $xml) {}
 
@@ -110,4 +115,9 @@ class DefaultKlass extends Klass implements KlassInterface
 	 * }
 	 */
 	public function setHash(array $options) {}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function test1() {}
 }

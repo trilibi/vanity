@@ -85,6 +85,9 @@ class Klass
 	public function setStdClass(stdClass $class) {}
 
 	/**
+	 * This is a very interesting description for this method. And here is a very interesting {@internal} comment as
+	 * well.
+	 *
 	 * @deprecated
 	 * @deprecated 1.0.0
 	 * @deprecated No longer used by internal code and not recommended.
@@ -100,6 +103,8 @@ class Klass
 	 *
 	 * @throw  TestException
 	 * @throws TestException
+	 *
+	 * @return  string description
 	 */
 	public function test1() {}
 }

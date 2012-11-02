@@ -31,6 +31,7 @@ use Reflector;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionProperty;
+use phpDocumentor\Reflection\DocBlock;
 use Vanity\Parse\User\Reflect\AncestryHandler;
 use Vanity\Parse\Utilities as ParseUtil;
 use Vanity\System\Store as SystemStore;
@@ -85,8 +86,6 @@ class PropertyHandler
 
 		foreach ($rproperties as $rproperty)
 		{
-			$_tags = new TagHandler($rproperty->getDocComment(), $this->ancestry);
-
 			if (!isset($this->properties['count']))
 			{
 				$this->properties['count'] = count($rproperties);
@@ -95,6 +94,23 @@ class PropertyHandler
 			if (!isset($this->properties['property']))
 			{
 				$this->properties['property'] = array();
+			}
+
+			$_tags = new TagHandler($rproperty->getDocComment(), $this->ancestry);
+			$property_docblock = new DocBlock($rproperty->getDocComment());
+			$temp_rproperty = $rproperty;
+
+			// Can we just do a straight-up inherit?
+			// @todo: Do a better job of handling {@inheritdoc} according to the spec.
+			while (strpos($property_docblock->getShortDescription(), '{@inheritdoc}') !== false)
+			{
+				$temp_rproperty = $temp_rproperty                               # Class::$property
+				                    ->getDeclaringClass()                       # Class
+				                    ->getParentClass()                          # ParentClass
+				                    ->getProperty($temp_rproperty->getName());  # ParentClass::$property
+
+				$_tags = new TagHandler($temp_rproperty->getDocComment(), $this->ancestry);
+				$property_docblock = new DocBlock($temp_rproperty->getDocComment());
 			}
 
 			// Property-specific data
