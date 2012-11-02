@@ -2,10 +2,9 @@
 
 ## Stage 1: API Reflection and Tokenization
 
-* Add support for inline {@inheritdoc} tags. (2)
-* Keep track of aliases and add metadata to the aliased methods. (2)
 * Add support for documenting Interfaces (`get_declared_interfaces()`). (3)
 * Add support for documenting Traits (`get_declared_traits()`). (3)
+* Keep track of aliases and add metadata to the aliased methods. (2)
 * Add support for method grouping. (3)
 * Implement warnings/reports for TODOs. (3)
 * Implement cross-linking support. (3)
@@ -94,3 +93,4 @@
 * ~~Add support for inline {@example} tags. (1)~~
 * ~~Merge data from @method tags into the main "methods" hash. (3)~~
 * ~~Fix issue with logging to the Vanity directory. (1)~~
+* ~~Add support for inline {@inheritdoc} tags. (2)~~
