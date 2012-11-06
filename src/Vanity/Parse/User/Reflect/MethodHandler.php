@@ -234,9 +234,17 @@ class MethodHandler
 						$param['types'] = $_types;
 					}
 
-					// Clean-up
-					// @todo: Find out why this doesn't work.
-					$tag_finder->delete($param['name']);
+					// Clean-up parameter metadata tags
+					if (isset($entry['metadata']) && isset($entry['metadata']['tag']))
+					{
+						foreach ($entry['metadata']['tag'] as $index => $tag)
+						{
+							if ($tag['name'] === 'param' && $tag['variable'] === $param['name'])
+							{
+								unset($entry['metadata']['tag'][$index]);
+							}
+						}
+					}
 
 					// Type hinting trumps docblock
 					if ($rparameter->getClass())
@@ -262,17 +270,17 @@ class MethodHandler
 
 			// Return value
 			$entry['return'] = array('type' => 'void');
-			if (isset($entry['metadata']))
+			if (isset($entry['metadata']) && isset($entry['metadata']['tag']))
 			{
-				if (isset($entry['metadata']['tag']))
+				foreach ($entry['metadata']['tag'] as $index => $tag)
 				{
-					foreach ($entry['metadata']['tag'] as $tag)
+					if ($tag['name'] === 'return')
 					{
-						if (isset($tag['name']) && $tag['name'] === 'return')
-						{
-							$entry['return'] = $tag;
-							unset($entry['return']['name']);
-						}
+						$entry['return'] = $tag;
+						unset($entry['return']['name']);
+
+						// Clean-up return metadata tags
+						unset($entry['metadata']['tag'][$index]);
 					}
 				}
 			}
