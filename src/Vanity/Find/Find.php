@@ -29,6 +29,7 @@ namespace Vanity\Find;
 
 use Symfony\Component\ClassLoader\UniversalClassLoader;
 use Symfony\Component\Finder\Finder;
+use Vanity\System\Store as SystemStore;
 
 /**
  * Finds the files to parse and the classes inside of them.
@@ -99,15 +100,22 @@ class Find
 		$loader->register();
 
 		$class_list = array();
-		$before = get_declared_classes();
 
-		// Let's continue to be able to document ourselves.
-		if (defined('VANITY_AM_I'))
+		// Collect all current classes, interfaces and traits
+		if (SystemStore::get('_.php54'))
 		{
-			$before = array_filter($before, function($class)
-			{
-				return (substr($class, 0, 7) !== 'Vanity\\');
-			});
+			$before = array_merge(
+				get_declared_classes(),
+				get_declared_interfaces(),
+				get_declared_traits()
+			);
+		}
+		else
+		{
+			$before = array_merge(
+				get_declared_classes(),
+				get_declared_interfaces()
+			);
 		}
 
 		foreach ($files as $file)
@@ -115,7 +123,31 @@ class Find
 			include_once $file;
 		}
 
-		$after = get_declared_classes();
+		// Handle traits if this version of PHP supports them.
+		if (SystemStore::get('_.php54'))
+		{
+			$after = array_merge(
+				get_declared_classes(),
+				get_declared_interfaces(),
+				get_declared_traits()
+			);
+		}
+		else
+		{
+			$after = array_merge(
+				get_declared_classes(),
+				get_declared_interfaces()
+			);
+		}
+
+		// We should be able to document ourselves
+		if (defined('VANITY_AM_I'))
+		{
+			$after = array_filter($after, function($class)
+			{
+				return (substr($class, 0, 7) !== 'Vanity\\');
+			});
+		}
 
 		$class_list = array_values(array_unique(array_diff($after, $before)));
 		sort($class_list);

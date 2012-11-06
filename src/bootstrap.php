@@ -64,8 +64,13 @@ define('VANITY_PROJECT_WORKING_DIR', getcwd());
 require_once VANITY_SOURCE . '/Vanity/System/Store.php';
 
 // Save this for later lookup
-Vanity\System\Store::add('_.classes', get_declared_classes());
 Vanity\System\Store::add('_.project_config_dir', VANITY_PROJECT_WORKING_DIR . '/.vanity');
+Vanity\System\Store::add('_.classes', get_declared_classes());
+Vanity\System\Store::add('_.interfaces', get_declared_interfaces());
+if (Vanity\System\Store::get('_.php54'))
+{
+	Vanity\System\Store::add('_.traits', get_declared_traits());
+}
 
 // Load class loaders
 require_once VANITY_VENDOR . '/symfony/class-loader/Symfony/Component/ClassLoader/UniversalClassLoader.php';
