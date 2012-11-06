@@ -94,12 +94,12 @@ class API extends BaseCommand
 	{
 		echo PHP_EOL;
 
-		Logger::get()->info('Running command:', array($this->getName()));
-
 		// Resolve the configuration and display it
 		$config = new ConfigResolve($input);
 		$config->read();
 		$this->displayConfig($output);
+
+		Logger::get()->{ConfigStore::get('api.log.commands')}('Running command:', array($this->getName()));
 
 		if ($input->getOption('vanity.view_config')) exit;
 

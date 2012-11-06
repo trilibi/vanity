@@ -62,6 +62,15 @@ return array(
 			'visibility' => array(InputOption::VALUE_OPTIONAL, 'Which visibility types should we exclude?', 'private'),
 		),
 
+		// How should we determine log severity?
+		'log' => array(
+			'commands' => array(InputOption::VALUE_OPTIONAL, 'Which severity should Command begin/end messages have?', 'debug'),
+			'events'   => array(InputOption::VALUE_OPTIONAL, 'Which severity should Event Trigger messages have?', 'debug'),
+			'info'     => array(InputOption::VALUE_OPTIONAL, 'Which severity should Notice messages have?', 'info'),
+			'warn'     => array(InputOption::VALUE_OPTIONAL, 'Which severity should Warning messages have?', 'warn'),
+			'error'    => array(InputOption::VALUE_OPTIONAL, 'Which severity should Error messages have?', 'error'),
+		),
+
 		// Should we write report files?
 		'report' => array(
 			'dependencies'    => array(InputOption::VALUE_OPTIONAL, 'Write a report if there are environment dependencies for the project.', false),

@@ -59,19 +59,27 @@ SystemStore::add('_.php54', version_compare(PHP_VERSION, '5.4.0', '>='));
 SystemStore::add('_.php55', version_compare(PHP_VERSION, '5.5.0', '>='));
 
 // Construct per-run logging handlers
-$streamInfo  = new StreamHandler($vanity_logs . "/vanity-run-${time}-info.log",  Monolog::INFO);
-$streamDebug = new StreamHandler($vanity_logs . "/vanity-run-${time}-debug.log", Monolog::DEBUG);
+$streamError   = new StreamHandler($vanity_logs . "/vanity-run-${time}-error.log",  Monolog::ERROR);
+$streamWarning = new StreamHandler($vanity_logs . "/vanity-run-${time}-warning.log",  Monolog::WARNING);
+$streamInfo    = new StreamHandler($vanity_logs . "/vanity-run-${time}-info.log",  Monolog::INFO);
+$streamDebug   = new StreamHandler($vanity_logs . "/vanity-run-${time}-debug.log", Monolog::DEBUG);
 $streamDebug->pushProcessor(new IntrospectionProcessor);
 
 // Construct long-term logging handlers
-$ltStreamInfo  = new StreamHandler($vanity_logs . "/vanity-run-info.log",  Monolog::INFO);
-$ltStreamDebug = new StreamHandler($vanity_logs . "/vanity-run-debug.log", Monolog::DEBUG);
+$ltStreamError   = new StreamHandler($vanity_logs . "/vanity-run-error.log",  Monolog::ERROR);
+$ltStreamWarning = new StreamHandler($vanity_logs . "/vanity-run-warning.log",  Monolog::WARNING);
+$ltStreamInfo    = new StreamHandler($vanity_logs . "/vanity-run-info.log",  Monolog::INFO);
+$ltStreamDebug   = new StreamHandler($vanity_logs . "/vanity-run-debug.log", Monolog::DEBUG);
 $ltStreamDebug->pushProcessor(new IntrospectionProcessor);
 
 // Instantiate the logger
 $logger = new Monolog('Vanity');
+$logger->pushHandler($streamError);
+$logger->pushHandler($streamWarning);
 $logger->pushHandler($streamInfo);
 $logger->pushHandler($streamDebug);
+$logger->pushHandler($ltStreamError);
+$logger->pushHandler($ltStreamWarning);
 $logger->pushHandler($ltStreamInfo);
 $logger->pushHandler($ltStreamDebug);
 Logger::set($logger);

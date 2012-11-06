@@ -91,7 +91,7 @@ class TagHandler
 				}
 				else
 				{
-					Logger::get()->info('Unknown inline tag object:', array(__FILE__, print_r($content, true)));
+					Logger::get()->{ConfigStore::get('api.log.error')}('Unknown inline tag object:', array(__FILE__, print_r($content, true)));
 				}
 			}
 		}

@@ -29,6 +29,7 @@ namespace Vanity\Parse\User;
 
 use phpDocumentor\Reflection\DocBlock\Tag as DBTag;
 use Symfony\Component\EventDispatcher\Event;
+use Vanity\Config\Store as ConfigStore;
 use Vanity\Event\Event\Store as EventStore;
 use Vanity\GlobalObject\Dispatcher;
 use Vanity\GlobalObject\Logger;
@@ -230,7 +231,7 @@ class Tag implements TagInterface
 	 */
 	public function triggerEvent($event, Event $eventObject = null)
 	{
-		Logger::get()->info('Triggering event:', array($event));
+		Logger::get()->{ConfigStore::get('api.log.events')}('Triggering event:', array($event));
 		Dispatcher::get()->dispatch($event, $eventObject);
 	}
 }
