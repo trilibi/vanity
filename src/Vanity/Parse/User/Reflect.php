@@ -209,14 +209,19 @@ class Reflect
 		}
 
 		// Sort the properties alphabetically
-		usort($this->data['properties']['property'], function($a, $b)
+		if (isset($this->data['properties']) &&
+		    isset($this->data['properties']['property']) &&
+		    is_array($this->data['properties']['property']))
 		{
-			$a = $a['name'];
-			$b = $b['name'];
+			usort($this->data['properties']['property'], function($a, $b)
+			{
+				$a = $a['name'];
+				$b = $b['name'];
 
-			if ($a === $b) return 0;
-			return ($a < $b) ? -1 : 1;
-		});
+				if ($a === $b) return 0;
+				return ($a < $b) ? -1 : 1;
+			});
+		}
 
 		// Add methods
 		if ($methods = $this->methods->getMethods())
@@ -239,14 +244,19 @@ class Reflect
 		}
 
 		// Sort the methods alphabetically
-		usort($this->data['methods']['method'], function($a, $b)
+		if (isset($this->data['methods']) &&
+		    isset($this->data['methods']['method']) &&
+		    is_array($this->data['methods']['method']))
 		{
-			$a = $a['name'];
-			$b = $b['name'];
+			usort($this->data['methods']['method'], function($a, $b)
+			{
+				$a = $a['name'];
+				$b = $b['name'];
 
-			if ($a === $b) return 0;
-			return ($a < $b) ? -1 : 1;
-		});
+				if ($a === $b) return 0;
+				return ($a < $b) ? -1 : 1;
+			});
+		}
 
 		// Sort the metadata tags, post edit from @method, @property and @return
 		if (isset($this->data['metadata']))

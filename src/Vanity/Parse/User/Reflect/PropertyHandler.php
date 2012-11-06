@@ -32,8 +32,11 @@ use ReflectionClass;
 use ReflectionException;
 use ReflectionProperty;
 use phpDocumentor\Reflection\DocBlock;
+use Vanity\Console\Utilities as ConsoleUtil;
+use Vanity\GlobalObject\Logger;
 use Vanity\Parse\User\Reflect\AncestryHandler;
 use Vanity\Parse\Utilities as ParseUtil;
+use Vanity\System\DocumentationInconsistencyCollector as Inconsistency;
 use Vanity\System\Store as SystemStore;
 
 /**
@@ -96,22 +99,9 @@ class PropertyHandler
 				$this->properties['property'] = array();
 			}
 
+			$rproperty = InheritdocHandler::resolve($rproperty);
 			$_tags = new TagHandler($rproperty->getDocComment(), $this->ancestry);
 			$property_docblock = new DocBlock($rproperty->getDocComment());
-			$temp_rproperty = $rproperty;
-
-			// Can we just do a straight-up inherit?
-			// @todo: Do a better job of handling {@inheritdoc} according to the spec.
-			while (strpos($property_docblock->getShortDescription(), '{@inheritdoc}') !== false)
-			{
-				$temp_rproperty = $temp_rproperty                               # Class::$property
-				                    ->getDeclaringClass()                       # Class
-				                    ->getParentClass()                          # ParentClass
-				                    ->getProperty($temp_rproperty->getName());  # ParentClass::$property
-
-				$_tags = new TagHandler($temp_rproperty->getDocComment(), $this->ancestry);
-				$property_docblock = new DocBlock($temp_rproperty->getDocComment());
-			}
 
 			// Property-specific data
 			$entry = array();

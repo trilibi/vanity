@@ -72,32 +72,32 @@ class DefaultKlass extends Klass implements KlassInterface
 	// METHODS
 
 	/**
-	 * String documentation.
+	 * {@inheritdoc}
 	 */
 	public function setString($string) {}
 
 	/**
-	 * Number documentation.
+	 * {@inheritdoc}
 	 */
 	public function setNumber($number) {}
 
 	/**
-	 * Boolean documentation.
+	 * {@inheritdoc}
 	 */
 	public function setBoolean($trueFalse) {}
 
 	/**
-	 * Array documentation.
+	 * {@inheritdoc}
 	 */
 	public function setArray(array $list) {}
 
 	/**
-	 * Mixed documentation.
+	 * {@inheritdoc}
 	 */
 	public function setMixed($mixed) {}
 
 	/**
-	 * XML documentation.
+	 * {@inheritdoc}
 	 */
 	public function setXML(SimpleXMLElement $xml) {}
 

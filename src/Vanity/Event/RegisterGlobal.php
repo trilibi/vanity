@@ -136,7 +136,7 @@ class RegisterGlobal
 			$inconsistencies = DocumentationInconsistencyCollector::read();
 
 			echo PHP_EOL;
-			echo $formatter->yellow->apply('REPORT: DOCBLOCK "TYPE" INCONSISTENCIES') . PHP_EOL;
+			echo $formatter->yellow->apply('REPORT: DOCBLOCK INCONSISTENCIES') . PHP_EOL;
 
 			// We really need \Array->apply(), don't we?
 			echo 'Tags where type is inferred: ' .

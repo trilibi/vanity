@@ -25,38 +25,6 @@
  */
 
 
-namespace Vanity\Parse\User\Tag;
+namespace Vanity\Exception;
 
-use Vanity\Parse\User\Tag\HandlerInterface;
-use Vanity\Parse\User\Tag\AbstractNameTypeDescription;
-
-/**
- * The handler for @deprecated tags.
- */
-class DeprecatedHandler extends AbstractNameTypeDescription implements HandlerInterface
-{
-	/**
-	 * {@inheritdoc}
-	 */
-	public function process($elongate = false)
-	{
-		$return = parent::process(false);
-
-		if (isset($return['type']))
-		{
-			// If it starts with a digit, let's assume it's a version number
-			if (preg_match('/^\d+/', $return['type']))
-			{
-				$return['version'] = $return['type'];
-			}
-			elseif (isset($return['description']))
-			{
-				$return['description'] = $return['type'] . ' ' . $return['description'];
-			}
-
-			unset($return['type']);
-		}
-
-		return $return;
-	}
-}
+class Exception extends \Exception {}

@@ -33,6 +33,8 @@ use ReflectionException;
 use ReflectionMethod;
 use phpDocumentor\Reflection\DocBlock;
 use Vanity\Config\Store as ConfigStore;
+use Vanity\Console\Utilities as ConsoleUtil;
+use Vanity\GlobalObject\Logger;
 use Vanity\Parse\User\Reflect\AncestryHandler;
 use Vanity\Parse\User\Tag;
 use Vanity\Parse\User\TagFinder;
@@ -106,22 +108,9 @@ class MethodHandler
 				$this->methods['method'] = array();
 			}
 
+			$rmethod = InheritdocHandler::resolve($rmethod);
 			$_tags = new TagHandler($rmethod->getDocComment(), $this->ancestry);
 			$method_docblock = new DocBlock($rmethod->getDocComment());
-			$temp_rmethod = $rmethod;
-
-			// Can we just do a straight-up inherit?
-			// @todo: Do a better job of handling {@inheritdoc} according to the spec.
-			while (strpos($method_docblock->getShortDescription(), '{@inheritdoc}') !== false)
-			{
-				$temp_rmethod = $temp_rmethod                               # Class::method()
-				                    ->getDeclaringClass()                   # Class
-				                    ->getParentClass()                      # ParentClass
-				                    ->getMethod($temp_rmethod->getName());  # ParentClass::method()
-
-				$_tags = new TagHandler($temp_rmethod->getDocComment(), $this->ancestry);
-				$method_docblock = new DocBlock($temp_rmethod->getDocComment());
-			}
 
 			$entry = array();
 			$entry['name'] = $rmethod->getName();

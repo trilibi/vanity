@@ -53,15 +53,27 @@ $vanity_logs = sys_get_temp_dir();
 SystemStore::add('_.log_dir', $vanity_logs);
 SystemStore::add('_.run_time', $time);
 
-// Construct logging handlers
+// Which PHP family are we running?
+SystemStore::add('_.php53', version_compare(PHP_VERSION, '5.3.0', '>='));
+SystemStore::add('_.php54', version_compare(PHP_VERSION, '5.4.0', '>='));
+SystemStore::add('_.php55', version_compare(PHP_VERSION, '5.5.0', '>='));
+
+// Construct per-run logging handlers
 $streamInfo  = new StreamHandler($vanity_logs . "/vanity-run-${time}-info.log",  Monolog::INFO);
 $streamDebug = new StreamHandler($vanity_logs . "/vanity-run-${time}-debug.log", Monolog::DEBUG);
 $streamDebug->pushProcessor(new IntrospectionProcessor);
+
+// Construct long-term logging handlers
+$ltStreamInfo  = new StreamHandler($vanity_logs . "/vanity-run-info.log",  Monolog::INFO);
+$ltStreamDebug = new StreamHandler($vanity_logs . "/vanity-run-debug.log", Monolog::DEBUG);
+$ltStreamDebug->pushProcessor(new IntrospectionProcessor);
 
 // Instantiate the logger
 $logger = new Monolog('Vanity');
 $logger->pushHandler($streamInfo);
 $logger->pushHandler($streamDebug);
+$logger->pushHandler($ltStreamInfo);
+$logger->pushHandler($ltStreamDebug);
 Logger::set($logger);
 
 // Instantiate Application

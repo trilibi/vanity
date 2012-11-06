@@ -41,7 +41,7 @@ class LicenseHandler extends AbstractNameTypeDescription implements HandlerInter
 	 */
 	public function process($elongate = false)
 	{
-		$return = parent::process($elongate);
+		$return = parent::process(false);
 
 		if (isset($return['type']))
 		{
