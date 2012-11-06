@@ -94,3 +94,4 @@
 * ~~Add support for inline {@inheritdoc} tags. (2)~~
 * ~~Add support for documenting Interfaces (`get_declared_interfaces()`). (3)~~
 * ~~Add support for documenting Traits (`get_declared_traits()`). (3)~~
+* ~~Make event log severities user-configurable. (1)~~
