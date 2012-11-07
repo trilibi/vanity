@@ -5,7 +5,6 @@
 * Keep track of aliases and add metadata to the aliased methods. (2)
 * Add support for method grouping. (3)
 * Implement warnings/reports for TODOs. (3)
-* Implement cross-linking support. (3)
 * Implement support for linking to PHP functions/classes (`get_defined_functions()`). (2)
 
 * Add support for handling sub-blocks for @method. (8) (delaying)
@@ -29,31 +28,31 @@
 
 ## Stage 3: API Output Templating
 
-* Develop a documentation landing page with links out to various other types of documentation content. (2)
-* Develop a template for Desktop HTML output. (8)
-* Develop a template for reStructuredText output. (5)
+* Develop a documentation landing page with links out to various other types of documentation content.
+* Develop a template for Desktop HTML output.
+* Develop a template for reStructuredText output.
 * [TBD]
 
 
 ## Stage 4: User Guide Parsing
 
-* Implement a pattern for importing documentation content. (2)
-* Determine best way to order/group/tag individual chapters/guides. (3)
-* Leverage [Sphinx](http://sphinx.pocoo.org) (or possibly [Pandoc](http://johnmacfarlane.net/pandoc/)) to convert reStructuredText source files into structured JSON for improved portability. (???)
+* Implement a pattern for importing documentation content.
+* Determine best way to order/group/tag individual chapters/guides.
+* Leverage [Sphinx](http://sphinx.pocoo.org) (or possibly [Pandoc](http://johnmacfarlane.net/pandoc/)) to convert reStructuredText source files into structured JSON for improved portability.
 * [TBD]
 
 
 ## Stage 5: User Guide Output Templating
 
-* Design a template that can be used for both Sphinx as well as HTML output. (???)
+* Design a template that can be used for both Sphinx as well as HTML output.
 * Should maintain UI across both sets of docs as though they were a unified set of docs.
 * [TBD]
 
 
 ## Stage 6: Bundling and Distribution
 
-* Compress documentation into downloadable bundles (e.g., zip, tbz2). (2)
-* Produce a .phar package for app distribution. (2)
+* Compress documentation into downloadable bundles (e.g., zip, tbz2).
+* Produce a .phar package for app distribution.
 
 
 ## Done
@@ -95,3 +94,4 @@
 * ~~Add support for documenting Interfaces (`get_declared_interfaces()`). (3)~~
 * ~~Add support for documenting Traits (`get_declared_traits()`). (3)~~
 * ~~Make event log severities user-configurable. (1)~~
+* ~~Clean-up leftover @return and @param metadata tags.~~

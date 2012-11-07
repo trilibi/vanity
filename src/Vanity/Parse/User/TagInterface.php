@@ -50,6 +50,12 @@ interface TagInterface
 	/**
 	 * Determines which type of tag should be passed to which sub-parser.
 	 *
+	 * @event  EventStore      vanity.parse.user.reflect.pre
+	 * @event  EventStore      vanity.parse.user.reflect.post
+	 * @event  EventStore      vanity.parse.user.tag.{tag}.pre
+	 * @event  EventStore      vanity.parse.user.tag.{tag}.post
+	 * @event  EventStore      vanity.parse.user.description.{inlineTag}.pre
+	 * @event  EventStore      vanity.parse.user.description.{inlineTag}.post
 	 * @return AbstractHandler An object that extends from {@see AbstractHandler}.
 	 */
 	public function determine();

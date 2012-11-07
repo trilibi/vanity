@@ -33,6 +33,7 @@ use ReflectionException;
 use TokenReflection\Broker;
 use Vanity\Config\Store as ConfigStore;
 use Vanity\Console\Utilities as ConsoleUtil;
+use Vanity\GlobalObject\Logger;
 use Vanity\System\DocumentationInconsistencyCollector as Inconsistency;
 use Vanity\System\Store as SystemStore;
 
@@ -346,6 +347,8 @@ class AncestryHandler
 	{
 		if (isset($this->aliases[$short]))
 		{
+			Logger::get()->{ConfigStore::get('api.log.aliases')}('Aliases: Matched in the list of known aliases.', array($short, $this->aliases[$short]));
+
 			return $this->aliases[$short];
 		}
 		else
@@ -355,6 +358,8 @@ class AncestryHandler
 			{
 				$namespace = $this->class->getNamespaceName() . '\\' . $short;
 				new ReflectionClass($namespace);
+
+				Logger::get()->{ConfigStore::get('api.log.aliases')}('Aliases: Matched in the current namespace.', array($short, $namespace));
 
 				// If we didn't throw an exception, we're good.
 				return $namespace;
@@ -370,6 +375,8 @@ class AncestryHandler
 						{
 							$namespace = $ns . '\\' . $short;
 							new ReflectionClass($namespace);
+
+							Logger::get()->{ConfigStore::get('api.log.aliases')}('Aliases: Matched in an extended/implemented namespace.', array($short, $namespace));
 
 							// If we didn't throw an exception, we're good.
 							return $namespace;
@@ -387,6 +394,8 @@ class AncestryHandler
 						$class = preg_replace('/^\\\/', '', $short);
 						new ReflectionClass($class);
 
+						Logger::get()->{ConfigStore::get('api.log.aliases')}('Aliases: Matched by stripping the \ prefix.', array($short, $class));
+
 						// If we didn't throw an exception, we're good.
 						return $class;
 					}
@@ -395,7 +404,8 @@ class AncestryHandler
 					catch (ReflectionException $e)
 					{
 						$formatter = ConsoleUtil::formatters();
-						Inconsistency::add($class . $formatter->gold->apply(' => ' . SystemStore::get('_.current')));
+						Inconsistency::add($class . $formatter->gold->apply(' => No match found for ' . $short . ' (' . SystemStore::get('_.current') . ')'));
+						Logger::get()->{ConfigStore::get('api.log.aliases')}('Aliases: No match found.', array($short));
 
 						// No match. Return it as-is (without any starting backslash).
 						return $class;

@@ -64,11 +64,12 @@ return array(
 
 		// How should we determine log severity?
 		'log' => array(
+			'aliases'  => array(InputOption::VALUE_OPTIONAL, 'Which severity should Alias/Ancestry Resolution messages have?', 'debug'),
 			'commands' => array(InputOption::VALUE_OPTIONAL, 'Which severity should Command begin/end messages have?', 'debug'),
+			'error'    => array(InputOption::VALUE_OPTIONAL, 'Which severity should Error messages have?', 'error'),
 			'events'   => array(InputOption::VALUE_OPTIONAL, 'Which severity should Event Trigger messages have?', 'debug'),
 			'info'     => array(InputOption::VALUE_OPTIONAL, 'Which severity should Notice messages have?', 'info'),
 			'warn'     => array(InputOption::VALUE_OPTIONAL, 'Which severity should Warning messages have?', 'warn'),
-			'error'    => array(InputOption::VALUE_OPTIONAL, 'Which severity should Error messages have?', 'error'),
 		),
 
 		// Should we write report files?

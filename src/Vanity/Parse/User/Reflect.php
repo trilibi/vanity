@@ -31,8 +31,13 @@ use ReflectionClass;
 use ReflectionProperty;
 use stdClass;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\Filesystem\Filesystem;
+use Vanity\Config\Store as ConfigStore;
 use Vanity\Console\Utilities as ConsoleUtil;
+use Vanity\Event\Event\Store as EventStore;
+use Vanity\GlobalObject\Dispatcher;
+use Vanity\GlobalObject\Logger;
 use Vanity\Parse\User\Reflect\AncestryHandler;
 use Vanity\Parse\User\Reflect\ConstantHandler;
 use Vanity\Parse\User\Reflect\InlineTagHandler;
@@ -138,7 +143,9 @@ class Reflect
 	 * Reflects over the given class and produces an associative array
 	 * containing all relevant class data.
 	 *
-	 * @return array An associative array containing all relevant class data.
+	 * @event  EventStore vanity.parse.user.reflect.pre
+	 * @event  EventStore vanity.parse.user.reflect.post
+	 * @return array      An associative array containing all relevant class data.
 	 */
 	public function process()
 	{
@@ -147,7 +154,9 @@ class Reflect
 		$long_filename = $this->rclass->getFileName();
 		$short_filename = str_replace(VANITY_PROJECT_WORKING_DIR . '/', '', $long_filename);
 
-		// $this->data['aliases'] = $this->aliases;
+		$this->triggerEvent("vanity.parse.user.reflect.pre", new EventStore(array(
+			'data' => &$this->data,
+		)));
 
 		$this->data['name'] = $this->rclass->getShortName();
 		$this->data['namespace'] = $this->rclass->getNamespaceName();
@@ -258,7 +267,7 @@ class Reflect
 			});
 		}
 
-		// Sort the metadata tags, post edit from @method, @property and @return
+		// Sort the metadata tags, post-edit from @method, @property and @return
 		if (isset($this->data['metadata']))
 		{
 			$this->data['metadata']['tag'] = array_values($this->data['metadata']['tag']);
@@ -273,6 +282,12 @@ class Reflect
 				return ($a < $b) ? -1 : 1;
 			});
 		}
+
+		// Handle alias tags
+
+		$this->triggerEvent("vanity.parse.user.reflect.post", new EventStore(array(
+			'data' => &$this->data,
+		)));
 	}
 
 	/**
@@ -400,5 +415,18 @@ class Reflect
 		}
 
 		return $reformatted;
+	}
+
+	/**
+	 * Triggers an event and logs it to the log.
+	 *
+	 * @param  string $event       The string identifier for the event.
+	 * @param  Event  $eventObject An object that extends the {@see Symfony\Component\EventDispatcher\Event} object.
+	 * @return void
+	 */
+	public function triggerEvent($event, Event $eventObject = null)
+	{
+		Logger::get()->{ConfigStore::get('api.log.events')}('Triggering event:', array($event));
+		Dispatcher::get()->dispatch($event, $eventObject);
 	}
 }

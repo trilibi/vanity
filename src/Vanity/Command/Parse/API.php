@@ -86,6 +86,18 @@ class API extends BaseCommand
 	/**
 	 * Execute the logic for the command.
 	 *
+	 * @event  EventStore      vanity.command.parse.api.files.pre
+	 * @event  EventStore      vanity.command.parse.api.files.post
+	 * @event  EventStore      vanity.command.parse.api.classlist.pre
+	 * @event  EventStore      vanity.command.parse.api.classlist.post
+	 * @event  EventStore      vanity.command.parse.api.reflection.pre
+	 * @event  EventStore      vanity.command.parse.api.reflection.post
+	 * @event  Event           vanity.command.parse.api.warn.dependencies
+	 * @event  Event           vanity.command.parse.api.warn.inconsistencies
+	 * @event  Event           vanity.command.parse.api.report.dependencies
+	 * @event  Event           vanity.command.parse.api.report.inconsistencies
+	 * @event  Event           vanity.command.log_path
+	 * @event  Event           vanity.command.complete
 	 * @param  InputInterface  $input  The command-line input.
 	 * @param  OutputInterface $output The command-line output.
 	 * @return void
