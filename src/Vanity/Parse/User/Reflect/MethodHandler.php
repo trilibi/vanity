@@ -98,6 +98,8 @@ class MethodHandler
 
 		foreach ($rclass_methods as $rmethod)
 		{
+			$documentThis = true;
+
 			if (!isset($this->methods['count']))
 			{
 				$this->methods['count'] = count($rclass_methods);
@@ -182,7 +184,18 @@ class MethodHandler
 				foreach ($method_docblock->getTags() as $rtag)
 				{
 					$dtag = new Tag($rtag, $this->ancestry);
-					$entry['metadata']['tag'][] = $dtag->determine()->process(ConfigStore::get('api.resolve_aliases'));
+					$tagData = $dtag->determine()->process(ConfigStore::get('api.resolve_aliases'));
+
+					if ($tagData['name'] === 'alias')
+					{
+						SystemStore::add(
+							'alias.' . $tagData['entity'],
+							$this->class->getName() . '::' . $rmethod->getName()
+						);
+						$documentThis = false;
+					}
+
+					$entry['metadata']['tag'][] = $tagData;
 				}
 			}
 
@@ -285,7 +298,10 @@ class MethodHandler
 				}
 			}
 
-			$this->methods['method'][] = $entry;
+			if ($documentThis)
+			{
+				$this->methods['method'][] = $entry;
+			}
 		}
 
 		return $this->methods;

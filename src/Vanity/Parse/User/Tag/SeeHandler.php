@@ -74,7 +74,7 @@ class SeeHandler extends AbstractNameTypeDescription implements HandlerInterface
 		{
 			// Used @see when @link was more appropriate
 			$formatter = ConsoleUtil::formatters();
-			Inconsistency::add('Used @see when @link was more appropriate. => ' . $formatter->gold->apply(SystemStore::get('_.current')));
+			Inconsistency::add('Used @' . $this->tag . ' when @link was more appropriate. => ' . $formatter->gold->apply(SystemStore::get('_.current')));
 
 			$return['entity_hint'] = 'uri';
 		}
