@@ -231,7 +231,7 @@ class Tag implements TagInterface
 	 */
 	public function triggerEvent($event, Event $eventObject = null)
 	{
-		Logger::get()->{ConfigStore::get('api.log.events')}('Triggering event:', array($event));
+		Logger::get()->{ConfigStore::get('log.events')}('Triggering event:', array($event));
 		Dispatcher::get()->dispatch($event, $eventObject);
 	}
 }

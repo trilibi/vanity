@@ -163,6 +163,23 @@ class Reflect
 		$this->data['full_name'] = $this->class_name;
 		$this->data['path'] = $short_filename;
 
+		if (SystemStore::get('_.php54') && $this->rclass->isTrait())
+		{
+			$this->data['kind'] = 'Trait';
+		}
+		elseif ($this->rclass->isInterface())
+		{
+			$this->data['kind'] = 'Interface';
+		}
+		elseif ($this->rclass->isSubClassOf('Exception'))
+		{
+			$this->data['kind'] = 'Exception';
+		}
+		else
+		{
+			$this->data['kind'] = 'Class';
+		}
+
 		SystemStore::add('_.current', $this->class_name);
 
 		#--------------------------------------------------------------------------#
@@ -426,7 +443,7 @@ class Reflect
 	 */
 	public function triggerEvent($event, Event $eventObject = null)
 	{
-		Logger::get()->{ConfigStore::get('api.log.events')}('Triggering event:', array($event));
+		Logger::get()->{ConfigStore::get('log.events')}('Triggering event:', array($event));
 		Dispatcher::get()->dispatch($event, $eventObject);
 	}
 }

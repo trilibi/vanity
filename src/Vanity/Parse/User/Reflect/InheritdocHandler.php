@@ -92,7 +92,7 @@ class InheritdocHandler
 				$found_description = false;
 
 				// Log that we're starting...
-				Logger::get()->{ConfigStore::get('api.log.info')}('{@inheritdoc} Starting resolution:', array(
+				Logger::get()->{ConfigStore::get('log.info')}('{@inheritdoc} Starting resolution:', array(
 					sprintf(
 						"${__class}%s${__kind}%s",
 						($is_method ? '::' : '::$'),
@@ -125,7 +125,7 @@ class InheritdocHandler
 					$count = 1;
 					foreach ($klass->getInterfaces() as $rinterface)
 					{
-						Logger::get()->{ConfigStore::get('api.log.info')}("{@inheritdoc} Checking Interface ${count}/${interface_count}:", array(
+						Logger::get()->{ConfigStore::get('log.info')}("{@inheritdoc} Checking Interface ${count}/${interface_count}:", array(
 							$rinterface->getName(),
 						));
 
@@ -133,7 +133,7 @@ class InheritdocHandler
 						{
 							$return = $rinterface->getMethod($reflected->getName());
 
-							Logger::get()->{ConfigStore::get('api.log.info')}('{@inheritdoc} Match!', array(
+							Logger::get()->{ConfigStore::get('log.info')}('{@inheritdoc} Match!', array(
 								$rinterface->getName(),
 								$reflected->getName(),
 								'Method'
@@ -148,7 +148,7 @@ class InheritdocHandler
 							{
 								$return = $rinterface->getProperty($reflected->getName());
 
-								Logger::get()->{ConfigStore::get('api.log.info')}('{@inheritdoc} Match!', array(
+								Logger::get()->{ConfigStore::get('log.info')}('{@inheritdoc} Match!', array(
 									$rinterface->getName(),
 									$reflected->getName(),
 									'Property'
@@ -159,7 +159,7 @@ class InheritdocHandler
 							}
 							catch (Exception $e)
 							{
-								Logger::get()->{ConfigStore::get('api.log.info')}('{@inheritdoc} No match. Will keep looking...', array(
+								Logger::get()->{ConfigStore::get('log.info')}('{@inheritdoc} No match. Will keep looking...', array(
 									$rinterface->getName(),
 									$reflected->getName(),
 								));
@@ -176,7 +176,7 @@ class InheritdocHandler
 					$count = 1;
 					foreach ($klass->getTraits() as $rtrait)
 					{
-						Logger::get()->{ConfigStore::get('api.log.info')}("{@inheritdoc} Checking Trait ${count}/${trait_count}:", array(
+						Logger::get()->{ConfigStore::get('log.info')}("{@inheritdoc} Checking Trait ${count}/${trait_count}:", array(
 							$rtrait->getName(),
 						));
 
@@ -184,7 +184,7 @@ class InheritdocHandler
 						{
 							$return = $rtrait->getMethod($reflected->getName());
 
-							Logger::get()->{ConfigStore::get('api.log.info')}('{@inheritdoc} Match!', array(
+							Logger::get()->{ConfigStore::get('log.info')}('{@inheritdoc} Match!', array(
 								$rtrait->getName(),
 								$reflected->getName(),
 								'Method'
@@ -199,7 +199,7 @@ class InheritdocHandler
 							{
 								$return = $rtrait->getProperty($reflected->getName());
 
-								Logger::get()->{ConfigStore::get('api.log.info')}('{@inheritdoc} Match!', array(
+								Logger::get()->{ConfigStore::get('log.info')}('{@inheritdoc} Match!', array(
 									$rtrait->getName(),
 									$reflected->getName(),
 									'Property'
@@ -210,7 +210,7 @@ class InheritdocHandler
 							}
 							catch (Exception $e)
 							{
-								Logger::get()->{ConfigStore::get('api.log.info')}('{@inheritdoc} No match. Will keep looking...', array(
+								Logger::get()->{ConfigStore::get('log.info')}('{@inheritdoc} No match. Will keep looking...', array(
 									$rtrait->getName(),
 									$reflected->getName(),
 								));
@@ -230,7 +230,7 @@ class InheritdocHandler
 						// Rewrite the reference to $klass
 						$klass = $klass->getParentClass();
 
-						Logger::get()->{ConfigStore::get('api.log.info')}("{@inheritdoc} Checking the parent class:", array(
+						Logger::get()->{ConfigStore::get('log.info')}("{@inheritdoc} Checking the parent class:", array(
 							$klass->getName(),
 						));
 
@@ -238,7 +238,7 @@ class InheritdocHandler
 						{
 							$return = $klass->getMethod($reflected->getName());
 
-							Logger::get()->{ConfigStore::get('api.log.info')}('{@inheritdoc} Match!', array(
+							Logger::get()->{ConfigStore::get('log.info')}('{@inheritdoc} Match!', array(
 								$klass->getName(),
 								$reflected->getName(),
 								'Method'
@@ -253,7 +253,7 @@ class InheritdocHandler
 							{
 								$return = $klass->getProperty($reflected->getName());
 
-								Logger::get()->{ConfigStore::get('api.log.info')}('{@inheritdoc} Match!', array(
+								Logger::get()->{ConfigStore::get('log.info')}('{@inheritdoc} Match!', array(
 									$klass->getName(),
 									$reflected->getName(),
 									'Property'
@@ -263,7 +263,7 @@ class InheritdocHandler
 							}
 							catch (Exception $e)
 							{
-								Logger::get()->{ConfigStore::get('api.log.info')}('{@inheritdoc} No match. Will keep looking...', array(
+								Logger::get()->{ConfigStore::get('log.info')}('{@inheritdoc} No match. Will keep looking...', array(
 									$klass->getName(),
 									$reflected->getName(),
 								));
@@ -286,7 +286,7 @@ class InheritdocHandler
 			);
 
 			// Log that we're starting...
-			Logger::get()->{ConfigStore::get('api.log.info')}('{@inheritdoc} ' . $e->getMessage(), array(
+			Logger::get()->{ConfigStore::get('log.info')}('{@inheritdoc} ' . $e->getMessage(), array(
 				$message
 			));
 
@@ -302,7 +302,7 @@ class InheritdocHandler
 			);
 
 			// Log that we're starting...
-			Logger::get()->{ConfigStore::get('api.log.info')}('{@inheritdoc} ' . $e->getMessage(), array(
+			Logger::get()->{ConfigStore::get('log.info')}('{@inheritdoc} ' . $e->getMessage(), array(
 				$message
 			));
 
@@ -318,7 +318,7 @@ class InheritdocHandler
 			);
 
 			// Log that we're starting...
-			Logger::get()->{ConfigStore::get('api.log.info')}('{@inheritdoc} ' . $e->getMessage(), array(
+			Logger::get()->{ConfigStore::get('log.info')}('{@inheritdoc} ' . $e->getMessage(), array(
 				$message
 			));
 

@@ -63,15 +63,23 @@ class Resolve
 	protected $variable_map;
 
 	/**
+	 * Storage for the configuration file path.
+	 * @type string
+	 */
+	protected $config_path;
+
+	/**
 	 * Instantiates the {@see Resolve} class.
 	 *
 	 * @param InputInterface $input The command-line input.
+	 * @param string $configPath The path to the config definition.
 	 */
-	public function __construct(InputInterface $input)
+	public function __construct(InputInterface $input, $configPath)
 	{
 		$this->input = $input;
 		$this->formatter = ConsoleUtil::formatters();
 		$this->variable_map = array();
+		$this->config_path = $configPath;
 	}
 
 	/**
@@ -138,7 +146,7 @@ class Resolve
 	 */
 	private function defaultValues()
 	{
-		$options = include VANITY_SOURCE . '/configs.php';
+		$options = include $this->config_path;
 		$config = ConfigStore::convert($options);
 
 		foreach ($config as $name => $value)
@@ -184,7 +192,7 @@ class Resolve
 	 */
 	private function cliValues($returnConfigDir = false)
 	{
-		$available_configs = include VANITY_SOURCE . '/configs.php';
+		$available_configs = include $this->config_path;
 		$available_configs = array_keys(ConfigStore::convert($available_configs));
 		$config = array();
 

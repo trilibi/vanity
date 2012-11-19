@@ -25,7 +25,7 @@
  */
 
 
-namespace Vanity\Command\PHP;
+namespace Vanity\Command;
 
 use Exception;
 use Symfony\Component\Console\Input\InputInterface;
@@ -36,12 +36,14 @@ use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
 use Vanity\Command\Base as BaseCommand;
+use Vanity\Config\Resolve as ConfigResolve;
 use Vanity\Config\Store as ConfigStore;
+use Vanity\Console\Utilities as ConsoleUtil;
 use Vanity\Event\Event\Store as EventStore;
 use Vanity\GlobalObject\Logger;
 
 /**
- * Command that executes `php:fetch`.
+ * Command that executes `fetch`.
  *
  * @author Ryan Parman <http://ryanparman.com>
  * @link   http://vanitydoc.org
@@ -65,8 +67,29 @@ class Fetch extends BaseCommand
 	protected function configure()
 	{
 		$this
-			->setName('php:fetch')
-			->setDescription('Fetches a copy of the latest PHP API Reference from PHP.net. Useful when extending PHP\'s base classes.');
+			->setName('fetch')
+			->setDescription('Fetches a copy of the latest PHP API Reference from PHP.net. Useful when extending PHP\'s base classes.')
+		;
+
+		$options = include __DIR__ . '/fetch_configs.php';
+		$options = ConfigStore::convert($options);
+
+		foreach ($options as $option => $details)
+		{
+			list($type, $description, $default) = $details;
+
+			if (!is_null($default))
+			{
+				if (is_bool($default))
+				{
+					$default = $default ? 'true' : 'false';
+				}
+
+				$description .= ConsoleUtil::formatters()->gold->apply(' (default: ' . $default . ')');
+			}
+
+			$this->addOption($option, null, $type, $description);
+		}
 	}
 
 	/**
@@ -78,7 +101,14 @@ class Fetch extends BaseCommand
 	 */
 	protected function execute(InputInterface $input, OutputInterface $output)
 	{
-		Logger::get()->{ConfigStore::get('api.log.commands')}('Running command:', array($this->getName()));
+		echo PHP_EOL;
+
+		// Resolve the configuration and display it
+		$config = new ConfigResolve($input, __DIR__ . '/fetch_configs.php');
+		$config->read();
+		$this->displayConfig($output);
+
+		Logger::get()->{ConfigStore::get('log.commands')}('Running command:', array($this->getName()));
 		echo PHP_EOL;
 
 		// Instantiate
@@ -87,8 +117,8 @@ class Fetch extends BaseCommand
 		// Handle a fresh checkout
 		if (!$filesystem->exists(VANITY_CACHE_DIR))
 		{
-			Logger::get()->{ConfigStore::get('api.log.info')}('Cache directory does not exist.');
-			Logger::get()->{ConfigStore::get('api.log.info')}('Attempting to create:', array(VANITY_CACHE_DIR));
+			Logger::get()->{ConfigStore::get('log.info')}('Cache directory does not exist.');
+			Logger::get()->{ConfigStore::get('log.info')}('Attempting to create:', array(VANITY_CACHE_DIR));
 
 			try {
 				$filesystem->mkdir(VANITY_CACHE_DIR, 0777);
@@ -108,7 +138,7 @@ class Fetch extends BaseCommand
 					$output->writeln($this->formatter->green->apply($url));
 
 					$svn = "svn co ${url} ${write_to}${append}";
-					Logger::get()->{ConfigStore::get('api.log.commands')}($svn);
+					Logger::get()->{ConfigStore::get('log.commands')}($svn);
 					$process = new Process($svn);
 					$process->run(function($type, $buffer) use ($output)
 					{
@@ -133,7 +163,7 @@ class Fetch extends BaseCommand
 			}
 			catch (IOException $e)
 			{
-				Logger::get()->{ConfigStore::get('api.log.error')}('Failed to create user cache directory. Halting.', array(VANITY_CACHE_DIR));
+				Logger::get()->{ConfigStore::get('log.error')}('Failed to create user cache directory. Halting.', array(VANITY_CACHE_DIR));
 				throw new IOException('Vanity was unable to create the user cache directory at ' . VANITY_CACHE_DIR . ', or was unable to set the permissions to 0777.');
 			}
 		}
@@ -141,7 +171,7 @@ class Fetch extends BaseCommand
 		// Handle an update
 		else
 		{
-			Logger::get()->{ConfigStore::get('api.log.info')}('Cache directory already exists.', array(VANITY_CACHE_DIR));
+			Logger::get()->{ConfigStore::get('log.info')}('Cache directory already exists.', array(VANITY_CACHE_DIR));
 
 			$this->triggerEvent('vanity.command.php.fetch.update.pre', new EventStore(array(
 				'cache_dir' => VANITY_CACHE_DIR,
@@ -159,7 +189,7 @@ class Fetch extends BaseCommand
 				$output->writeln($this->formatter->green->apply($url));
 
 				$svn = "svn up ${write_to}${append}";
-				Logger::get()->{ConfigStore::get('api.log.commands')}($svn);
+				Logger::get()->{ConfigStore::get('log.commands')}($svn);
 				$process = new Process($svn);
 				$process->run(function($type, $buffer) use ($output)
 				{

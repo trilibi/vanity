@@ -80,8 +80,8 @@ class ReflectAll
 
 		// Resolve output path variables
 		Dispatcher::get()->dispatch('parse.user.reflect.all.pre');
-		$this->path_pattern = str_replace('%STAGE%', $this->asciify(ConfigStore::get('api.stage')), $this->path_pattern);
-		$this->path_pattern = str_replace('%VERSION%', $this->asciify(ConfigStore::get('vanity.version')), $this->path_pattern);
+		$this->path_pattern = str_replace('%STAGE%', ConsoleUtil::asciify(ConfigStore::get('vanity.stage')), $this->path_pattern);
+		$this->path_pattern = str_replace('%VERSION%', ConsoleUtil::asciify(ConfigStore::get('vanity.version')), $this->path_pattern);
 		$this->path_pattern = str_replace('%FORMAT%', 'json', $this->path_pattern);
 
 		foreach ($this->classes as $class)
@@ -98,17 +98,5 @@ class ReflectAll
 		$files = Find::files($this->path_pattern, '*.json');
 		$count = count($files['absolute']);
 		$output->writeln('Wrote ' . $this->formatter->info->apply(" ${count} ") . ' class definition ' . ConsoleUtil::pluralize($count, 'file', 'files') . '.');
-	}
-
-	/**
-	 * Removes all characters from a string that are not alphanumeric,
-	 * underscore, hyphen or period. Used for determining ideal filenames.
-	 *
-	 * @param  string $s The string to parse.
-	 * @return string    The string will all non-whitelisted characters removed.
-	 */
-	protected function asciify($s)
-	{
-		return preg_replace('/[^a-z0-9_\-\.]/i', '', $s);
 	}
 }

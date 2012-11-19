@@ -87,8 +87,9 @@ Logger::set($logger);
 // Instantiate Application
 $console = new Application('Vanity', VANITY_VERSION);
 
-$console->add(new Vanity\Command\PHP\Fetch);
-$console->add(new Vanity\Command\Parse\API);
+$console->add(new Vanity\Command\Fetch);
+$console->add(new Vanity\Command\Generate);
+$console->add(new Vanity\Command\Parse);
 
 Timer::start();
 

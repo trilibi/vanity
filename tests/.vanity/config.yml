@@ -1,4 +1,2 @@
-api:
-    stage: dev
-    warn:
-        inconsistencies: true
+warn:
+    inconsistencies: true

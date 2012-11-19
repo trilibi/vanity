@@ -34,6 +34,7 @@ use Symfony\Component\Finder\Finder;
 use Vanity\Config\Store as ConfigStore;
 use Vanity\Console\Utilities as ConsoleUtil;
 use Vanity\Event\Event\Store as EventStore;
+use Vanity\Generate\Utilities as GenerateUtils;
 use Vanity\GlobalObject\Dispatcher;
 use Vanity\System\Timer;
 use Vanity\System\DependencyCollector;
@@ -96,8 +97,8 @@ class RegisterGlobal
 			echo 'Found ' . $formatter->info->apply(" ${count} ") . ' log ' . ConsoleUtil::pluralize($count, 'file', 'files') . '.' . PHP_EOL;
 		});
 
-		// vanity.command.parse.api.report.dependencies event
-		Dispatcher::get()->addListener('vanity.command.parse.api.report.dependencies', function(Event $event)
+		// vanity.command.parse.report.dependencies event
+		Dispatcher::get()->addListener('vanity.command.parse.report.dependencies', function(Event $event)
 		{
 			// jsonify!
 			$json = ConsoleUtil::json_encode(self::getDependencies());
@@ -109,8 +110,8 @@ class RegisterGlobal
 			file_put_contents(ConfigStore::get('vanity.reports') . '/dependencies.json', $json);
 		});
 
-		// vanity.command.parse.api.warn.dependencies event
-		Dispatcher::get()->addListener('vanity.command.parse.api.warn.dependencies', function(Event $event) use (&$self)
+		// vanity.command.parse.warn.dependencies event
+		Dispatcher::get()->addListener('vanity.command.parse.warn.dependencies', function(Event $event) use (&$self)
 		{
 			$formatter = ConsoleUtil::formatters();
 			$dependencies = $self::getDependencies();
@@ -129,8 +130,8 @@ class RegisterGlobal
 			echo 'Found ' . $formatter->info->apply(" ${count} ") . ' ' . ConsoleUtil::pluralize($count, 'dependency', 'dependencies') . '.' . PHP_EOL;
 		});
 
-		// vanity.command.parse.api.warn.inconsistencies event
-		Dispatcher::get()->addListener('vanity.command.parse.api.warn.inconsistencies', function(Event $event)
+		// vanity.command.parse.warn.inconsistencies event
+		Dispatcher::get()->addListener('vanity.command.parse.warn.inconsistencies', function(Event $event)
 		{
 			$formatter = ConsoleUtil::formatters();
 			$inconsistencies = DocumentationInconsistencyCollector::read();
@@ -157,6 +158,25 @@ class RegisterGlobal
 			echo PHP_EOL;
 			$count = count($inconsistencies);
 			echo 'Found ' . $formatter->info->apply(" ${count} ") . ' ' . ConsoleUtil::pluralize($count, 'inconsistency', 'inconsistencies') . '.' . PHP_EOL;
+		});
+
+		// vanity.generate.format.html event
+		Dispatcher::get()->addListener('vanity.generate.format.html', function(EventStore $event)
+		{
+			$formatter = ConsoleUtil::formatters();
+
+			$template = new \Vanity\Template\DesktopHTML\Bootstrap(
+				GenerateUtils::findTemplatesFor('Vanity\Template\DesktopHTML\Bootstrap')
+			);
+
+			echo $formatter->yellow->apply('GENERATING: HTML') . PHP_EOL;
+
+			$files = $event->get('files');
+
+			foreach ($files['absolute'] as $file)
+			{
+				echo TAB . $formatter->green->apply('-> ') . ($template->generate($file)) . PHP_EOL;
+			}
 		});
 	}
 

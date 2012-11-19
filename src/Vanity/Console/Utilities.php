@@ -164,4 +164,16 @@ class Utilities
 	{
 		return ($count === 1) ? $singular : $plural;
 	}
+
+	/**
+	 * Removes all characters from a string that are not alphanumeric,
+	 * underscore, hyphen or period. Used for determining ideal filenames.
+	 *
+	 * @param  string $s The string to parse.
+	 * @return string    The string will all non-whitelisted characters removed.
+	 */
+	public static function asciify($s)
+	{
+		return preg_replace('/[^a-z0-9_\-\.]/i', '', $s);
+	}
 }

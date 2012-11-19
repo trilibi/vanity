@@ -87,11 +87,11 @@ class TagHandler
 				elseif ($content instanceof DBTag)
 				{
 					$dtag = new InlineTag($content, $this->ancestry);
-					$output[] = $dtag->determine()->process(ConfigStore::get('api.resolve_aliases'));
+					$output[] = $dtag->determine()->process(ConfigStore::get('source.resolve_aliases'));
 				}
 				else
 				{
-					Logger::get()->{ConfigStore::get('api.log.error')}('Unknown inline tag object:', array(__FILE__, print_r($content, true)));
+					Logger::get()->{ConfigStore::get('log.error')}('Unknown inline tag object:', array(__FILE__, print_r($content, true)));
 				}
 			}
 		}
@@ -119,7 +119,7 @@ class TagHandler
 			foreach ($tags as $rtag)
 			{
 				$dtag = new Tag($rtag, $this->ancestry);
-				$metadata['tag'][] = $dtag->determine()->process(ConfigStore::get('api.resolve_aliases'));
+				$metadata['tag'][] = $dtag->determine()->process(ConfigStore::get('source.resolve_aliases'));
 			}
 		}
 

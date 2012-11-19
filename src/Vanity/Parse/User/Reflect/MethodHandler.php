@@ -93,7 +93,7 @@ class MethodHandler
 		// Add methods and parameters
 		$rclass_methods = array_values(array_filter($rclass_methods, function($rmethod)
 		{
-			return !preg_match(ConfigStore::get('api.exclude.methods'), $rmethod->getName());
+			return !preg_match(ConfigStore::get('source.exclude.methods'), $rmethod->getName());
 		}));
 
 		foreach ($rclass_methods as $rmethod)
@@ -132,7 +132,7 @@ class MethodHandler
 					'end'   => $rmethod->getEndLine(),
 				);
 
-				if ($viewsource = ConfigStore::get('api.viewsource'))
+				if ($viewsource = ConfigStore::get('source.viewsource'))
 				{
 					$entry['viewsource'] = str_replace(array('%PATH%', '%LINE%'), array($entry['path'], $entry['lines']['start']), $viewsource);
 				}
@@ -184,7 +184,7 @@ class MethodHandler
 				foreach ($method_docblock->getTags() as $rtag)
 				{
 					$dtag = new Tag($rtag, $this->ancestry);
-					$tagData = $dtag->determine()->process(ConfigStore::get('api.resolve_aliases'));
+					$tagData = $dtag->determine()->process(ConfigStore::get('source.resolve_aliases'));
 
 					if ($tagData['name'] === 'alias')
 					{

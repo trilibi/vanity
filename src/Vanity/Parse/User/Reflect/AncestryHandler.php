@@ -89,7 +89,7 @@ class AncestryHandler
 	public function __construct(Reflector $reflector)
 	{
 		// Should we resolve aliases?
-		if (ConfigStore::get('api.resolve_aliases'))
+		if (ConfigStore::get('source.resolve_aliases'))
 		{
 			$this->broker = new Broker(new Broker\Backend\Memory());
 		}
@@ -109,7 +109,7 @@ class AncestryHandler
 	public function getNamespaces()
 	{
 		// Should we resolve aliases?
-		if (ConfigStore::get('api.resolve_aliases'))
+		if (ConfigStore::get('source.resolve_aliases'))
 		{
 			$aliases = array();
 			$fqcns = array();
@@ -347,7 +347,7 @@ class AncestryHandler
 	{
 		if (isset($this->aliases[$short]))
 		{
-			Logger::get()->{ConfigStore::get('api.log.aliases')}('Aliases: Matched in the list of known aliases.', array($short, $this->aliases[$short]));
+			Logger::get()->{ConfigStore::get('log.aliases')}('Aliases: Matched in the list of known aliases.', array($short, $this->aliases[$short]));
 
 			return $this->aliases[$short];
 		}
@@ -359,7 +359,7 @@ class AncestryHandler
 				$namespace = $this->class->getNamespaceName() . '\\' . $short;
 				new ReflectionClass($namespace);
 
-				Logger::get()->{ConfigStore::get('api.log.aliases')}('Aliases: Matched in the current namespace.', array($short, $namespace));
+				Logger::get()->{ConfigStore::get('log.aliases')}('Aliases: Matched in the current namespace.', array($short, $namespace));
 
 				// If we didn't throw an exception, we're good.
 				return $namespace;
@@ -376,7 +376,7 @@ class AncestryHandler
 							$namespace = $ns . '\\' . $short;
 							new ReflectionClass($namespace);
 
-							Logger::get()->{ConfigStore::get('api.log.aliases')}('Aliases: Matched in an extended/implemented namespace.', array($short, $namespace));
+							Logger::get()->{ConfigStore::get('log.aliases')}('Aliases: Matched in an extended/implemented namespace.', array($short, $namespace));
 
 							// If we didn't throw an exception, we're good.
 							return $namespace;
@@ -394,7 +394,7 @@ class AncestryHandler
 						$class = preg_replace('/^\\\/', '', $short);
 						new ReflectionClass($class);
 
-						Logger::get()->{ConfigStore::get('api.log.aliases')}('Aliases: Matched by stripping the \ prefix.', array($short, $class));
+						Logger::get()->{ConfigStore::get('log.aliases')}('Aliases: Matched by stripping the \ prefix.', array($short, $class));
 
 						// If we didn't throw an exception, we're good.
 						return $class;
@@ -405,7 +405,7 @@ class AncestryHandler
 					{
 						$formatter = ConsoleUtil::formatters();
 						Inconsistency::add($class . $formatter->gold->apply(' => No match found for ' . $short . ' (' . SystemStore::get('_.current') . ')'));
-						Logger::get()->{ConfigStore::get('api.log.aliases')}('Aliases: No match found.', array($short));
+						Logger::get()->{ConfigStore::get('log.aliases')}('Aliases: No match found.', array($short));
 
 						// No match. Return it as-is (without any starting backslash).
 						return $class;
