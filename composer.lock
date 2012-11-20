@@ -1,5 +1,5 @@
 {
-    "hash": "9ecb3b1e9c76a1c38322cf4c9186dbde",
+    "hash": "0835e68fe8e1ef8f631d77fd914549bb",
     "packages": [
         {
             "name": "andrewsville/php-token-reflection",
@@ -198,11 +198,11 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/skyzyx/service-listing/zipball/21c56d95ea4d10f3634a2ff5b0a7bae60289542d",
+                "url": "https://github.com/skyzyx/service-listing/archive/21c56d95ea4d10f3634a2ff5b0a7bae60289542d.zip",
                 "reference": "21c56d95ea4d10f3634a2ff5b0a7bae60289542d",
                 "shasum": ""
             },
-            "time": "1350430120",
+            "time": "2012-10-16 16:28:40",
             "type": "library",
             "installation-source": "source",
             "license": [
@@ -229,11 +229,11 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/skyzyx/spdx-licenses/zipball/1.0",
+                "url": "https://github.com/skyzyx/spdx-licenses/archive/1.0.zip",
                 "reference": "1.0",
                 "shasum": ""
             },
-            "time": "1350217362",
+            "time": "2012-10-14 05:22:42",
             "type": "library",
             "installation-source": "source",
             "license": [
@@ -650,11 +650,11 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/vanity/pandoc-templates/zipball/55adcec4c2e7a50e5b16dda1d6e2c761e4caf283",
+                "url": "https://github.com/vanity/pandoc-templates/archive/55adcec4c2e7a50e5b16dda1d6e2c761e4caf283.zip",
                 "reference": "55adcec4c2e7a50e5b16dda1d6e2c761e4caf283",
                 "shasum": ""
             },
-            "time": "1345421583",
+            "time": "2012-08-19 17:13:03",
             "type": "library",
             "installation-source": "source",
             "license": [
@@ -697,7 +697,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/vanity/ReflectionDocBlock/zipball/4c8cee894cbde53efa228272d2b2ce0679e8e8d1",
+                "url": "https://github.com/vanity/ReflectionDocBlock/archive/4c8cee894cbde53efa228272d2b2ce0679e8e8d1.zip",
                 "reference": "4c8cee894cbde53efa228272d2b2ce0679e8e8d1",
                 "shasum": ""
             },
@@ -705,7 +705,7 @@
                 "php": ">=5.3.2",
                 "dflydev/markdown": "1.0.*"
             },
-            "time": "1351797975",
+            "time": "2012-11-01 19:26:15",
             "type": "library",
             "installation-source": "source",
             "autoload": {

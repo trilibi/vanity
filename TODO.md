@@ -95,3 +95,6 @@
 * ~~Add support for documenting Traits (`get_declared_traits()`). (3)~~
 * ~~Make event log severities user-configurable. (1)~~
 * ~~Clean-up leftover @return and @param metadata tags.~~
+* ~~Initial hooking-up of Twig and configuring the right options for generation.~~
+
+
