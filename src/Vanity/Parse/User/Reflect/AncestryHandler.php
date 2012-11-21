@@ -70,6 +70,12 @@ class AncestryHandler
 	protected $implements;
 
 	/**
+	 * Discovers the traits that this class uses.
+	 * @type array
+	 */
+	protected $traits;
+
+	/**
 	 * Discovers the classes that this class inherits from.
 	 * @type array
 	 */
@@ -97,6 +103,7 @@ class AncestryHandler
 		$this->aliases = array();
 		$this->class = $reflector;
 		$this->implements = array();
+		$this->traits = array();
 		$this->inherits = array();
 		$this->namespaces = array();
 	}
@@ -246,6 +253,7 @@ class AncestryHandler
 		{
 			$entry = array();
 			$entry['name'] = $interface->getName();
+			$entry['namespace_as_path'] = str_replace('\\', '/', $interface->getName());
 
 			if (!isset($this->implements['count']))
 			{
@@ -269,6 +277,42 @@ class AncestryHandler
 	}
 
 	/**
+	 * Gets the list of traits that this class leverages.
+	 *
+	 * @return array A list of name/path pairs for traits used.
+	 */
+	public function getTraits()
+	{
+		$rclass_traits = $this->class->getTraits();
+
+		foreach ($rclass_traits as $trait)
+		{
+			$entry = array();
+			$entry['name'] = $trait->getName();
+			$entry['namespace_as_path'] = str_replace('\\', '/', $trait->getName());
+
+			if (!isset($this->traits['count']))
+			{
+				$this->traits['count'] = count($rclass_traits);
+			}
+
+			if (!isset($this->traits['trait']))
+			{
+				$this->traits['trait'] = array();
+			}
+
+			if ($trait->getFileName())
+			{
+				$entry['path'] = str_replace(VANITY_PROJECT_WORKING_DIR . '/', '', $trait->getFileName());
+			}
+
+			$this->traits['trait'][] = $entry;
+		}
+
+		return $this->traits;
+	}
+
+	/**
 	 * Gets the inheritance chain for the class.
 	 *
 	 * @return array A list of name/path pairs for inherited classes.
@@ -280,6 +324,7 @@ class AncestryHandler
 			$parent_class = new ReflectionClass($parent);
 			$entry = array();
 			$entry['name'] = $parent;
+			$entry['namespace_as_path'] = str_replace('\\', '/', $parent);
 
 			if (!isset($this->inherits['count']))
 			{

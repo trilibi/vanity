@@ -129,6 +129,7 @@ class Reflect
 
 		$this->inheritance = $this->ancestry->getInheritance();
 		$this->implements  = $this->ancestry->getImplementations();
+		$this->traits      = $this->ancestry->getTraits();
 		$this->aliases     = $this->ancestry->getNamespaces();
 
 		$this->constants   = new ConstantHandler($this->rclass, $this->ancestry);
@@ -161,6 +162,7 @@ class Reflect
 		$this->data['name'] = $this->rclass->getShortName();
 		$this->data['namespace'] = $this->rclass->getNamespaceName();
 		$this->data['full_name'] = $this->class_name;
+		$this->data['namespace_as_path'] = str_replace('\\', '/', $this->class_name);
 		$this->data['path'] = $short_filename;
 
 		if (SystemStore::get('_.php54') && $this->rclass->isTrait())
@@ -200,6 +202,12 @@ class Reflect
 		if ($this->implements)
 		{
 			$this->data['implements'] = $this->implements;
+		}
+
+		// Add used traits
+		if ($this->traits)
+		{
+			$this->data['traits'] = $this->traits;
 		}
 
 		// Add class tags

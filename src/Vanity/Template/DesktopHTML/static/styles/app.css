@@ -1,0 +1,217 @@
+/*********************************************
+General Styles
+*********************************************/
+body,
+body p {
+	font: 13px/1.5em Verdana, sans-serif;
+}
+
+div.content a {
+	color: #08c;
+	text-decoration: underline;
+	padding: 1px 2px;
+
+	-webkit-transition: all 0.15s;
+	   -moz-transition: all 0.15s;
+	    -ms-transition: all 0.15s;
+	     -o-transition: all 0.15s;
+	        transition: all 0.15s;
+
+	-webkit-border-radius: 2px;
+	   -moz-border-radius: 2px;
+	    -ms-border-radius: 2px;
+	     -o-border-radius: 2px;
+	        border-radius: 2px;
+}
+
+div.content a:hover,
+div.content a.hover {
+	color: #fff;
+	background-color: #333;
+	text-decoration: none;
+	padding: 1px 2px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: "Helvetica Neue";
+}
+
+h1, h2 {
+	letter-spacing: -1px;
+}
+
+pre, code {
+	font-family: Monaco, Consolas, Andale Mono, monospace !important;
+}
+
+code {
+	color: #333;
+}
+
+table tr td {
+	width: 1%;
+}
+
+table tr td.description {
+	width: 99%;
+}
+
+div#description {
+	margin: 60px auto 0 auto;
+}
+
+div.content p {
+	margin: 0;
+	padding: 0.5em 0;
+	font-size: 13px;
+	line-height: 1.5em;
+}
+
+div.alert {
+	margin: 0.7em 0.7em 0.7em 2em;
+
+	-webkit-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+	   -moz-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+	    -ms-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+	     -o-box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+	        box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+div.hero-unit h1 {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	letter-spacing: -3px;
+}
+
+div.hero-unit p {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: normal;
+}
+
+div.navigation-wrapper {
+	position: absolute;
+}
+
+div.navigation-wrapper div.navigation {
+	position: absolute;
+	top: 22px;
+}
+
+div.navigation-wrapper div.navigation.fixed {
+	position: fixed;
+	top: 77px;
+}
+
+div.navigation-wrapper div.navigation ul.nav-list.well {
+	padding-top: 8px;
+	padding-bottom: 8px;
+}
+
+div.navbar.navbar-fixed-top ul.nav .active {
+	font-weight: bold;
+}
+
+div.screenshot {
+	width: 800px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+div.screenshot img {
+	display: inline-block;
+	max-width: 100%;
+}
+
+h1 {
+	font-size: 30px;
+	margin: 0px 0 10px 0;
+}
+
+h2 {
+	border-bottom: 1px dotted #999;
+	margin: 1.5em 0 0.5em 0;
+	padding: 0.3em 0;
+}
+
+h3 {
+	margin: 1.5em 0 0.25em 0;
+	padding: 0.1em 0;
+}
+
+@media (max-width: 768px) {
+	div#body {
+		margin-top: 0px;
+	}
+
+	div.navigation-wrapper div.navigation {
+		top: 142px;
+	}
+}
+
+/*********************************************
+Overwrite Twitter Bootstrap
+*********************************************/
+.page-header {
+	padding-bottom: 0px;
+	margin: 20px 0;
+}
+
+.page-header span.object-type {
+	font-size: 13px;
+	line-height: 1em;
+}
+
+
+/*********************************************
+Class reference table
+*********************************************/
+table.class-reference {
+	margin: 1em 0;
+	padding: 0;
+	width: 1%;
+}
+
+table.class-reference,
+table.class-reference tr,
+table.class-reference tr th,
+table.class-reference tr td {
+	border-collapse: collapse;
+	border: 1px solid #ccc;
+	border-width: 1px 0;
+}
+
+table.class-reference tr {}
+
+table.class-reference tr th,
+table.class-reference tr td {
+	vertical-align: text-top;
+	white-space: nowrap;
+	padding: 0 2em;
+}
+
+table.class-reference tr th {
+	text-align: left;
+	border-right: 1px dotted #ddd;
+}
+
+table.class-reference tr th p {
+	font-weight: bold;
+}
+
+table.class-reference tr p {
+	margin: 0.5em 0;
+}
+
+table.class-reference tr td {
+	border-left: 1px dotted #ddd;
+}
+
+table.class-reference tr td ul {
+	margin: 0.5em 0;
+	padding: 0;
+}
+
+table.class-reference tr td ul li {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}

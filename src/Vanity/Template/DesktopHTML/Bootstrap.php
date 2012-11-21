@@ -31,9 +31,12 @@ use Vanity\Template\Template;
 
 class Bootstrap extends Template
 {
-	public function __construct($template_path)
+	public function __construct($template_path, $format_identifier)
 	{
-		parent::__construct($template_path);
+		// Pass parameters to the parent constructor.
+		parent::__construct($template_path, $format_identifier);
+
+		// Set the extension that files produced by this template should use.
 		$this->setFileExtension('html');
 	}
 }

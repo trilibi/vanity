@@ -25,39 +25,16 @@
  */
 
 
-namespace Vanity\Template;
+use Vanity\Generate\Utilities as GenerateUtils;
 
-interface TemplateInterface
+/**
+ * Twig function for converting descriptions into HTML format.
+ *
+ * @internal
+ * @param  array  $d The description node to convert.
+ * @return string    The description converted to HTML.
+ */
+function vanity_twig_description_as_html(array $d)
 {
-	/**
-	 * Constructs a new instance of the Template.
-	 *
-	 * @param string $template_path     The file system path for the root of the template folder.
-	 * @param string $format_identifier The identifier for the format. Used as the folder name the output is saved to.
-	 */
-	public function __construct($template_path, $format_identifier);
-
-	/**
-	 * Register the template with Vanity's generator.
-	 *
-	 * @param  string $nameOfFormatterEvent The name of the formatter event to attach to (e.g., html, rst, docx).
-	 * @return void
-	 */
-	public static function register($nameOfFormatterEvent);
-
-	/**
-	 * Sets the file extension to use for the generated files.
-	 *
-	 * @param string $extension The alphanumeric file extension, without a preceding ".".
-	 * @return void
-	 */
-	public function setFileExtension($extension = 'html');
-
-	/**
-	 * Generate the API reference from the templates.
-	 *
-	 * @param string $json_file The file system path for the JSON data to generate from.
-	 * @return void
-	 */
-	public function generateAPIReference($json_file);
+	return GenerateUtils::descriptionAsHTML($d);
 }

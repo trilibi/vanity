@@ -4,6 +4,7 @@
 
 * Keep track of aliases and add metadata to the aliased methods. (2)
 * Add support for method grouping. (3)
+* Lookup known subclasses.
 * Implement warnings/reports for TODOs. (3)
 * Implement support for linking to PHP functions/classes (`get_defined_functions()`). (2)
 

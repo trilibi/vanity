@@ -73,7 +73,7 @@ class TagHandler
 	 */
 	public function getDescription()
 	{
-		$output = array($this->docblock->getShortDescription());
+		$output = array($this->docblock->getShortDescription() . ' ');
 		$parsed_contents = $this->docblock->getLongDescription()->getParsedContents();
 
 		if (is_array($parsed_contents) && count($parsed_contents) > 0)

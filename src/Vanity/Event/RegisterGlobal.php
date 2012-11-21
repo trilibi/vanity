@@ -34,12 +34,12 @@ use Symfony\Component\Finder\Finder;
 use Vanity\Config\Store as ConfigStore;
 use Vanity\Console\Utilities as ConsoleUtil;
 use Vanity\Event\Event\Store as EventStore;
-use Vanity\Generate\Utilities as GenerateUtils;
 use Vanity\GlobalObject\Dispatcher;
 use Vanity\System\Timer;
 use Vanity\System\DependencyCollector;
 use Vanity\System\DocumentationInconsistencyCollector;
 use Vanity\System\ExtensionDependencyResolver;
+use Vanity\Template\DesktopHTML\Bootstrap as DesktopHTMLTemplate;
 
 /**
  * Stores all event handlers that are intended to be run on a global level.
@@ -160,24 +160,8 @@ class RegisterGlobal
 			echo 'Found ' . $formatter->info->apply(" ${count} ") . ' ' . ConsoleUtil::pluralize($count, 'inconsistency', 'inconsistencies') . '.' . PHP_EOL;
 		});
 
-		// vanity.generate.format.html event
-		Dispatcher::get()->addListener('vanity.generate.format.html', function(EventStore $event)
-		{
-			$formatter = ConsoleUtil::formatters();
-
-			$template = new \Vanity\Template\DesktopHTML\Bootstrap(
-				GenerateUtils::findTemplatesFor('Vanity\Template\DesktopHTML\Bootstrap')
-			);
-
-			echo $formatter->yellow->apply('GENERATING: HTML') . PHP_EOL;
-
-			$files = $event->get('files');
-
-			foreach ($files['absolute'] as $file)
-			{
-				echo TAB . $formatter->green->apply('-> ') . ($template->generate($file)) . PHP_EOL;
-			}
-		});
+		// Handle default HTML template
+		DesktopHTMLTemplate::register('default-html');
 	}
 
 	/**

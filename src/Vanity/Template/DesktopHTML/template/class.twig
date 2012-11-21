@@ -1,8 +1,52 @@
 {% extends "base/base_class.twig" %}
 
-{% block content %}
-    <h1>Index</h1>
-    <p class="important">
-        Welcome to my awesome homepage.
-    </p>
+{% block yield %}
+	{{ description_as_html(json.description)|raw }}
+
+	<table border="0" class="class-reference">
+		<tbody>
+			{% if json.inheritance %}
+			<tr>
+				<th><p>Inherits from</p></th>
+				<td>
+					<ul>
+						{% for inherited in json.inheritance.class %}
+							<li><a href="{{ vanity.link.api_reference }}/{{ inherited.namespace_as_path }}/index.html">{{ inherited.name }}</a></li>
+						{% endfor %}
+					</ul>
+				</td>
+			</tr>
+			{% endif %}
+			{% if json.implements %}
+			<tr>
+				<th><p>Implements</p></th>
+				<td>
+					<ul>
+						{% for interface in json.implements.interface %}
+							<li><a href="{{ vanity.link.api_reference }}/{{ interface.namespace_as_path }}/index.html">{{ interface.name }}</a></li>
+						{% endfor %}
+					</ul>
+				</td>
+			</tr>
+			{% endif %}
+			{% if json.traits %}
+			<tr>
+				<th><p>Traits</p></th>
+				<td>
+					<ul>
+						{% for trait in json.traits.trait %}
+							<li><a href="{{ vanity.link.api_reference }}/{{ trait.namespace_as_path }}/index.html">{{ trait.name }}</a></li>
+						{% endfor %}
+					</ul>
+				</td>
+			</tr>
+			{% endif %}
+			<tr>
+				<th><p>Location</p></th>
+				<td>
+					<p>{{ json.path }}</p>
+				</td>
+			</tr>
+		</tbody>
+	</table>
 {% endblock %}

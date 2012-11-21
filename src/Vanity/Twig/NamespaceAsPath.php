@@ -25,39 +25,20 @@
  */
 
 
-namespace Vanity\Template;
+namespace Vanity\Twig;
 
-interface TemplateInterface
+use Vanity\Generate\Utilities as GenerateUtils;
+
+/**
+ * A function-like object to be used as a Twig function.
+ *
+ * @author Ryan Parman <http://ryanparman.com>
+ * @link   http://vanitydoc.org
+ */
+class NamespaceAsPath
 {
-	/**
-	 * Constructs a new instance of the Template.
-	 *
-	 * @param string $template_path     The file system path for the root of the template folder.
-	 * @param string $format_identifier The identifier for the format. Used as the folder name the output is saved to.
-	 */
-	public function __construct($template_path, $format_identifier);
-
-	/**
-	 * Register the template with Vanity's generator.
-	 *
-	 * @param  string $nameOfFormatterEvent The name of the formatter event to attach to (e.g., html, rst, docx).
-	 * @return void
-	 */
-	public static function register($nameOfFormatterEvent);
-
-	/**
-	 * Sets the file extension to use for the generated files.
-	 *
-	 * @param string $extension The alphanumeric file extension, without a preceding ".".
-	 * @return void
-	 */
-	public function setFileExtension($extension = 'html');
-
-	/**
-	 * Generate the API reference from the templates.
-	 *
-	 * @param string $json_file The file system path for the JSON data to generate from.
-	 * @return void
-	 */
-	public function generateAPIReference($json_file);
+	public function __invoke($fullName)
+	{
+		return GenerateUtils::namespaceAsPath($fullName);
+	}
 }

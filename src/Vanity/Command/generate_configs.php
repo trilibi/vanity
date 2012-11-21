@@ -35,10 +35,20 @@ return array_merge(include __DIR__ . '/base_configs.php', array(
 
 	// Configurations related to the API Reference
 	'generator' => array(
-
-		'formats' => array(InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Which formats should we produce', array('html')),
+		'formats' => array(InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'Which formats should we produce', array('default-html')),
 		'input'   => array(InputOption::VALUE_OPTIONAL, 'Where should we start looking for code? (Use * for wildcard.)', '%VANITY.CONFIG_DIR%/output/%VANITY.VERSION%-%VANITY.STAGE%/json/*.json'),
 		'output'  => array(InputOption::VALUE_OPTIONAL, 'Where should we put the documentation when we\'re done? (Variables: %FORMAT%, %STAGE%, %VERSION%)', '%VANITY.CONFIG_DIR%/output/%VANITY.VERSION%-%VANITY.STAGE%/%FORMAT%'),
+
+		// Configurations that are passed directly to Twig
+		'twig'    => array(
+			'autoescape'          => array(InputOption::VALUE_OPTIONAL, 'If set to true, auto-escaping will be enabled by default for all templates. You can set the escaping strategy to use (html, js, false to disable). You can also set the escaping strategy to use (css, url, html_attr, or a PHP callback that takes the template "filename" and must return the escaping strategy to use -- the callback cannot be a function name to avoid collision with built-in escaping strategies).', true),
+			'auto_reload'         => array(InputOption::VALUE_OPTIONAL, 'When developing with Twig, it\'s useful to recompile the template whenever the source code changes. If you don\'t provide a value for the auto_reload option, it will be determined automatically based on the debug value.', '%GENERATOR.TWIG.AUTOESCAPE%'),
+			'base_template_class' => array(InputOption::VALUE_OPTIONAL, 'The base template class to use for generated templates.', 'Twig_Template'),
+			'charset'             => array(InputOption::VALUE_OPTIONAL, 'The charset used by the templates.', 'UTF-8'),
+			'debug'               => array(InputOption::VALUE_OPTIONAL, 'When set to true, the generated templates have a __toString() method that you can use to display the generated nodes.', false),
+			'optimizations'       => array(InputOption::VALUE_OPTIONAL, 'A flag that indicates which optimizations to apply. Set it to -1 for all optimizations. Set it to 0 to disable.', -1),
+			'strict_variables'    => array(InputOption::VALUE_OPTIONAL, 'If set to false, Twig will silently ignore invalid variables (variables and or attributes/methods that do not exist) and replace them with a null value. When set to true, Twig throws an exception instead.', false),
+		)
 	),
 
 	// Configurations related to the User Guide content
