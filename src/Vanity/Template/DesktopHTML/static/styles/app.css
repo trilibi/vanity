@@ -127,6 +127,8 @@ h1 {
 }
 
 h2 {
+	font-size: 24px;
+	line-height: 1.5em;
 	border-bottom: 1px dotted #999;
 	margin: 1.5em 0 0.5em 0;
 	padding: 0.3em 0;

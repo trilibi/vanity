@@ -38,3 +38,14 @@ function vanity_twig_description_as_html(array $d)
 {
 	return GenerateUtils::descriptionAsHTML($d);
 }
+
+/**
+ * Twig function for determining the path that would be represented by the namespace.
+ *
+ * @param  string $fullName The full classname (including namespace).
+ * @return string           The path that would be represented by the fully-qualified class name.
+ */
+function vanity_twig_namespace_as_path($fullName)
+{
+	return GenerateUtils::namespaceAsPath($fullName);
+}

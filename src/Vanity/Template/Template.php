@@ -98,6 +98,7 @@ abstract class Template implements TemplateInterface
 		);
 
 		$this->twig->addFunction('description_as_html', new Twig_Function_Function('vanity_twig_description_as_html'));
+		$this->twig->addFunction('namespace_as_path', new Twig_Function_Function('vanity_twig_namespace_as_path'));
 	}
 
 	/**
@@ -172,25 +173,27 @@ abstract class Template implements TemplateInterface
 		$data = json_decode(file_get_contents($json_file), true);
 		$path = $this->convertNamespaceToPath($data['full_name']);
 
+		$twig_options = array(
+			'json'      => $data,
+			'vanity'    => array(
+				'base_path'            => GenerateUtils::getRelativeBasePath($data['full_name']),
+				'breadcrumbs'          => GenerateUtils::getBreadcrumbs($data['full_name']),
+				'page_name'            => $data['name'],
+				'page_title'           => $data['full_name'],
+				'project'              => ConfigStore::get('vanity.name'),
+				'project_with_version' => (ConfigStore::get('vanity.name') . ' ' . ConfigStore::get('vanity.version')),
+				'link'                 => array(
+					'api_reference' => GenerateUtils::getRelativeBasePath($data['full_name']) . '/api-reference',
+					'user_guide'    => GenerateUtils::getRelativeBasePath($data['full_name']) . '/user-guide',
+				),
+			)
+		);
+
 		$this->filesystem->mkdir($path);
 
 		file_put_contents(
 			$path . '/index.' . $this->extension,
-			$this->twig->render('class.twig', array(
-				'json'      => $data,
-				'vanity'    => array(
-					'base_path'            => GenerateUtils::getRelativeBasePath($data['full_name']),
-					'breadcrumbs'          => GenerateUtils::getBreadcrumbs($data['full_name']),
-					'page_name'            => $data['name'],
-					'page_title'           => $data['full_name'],
-					'project'              => ConfigStore::get('vanity.name'),
-					'project_with_version' => (ConfigStore::get('vanity.name') . ' ' . ConfigStore::get('vanity.version')),
-					'link'                 => array(
-						'api_reference' => GenerateUtils::getRelativeBasePath($data['full_name']) . '/api-reference',
-						'user_guide'    => GenerateUtils::getRelativeBasePath($data['full_name']) . '/user-guide',
-					),
-				)
-			))
+			$this->twig->render('class.twig', $twig_options)
 		);
 
 		return $path . '/index.' . $this->extension;

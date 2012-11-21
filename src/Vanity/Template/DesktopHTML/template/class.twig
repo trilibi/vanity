@@ -61,4 +61,14 @@
 			</tr>
 		</tbody>
 	</table>
+
+	{% if json.methods %}
+	<h2 id="methods">Methods ({{ json.methods.count }})</h2>
+	<ul>
+		{% for method in json.methods.method %}
+			<li><a href="{{ vanity.link.api_reference }}/{{ namespace_as_path(json.full_name) }}/{{ method.name }}.html">{{ method.name }}</a></li>
+		{% endfor %}
+	</ul>
+	{% endif %}
+
 {% endblock %}
