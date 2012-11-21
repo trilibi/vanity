@@ -11,7 +11,11 @@
 				<td>
 					<ul>
 						{% for inherited in json.inheritance.class %}
-							<li><a href="{{ vanity.link.api_reference }}/{{ inherited.namespace_as_path }}/index.html">{{ inherited.name }}</a></li>
+							{% if inherited.path %}
+								<li><a href="{{ vanity.link.api_reference }}/{{ inherited.namespace_as_path }}/index.html">{{ inherited.name }}</a></li>
+							{% else %}
+								<li>{{ inherited.name }}</li>
+							{% endif %}
 						{% endfor %}
 					</ul>
 				</td>
@@ -23,7 +27,11 @@
 				<td>
 					<ul>
 						{% for interface in json.implements.interface %}
-							<li><a href="{{ vanity.link.api_reference }}/{{ interface.namespace_as_path }}/index.html">{{ interface.name }}</a></li>
+							{% if interface.path %}
+								<li><a href="{{ vanity.link.api_reference }}/{{ interface.namespace_as_path }}/index.html">{{ interface.name }}</a></li>
+							{% else %}
+								<li>{{ interface.name }}</li>
+							{% endif %}
 						{% endfor %}
 					</ul>
 				</td>
@@ -35,7 +43,11 @@
 				<td>
 					<ul>
 						{% for trait in json.traits.trait %}
-							<li><a href="{{ vanity.link.api_reference }}/{{ trait.namespace_as_path }}/index.html">{{ trait.name }}</a></li>
+							{% if trait.path %}
+								<li><a href="{{ vanity.link.api_reference }}/{{ trait.namespace_as_path }}/index.html">{{ trait.name }}</a></li>
+							{% else %}
+								<li>{{ trait.name }}</li>
+							{% endif %}
 						{% endfor %}
 					</ul>
 				</td>
