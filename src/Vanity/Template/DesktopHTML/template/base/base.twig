@@ -11,6 +11,7 @@
 		<link rel="stylesheet" href="{{ vanity.base_path }}/bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" href="{{ vanity.base_path }}/styles/app.css">
 		<link rel="stylesheet" href="{{ vanity.base_path }}/bootstrap/css/bootstrap-responsive.min.css">
+		<link rel="stylesheet" href="{{ vanity.base_path }}/prettify/prettify.css">
 	</head>
 
 	<body data-spy="scroll" data-target="#navTracker" data-offset="100">
@@ -43,7 +44,30 @@
 		</div>
 
 		<div id="description" class="container">
-			{% block content %}{% endblock %}
+
+			{# Show the breadcrumbs #}
+			<div class="row">
+				<div class="span12">
+					<ul class="breadcrumb">
+						<li><i class="icon-map-marker"></i> </li>
+						<li><a href="{{ vanity.link.api_reference }}/">API Reference</a> <span class="divider">\</span></li>
+						{% for breadcrumb in vanity.breadcrumbs %}
+							{% if breadcrumb.path %}
+								<li><a href="{{ breadcrumb.path }}">{{ breadcrumb.name }}</a> <span class="divider">\</span></li>
+							{% else %}
+								<li class="active">{{ breadcrumb.name }}</li>
+							{% endif %}
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
+
+			<div class="row">
+
+				{# Yield to an extending template #}
+				{% block yield %}{% endblock %}
+
+			</div>
 		</div>
 
 		<p class="footnote" align="center">
@@ -55,12 +79,13 @@
 		<script src="{{ vanity.base_path }}/jquery/jquery.1.7.1.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="{{ vanity.base_path }}/jquery/jquery.easing.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="{{ vanity.base_path }}/bootstrap/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="{{ vanity.base_path }}/prettify/prettify.js" type="text/javascript" charset="utf-8"></script>
 
 		<script type="text/javascript">
 
 		$(function() {
 
-			// prettyPrint();
+			prettyPrint();
 			$('#nav-list').scrollspy();
 			$('#bottom-spacer').height($(window).height());
 

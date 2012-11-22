@@ -1,4 +1,4 @@
-{% extends "base/base_class.twig" %}
+{% extends "base/base.twig" %}
 
 {% block yield %}
 
@@ -38,7 +38,10 @@
 		</div>
 
 		{# The description data processed into HTML. #}
-		{{ description_as_html(json.description)|raw }}
+		{% if json.description and json.description is iterable %}
+			{{ description_as_html(json.description)|raw }}
+			<br>
+		{% endif %}
 
 		<table border="0" class="class-reference">
 			<tbody>
@@ -195,10 +198,18 @@
 							{% for tag in property.metadata.tag %}
 								{% if tag.name == 'var' or tag.name == 'type' %}
 									<p><code>{{ tag.type }}</code>&nbsp;<small>{{ property.visibility|join(' ') }}</small></p>
+
+									{# You're doing it wrong. The description was in the wrong place. #}
+									{% if tag.description %}
+										{{ tag.description|markdown|raw }}
+									{% endif %}
+
 								{% endif %}
 							{% endfor %}
 
-							{{ description_as_html(property.description)|raw }}
+							{% if property.description|join %}
+								{{ description_as_html(property.description)|raw }}
+							{% endif %}
 
 							{% for class in property.inheritance.class %}
 								<p><em><small>Defined in {{ class.name }}</small></em></p>

@@ -135,6 +135,8 @@ h2 {
 }
 
 h3 {
+	font-size: 18px;
+	line-height: 1.5em;
 	margin: 1.5em 0 0.25em 0;
 	padding: 0.1em 0;
 }

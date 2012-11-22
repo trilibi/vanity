@@ -35,6 +35,7 @@ use Twig_Filter_Function;
 use Twig_Function_Function;
 use Twig_Function_Method;
 use Twig_Loader_Filesystem;
+use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use Vanity\Config\Store as ConfigStore;
@@ -42,6 +43,7 @@ use Vanity\Console\Utilities as ConsoleUtil;
 use Vanity\Event\Event\Store as EventStore;
 use Vanity\Generate\Utilities as GenerateUtils;
 use Vanity\GlobalObject\Dispatcher;
+use Vanity\GlobalObject\Logger;
 use Vanity\Template\TemplateInterface;
 
 abstract class Template implements TemplateInterface
@@ -71,17 +73,26 @@ abstract class Template implements TemplateInterface
 	public $format_identifier;
 
 	/**
+	 * The path to the Twig templates.
+	 * @type string
+	 */
+	public $template_path;
+
+	/**
 	 * {@inheritdoc}
+	 *
+	 * @event EventStore vanity.twig.environment.init
 	 */
 	public function __construct($template_path, $format_identifier)
 	{
 		$this->filesystem = new Filesystem();
 		$this->format_identifier = $format_identifier;
+		$this->template_path = $template_path;
 
 		Twig_Autoloader::register();
 
 		$this->twig = new Twig_Environment(
-			new Twig_Loader_Filesystem($template_path),
+			new Twig_Loader_Filesystem($this->template_path),
 			array(
 				'autoescape'          => ConfigStore::get('generator.twig.autoescape'),
 				'auto_reload'         => ConfigStore::get('generator.twig.auto_reload'),
@@ -104,6 +115,10 @@ abstract class Template implements TemplateInterface
 		$this->twig->addFunction('filter_by_inherited', new Twig_Function_Function('vanity_twig_filter_by_inherited'));
 		$this->twig->addFunction('filter_by_letter', new Twig_Function_Function('vanity_twig_filter_by_letter'));
 		$this->twig->addFilter('markdown', new Twig_Filter_Function('vanity_twig_markdown'));
+
+		$this->triggerEvent('vanity.twig.environment.init', new EventStore(array(
+			'twig' => $this->twig,
+		)));
 	}
 
 	/**
@@ -130,7 +145,10 @@ abstract class Template implements TemplateInterface
 			$files = $event->get('files');
 			foreach ($files['absolute'] as $file)
 			{
-				echo TAB . $formatter->green->apply('-> ') . ($template->generateAPIReference($file)) . PHP_EOL;
+				foreach ($template->generateAPIReference($file) as $wrote)
+				{
+					echo TAB . $formatter->green->apply('-> ') . $wrote . PHP_EOL;
+				}
 			}
 
 			echo PHP_EOL;
@@ -172,17 +190,20 @@ abstract class Template implements TemplateInterface
 
 	/**
 	 * {@inheritdoc}
+	 *
+	 * @event EventStore vanity.twig.generate.options
 	 */
 	public function generateAPIReference($json_file)
 	{
 		$data = json_decode(file_get_contents($json_file), true);
 		$path = $this->convertNamespaceToPath($data['full_name']);
+		$wrote = array();
 
 		$twig_options = array(
 			'json'      => $data,
 			'vanity'    => array(
 				'base_path'            => GenerateUtils::getRelativeBasePath($data['full_name']),
-				'breadcrumbs'          => GenerateUtils::getBreadcrumbs($data['full_name']),
+				'breadcrumbs'          => GenerateUtils::getBreadcrumbs($data['full_name'], -1),
 				'page_name'            => $data['name'],
 				'page_title'           => $data['full_name'],
 				'project'              => ConfigStore::get('vanity.name'),
@@ -194,14 +215,45 @@ abstract class Template implements TemplateInterface
 			)
 		);
 
+		$this->triggerEvent('vanity.twig.generate.options', new EventStore(array(
+			'twig_options' => &$twig_options,
+		)));
+
 		$this->filesystem->mkdir($path);
 
-		file_put_contents(
-			$path . '/index.' . $this->extension,
-			$this->twig->render('class.twig', $twig_options)
-		);
+		// Classes/Interfaces/Traits
+		if (file_exists($this->template_path . '/class.twig'))
+		{
+			file_put_contents(
+				$path . '/index.' . $this->extension,
+				$this->twig->render('class.twig', $twig_options)
+			);
+			$wrote[] = $path . '/index.' . $this->extension;
 
-		return $path . '/index.' . $this->extension;
+			// Methods
+			if (file_exists($this->template_path . '/method.twig'))
+			{
+				if (isset($data['methods']) && isset($data['methods']['method']))
+				{
+					foreach ($data['methods']['method'] as $method)
+					{
+						$method_name = $method['name'];
+
+						$twig_options['method'] = $method;
+						$twig_options['vanity']['base_path'] = GenerateUtils::getRelativeBasePath($data['full_name'] . "\\${method_name}", -1);
+						$twig_options['vanity']['breadcrumbs'] = GenerateUtils::getBreadcrumbs($data['full_name'] . "\\${method_name}()", -2);
+
+						file_put_contents(
+							$path . "/${method_name}." . $this->extension,
+							$this->twig->render('method.twig', $twig_options)
+						);
+						$wrote[] = $path . "/${method_name}." . $this->extension;
+					}
+				}
+			}
+		}
+
+		return $wrote;
 	}
 
 	/**
@@ -214,5 +266,18 @@ abstract class Template implements TemplateInterface
 	{
 		return str_replace('%FORMAT%', $this->format_identifier, ConfigStore::get('generator.output')) .
 			'/api-reference/' . str_replace('\\', '/', $namespace);
+	}
+
+	/**
+	 * Triggers an event and logs it to the INFO log.
+	 *
+	 * @param  string $event       The string identifier for the event.
+	 * @param  Event  $eventObject An object that extends the {@see Symfony\Component\EventDispatcher\Event} object.
+	 * @return void
+	 */
+	public function triggerEvent($event, Event $eventObject = null)
+	{
+		Logger::get()->{ConfigStore::get('log.events')}('Triggering event:', array($event));
+		Dispatcher::get()->dispatch($event, $eventObject);
 	}
 }

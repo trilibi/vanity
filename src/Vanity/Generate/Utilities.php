@@ -71,20 +71,41 @@ class Utilities
 	 * Returns a list of hashes containing the names of the namespaces, as well as their matching paths, to be used for
 	 * generating breadcrumbs.
 	 *
-	 * @param  string $fullName The full classname (including namespace).
-	 * @return array            A list of hash containing the names of the namespaces, as well as their matching paths.
+	 * @param  string  $fullName The full classname (including namespace).
+	 * @param  integer $offset   The positive/negative offset to apply.
+	 * @return array             A list of hash containing the names of the namespaces as well as their matching paths.
 	 */
-	public static function getBreadcrumbs($fullName)
+	public static function getBreadcrumbs($fullName, $offset = 0)
 	{
+		$is_method = (strpos($fullName, '()') !== false);
 		$pieces = explode('\\', $fullName);
 		$count = count($pieces);
 		$output = array();
 
 		foreach ($pieces as $index => $piece)
 		{
+			$parts = ($count - $index) + $offset;
+
+			if ($parts < 0)
+			{
+				$path = '';
+			}
+			elseif ($parts === 0 && $is_method)
+			{
+				$path = './';
+			}
+			elseif ($parts === 0 && !$is_method)
+			{
+				$path = '';
+			}
+			else
+			{
+				$path = str_repeat('../', $parts);
+			}
+
 			$output[] = array(
 				'name' => $piece,
-				'path' => str_repeat('../', $count - $index - 1),
+				'path' => $path,
 			);
 		}
 
@@ -206,11 +227,16 @@ class Utilities
 	{
 		$output = array();
 
-		foreach ($description as $desc)
+		foreach ($description as $index => $desc)
 		{
 			// If this is a string, just pass it along.
 			if (is_string($desc))
 			{
+				if ($index === 0)
+				{
+					$desc .= ' ';
+				}
+
 				$output[] = $desc;
 			}
 

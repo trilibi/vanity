@@ -1,0 +1,163 @@
+{% extends "base/base.twig" %}
+
+{% block yield %}
+
+	{# Side navigation bar #}
+	<div class="navigation-wrapper">
+		<div class="span3 offset9 navigation" id="navTracker">
+			<ul class="nav nav-list well">
+				<li class="nav-header">Contents</li>
+				<li><a href="#description"><i class="icon-book"></i> Description</a></li>
+				<li><a href="#examples"><i class="icon-cog"></i> Examples</a></li>
+				<li><a href="#parameters"><i class="icon-th-list"></i> Parameters</a></li>
+				<li><a href="#returns"><i class="icon-share-alt"></i> Returns</a></li>
+			</ul>
+		</div>
+	</div>
+
+	{# Main content area #}
+	<div class="span9 content">
+		<div class="page-header">
+			<span class="label label-info">Method</span>
+
+			<h1>{{ method.name }} <small>()</small></h1>
+			<span class="fullname">&rarr; {{ json.full_name }}::{{ method.name }}()</span>
+		</div>
+
+		{# The description data processed into HTML. #}
+		{% if method.description and method.description is iterable %}
+			{{ description_as_html(method.description)|raw }}
+			<br>
+		{% endif %}
+
+		<table border="0" class="class-reference">
+			<tbody>
+				<tr>
+					<th><p>Visibility</p></th>
+					<td><p>{{ method.visibility|join(' ') }}</p></td>
+				</tr>
+
+				<tr>
+					{# Do we inherit? Or are we a base class? #}
+					<th><p>Defined in</p></th>
+					<td>
+						{% if method.inheritance %}
+							<ul>
+								{% for inherited in method.inheritance.class %}
+									{% if inherited.path %}
+										<li><a href="{{ vanity.link.api_reference }}/{{ inherited.namespace_as_path }}/index.html">{{ inherited.name }}</a></li>
+									{% else %}
+										<li>{{ inherited.name }}</li>
+									{% endif %}
+								{% endfor %}
+							</ul>
+						{% else %}
+							<p><a href="{{ vanity.link.api_reference }}/{{ json.namespace_as_path }}/index.html">{{ json.full_name }}</a></p>
+						{% endif %}
+					</td>
+				</tr>
+
+				{% if method.path %}
+				<tr>
+					<th><p>Location</p></th>
+					<td>
+						{# Where does this file live? #}
+						{% if method.lines.start is sameas(method.lines.end) %}
+							<p>{{ method.path }}:{{ method.lines.start }}</p>
+						{% else %}
+							<p>{{ method.path }}:{{ method.lines.start }}-{{ method.lines.end }}</p>
+						{% endif %}
+					</td>
+				</tr>
+				{% endif %}
+
+			</tbody>
+		</table>
+
+		<h2 id="examples">Examples</h2>
+		<div class="example description">
+			<h3>Launch an EC2 instance.</h3>
+			<pre class="prettyprint linenums">// Instantiate the class
+$ec2 = new AmazonEC2();
+
+// Boot an instance of the image
+$response = $ec2->run_instances('ami-84db39ed', 1, 1, array(
+    'InstanceType' => 'm1.small'
+));
+
+// Success?
+var_dump($response->isOK());</pre>
+		</div>
+
+		<h2 id="parameters">Parameters</h2>
+		<div class="well">
+			<table cellpadding="0" cellspacing="0" border="0" width="100%" class="table table-striped">
+				<thead>
+					<tr>
+						<th><p>Name</p></th>
+						<th class="description"><p>Description</p></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							<p><code>ImageId</code></p>
+						</td>
+						<td class="description">
+							<p><code><a href="">string</a></code> <small>Required</small></p>
+							<p>Unique ID of a machine image, returned by a call to <code>describe_images()</code>.</p>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<h2 id="returns">Returns</h2>
+		<div class="well">
+			<table cellpadding="0" cellspacing="0" border="0" width="100%" class="table table-striped">
+				<thead>
+					<tr>
+						<th><p>Type</p></th>
+						<th class="description"><p>Description</p></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							{% if method.return.types %}
+							{# Multiple return types #}
+								{% for type in method.return.types %}
+									{% if type|split('\\')|length > 1 %}
+										<p><code><a href="{{ vanity.link.api_reference }}/{{ namespace_as_path(type) }}/index.html">{{ type }}</a></code></p>
+									{% elseif type %}
+										<p><code>{{ type }}</code></p>
+									{% else %}
+										<p><code>mixed</code></p>
+									{% endif %}
+								{% endfor %}
+							{% else %}
+							{# Only a single return type #}
+								{% if method.return.type and method.return.type|split('\\')|length > 1 %}
+									<p><code><a href="{{ vanity.link.api_reference }}/{{ namespace_as_path(method.return.type) }}/index.html">{{ method.return.type }}</a></code></p>
+								{% elseif method.return.type %}
+									<p><code>{{ method.return.type }}</code></p>
+								{% else %}
+									<p><code>mixed</code></p>
+								{% endif %}
+							{% endif %}
+						</td>
+						<td class="description">
+							{% if method.return.description %}
+								{{ method.return.description|markdown|raw }}
+							{% else %}
+								<p><i class="icon-exclamation-sign"></i> <em>Not yet documented.</em></p>
+							{% endif %}
+
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+{% endblock %}
