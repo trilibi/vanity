@@ -232,6 +232,10 @@ table.table th p {
 	font-weight: bold;
 }
 
+table.table tr td.parameter {
+	border-right: 1px dotted #ddd;
+}
+
 
 /*********************************************
 Class reference table

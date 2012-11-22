@@ -87,6 +87,17 @@ function vanity_twig_filter_by_letter(array $list)
 }
 
 /**
+ * Twig function for filtering a list down to simple names.
+ *
+ * @param  array $list The list of methods from the JSON model.
+ * @return array       An array containing matching nodes.
+ */
+function vanity_twig_names(array $list)
+{
+	return GenerateUtils::getNames($list);
+}
+
+/**
  * Apply Markdown to a string.
  * @param  string $string A Markdown-formatted string.
  * @return string         An HTML representation of the Markdown-formatted string.

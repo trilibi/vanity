@@ -114,6 +114,7 @@ abstract class Template implements TemplateInterface
 		$this->twig->addFunction('filter_by_native', new Twig_Function_Function('vanity_twig_filter_by_native'));
 		$this->twig->addFunction('filter_by_inherited', new Twig_Function_Function('vanity_twig_filter_by_inherited'));
 		$this->twig->addFunction('filter_by_letter', new Twig_Function_Function('vanity_twig_filter_by_letter'));
+		$this->twig->addFunction('names', new Twig_Function_Function('vanity_twig_names'));
 		$this->twig->addFilter('markdown', new Twig_Filter_Function('vanity_twig_markdown'));
 
 		$this->triggerEvent('vanity.twig.environment.init', new EventStore(array(

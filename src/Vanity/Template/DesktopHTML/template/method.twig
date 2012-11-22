@@ -9,7 +9,7 @@
 				<li class="nav-header">Contents</li>
 				<li><a href="#description"><i class="icon-book"></i> Description</a></li>
 				<li><a href="#examples"><i class="icon-cog"></i> Examples</a></li>
-				<li><a href="#parameters"><i class="icon-th-list"></i> Parameters</a></li>
+				{% if method.parameters %}<li><a href="#parameters"><i class="icon-th-list"></i> Parameters</a></li>{% endif %}
 				<li><a href="#returns"><i class="icon-share-alt"></i> Returns</a></li>
 			</ul>
 		</div>
@@ -20,7 +20,12 @@
 		<div class="page-header">
 			<span class="label label-info">Method</span>
 
-			<h1>{{ method.name }} <small>()</small></h1>
+			{% if method.parameters %}
+				<h1>{{ method.name }} <small>( ${{ names(method.parameters.parameter)|join(', $') }} )</small></h1>
+			{% else %}
+				<h1>{{ method.name }} <small>( )</small></h1>
+			{% endif %}
+
 			<span class="fullname">&rarr; {{ json.full_name }}::{{ method.name }}()</span>
 		</div>
 
@@ -89,6 +94,7 @@ $response = $ec2->run_instances('ami-84db39ed', 1, 1, array(
 var_dump($response->isOK());</pre>
 		</div>
 
+		{% if method.parameters %}
 		<h2 id="parameters">Parameters</h2>
 		<div class="well">
 			<table cellpadding="0" cellspacing="0" border="0" width="100%" class="table table-striped">
@@ -99,18 +105,62 @@ var_dump($response->isOK());</pre>
 					</tr>
 				</thead>
 				<tbody>
+					{% for parameter in method.parameters.parameter %}
 					<tr>
-						<td>
-							<p><code>ImageId</code></p>
+						<td class="parameter">
+							<p><code>{{ parameter.name }}</code></p>
 						</td>
 						<td class="description">
-							<p><code><a href="">string</a></code> <small>Required</small></p>
-							<p>Unique ID of a machine image, returned by a call to <code>describe_images()</code>.</p>
+							{% if parameter.types %}
+							{# Multiple return types #}
+								<p>
+								{% for type in parameter.types %}
+									{% if type|split('\\')|length > 1 %}
+										<code><a href="{{ vanity.link.api_reference }}/{{ namespace_as_path(type) }}/index.html">{{ type }}</a></code>
+									{% elseif type %}
+										<code>{{ type }}</code>
+									{% else %}
+										<code>mixed</code>
+									{% endif %}
+								{% endfor %}
+
+								{% if parameter.required %}
+									&nbsp;<small>Required</small>
+								{% endif %}
+								</p>
+							{% else %}
+							{# Only a single return type #}
+								<p>
+								{% if parameter.type and parameter.type|split('\\')|length > 1 %}
+									<code><a href="{{ vanity.link.api_reference }}/{{ namespace_as_path(parameter.type) }}/index.html">{{ parameter.type }}</a></code>
+								{% elseif parameter.type %}
+									<code>{{ parameter.type }}</code>
+								{% else %}
+									<code>mixed</code>
+								{% endif %}
+
+								{% if parameter.required %}
+									&nbsp;<small>Required</small>
+								{% endif %}
+								</p>
+							{% endif %}
+
+							{% if parameter.description %}
+								{{ parameter.description|markdown|raw }}
+							{% else %}
+								<p><i class="icon-exclamation-sign"></i> <em>Not yet documented.</em></p>
+							{% endif %}
+
+							{% if parameter.default %}
+								<p><small>The default value is: {{ parameter.default }}</small></p>
+							{% endif %}
 						</td>
 					</tr>
+					{% endfor %}
 				</tbody>
 			</table>
 		</div>
+		{% endif %}
 
 		<h2 id="returns">Returns</h2>
 		<div class="well">
@@ -123,7 +173,7 @@ var_dump($response->isOK());</pre>
 				</thead>
 				<tbody>
 					<tr>
-						<td>
+						<td class="parameter">
 							{% if method.return.types %}
 							{# Multiple return types #}
 								{% for type in method.return.types %}
@@ -152,7 +202,6 @@ var_dump($response->isOK());</pre>
 							{% else %}
 								<p><i class="icon-exclamation-sign"></i> <em>Not yet documented.</em></p>
 							{% endif %}
-
 						</td>
 					</tr>
 				</tbody>

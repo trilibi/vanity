@@ -218,6 +218,24 @@ class Utilities
 	}
 
 	/**
+	 * Return a list of simple parameter names.
+	 *
+	 * @param  array $list The list of methods from the JSON model.
+	 * @return array       An array containing matching nodes.
+	 */
+	public static function getNames(array $list)
+	{
+		$output = array();
+
+		foreach ($list as $item)
+		{
+			$output[] = $item['name'];
+		}
+
+		return $output;
+	}
+
+	/**
 	 * Converts a description node into something HTML-appropriate.
 	 *
 	 * @param  array  $description The description node to handle.
