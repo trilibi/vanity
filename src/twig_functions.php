@@ -25,6 +25,7 @@
  */
 
 
+use dflydev\markdown\MarkdownExtraParser as Markdown;
 use Vanity\Generate\Utilities as GenerateUtils;
 
 /**
@@ -48,4 +49,50 @@ function vanity_twig_description_as_html(array $d)
 function vanity_twig_namespace_as_path($fullName)
 {
 	return GenerateUtils::namespaceAsPath($fullName);
+}
+
+/**
+ * Twig function for filtering a list of nodes by whether or not they're native.
+ *
+ * @param  array $list An array of methods for the class.
+ * @return array       A `count` key and a `methods` key. The `methods` key is a list of methods.
+ */
+function vanity_twig_filter_by_native(array $list)
+{
+	$output = GenerateUtils::getFilteredList($list);
+	return $output['native'];
+}
+
+/**
+ * Twig function for filtering a list of nodes by whether or not they're native.
+ *
+ * @param  array $list An array of methods for the class.
+ * @return array       A `count` key and a `methods` key. The `methods` key is a list of methods.
+ */
+function vanity_twig_filter_by_inherited(array $list)
+{
+	$output = GenerateUtils::getFilteredList($list);
+	return $output['inherited'];
+}
+
+/**
+ * Twig function for filtering a list of nodes by first letter.
+ *
+ * @param  array $list An array of methods for the class.
+ * @return array       A list of nodes sorted by letter.
+ */
+function vanity_twig_filter_by_letter(array $list)
+{
+	return GenerateUtils::getListByLetter($list);
+}
+
+/**
+ * Apply Markdown to a string.
+ * @param  string $string A Markdown-formatted string.
+ * @return string         An HTML representation of the Markdown-formatted string.
+ */
+function vanity_twig_markdown($string)
+{
+	$md = new Markdown();
+	return $md->transformMarkdown($string);
 }

@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		{# Standard page metadata #}
 		<meta charset="{{ _charset }}">
 		<meta http-equiv="X-UA-Compatible" content="Chrome=1; IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>{{ vanity.page_title }} - {{ vanity.project_with_version }}</title>
 
+		{# Stylesheets #}
 		<link rel="stylesheet" href="{{ vanity.base_path }}/bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" href="{{ vanity.base_path }}/styles/app.css">
 		<link rel="stylesheet" href="{{ vanity.base_path }}/bootstrap/css/bootstrap-responsive.min.css">
@@ -13,6 +15,7 @@
 
 	<body data-spy="scroll" data-target="#navTracker" data-offset="100">
 
+		{# Primary navigation #}
 		<div class="navbar navbar-fixed-top">
 			<div class="navbar-inner">
 				<div class="container">
@@ -48,6 +51,7 @@
 		</p>
 		<div id="bottom-spacer"></div>
 
+		{# Scripts #}
 		<script src="{{ vanity.base_path }}/jquery/jquery.1.7.1.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="{{ vanity.base_path }}/jquery/jquery.easing.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="{{ vanity.base_path }}/bootstrap/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
@@ -56,7 +60,7 @@
 
 		$(function() {
 
-			prettyPrint();
+			// prettyPrint();
 			$('#nav-list').scrollspy();
 			$('#bottom-spacer').height($(window).height());
 

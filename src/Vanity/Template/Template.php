@@ -31,6 +31,7 @@ require_once VANITY_VENDOR . '/twig/twig/lib/Twig/Autoloader.php';
 
 use Twig_Autoloader;
 use Twig_Environment;
+use Twig_Filter_Function;
 use Twig_Function_Function;
 use Twig_Function_Method;
 use Twig_Loader_Filesystem;
@@ -99,6 +100,10 @@ abstract class Template implements TemplateInterface
 
 		$this->twig->addFunction('description_as_html', new Twig_Function_Function('vanity_twig_description_as_html'));
 		$this->twig->addFunction('namespace_as_path', new Twig_Function_Function('vanity_twig_namespace_as_path'));
+		$this->twig->addFunction('filter_by_native', new Twig_Function_Function('vanity_twig_filter_by_native'));
+		$this->twig->addFunction('filter_by_inherited', new Twig_Function_Function('vanity_twig_filter_by_inherited'));
+		$this->twig->addFunction('filter_by_letter', new Twig_Function_Function('vanity_twig_filter_by_letter'));
+		$this->twig->addFilter('markdown', new Twig_Filter_Function('vanity_twig_markdown'));
 	}
 
 	/**

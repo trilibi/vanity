@@ -1,10 +1,13 @@
 {% extends "base/base.twig" %}
 
 {% block content %}
+
+{# Show the breadcrumbs #}
 <div class="row">
 	<div class="span12">
 		<ul class="breadcrumb">
-			<li><a href="{{ vanity.link.api_reference }}/"><i class="icon-home"></i></a>&nbsp;&nbsp;</li>
+			<li><i class="icon-map-marker"></i> </li>
+			<li><a href="{{ vanity.link.api_reference }}/">API Reference</a> <span class="divider">\</span></li>
 			{% for breadcrumb in vanity.breadcrumbs %}
 				{% if breadcrumb.path %}
 					<li><a href="{{ breadcrumb.path }}">{{ breadcrumb.name }}</a> <span class="divider">\</span></li>
@@ -17,31 +20,9 @@
 </div>
 
 <div class="row">
-	<div class="navigation-wrapper">
-		<div class="span3 offset9 navigation" id="navTracker">
-			<ul class="nav nav-list well">
-				<li class="nav-header">Contents</li>
-				<li><a href="#navigation">Navigation</a></li>
-			</ul>
-		</div>
-	</div>
 
-	<div class="span9 content">
-		<div class="page-header">
-			{% if json.kind == 'Class' %}
-				<span class="label label-info">{{ json.kind }}</span>
-			{% elseif json.kind == 'Interface' %}
-				<span class="label label-success">{{ json.kind }}</span>
-			{% elseif json.kind == 'Trait' %}
-				<span class="label label-inverse">{{ json.kind }}</span>
-			{% elseif json.kind == 'Exception' %}
-				<span class="label label-important">{{ json.kind }}</span>
-			{% endif %}
+	{# Yield to an extending template #}
+	{% block yield %}{% endblock %}
 
-			<h1>{{ json.name }}</h1>
-		</div>
-
-		{% block yield %}{% endblock %}
-	</div>
 </div>
 {% endblock %}

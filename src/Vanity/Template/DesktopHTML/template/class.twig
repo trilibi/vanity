@@ -1,74 +1,216 @@
 {% extends "base/base_class.twig" %}
 
 {% block yield %}
-	{{ description_as_html(json.description)|raw }}
 
-	<table border="0" class="class-reference">
-		<tbody>
-			{% if json.inheritance %}
-			<tr>
-				<th><p>Inherits from</p></th>
-				<td>
-					<ul>
-						{% for inherited in json.inheritance.class %}
-							{% if inherited.path %}
-								<li><a href="{{ vanity.link.api_reference }}/{{ inherited.namespace_as_path }}/index.html">{{ inherited.name }}</a></li>
-							{% else %}
-								<li>{{ inherited.name }}</li>
-							{% endif %}
-						{% endfor %}
-					</ul>
-				</td>
-			</tr>
-			{% endif %}
-			{% if json.implements %}
-			<tr>
-				<th><p>Implements</p></th>
-				<td>
-					<ul>
-						{% for interface in json.implements.interface %}
-							{% if interface.path %}
-								<li><a href="{{ vanity.link.api_reference }}/{{ interface.namespace_as_path }}/index.html">{{ interface.name }}</a></li>
-							{% else %}
-								<li>{{ interface.name }}</li>
-							{% endif %}
-						{% endfor %}
-					</ul>
-				</td>
-			</tr>
-			{% endif %}
-			{% if json.traits %}
-			<tr>
-				<th><p>Traits</p></th>
-				<td>
-					<ul>
-						{% for trait in json.traits.trait %}
-							{% if trait.path %}
-								<li><a href="{{ vanity.link.api_reference }}/{{ trait.namespace_as_path }}/index.html">{{ trait.name }}</a></li>
-							{% else %}
-								<li>{{ trait.name }}</li>
-							{% endif %}
-						{% endfor %}
-					</ul>
-				</td>
-			</tr>
-			{% endif %}
-			<tr>
-				<th><p>Location</p></th>
-				<td>
-					<p>{{ json.path }}</p>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+	{# Parse these results into new variables #}
+	{% set native = filter_by_native(json.methods.method) %}
+	{% set inherited = filter_by_inherited(json.methods.method) %}
 
-	{% if json.methods %}
-	<h2 id="methods">Methods ({{ json.methods.count }})</h2>
-	<ul>
-		{% for method in json.methods.method %}
-			<li><a href="{{ vanity.link.api_reference }}/{{ namespace_as_path(json.full_name) }}/{{ method.name }}.html">{{ method.name }}</a></li>
-		{% endfor %}
-	</ul>
-	{% endif %}
+	{# Side navigation bar #}
+	<div class="navigation-wrapper">
+		<div class="span3 offset9 navigation" id="navTracker">
+			<ul class="nav nav-list well">
+				<li class="nav-header">Contents</li>
+				<li><a href="#description"><i class="icon-book"></i> Description</a></li>
+				{% if json.constants %}<li><a href="#constants"><i class="icon-lock"></i> Constants</a></li>{% endif %}
+				{% if native.methods %}<li><a href="#native-methods"><i class="icon-cog"></i> Native Methods</a></li>{% endif %}
+				{% if inherited.methods %}<li><a href="#inherited-methods"><i class="icon-cog"></i> Inherited Methods</a></li>{% endif %}
+				{% if json.properties %}<li><a href="#properties"><i class="icon-list-alt"></i> Properties</a></li>{% endif %}
+			</ul>
+		</div>
+	</div>
+
+	{# Main content area #}
+	<div class="span9 content">
+		<div class="page-header">
+			{% if json.kind == 'Class' %}
+				<span class="label label-info">{{ json.kind }}</span>
+			{% elseif json.kind == 'Interface' %}
+				<span class="label label-success">{{ json.kind }}</span>
+			{% elseif json.kind == 'Trait' %}
+				<span class="label label-inverse">{{ json.kind }}</span>
+			{% elseif json.kind == 'Exception' %}
+				<span class="label label-important">{{ json.kind }}</span>
+			{% endif %}
+
+			<h1>{{ json.name }}</h1>
+			<span class="fullname">&rarr; {{ json.full_name }}</span>
+		</div>
+
+		{# The description data processed into HTML. #}
+		{{ description_as_html(json.description)|raw }}
+
+		<table border="0" class="class-reference">
+			<tbody>
+				<tr>
+					{# Do we inherit? Or are we a base class? #}
+					<th><p>Inherits from</p></th>
+					<td>
+						{% if json.inheritance %}
+							<ul>
+								{% for inherited in json.inheritance.class %}
+									{% if inherited.path %}
+										<li><a href="{{ vanity.link.api_reference }}/{{ inherited.namespace_as_path }}/index.html">{{ inherited.name }}</a></li>
+									{% else %}
+										<li>{{ inherited.name }}</li>
+									{% endif %}
+								{% endfor %}
+							</ul>
+						{% else %}
+							<p>None (<code>{{ json.name }}</code> is a root class)</p>
+						{% endif %}
+					</td>
+				</tr>
+
+				{# Do we implement any interfaces? #}
+				{% if json.implements %}
+				<tr>
+					<th><p>Implements</p></th>
+					<td>
+						<ul>
+							{% for interface in json.implements.interface %}
+								{% if interface.path %}
+									<li><a href="{{ vanity.link.api_reference }}/{{ interface.namespace_as_path }}/index.html">{{ interface.name }}</a></li>
+								{% else %}
+									<li>{{ interface.name }}</li>
+								{% endif %}
+							{% endfor %}
+						</ul>
+					</td>
+				</tr>
+				{% endif %}
+
+				{# Do we import any traits? #}
+				{% if json.traits %}
+				<tr>
+					<th><p>Traits</p></th>
+					<td>
+						<ul>
+							{% for trait in json.traits.trait %}
+								{% if trait.path %}
+									<li><a href="{{ vanity.link.api_reference }}/{{ trait.namespace_as_path }}/index.html">{{ trait.name }}</a></li>
+								{% else %}
+									<li>{{ trait.name }}</li>
+								{% endif %}
+							{% endfor %}
+						</ul>
+					</td>
+				</tr>
+				{% endif %}
+				<tr>
+					<th><p>Location</p></th>
+					<td>
+						{# Where does this file live? #}
+						<p>{{ json.path }}</p>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		{# Let's show a table view of the constants in this class. #}
+		{% if json.constants %}
+		<h2 id="constants">Constants ({{ json.constants.count }})</h2>
+		<div class="well">
+			<table cellpadding="0" cellspacing="0" border="0" width="100%" class="table table-striped">
+				<thead>
+					<tr>
+						<th><p>Name</p></th>
+						<th class="description"><p>Description</p></th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for constant in json.constants.constant %}
+					<tr>
+						<td>
+							<p><code>{{ constant.name }}</code></p>
+						</td>
+						<td class="description">
+							<p><code>{{ constant.type }}</code> {{ constant.value }}</p>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		{% endif %}
+
+		{# Native methods #}
+		{% if native.methods %}
+		{% set method_letters = filter_by_letter(native.methods) %}
+		<h2 id="native-methods">Native Methods ({{ native.count }})</h2>
+		<div class="well">
+			<dl class="letter-list">
+				{% for nodes in method_letters %}
+				<dt>{{ nodes.letter }}</dt>
+				<dd>
+					<ul>
+					{% for node in nodes.nodes %}
+						<li><a href="{{ vanity.link.api_reference }}/{{ namespace_as_path(json.full_name) }}/{{ node.name }}.html">{{ node.name }}</a></li>
+					{% endfor %}
+					</ul>
+				</dd>
+				{% endfor %}
+			</dl>
+		</div>
+		{% endif %}
+
+		{# Inherited methods #}
+		{% if inherited.methods %}
+		{% set method_letters = filter_by_letter(inherited.methods) %}
+		<h2 id="inherited-methods">Inherited Methods ({{ inherited.count }})</h2>
+		<div class="well">
+			<dl class="letter-list">
+				{% for nodes in method_letters %}
+				<dt>{{ nodes.letter }}</dt>
+				<dd>
+					<ul>
+					{% for node in nodes.nodes %}
+						<li><a href="{{ vanity.link.api_reference }}/{{ namespace_as_path(json.full_name) }}/{{ node.name }}.html">{{ node.name }}</a></li>
+					{% endfor %}
+					</ul>
+				</dd>
+				{% endfor %}
+			</dl>
+		</div>
+		{% endif %}
+
+		{# Let's show a table view of the properties in this class. #}
+		{% if json.properties %}
+		<h2 id="properties">Properties ({{ json.properties.count }})</h2>
+		<div class="well">
+			<table cellpadding="0" cellspacing="0" border="0" width="100%" class="table table-striped">
+				<thead>
+					<tr>
+						<th><p>Name</p></th>
+						<th class="description"><p>Description</p></th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for property in json.properties.property %}
+					<tr>
+						<td>
+							<p><code>{{ property.name }}</code></p>
+						</td>
+						<td class="description">
+							{% for tag in property.metadata.tag %}
+								{% if tag.name == 'var' or tag.name == 'type' %}
+									<p><code>{{ tag.type }}</code>&nbsp;<small>{{ property.visibility|join(' ') }}</small></p>
+								{% endif %}
+							{% endfor %}
+
+							{{ description_as_html(property.description)|raw }}
+
+							{% for class in property.inheritance.class %}
+								<p><em><small>Defined in {{ class.name }}</small></em></p>
+							{% endfor %}
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		{% endif %}
+
+	</div>
 
 {% endblock %}

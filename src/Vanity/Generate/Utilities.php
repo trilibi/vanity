@@ -128,6 +128,75 @@ class Utilities
 	}
 
 	/**
+	 * Get two lists, filtered by native vs. inherited.
+	 *
+	 * @param  array $list The list of methods from the JSON model.
+	 * @return array       An array containing `native` and `inherited` keys. Each of these contains a `count` key
+	 *                     and a `methods` key. The `methods` key is a list of methods.
+	 */
+	public static function getFilteredList(array $list)
+	{
+		$native = array();
+		$inherited = array();
+
+		foreach ($list as $item)
+		{
+			if (isset($item['inheritance']))
+			{
+				$inherited[] = $item;
+			}
+			else
+			{
+				$native[] = $item;
+			}
+		}
+
+		return array(
+			'native' => array(
+				'count'   => count($native),
+				'methods' => $native,
+			),
+			'inherited' => array(
+				'count'   => count($inherited),
+				'methods' => $inherited,
+			),
+		);
+	}
+
+	/**
+	 * Filters node names by letter.
+	 *
+	 * @param  array $list The list of methods from the JSON model.
+	 * @return array       An array containing matching nodes.
+	 */
+	public static function getListByLetter(array $list)
+	{
+		$output = array();
+
+		foreach ($list as $item)
+		{
+			$letter = strtoupper(substr($item['name'], 0, 1));
+
+			if (preg_match('/^[^a-z]/i', $letter))
+			{
+				$letter = '#';
+			}
+
+			if (!isset($output[$letter]))
+			{
+				$output[$letter] = array(
+					'letter' => $letter,
+					'nodes'  => array(),
+				);
+			}
+
+			$output[$letter]['nodes'][] = $item;
+		}
+
+		return $output;
+	}
+
+	/**
 	 * Converts a description node into something HTML-appropriate.
 	 *
 	 * @param  array  $description The description node to handle.
