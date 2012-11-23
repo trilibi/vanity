@@ -34,6 +34,14 @@
 * Develop a template for reStructuredText output.
 * [TBD]
 
+<meta name="msapplication-TileImage" content="/windows-tile.png">
+<meta name="msapplication-TileColor" content="#ffffff">
+<link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="GitHub">
+
+Get list of authors for a file:
+git blame -p README.md | grep committer-mail | sort -u | sed -n '1h;1!H;${;g;s/committer-mail <//g;s/>//g;p;}'
+
+sitemap.xml
 
 ## Stage 4: User Guide Parsing
 

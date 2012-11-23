@@ -31,6 +31,7 @@ require_once VANITY_VENDOR . '/twig/twig/lib/Twig/Autoloader.php';
 
 use Twig_Autoloader;
 use Twig_Environment;
+use Twig_Extension_Debug;
 use Twig_Filter_Function;
 use Twig_Function_Function;
 use Twig_Function_Method;
@@ -109,12 +110,18 @@ abstract class Template implements TemplateInterface
 			)
 		);
 
+		// Extensions
+		$this->twig->addExtension(new Twig_Extension_Debug());
+
+		// Functions
 		$this->twig->addFunction('description_as_html', new Twig_Function_Function('vanity_twig_description_as_html'));
 		$this->twig->addFunction('namespace_as_path', new Twig_Function_Function('vanity_twig_namespace_as_path'));
 		$this->twig->addFunction('filter_by_native', new Twig_Function_Function('vanity_twig_filter_by_native'));
 		$this->twig->addFunction('filter_by_inherited', new Twig_Function_Function('vanity_twig_filter_by_inherited'));
 		$this->twig->addFunction('filter_by_letter', new Twig_Function_Function('vanity_twig_filter_by_letter'));
 		$this->twig->addFunction('names', new Twig_Function_Function('vanity_twig_names'));
+
+		// Filters
 		$this->twig->addFilter('markdown', new Twig_Filter_Function('vanity_twig_markdown'));
 
 		$this->triggerEvent('vanity.twig.environment.init', new EventStore(array(
@@ -205,6 +212,7 @@ abstract class Template implements TemplateInterface
 			'vanity'    => array(
 				'base_path'            => GenerateUtils::getRelativeBasePath($data['full_name']),
 				'breadcrumbs'          => GenerateUtils::getBreadcrumbs($data['full_name'], -1),
+				'config'               => ConfigStore::get(),
 				'page_name'            => $data['name'],
 				'page_title'           => $data['full_name'],
 				'project'              => ConfigStore::get('vanity.name'),

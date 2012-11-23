@@ -113,7 +113,18 @@ class Resolve
 		// Resolve the values
 		foreach ($config_store as $config => $value)
 		{
-			$resolved_configs[$config] = $this->resolveVariables($value);
+			if ($value === 'true')
+			{
+				$resolved_configs[$config] = true;
+			}
+			elseif ($value === 'false')
+			{
+				$resolved_configs[$config] = false;
+			}
+			else
+			{
+				$resolved_configs[$config] = $this->resolveVariables($value);
+			}
 		}
 
 		// Store the config information

@@ -40,6 +40,10 @@ h1, h2 {
 	letter-spacing: -1px;
 }
 
+h1 small {
+	letter-spacing: 0;
+}
+
 pre, code {
 	font-family: Monaco, Consolas, Andale Mono, monospace !important;
 }

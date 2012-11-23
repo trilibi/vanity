@@ -16,6 +16,7 @@
 				{% if native.methods %}<li><a href="#native-methods"><i class="icon-cog"></i> Native Methods</a></li>{% endif %}
 				{% if inherited.methods %}<li><a href="#inherited-methods"><i class="icon-cog"></i> Inherited Methods</a></li>{% endif %}
 				{% if json.properties %}<li><a href="#properties"><i class="icon-list-alt"></i> Properties</a></li>{% endif %}
+				{% if vanity.config['generator.twig.debug'] %}<li><a href="#debugger"><i class="icon-wrench"></i> Debugger Data</a></li>{% endif %}
 			</ul>
 		</div>
 	</div>
@@ -34,13 +35,15 @@
 			{% endif %}
 
 			<h1>{{ json.name }}</h1>
-			<span class="fullname">&rarr; {{ json.full_name }}</span>
+			<span class="fullname" itemprop="name">&rarr; <span itemprop="name">{{ json.full_name }}</span></span>
 		</div>
 
 		{# The description data processed into HTML. #}
 		{% if json.description and json.description is iterable %}
+			<div itemprop="description">
 			{{ description_as_html(json.description)|raw }}
 			<br>
+			</div>
 		{% endif %}
 
 		<table border="0" class="class-reference">
@@ -221,6 +224,13 @@
 			</table>
 		</div>
 		{% endif %}
+
+		{% if vanity.config['generator.twig.debug'] %}
+		<h2 id="debugger">Debugger Data</h2>
+<pre>
+{{ dump(vanity) }}
+</pre>
+{% endif %}
 
 	</div>
 

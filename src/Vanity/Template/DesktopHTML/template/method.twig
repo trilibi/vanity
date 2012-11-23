@@ -11,6 +11,7 @@
 				<li><a href="#examples"><i class="icon-cog"></i> Examples</a></li>
 				{% if method.parameters %}<li><a href="#parameters"><i class="icon-th-list"></i> Parameters</a></li>{% endif %}
 				<li><a href="#returns"><i class="icon-share-alt"></i> Returns</a></li>
+				{% if vanity.config['generator.twig.debug'] %}<li><a href="#debugger"><i class="icon-wrench"></i> Debugger Data</a></li>{% endif %}
 			</ul>
 		</div>
 	</div>
@@ -148,7 +149,7 @@ var_dump($response->isOK());</pre>
 							{% if parameter.description %}
 								{{ parameter.description|markdown|raw }}
 							{% else %}
-								<p><i class="icon-exclamation-sign"></i> <em>Not yet documented.</em></p>
+								<p><i class="icon-exclamation-sign"></i>&nbsp;<em>Not yet documented.</em></p>
 							{% endif %}
 
 							{% if parameter.default %}
@@ -200,13 +201,20 @@ var_dump($response->isOK());</pre>
 							{% if method.return.description %}
 								{{ method.return.description|markdown|raw }}
 							{% else %}
-								<p><i class="icon-exclamation-sign"></i> <em>Not yet documented.</em></p>
+								<p><i class="icon-exclamation-sign"></i>&nbsp;<em>Not yet documented.</em></p>
 							{% endif %}
 						</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
+
+		{% if vanity.config['generator.twig.debug'] %}
+		<h2 id="debugger">Debugger Data</h2>
+<pre>
+{{ dump(vanity) }}
+</pre>
+{% endif %}
 
 	</div>
 {% endblock %}
