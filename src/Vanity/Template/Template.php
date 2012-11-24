@@ -233,6 +233,9 @@ abstract class Template implements TemplateInterface
 					'api_reference' => GenerateUtils::getRelativeBasePath($data['full_name']) . '/api-reference',
 					'user_guide'    => GenerateUtils::getRelativeBasePath($data['full_name']) . '/user-guide',
 				),
+				'message' => array(
+					'not_yet_implemented' => '<i class="icon-exclamation-sign"></i>&nbsp;<em>Not yet documented.</em>',
+				),
 			)
 		);
 
@@ -330,7 +333,7 @@ abstract class Template implements TemplateInterface
 		$filename = str_replace('%FORMAT%', self::$format_identifier, ConfigStore::get('generator.output')) .
 			'/api-reference/typeahead.json';
 
-		file_put_contents($filename, json_encode($typeahead));
+		file_put_contents($filename, 'var VANITY={"TYPEAHEAD":' . json_encode($typeahead) . '}');
 
 		return $filename;
 	}

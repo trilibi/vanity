@@ -34,6 +34,8 @@
 		{% if method.description and method.description is iterable %}
 			{{ description_as_html(method.description)|raw }}
 			<br>
+		{% else %}
+			<p>{{ vanity.message.not_yet_implemented|raw }}</p>
 		{% endif %}
 
 		<table border="0" class="class-reference">
@@ -149,7 +151,7 @@ var_dump($response->isOK());</pre>
 							{% if parameter.description %}
 								{{ parameter.description|markdown|raw }}
 							{% else %}
-								<p><i class="icon-exclamation-sign"></i>&nbsp;<em>Not yet documented.</em></p>
+								<p>{{ vanity.message.not_yet_implemented|raw }}</p>
 							{% endif %}
 
 							{% if parameter.default %}
@@ -201,7 +203,7 @@ var_dump($response->isOK());</pre>
 							{% if method.return.description %}
 								{{ method.return.description|markdown|raw }}
 							{% else %}
-								<p><i class="icon-exclamation-sign"></i>&nbsp;<em>Not yet documented.</em></p>
+								<p>{{ vanity.message.not_yet_implemented|raw }}</p>
 							{% endif %}
 						</td>
 					</tr>

@@ -51,6 +51,16 @@
 
 <script>if(window.navigator&&window.navigator.loadPurpose==="preview"){window.location.href="https://www.icloud.com/topsites_preview/"};</script>
 
+           var s = window.parent.location.search.match(/\?q=([^&]+)/);
+           if (s) {
+               s = decodeURIComponent(s[1]).replace(/\+/g, ' ');
+               if (s.length > 0)
+               {
+                   $('#search').val(s);
+                   panel.search(s, true);
+               }
+           }
+
 
 Get list of authors for a file:
 git blame -p README.md | grep committer-mail | sort -u | sed -n '1h;1!H;${;g;s/committer-mail <//g;s/>//g;p;}'

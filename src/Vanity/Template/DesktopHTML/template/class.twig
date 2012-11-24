@@ -44,6 +44,8 @@
 			{{ description_as_html(json.description)|raw }}
 			<br>
 			</div>
+		{% else %}
+			<p>{{ vanity.message.not_yet_implemented|raw }}</p>
 		{% endif %}
 
 		<table border="0" class="class-reference">

@@ -176,9 +176,10 @@
 
 		{# Scripts #}
 		<script src="{{ vanity.base_path }}/jquery/jquery.1.7.1.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="{{ vanity.base_path }}/jquery/jquery.easing.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="{{ vanity.base_path }}/bootstrap/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="{{ vanity.base_path }}/prettify/prettify.js" type="text/javascript" charset="utf-8"></script>
+		<script src="{{ vanity.base_path }}/jquery/jquery.easing.min.js" type="text/javascript" charset="utf-8" defer></script>
+		<script src="{{ vanity.base_path }}/prettify/prettify.js" type="text/javascript" charset="utf-8" defer></script>
+		<script src="{{ vanity.base_path }}/bootstrap/js/bootstrap.min.js" type="text/javascript" charset="utf-8" defer></script>
+		<script src="{{ vanity.link.api_reference }}/typeahead.json" type="text/javascript" charset="utf-8" defer></script>
 		{% block scripts %}{% endblock %}
 
 		<script type="text/javascript">
@@ -229,16 +230,39 @@
 				history.pushState({}, null, $node);
 			});
 
-			$('input.search-query').typeahead({
-				items: 3,
-				minLength: 10,
-				source: function(query, process) {
-					return $.getJSON('{{ vanity.link.api_reference }}/typeahead.json', function(data) {
-						var items = [];
-						$.each(data, function(key, val) {});
+			var splitQuery = function(query) {
+				return $.grep(query.split(/(\s+|\(\)?)/), function(string) {
+					return string.match(/\S/);
+				});
+			}
 
-						return typeof json.options == 'undefined' ? false : process(json.options);
-					});
+			var buildRegexps = function(queries) {
+				return $.map(queries, function(query) {
+					return new RegExp(query.replace(/(.)/g, '([$1])([^$1]*?)'), 'i');
+				});
+			}
+
+			$('input.search-query').typeahead({
+				items: 15,
+				minLength: 2,
+				source: function(query, process) {
+					process($.grep(VANITY.TYPEAHEAD, function(a) {
+						// var regexes = buildRegexps(splitQuery(query));
+						return a.match(new RegExp(query, 'gi'));
+					}));
+				},
+				updater: function(item) {
+					var path = item.replace(/\\/g, '/');
+
+					if (path.indexOf('::') !== -1) {
+						path = path.replace(/::/g, '/').replace(/\(\)/g, '');
+						document.location = "{{ vanity.link.api_reference }}/" + path + '.html';
+					}
+					else {
+						document.location = "{{ vanity.link.api_reference }}/" + path + '/index.html';
+					}
+
+					return item;
 				}
 			});
 		});

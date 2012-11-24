@@ -226,6 +226,15 @@ small {
 	color: #999;
 }
 
+input.search-query {
+	width: 320px;
+}
+
+ul.typeahead.dropdown-menu {
+	left: auto !important;
+	right: 60px;
+}
+
 .nav-list > .active > a,
 .nav-list > .active > a:hover {
 	background: #08c;
