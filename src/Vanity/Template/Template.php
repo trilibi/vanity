@@ -73,13 +73,19 @@ abstract class Template implements TemplateInterface
 	 * Stores the name of the directory that the output is written to.
 	 * @type string
 	 */
-	public $format_identifier;
+	public static $format_identifier;
 
 	/**
 	 * The path to the Twig templates.
 	 * @type string
 	 */
 	public $template_path;
+
+	/**
+	 * Stores the data used for typeahead queries.
+	 * @type array
+	 */
+	public static $typeahead = array();
 
 	/**
 	 * {@inheritdoc}
@@ -89,7 +95,7 @@ abstract class Template implements TemplateInterface
 	public function __construct($template_path, $format_identifier)
 	{
 		$this->filesystem = new Filesystem();
-		$this->format_identifier = $format_identifier;
+		self::$format_identifier = $format_identifier;
 		$this->template_path = $template_path;
 
 		Twig_Autoloader::register();
@@ -162,6 +168,8 @@ abstract class Template implements TemplateInterface
 					$count++;
 				}
 			}
+			echo TAB . $formatter->green->apply('-> ') . self::writeTypeahead(self::$typeahead) . PHP_EOL;
+			$count++;
 
 			self::wroteFileCount($count);
 			echo $formatter->yellow->apply('COPYING STATIC ASSETS:') . PHP_EOL;
@@ -242,6 +250,7 @@ abstract class Template implements TemplateInterface
 				$this->twig->render('class.twig', $twig_options)
 			);
 			$wrote[] = $path . '/index.' . $this->extension;
+			self::$typeahead[] = $data['full_name'];
 
 			// Methods
 			if (file_exists($this->template_path . '/method.twig'))
@@ -261,6 +270,7 @@ abstract class Template implements TemplateInterface
 							$this->twig->render('method.twig', $twig_options)
 						);
 						$wrote[] = $path . "/${method_name}." . $this->extension;
+						self::$typeahead[] = $data['full_name'] . '::' . $method_name . '()';
 					}
 				}
 			}
@@ -277,7 +287,7 @@ abstract class Template implements TemplateInterface
 	 */
 	public function convertNamespaceToPath($namespace)
 	{
-		return str_replace('%FORMAT%', $this->format_identifier, ConfigStore::get('generator.output')) .
+		return str_replace('%FORMAT%', self::$format_identifier, ConfigStore::get('generator.output')) .
 			'/api-reference/' . str_replace('\\', '/', $namespace);
 	}
 
@@ -307,5 +317,21 @@ abstract class Template implements TemplateInterface
 		echo PHP_EOL;
 		echo 'Matched ' . $formatter->info->apply(" ${count} ") . ' ' . ConsoleUtil::pluralize($count, 'file', 'files') . '.' . PHP_EOL;
 		echo PHP_EOL;
+	}
+
+	/**
+	 * Write the typeahead file for use in JavaScript searches.
+	 *
+	 * @param  array $typeahead The array of data to write.
+	 * @return void
+	 */
+	public static function writeTypeahead($typeahead)
+	{
+		$filename = str_replace('%FORMAT%', self::$format_identifier, ConfigStore::get('generator.output')) .
+			'/api-reference/typeahead.json';
+
+		file_put_contents($filename, json_encode($typeahead));
+
+		return $filename;
 	}
 }

@@ -34,14 +34,33 @@
 * Develop a template for reStructuredText output.
 * [TBD]
 
-<meta name="msapplication-TileImage" content="/windows-tile.png">
-<meta name="msapplication-TileColor" content="#ffffff">
+<meta name="application-name" content="Ryan Parman"/>
+<meta name="msapplication-TileColor" content="#58595B"/>
+<meta name="msapplication-TileImage" content="8b35978c-2e91-4fe6-b4ca-5ded8cf3335e.png"/>
+
+<meta name="application-name" content="Build My Pinned Site" />
+<meta name="msapplication-starturl" content="http://buildmypinnedsite.com" />
+<meta name="msapplication-navbutton-color" content="#3480C0" />
+<meta name="msapplication-window" content="width=1024;height=768" />
+<meta name="msapplication-tooltip" content="Start Build My Pinned Site" />
+
+<meta name="msapplication-task" content="name=Develop for Internet Explorer 9; action-uri=http://www.beautyoftheweb.com/#/startdeveloping; icon-uri=/favicon.ico">
+<meta name="msapplication-task" content="name=Attend a Web Camp; action-uri=http://www.beautyoftheweb.com/#/camps; icon-uri=/favicon.ico" />
+
 <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="GitHub">
+
+<script>if(window.navigator&&window.navigator.loadPurpose==="preview"){window.location.href="https://www.icloud.com/topsites_preview/"};</script>
+
 
 Get list of authors for a file:
 git blame -p README.md | grep committer-mail | sort -u | sed -n '1h;1!H;${;g;s/committer-mail <//g;s/>//g;p;}'
 
-sitemap.xml
+<?xml version="1.0"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+	<url>
+		<loc>http://docs.amazonwebservices.com/AWSSDKforPHP/latest/index.html</loc>
+	</url>
+</urlset>
 
 ## Stage 4: User Guide Parsing
 
