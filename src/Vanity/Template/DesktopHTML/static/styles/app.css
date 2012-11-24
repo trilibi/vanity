@@ -226,6 +226,16 @@ small {
 	color: #999;
 }
 
+.nav-list > .active > a,
+.nav-list > .active > a:hover {
+	background: #08c;
+	background: -webkit-linear-gradient(top, #479ed3 0%, #326eb6);
+	background:    -moz-linear-gradient(top, #479ed3 0%, #326eb6);
+	background:     -ms-linear-gradient(top, #479ed3 0%, #326eb6);
+	background:      -o-linear-gradient(top, #479ed3 0%, #326eb6);
+	background:         linear-gradient(top, #479ed3 0%, #326eb6);
+}
+
 
 /*********************************************
 Class reference table

@@ -1,5 +1,5 @@
 {
-    "hash": "0835e68fe8e1ef8f631d77fd914549bb",
+    "hash": "9eb5cab2dd6158e87c38692b1e7fe4b4",
     "packages": [
         {
             "name": "andrewsville/php-token-reflection",
@@ -45,6 +45,105 @@
                 "library",
                 "reflection",
                 "tokenizer"
+            ]
+        },
+        {
+            "name": "aptoma/twig-markdown",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aptoma/twig-markdown",
+                "reference": "c687c119174ebc3697171d2a45b22aa779c2ce87"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/aptoma/twig-markdown/archive/c687c119174ebc3697171d2a45b22aa779c2ce87.zip",
+                "reference": "c687c119174ebc3697171d2a45b22aa779c2ce87",
+                "shasum": ""
+            },
+            "require": {
+                "twig/twig": ">=1.0,<2.0",
+                "dflydev/markdown": ">=1.0,<2.0"
+            },
+            "time": "2012-11-18 19:31:21",
+            "type": "library",
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "Aptoma": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Gunnar Lium",
+                    "email": "gunnar@aptoma.com"
+                }
+            ],
+            "description": "Twig extension to work with Markdown content",
+            "keywords": [
+                "twig",
+                "markdown"
+            ]
+        },
+        {
+            "name": "dflydev/github-gist-twig-extension",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git://github.com/dflydev/dflydev-github-gist-twig-extension.git",
+                "reference": "c324152707397472bed8548ca98cee6c12f215f0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/dflydev/dflydev-github-gist-twig-extension/archive/c324152707397472bed8548ca98cee6c12f215f0.zip",
+                "reference": "c324152707397472bed8548ca98cee6c12f215f0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2",
+                "twig/twig": ">=1.9.1,<2.0-dev"
+            },
+            "require-dev": {
+                "mikey179/vfsstream": "1.*"
+            },
+            "time": "2012-08-15 16:15:59",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "installation-source": "source",
+            "autoload": {
+                "psr-0": {
+                    "Dflydev\\Twig\\Extension\\GitHubGist": "src"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dragonfly Development Inc.",
+                    "email": "info@dflydev.com",
+                    "homepage": "http://dflydev.com"
+                },
+                {
+                    "name": "Beau Simensen",
+                    "email": "beau@dflydev.com",
+                    "homepage": "http://beausimensen.com"
+                }
+            ],
+            "description": "GitHub Gist Twig Extension",
+            "homepage": "http://github.com/dflydev/dflydev-github-gist-twig-extension",
+            "keywords": [
+                "twig",
+                "github",
+                "gist",
+                "extension"
             ]
         },
         {
@@ -198,11 +297,11 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/skyzyx/service-listing/archive/21c56d95ea4d10f3634a2ff5b0a7bae60289542d.zip",
+                "url": "https://github.com/skyzyx/service-listing/zipball/21c56d95ea4d10f3634a2ff5b0a7bae60289542d",
                 "reference": "21c56d95ea4d10f3634a2ff5b0a7bae60289542d",
                 "shasum": ""
             },
-            "time": "2012-10-16 16:28:40",
+            "time": "2012-10-16 23:28:40",
             "type": "library",
             "installation-source": "source",
             "license": [
@@ -229,11 +328,11 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/skyzyx/spdx-licenses/archive/1.0.zip",
+                "url": "https://github.com/skyzyx/spdx-licenses/zipball/1.0",
                 "reference": "1.0",
                 "shasum": ""
             },
-            "time": "2012-10-14 05:22:42",
+            "time": "2012-10-14 12:22:42",
             "type": "library",
             "installation-source": "source",
             "license": [
@@ -650,11 +749,11 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/vanity/pandoc-templates/archive/55adcec4c2e7a50e5b16dda1d6e2c761e4caf283.zip",
+                "url": "https://github.com/vanity/pandoc-templates/zipball/55adcec4c2e7a50e5b16dda1d6e2c761e4caf283",
                 "reference": "55adcec4c2e7a50e5b16dda1d6e2c761e4caf283",
                 "shasum": ""
             },
-            "time": "2012-08-19 17:13:03",
+            "time": "2012-08-20 00:13:03",
             "type": "library",
             "installation-source": "source",
             "license": [
@@ -697,7 +796,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/vanity/ReflectionDocBlock/archive/4c8cee894cbde53efa228272d2b2ce0679e8e8d1.zip",
+                "url": "https://github.com/vanity/ReflectionDocBlock/zipball/4c8cee894cbde53efa228272d2b2ce0679e8e8d1",
                 "reference": "4c8cee894cbde53efa228272d2b2ce0679e8e8d1",
                 "shasum": ""
             },
@@ -734,6 +833,8 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
+        "aptoma/twig-markdown": 20,
+        "dflydev/github-gist-twig-extension": 20,
         "vanity/reflection-docblock": 20,
         "skyzyx/service-listing": 20,
         "skyzyx/spdx-licenses": 20,

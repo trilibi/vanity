@@ -87,7 +87,7 @@
 		itemscope itemtype="http://schema.org/WebPage">
 
 		{# Primary navigation #}
-		<div class="navbar navbar-fixed-top">
+		<div class="navbar navbar-fixed-top navbar-inverse">
 			<div class="navbar-inner">
 				<div class="container">
 
@@ -152,15 +152,24 @@
 				{% if vanity.config['generator.template.metadata.copyright_years']
 					and vanity.config['generator.template.metadata.copyright_owner']
 					and vanity.config['generator.template.metadata.copyright_owner_url'] %}
-
-					<small>Copyright &copy; {{ vanity.config['generator.template.metadata.copyright_years'] }} <a href="{{ vanity.config['generator.template.metadata.copyright_owner_url'] }}">{{ vanity.config['generator.template.metadata.copyright_owner'] }}</a></small>
-
+					<small>Copyright &copy;
+						<span itemprop="copyrightYear">{{ vanity.config['generator.template.metadata.copyright_years'] }}</span>&nbsp;
+						<a href="{{ vanity.config['generator.template.metadata.copyright_owner_url'] }}" itemscope itemtype="http://schema.org/Organization">
+							<span itemprop="legalName">{{ vanity.config['generator.template.metadata.copyright_owner'] }}</span>
+						</a>
+					</small>
+					<br>
 				{% elseif vanity.config['generator.template.metadata.copyright_years']
 					and vanity.config['generator.template.metadata.copyright_owner'] %}
-
-					<small>Copyright &copy; {{ vanity.config['generator.template.metadata.copyright_years'] }} {{ vanity.config['generator.template.metadata.copyright_owner'] }}</small>
-
+					<small>Copyright &copy;
+						<span itemprop="copyrightYear">{{ vanity.config['generator.template.metadata.copyright_years'] }}</span>&nbsp;
+						<span itemscope itemtype="http://schema.org/Organization">
+							<span itemprop="legalName sourceOrganization">{{ vanity.config['generator.template.metadata.copyright_owner'] }}</span>
+						</span>
+					</small>
+					<br>
 				{% endif %}
+				<small>Built on <span itemprop="dateCreated" content="{{ "now"|date('Y-m-d\\TH:i:sO') }}">{{ "now"|date('j M Y, g:ia T') }}</span>.</small>
 			{% endblock %}
 		</p>
 		<div id="bottom-spacer"></div>

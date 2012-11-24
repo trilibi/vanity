@@ -17,7 +17,7 @@
 	</div>
 
 	{# Main content area #}
-	<div class="span9 content">
+	<div class="span9 content" itemprop="mainContentOfPage">
 		<div class="page-header">
 			<span class="label label-info">Method</span>
 
@@ -122,7 +122,7 @@ var_dump($response->isOK());</pre>
 										<code>{{ type }}</code>
 									{% else %}
 										<code>mixed</code>
-									{% endif %}
+									{% endif %}&nbsp;
 								{% endfor %}
 
 								{% if parameter.required %}

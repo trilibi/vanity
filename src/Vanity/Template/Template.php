@@ -29,6 +29,8 @@ namespace Vanity\Template;
 
 require_once VANITY_VENDOR . '/twig/twig/lib/Twig/Autoloader.php';
 
+use Aptoma\Twig\Extension\MarkdownExtension;
+use dflydev\markdown\MarkdownParser;
 use Twig_Autoloader;
 use Twig_Environment;
 use Twig_Extension_Debug;
@@ -112,6 +114,7 @@ abstract class Template implements TemplateInterface
 
 		// Extensions
 		$this->twig->addExtension(new Twig_Extension_Debug());
+		$this->twig->addExtension(new MarkdownExtension(new MarkdownParser));
 
 		// Functions
 		$this->twig->addFunction('description_as_html', new Twig_Function_Function('vanity_twig_description_as_html'));
@@ -120,9 +123,6 @@ abstract class Template implements TemplateInterface
 		$this->twig->addFunction('filter_by_inherited', new Twig_Function_Function('vanity_twig_filter_by_inherited'));
 		$this->twig->addFunction('filter_by_letter', new Twig_Function_Function('vanity_twig_filter_by_letter'));
 		$this->twig->addFunction('names', new Twig_Function_Function('vanity_twig_names'));
-
-		// Filters
-		$this->twig->addFilter('markdown', new Twig_Filter_Function('vanity_twig_markdown'));
 
 		$this->triggerEvent('vanity.twig.environment.init', new EventStore(array(
 			'twig' => $this->twig,
