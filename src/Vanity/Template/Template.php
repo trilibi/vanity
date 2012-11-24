@@ -150,16 +150,20 @@ abstract class Template implements TemplateInterface
 
 			echo $formatter->yellow->apply('GENERATING: ' . strtoupper($nameOfFormatterEvent)) . PHP_EOL;
 
+			// Keep track of the number of files written
+			$count = 0;
+
 			$files = $event->get('files');
 			foreach ($files['absolute'] as $file)
 			{
 				foreach ($template->generateAPIReference($file) as $wrote)
 				{
 					echo TAB . $formatter->green->apply('-> ') . $wrote . PHP_EOL;
+					$count++;
 				}
 			}
 
-			echo PHP_EOL;
+			self::wroteFileCount($count);
 			echo $formatter->yellow->apply('COPYING STATIC ASSETS:') . PHP_EOL;
 
 			$staticAssets = $finder
@@ -288,5 +292,20 @@ abstract class Template implements TemplateInterface
 	{
 		Logger::get()->{ConfigStore::get('log.events')}('Triggering event:', array($event));
 		Dispatcher::get()->dispatch($event, $eventObject);
+	}
+
+	/**
+	 * Log the number of files that were written to the console.
+	 *
+	 * @param  integer $count The number of files that were written.
+	 * @return void
+	 */
+	public static function wroteFileCount($count)
+	{
+		$formatter = ConsoleUtil::formatters();
+
+		echo PHP_EOL;
+		echo 'Matched ' . $formatter->info->apply(" ${count} ") . ' ' . ConsoleUtil::pluralize($count, 'file', 'files') . '.' . PHP_EOL;
+		echo PHP_EOL;
 	}
 }
