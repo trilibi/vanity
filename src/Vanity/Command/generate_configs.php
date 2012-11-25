@@ -63,7 +63,17 @@ return array_merge(include __DIR__ . '/base_configs.php', array(
 				'license_url'         => array(InputOption::VALUE_OPTIONAL, 'The URL for the licensing terms.', null),
 				'locale'              => array(InputOption::VALUE_OPTIONAL, 'The code that represents the locale of the language used. Should be in the {language} or the {language}-{region} format (e.g., en, en-US, en-GB, fr, fr-FR). See http://www.langtag.net/registries/lsr-language-utf8.txt and http://www.langtag.net/registries/lsr-region-utf8.txt for valid values.', 'en'),
 			),
-			// 'social' => array(),
+			'comments' => array(
+				'disqus'          => array(InputOption::VALUE_OPTIONAL, 'Your Disqus "shortcode" for this site. Learn more at http://disqus.com/admin/ > Settings > Site.', null),
+				'facebook_app_id' => array(InputOption::VALUE_OPTIONAL, 'Your Facebook App ID for this site. Create a new app at https://developers.facebook.com/apps/. The `generator.template.web_root` option must also be set correctly.', null),
+				'intense_debate'  => array(InputOption::VALUE_OPTIONAL, 'Your Intense Debate Site Account ID for this site. Learn more at http://intensedebate.com/sitekey/. (example: e074c11fd3d7example3a3786example)', null),
+			),
+			'social_buttons' => array(
+				'facebook_app_id'  => array(InputOption::VALUE_OPTIONAL, 'Your Facebook App ID for this site. Create a new app at https://developers.facebook.com/apps/.', null),
+				'facebook_page'    => array(InputOption::VALUE_OPTIONAL, 'Your Facebook Page to like. The default value is this URL, provided the `generator.template.web_root` option is also set correctly.', null),
+				'google_plus'      => array(InputOption::VALUE_NONE, 'Whether or not to enable a Google +1 button.', false),
+				'twitter_username' => array(InputOption::VALUE_OPTIONAL, 'Your Twitter username.', null),
+			),
 			'web_root' => array(InputOption::VALUE_OPTIONAL, 'The web root of the documentation URL. If the documentation homepage should live at `http://example.com/docs/index.html`, then the correct value would be `http://example.com/docs/` (with trailing slash).', null),
 		),
 	),
