@@ -1,0 +1,14 @@
+<div class="page-header">
+	{% if json.kind == 'Class' %}
+		<span class="label label-info">{{ json.kind }}</span>
+	{% elseif json.kind == 'Interface' %}
+		<span class="label label-success">{{ json.kind }}</span>
+	{% elseif json.kind == 'Trait' %}
+		<span class="label label-inverse">{{ json.kind }}</span>
+	{% elseif json.kind == 'Exception' %}
+		<span class="label label-important">{{ json.kind }}</span>
+	{% endif %}
+
+	<h1>{{ json.name }}</h1>
+	<span class="fullname" itemprop="name">&rarr; <span itemprop="name">{{ json.full_name }}</span></span>
+</div>

@@ -1,0 +1,32 @@
+{# Twitter "Follow" button #}
+{% if vanity.config['generator.template.social_buttons.twitter_username'] %}
+	<br>
+	<a href="https://twitter.com/{{ vanity.config['generator.template.social_buttons.twitter_username'] }}" class="twitter-follow-button" data-show-screen-name="true" data-show-count="true" data-size="medium" data-lang="en-US">Follow @{{ vanity.config['generator.template.social_buttons.twitter_username'] }}</a>
+	<br>
+{% endif %}
+
+{# Facebook "Like" button #}
+{% if vanity.config['generator.template.social_buttons.facebook_app_id'] %}
+	{% if vanity.config['generator.template.social_buttons.facebook_page'] %}
+		{% set url = vanity.config['generator.template.social_buttons.facebook_page'] %}
+		<br>
+		<div class="fb-like" data-href="{{ url }}" data-send="false" data-width="238" data-show-faces="true"></div>
+		<br>
+	{% elseif vanity.config['generator.template.web_root'] %}
+		{% if method %}
+			{% set url = vanity.config['generator.template.web_root'] ~ 'api-reference/' ~ json.namespace_as_path ~ '/' ~ method.name ~ '.html' %}
+		{% elseif json %}
+			{% set url = vanity.config['generator.template.web_root'] ~ 'api-reference/' ~ json.namespace_as_path ~ '/index.html' %}
+		{% endif %}
+		<br>
+		<div class="fb-like" data-href="{{ url }}" data-send="false" data-width="238" data-show-faces="true"></div>
+		<br>
+	{% endif %}
+{% endif %}
+
+{# Google +1 button #}
+{% if vanity.config['generator.template.social_buttons.google_plus'] %}
+	<br>
+	<div class="g-plusone" data-size="medium" data-annotation="inline" data-width="238"></div>
+	<br>
+{% endif %}

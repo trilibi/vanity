@@ -34,8 +34,6 @@
 * Develop a template for reStructuredText output.
 * [TBD]
 
-<meta name="google-site-verification" content="m0LFjc4lG_rWlf0WeWG044B4wuYow4mYRkKXSWcEMMs" />
-
 <link rel="shortcut icon" href="http://cdn.last.fm/flatness/favicon.2.ico" />
 <link rel="apple-touch-icon" href="http://cdn.last.fm/flatness/apple-touch-icon.png" />
 <link rev="canonical" href="http://last.fm/+uChXT" />
@@ -62,6 +60,14 @@
                    panel.search(s, true);
                }
            }
+
+
+http://developer.github.com/v3/#rate-limiting
+Tags: https://api.github.com/repos/aws/aws-sdk-php/git/refs/tags/:version
+Source: https://api.github.com/repos/aws/aws-sdk-php/git/trees/:sha
+Source for src/: https://api.github.com/repos/aws/aws-sdk-php/git/trees/:sha?recursive=1
+Committers: https://api.github.com/repos/aws/aws-sdk-php/commits?per_page=100&path=:path
+
 
 
 Get list of authors for a file:

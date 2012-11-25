@@ -1,0 +1,9 @@
+{# The description data processed into HTML. #}
+{% if json.description and json.description is iterable %}
+	<div itemprop="description">
+	{{ description_as_html(json.description)|raw }}
+	<br>
+	</div>
+{% else %}
+	<p>{{ vanity.message.not_yet_implemented|raw }}</p>
+{% endif %}

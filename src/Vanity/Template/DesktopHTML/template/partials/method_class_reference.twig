@@ -1,0 +1,43 @@
+<table border="0" class="class-reference">
+	<tbody>
+		<tr>
+			<th><p>Visibility</p></th>
+			<td><p>{{ method.visibility|join(' ') }}</p></td>
+		</tr>
+
+		<tr>
+			{# Do we inherit? Or are we a base class? #}
+			<th><p>Defined in</p></th>
+			<td>
+				{% if method.inheritance %}
+					<ul>
+						{% for inherited in method.inheritance.class %}
+							{% if inherited.path %}
+								<li><a href="{{ vanity.link.api_reference }}/{{ inherited.namespace_as_path }}/index.html">{{ inherited.name }}</a></li>
+							{% else %}
+								<li>{{ inherited.name }}</li>
+							{% endif %}
+						{% endfor %}
+					</ul>
+				{% else %}
+					<p><a href="{{ vanity.link.api_reference }}/{{ json.namespace_as_path }}/index.html">{{ json.full_name }}</a></p>
+				{% endif %}
+			</td>
+		</tr>
+
+		{% if method.path %}
+		<tr>
+			<th><p>Location</p></th>
+			<td>
+				{# Where does this file live? #}
+				{% if method.lines.start is sameas(method.lines.end) %}
+					<p>{{ method.path }}:{{ method.lines.start }}</p>
+				{% else %}
+					<p>{{ method.path }}:{{ method.lines.start }}-{{ method.lines.end }}</p>
+				{% endif %}
+			</td>
+		</tr>
+		{% endif %}
+
+	</tbody>
+</table>

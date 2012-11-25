@@ -5,282 +5,35 @@
 	{# Side navigation bar #}
 	<div class="navigation-wrapper">
 		<div class="span3 offset9 navigation" id="navTracker">
-			<ul class="nav nav-list well">
-				<li class="nav-header">Contents</li>
-				<li><a href="#description"><i class="icon-book"></i> Description</a></li>
-				<li><a href="#examples"><i class="icon-cog"></i> Examples</a></li>
-				{% if method.parameters %}<li><a href="#parameters"><i class="icon-th-list"></i> Parameters</a></li>{% endif %}
-				<li><a href="#returns"><i class="icon-share-alt"></i> Returns</a></li>
 
-				{% if vanity.config['generator.template.comments.disqus']
-					or vanity.config['generator.template.comments.intense_debate']
-					or (vanity.config['generator.template.comments.facebook_app_id'] and vanity.config['generator.template.web_root']) %}
-					<li><a href="#comments"><i class="icon-comment"></i> Comments</a></li>
-				{% endif %}
-				{% if vanity.config['generator.twig.debug'] %}<li><a href="#debugger"><i class="icon-wrench"></i> Debugger Data</a></li>{% endif %}
-			</ul>
+			{% include "partials/method_navigation.twig" %}
 
-			{# Twitter "Follow" button #}
-			{% if vanity.config['generator.template.social_buttons.twitter_username'] %}
-				<br>
-				<a href="https://twitter.com/{{ vanity.config['generator.template.social_buttons.twitter_username'] }}" class="twitter-follow-button" data-show-screen-name="true" data-show-count="true" data-size="medium" data-lang="en-US">Follow @{{ vanity.config['generator.template.social_buttons.twitter_username'] }}</a>
-				<br>
-			{% endif %}
-
-			{# Facebook "Like" button #}
-			{% if vanity.config['generator.template.social_buttons.facebook_app_id'] %}
-				{% if vanity.config['generator.template.social_buttons.facebook_page'] %}
-					{% set url = vanity.config['generator.template.social_buttons.facebook_page'] %}
-					<br>
-					<div class="fb-like" data-href="{{ url }}" data-send="false" data-width="238" data-show-faces="true"></div>
-					<br>
-				{% elseif vanity.config['generator.template.web_root'] %}
-					{% if method %}
-						{% set url = vanity.config['generator.template.web_root'] ~ 'api-reference/' ~ json.namespace_as_path ~ '/' ~ method.name ~ '.html' %}
-					{% elseif json %}
-						{% set url = vanity.config['generator.template.web_root'] ~ 'api-reference/' ~ json.namespace_as_path ~ '/index.html' %}
-					{% endif %}
-					<br>
-					<div class="fb-like" data-href="{{ url }}" data-send="false" data-width="238" data-show-faces="true"></div>
-					<br>
-				{% endif %}
-			{% endif %}
-
-			{# Google +1 button #}
-			{% if vanity.config['generator.template.social_buttons.google_plus'] %}
-				<br>
-				<div class="g-plusone" data-size="medium" data-annotation="inline" data-width="238"></div>
-				<br>
-			{% endif %}
+			{% include "partials/social_buttons.twig" %}
 
 		</div>
 	</div>
 
 	{# Main content area #}
 	<div class="span9 content" itemprop="mainContentOfPage">
-		<div class="page-header">
-			<span class="label label-info">Method</span>
 
-			{% if method.parameters %}
-				<h1>{{ method.name }} <small>( ${{ names(method.parameters.parameter)|join(', $') }} )</small></h1>
-			{% else %}
-				<h1>{{ method.name }} <small>( )</small></h1>
-			{% endif %}
+		{% include "partials/method_page_header.twig" %}
 
-			<span class="fullname">&rarr; {{ json.full_name }}::{{ method.name }}()</span>
-		</div>
+		{% include "partials/method_description.twig" %}
 
-		{# The description data processed into HTML. #}
-		{% if method.description and method.description is iterable %}
-			{{ description_as_html(method.description)|raw }}
-			<br>
-		{% else %}
-			<p>{{ vanity.message.not_yet_implemented|raw }}</p>
-		{% endif %}
+		{% include "partials/method_class_reference.twig" %}
 
-		<table border="0" class="class-reference">
-			<tbody>
-				<tr>
-					<th><p>Visibility</p></th>
-					<td><p>{{ method.visibility|join(' ') }}</p></td>
-				</tr>
+		{% include "partials/examples.twig" %}
 
-				<tr>
-					{# Do we inherit? Or are we a base class? #}
-					<th><p>Defined in</p></th>
-					<td>
-						{% if method.inheritance %}
-							<ul>
-								{% for inherited in method.inheritance.class %}
-									{% if inherited.path %}
-										<li><a href="{{ vanity.link.api_reference }}/{{ inherited.namespace_as_path }}/index.html">{{ inherited.name }}</a></li>
-									{% else %}
-										<li>{{ inherited.name }}</li>
-									{% endif %}
-								{% endfor %}
-							</ul>
-						{% else %}
-							<p><a href="{{ vanity.link.api_reference }}/{{ json.namespace_as_path }}/index.html">{{ json.full_name }}</a></p>
-						{% endif %}
-					</td>
-				</tr>
+		{% include "partials/parameters.twig" %}
 
-				{% if method.path %}
-				<tr>
-					<th><p>Location</p></th>
-					<td>
-						{# Where does this file live? #}
-						{% if method.lines.start is sameas(method.lines.end) %}
-							<p>{{ method.path }}:{{ method.lines.start }}</p>
-						{% else %}
-							<p>{{ method.path }}:{{ method.lines.start }}-{{ method.lines.end }}</p>
-						{% endif %}
-					</td>
-				</tr>
-				{% endif %}
+		{% include "partials/returns.twig" %}
 
-			</tbody>
-		</table>
+		{% include "partials/comments.twig" %}
 
-		<h2 id="examples">Examples</h2>
-		<div class="example description">
-			<h3>Launch an EC2 instance.</h3>
-			<pre class="prettyprint linenums">// Instantiate the class
-$ec2 = new AmazonEC2();
+		{% include "partials/debugger_data.twig" %}
 
-// Boot an instance of the image
-$response = $ec2->run_instances('ami-84db39ed', 1, 1, array(
-	'InstanceType' => 'm1.small'
-));
-
-// Success?
-var_dump($response->isOK());</pre>
-		</div>
-
-		{% if method.parameters %}
-		<h2 id="parameters">Parameters</h2>
-		<div class="well">
-			<table cellpadding="0" cellspacing="0" border="0" width="100%" class="table table-striped">
-				<thead>
-					<tr>
-						<th><p>Name</p></th>
-						<th class="description"><p>Description</p></th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for parameter in method.parameters.parameter %}
-					<tr>
-						<td class="parameter">
-							<p><code>{{ parameter.name }}</code></p>
-						</td>
-						<td class="description">
-							{% if parameter.types %}
-							{# Multiple return types #}
-								<p>
-								{% for type in parameter.types %}
-									{% if type|split('\\')|length > 1 %}
-										<code><a href="{{ vanity.link.api_reference }}/{{ namespace_as_path(type) }}/index.html">{{ type }}</a></code>
-									{% elseif type %}
-										<code>{{ type }}</code>
-									{% else %}
-										<code>mixed</code>
-									{% endif %}&nbsp;
-								{% endfor %}
-
-								{% if parameter.required %}
-									&nbsp;<small>Required</small>
-								{% endif %}
-								</p>
-							{% else %}
-							{# Only a single return type #}
-								<p>
-								{% if parameter.type and parameter.type|split('\\')|length > 1 %}
-									<code><a href="{{ vanity.link.api_reference }}/{{ namespace_as_path(parameter.type) }}/index.html">{{ parameter.type }}</a></code>
-								{% elseif parameter.type %}
-									<code>{{ parameter.type }}</code>
-								{% else %}
-									<code>mixed</code>
-								{% endif %}
-
-								{% if parameter.required %}
-									&nbsp;<small>Required</small>
-								{% endif %}
-								</p>
-							{% endif %}
-
-							{% if parameter.description %}
-								{{ parameter.description|markdown|raw }}
-							{% else %}
-								<p>{{ vanity.message.not_yet_implemented|raw }}</p>
-							{% endif %}
-
-							{% if parameter.default %}
-								<p><small>The default value is: {{ parameter.default }}</small></p>
-							{% endif %}
-						</td>
-					</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-		</div>
-		{% endif %}
-
-		<h2 id="returns">Returns</h2>
-		<div class="well">
-			<table cellpadding="0" cellspacing="0" border="0" width="100%" class="table table-striped">
-				<thead>
-					<tr>
-						<th><p>Type</p></th>
-						<th class="description"><p>Description</p></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td class="parameter">
-							{% if method.return.types %}
-							{# Multiple return types #}
-								{% for type in method.return.types %}
-									{% if type|split('\\')|length > 1 %}
-										<p><code><a href="{{ vanity.link.api_reference }}/{{ namespace_as_path(type) }}/index.html">{{ type }}</a></code></p>
-									{% elseif type %}
-										<p><code>{{ type }}</code></p>
-									{% else %}
-										<p><code>mixed</code></p>
-									{% endif %}
-								{% endfor %}
-							{% else %}
-							{# Only a single return type #}
-								{% if method.return.type and method.return.type|split('\\')|length > 1 %}
-									<p><code><a href="{{ vanity.link.api_reference }}/{{ namespace_as_path(method.return.type) }}/index.html">{{ method.return.type }}</a></code></p>
-								{% elseif method.return.type %}
-									<p><code>{{ method.return.type }}</code></p>
-								{% else %}
-									<p><code>mixed</code></p>
-								{% endif %}
-							{% endif %}
-						</td>
-						<td class="description">
-							{% if method.return.description %}
-								{{ method.return.description|markdown|raw }}
-							{% else %}
-								<p>{{ vanity.message.not_yet_implemented|raw }}</p>
-							{% endif %}
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-
-		{# Intense Debate comments #}
-		{% if vanity.config['generator.template.comments.intense_debate'] %}
-		<h2 id="comments">Comments</h2>
-		<span id="IDCommentsPostTitle" style="display:none"></span>
-		{% endif %}
-
-		{# Disqus comments #}
-		{% if vanity.config['generator.template.comments.disqus'] %}
-		<h2 id="comments">Comments</h2>
-		<div id="disqus_thread"></div>
-		{% endif %}
-
-		{# Facebook comments #}
-		{% if vanity.config['generator.template.comments.facebook_app_id']
-			and vanity.config['generator.template.web_root'] %}
-			{% if method %}
-				{% set url = vanity.config['generator.template.web_root'] ~ 'api-reference/' ~ json.namespace_as_path ~ '/' ~ method.name ~ '.html' %}
-			{% elseif json %}
-				{% set url = vanity.config['generator.template.web_root'] ~ 'api-reference/' ~ json.namespace_as_path ~ '/index.html' %}
-			{% endif %}
-			<h2 id="comments">Comments</h2>
-			<div class="fb-comments" data-href="{{ url }}" data-num-posts="5" data-width="870"></div><div id="fb-root"></div>
-		{% endif %}
-
-		{% if vanity.config['generator.twig.debug'] %}
-		<h2 id="debugger">Debugger Data</h2>
-<pre>
-{{ dump(vanity) }}
-</pre>
-{% endif %}
+		{% include "partials/footer.twig" %}
 
 	</div>
+
 {% endblock %}

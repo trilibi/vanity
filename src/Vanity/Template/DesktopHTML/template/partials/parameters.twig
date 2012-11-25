@@ -1,0 +1,74 @@
+{% if method.parameters %}
+
+<h2 id="parameters">Parameters</h2>
+<div class="well">
+	<table cellpadding="0" cellspacing="0" border="0" width="100%" class="table table-striped">
+
+		<thead>
+			<tr>
+				<th><p>Name</p></th>
+				<th class="description"><p>Description</p></th>
+			</tr>
+		</thead>
+
+		<tbody>
+			{% for parameter in method.parameters.parameter %}
+			<tr>
+				<td class="parameter">
+					<p><code>{{ parameter.name }}</code></p>
+				</td>
+				<td class="description">
+					{% if parameter.types %}
+						{# Multiple return types #}
+						<p>
+						{% for type in parameter.types %}
+							{% if type|split('\\')|length > 1 %}
+								<code><a href="{{ vanity.link.api_reference }}/{{ namespace_as_path(type) }}/index.html">{{ type }}</a></code>
+							{% elseif type %}
+								<code>{{ type }}</code>
+							{% else %}
+								<code>mixed</code>
+							{% endif %}&nbsp;
+						{% endfor %}
+
+						{% if parameter.required %}
+							&nbsp;<small>Required</small>
+						{% endif %}
+						</p>
+
+					{% else %}
+						{# Only a single return type #}
+						<p>
+						{% if parameter.type and parameter.type|split('\\')|length > 1 %}
+							<code><a href="{{ vanity.link.api_reference }}/{{ namespace_as_path(parameter.type) }}/index.html">{{ parameter.type }}</a></code>
+						{% elseif parameter.type %}
+							<code>{{ parameter.type }}</code>
+						{% else %}
+							<code>mixed</code>
+						{% endif %}
+
+						{% if parameter.required %}
+							&nbsp;<small>Required</small>
+						{% endif %}
+						</p>
+
+					{% endif %}
+
+					{% if parameter.description %}
+						{{ parameter.description|markdown|raw }}
+					{% else %}
+						<p>{{ vanity.message.not_yet_implemented|raw }}</p>
+					{% endif %}
+
+					{% if parameter.default %}
+						<p><small>The default value is: {{ parameter.default }}</small></p>
+					{% endif %}
+
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+
+{% endif %}

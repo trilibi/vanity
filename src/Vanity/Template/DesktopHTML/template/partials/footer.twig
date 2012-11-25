@@ -1,0 +1,25 @@
+<p class="footnote" align="center">
+{% block footer %}
+	{% if vanity.config['generator.template.seo.copyright_years']
+		and vanity.config['generator.template.seo.copyright_owner']
+		and vanity.config['generator.template.seo.copyright_owner_url'] %}
+		<small>Copyright &copy;
+			<span itemprop="copyrightYear">{{ vanity.config['generator.template.seo.copyright_years'] }}</span>&nbsp;
+			<a href="{{ vanity.config['generator.template.seo.copyright_owner_url'] }}" itemscope itemtype="http://schema.org/Organization">
+				<span itemprop="legalName">{{ vanity.config['generator.template.seo.copyright_owner'] }}</span>
+			</a>
+		</small>
+		<br>
+	{% elseif vanity.config['generator.template.seo.copyright_years']
+		and vanity.config['generator.template.seo.copyright_owner'] %}
+		<small>Copyright &copy;
+			<span itemprop="copyrightYear">{{ vanity.config['generator.template.seo.copyright_years'] }}</span>&nbsp;
+			<span itemscope itemtype="http://schema.org/Organization">
+				<span itemprop="legalName sourceOrganization">{{ vanity.config['generator.template.seo.copyright_owner'] }}</span>
+			</span>
+		</small>
+		<br>
+	{% endif %}
+	<small>Built on <span itemprop="dateCreated" content="{{ "now"|date('Y-m-d\\TH:i:sO') }}">{{ "now"|date('j M Y, g:ia T') }}</span>.</small>
+{% endblock %}
+</p>

@@ -1,0 +1,76 @@
+{% if vanity.config['generator.template.seo.locale'] %}
+	{% set locale = vanity.config['generator.template.seo.locale'] %}
+{% endif %}
+
+{# Standard page metadata #}
+<meta http-equiv="X-UA-Compatible" content="Chrome=1; IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta property="og:type" content="website">
+<meta charset="{{ _charset }}">
+
+{# Define Dublin Core metadata namespaces #}
+<link rel="schema.DC"      href="http://purl.org/dc/elements/1.1/">
+<link rel="schema.DCTERMS" href="http://purl.org/dc/terms/">
+
+{# Title metadata #}
+<title>{{ vanity.page_title }} - {{ vanity.project_with_version }}</title>
+<meta name="DC.title" lang="{{ locale }}" content="{{ vanity.page_title }} - {{ vanity.project_with_version }}">
+<meta property="og:site_name" content="{{ vanity.project }}">
+<meta property="og:title" content="{{ vanity.page_title }}">
+
+{# Page-wide metadata #}
+<meta name="DC.format" scheme="DCTERMS.IMT"      content="text/html;charset={{ _charset }}">
+<meta name="DC.type"   scheme="DCTERMS.DCMIType" content="Text">
+
+{# Description metadata #}
+{% if vanity.config['generator.template.seo.google_verification'] %}
+	<meta name="google-site-verification" content="{{ vanity.config['generator.template.seo.google_verification'] }}">
+{% endif %}
+
+{# Description metadata #}
+{% if vanity.config['generator.template.seo.description'] %}
+	<meta name="description"        lang="{{ locale }}" content="{{ vanity.config['generator.template.seo.description'] }}">
+	<meta name="DC.description"     lang="{{ locale }}" content="{{ vanity.config['generator.template.seo.description'] }}">
+	<meta name="DCTERMS.abstract"   lang="{{ locale }}" content="{{ vanity.config['generator.template.seo.description'] }}">
+	<meta property="og:description" lang="{{ locale }}" content="{{ vanity.config['generator.template.seo.description'] }}">
+{% endif %}
+
+{# Locale metadata #}
+{% if locale %}
+	<meta property="og:locale" content="{{ locale|split('-')|join('_') }}">
+	<meta name="DC.language" scheme="DCTERMS.RFC5646" content="{{ locale }}">
+{% endif %}
+
+{# Canonical metadata #}
+{% if vanity.config['generator.template.web_root'] %}
+	{% if method %}
+		{# Is this a method? #}
+		<meta property="og:url" content="{{ vanity.config['generator.template.web_root'] }}api-reference/{{ json.namespace_as_path }}/{{ method.name }}.html">
+		<link rel="canonical" href="{{ vanity.config['generator.template.web_root'] }}api-reference/{{ json.namespace_as_path }}/{{ method.name }}.html">
+	{% elseif json %}
+		{# Is this a class/interface/trait? #}
+		<meta property="og:url" content="{{ vanity.config['generator.template.web_root'] }}api-reference/{{ json.namespace_as_path }}/index.html">
+		<link rel="canonical" href="{{ vanity.config['generator.template.web_root'] }}api-reference/{{ json.namespace_as_path }}/index.html">
+	{% endif %}
+{% endif %}
+
+{# License metadata #}
+{% if vanity.config['generator.template.seo.license_url'] %}
+	<link rel="DCTERMS.LicenseDocument" href="{{ vanity.config['generator.template.seo.license_url'] }}">
+{% endif %}
+
+{# Date metadata #}
+<meta name="DC.date" scheme="DCTERMS.W3CDTF"   content="{{ "now"|date('Y-m-d\\TH:i:sO') }}">
+
+{# Owner metadata #}
+{% if vanity.config['generator.template.seo.copyright_years']
+	and vanity.config['generator.template.seo.copyright_owner'] %}
+	<meta name="DC.rights" lang="{{ locale }}" content="{{ vanity.config['generator.template.seo.copyright_years'] }} {{ vanity.config['generator.template.seo.copyright_owner'] }}">
+{% endif %}
+
+{# Contributor metadata #}
+{% if vanity.config['generator.template.seo.contributors'] %}
+	{% for contributor in vanity.config['generator.template.seo.contributors'] %}
+		<meta name="DC.contributor" scheme="DCTERMS.Agent" content="{{ contributor }}">
+	{% endfor %}
+{% endif %}

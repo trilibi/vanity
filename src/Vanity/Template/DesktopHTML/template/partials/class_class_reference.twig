@@ -1,0 +1,66 @@
+<table border="0" class="class-reference">
+	<tbody>
+		<tr>
+			{# Do we inherit? Or are we a base class? #}
+			<th><p>Inherits from</p></th>
+			<td>
+				{% if json.inheritance %}
+					<ul>
+						{% for inherited in json.inheritance.class %}
+							{% if inherited.path %}
+								<li><a href="{{ vanity.link.api_reference }}/{{ inherited.namespace_as_path }}/index.html">{{ inherited.name }}</a></li>
+							{% else %}
+								<li>{{ inherited.name }}</li>
+							{% endif %}
+						{% endfor %}
+					</ul>
+				{% else %}
+					<p>None (<code>{{ json.name }}</code> is a root class)</p>
+				{% endif %}
+			</td>
+		</tr>
+
+		{# Do we implement any interfaces? #}
+		{% if json.implements %}
+		<tr>
+			<th><p>Implements</p></th>
+			<td>
+				<ul>
+					{% for interface in json.implements.interface %}
+						{% if interface.path %}
+							<li><a href="{{ vanity.link.api_reference }}/{{ interface.namespace_as_path }}/index.html">{{ interface.name }}</a></li>
+						{% else %}
+							<li>{{ interface.name }}</li>
+						{% endif %}
+					{% endfor %}
+				</ul>
+			</td>
+		</tr>
+		{% endif %}
+
+		{# Do we import any traits? #}
+		{% if json.traits %}
+		<tr>
+			<th><p>Traits</p></th>
+			<td>
+				<ul>
+					{% for trait in json.traits.trait %}
+						{% if trait.path %}
+							<li><a href="{{ vanity.link.api_reference }}/{{ trait.namespace_as_path }}/index.html">{{ trait.name }}</a></li>
+						{% else %}
+							<li>{{ trait.name }}</li>
+						{% endif %}
+					{% endfor %}
+				</ul>
+			</td>
+		</tr>
+		{% endif %}
+		<tr>
+			<th><p>Location</p></th>
+			<td>
+				{# Where does this file live? #}
+				<p>{{ json.path }}</p>
+			</td>
+		</tr>
+	</tbody>
+</table>

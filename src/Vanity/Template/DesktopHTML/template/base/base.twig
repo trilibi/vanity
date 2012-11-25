@@ -1,84 +1,9 @@
-<!DOCTYPE html>
 {% spaceless %}
+<!DOCTYPE html>
 <html prefix="og: http://ogp.me/ns#">
 	<head profile="http://dublincore.org/documents/dcq-html/">
 
-		{% if vanity.config['generator.template.seo.locale'] %}
-			{% set locale = vanity.config['generator.template.seo.locale'] %}
-		{% endif %}
-
-		{# Standard page metadata #}
-		<meta http-equiv="X-UA-Compatible" content="Chrome=1; IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta property="og:type" content="website">
-		<meta charset="{{ _charset }}">
-
-		{# Define Dublin Core metadata namespaces #}
-		<link rel="schema.DC"      href="http://purl.org/dc/elements/1.1/">
-		<link rel="schema.DCTERMS" href="http://purl.org/dc/terms/">
-
-		{# Title metadata #}
-		<title>{{ vanity.page_title }} - {{ vanity.project_with_version }}</title>
-		<meta name="DC.title" lang="{{ locale }}" content="{{ vanity.page_title }} - {{ vanity.project_with_version }}">
-		<meta property="og:site_name" content="{{ vanity.project }}">
-		<meta property="og:title" content="{{ vanity.page_title }}">
-
-		{# Page-wide metadata #}
-		<meta name="DC.format" scheme="DCTERMS.IMT"      content="text/html;charset={{ _charset }}">
-		<meta name="DC.type"   scheme="DCTERMS.DCMIType" content="Text">
-
-		{# Description metadata #}
-		{% if vanity.config['generator.template.seo.google_verification'] %}
-			<meta name="google-site-verification" content="{{ vanity.config['generator.template.seo.google_verification'] }}">
-		{% endif %}
-
-		{# Description metadata #}
-		{% if vanity.config['generator.template.seo.description'] %}
-			<meta name="description"        lang="{{ locale }}" content="{{ vanity.config['generator.template.seo.description'] }}">
-			<meta name="DC.description"     lang="{{ locale }}" content="{{ vanity.config['generator.template.seo.description'] }}">
-			<meta name="DCTERMS.abstract"   lang="{{ locale }}" content="{{ vanity.config['generator.template.seo.description'] }}">
-			<meta property="og:description" lang="{{ locale }}" content="{{ vanity.config['generator.template.seo.description'] }}">
-		{% endif %}
-
-		{# Locale metadata #}
-		{% if locale %}
-			<meta property="og:locale" content="{{ locale|split('-')|join('_') }}">
-			<meta name="DC.language" scheme="DCTERMS.RFC5646" content="{{ locale }}">
-		{% endif %}
-
-		{# Canonical metadata #}
-		{% if vanity.config['generator.template.web_root'] %}
-			{% if method %}
-				{# Is this a method? #}
-				<meta property="og:url" content="{{ vanity.config['generator.template.web_root'] }}api-reference/{{ json.namespace_as_path }}/{{ method.name }}.html">
-				<link rel="canonical" href="{{ vanity.config['generator.template.web_root'] }}api-reference/{{ json.namespace_as_path }}/{{ method.name }}.html">
-			{% elseif json %}
-				{# Is this a class/interface/trait? #}
-				<meta property="og:url" content="{{ vanity.config['generator.template.web_root'] }}api-reference/{{ json.namespace_as_path }}/index.html">
-				<link rel="canonical" href="{{ vanity.config['generator.template.web_root'] }}api-reference/{{ json.namespace_as_path }}/index.html">
-			{% endif %}
-		{% endif %}
-
-		{# License metadata #}
-		{% if vanity.config['generator.template.seo.license_url'] %}
-			<link rel="DCTERMS.LicenseDocument" href="{{ vanity.config['generator.template.seo.license_url'] }}">
-		{% endif %}
-
-		{# Date metadata #}
-		<meta name="DC.date" scheme="DCTERMS.W3CDTF"   content="{{ "now"|date('Y-m-d\\TH:i:sO') }}">
-
-		{# Owner metadata #}
-		{% if vanity.config['generator.template.seo.copyright_years']
-			and vanity.config['generator.template.seo.copyright_owner'] %}
-			<meta name="DC.rights" lang="{{ locale }}" content="{{ vanity.config['generator.template.seo.copyright_years'] }} {{ vanity.config['generator.template.seo.copyright_owner'] }}">
-		{% endif %}
-
-		{# Contributor metadata #}
-		{% if vanity.config['generator.template.seo.contributors'] %}
-			{% for contributor in vanity.config['generator.template.seo.contributors'] %}
-				<meta name="DC.contributor" scheme="DCTERMS.Agent" content="{{ contributor }}">
-			{% endfor %}
-		{% endif %}
+		{% include "partials/header_metadata.twig" %}
 
 		{# Stylesheets #}
 		<link rel="stylesheet" href="{{ vanity.base_path }}/bootstrap/css/bootstrap.min.css">
@@ -86,63 +11,16 @@
 		<link rel="stylesheet" href="{{ vanity.base_path }}/bootstrap/css/bootstrap-responsive.min.css">
 		<link rel="stylesheet" href="{{ vanity.base_path }}/prettify/prettify.css">
 		{% block styles %}{% endblock %}
+
 	</head>
 
-	<body data-spy="scroll" data-target="#navTracker" data-offset="100"
-		itemscope itemtype="http://schema.org/WebPage">
+	<body data-spy="scroll" data-target="#navTracker" data-offset="100" itemscope itemtype="http://schema.org/WebPage">
 
-		{# Primary navigation #}
-		<div class="navbar navbar-fixed-top navbar-inverse">
-			<div class="navbar-inner">
-				<div class="container">
-
-					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</a>
-
-					<a href="" class="brand">{{ vanity.project }}</a>
- 					<div class="nav-collapse">
-						<ul class="nav">
-							<li class="active"><a href="{{ vanity.link.api_reference }}/">API Reference</a></li>
-							<li><a href="{{ vanity.link.user_guide }}/">User Guide</a></li>
-						</ul>
-
-						<form class="navbar-search pull-right">
-							<input type="text" class="search-query" placeholder="Search" data-provide="typeahead">
-						</form>
- 					</div>
-
-				</div>
-			</div>
-		</div>
+		{% include "partials/primary_navigation.twig" %}
 
 		<div id="description" class="container">
 
-			{# Show the breadcrumbs #}
-			<div class="row">
-				<div class="span12">
-					<ul class="breadcrumb">
-						<li><i class="icon-map-marker"></i>&nbsp;</li>
-						<li><a href="{{ vanity.link.api_reference }}/index.html">API Reference</a> <span class="divider">\</span></li>
-						{% for breadcrumb in vanity.breadcrumbs %}
-							{% if breadcrumb.path %}
-								<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
-									<a href="{{ breadcrumb.path }}index.html" itemprop="url">
-										<span itemprop="title">{{ breadcrumb.name }}</span>
-									</a>
-									<span class="divider">\</span>
-								</li>
-							{% else %}
-								<li class="active" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
-									<span itemprop="title">{{ breadcrumb.name }}</span>
-								</li>
-							{% endif %}
-						{% endfor %}
-					</ul>
-				</div>
-			</div>
+			{% include "partials/breadcrumbs.twig" %}
 
 			<div class="row">
 
@@ -152,32 +30,6 @@
 			</div>
 		</div>
 
-		<p class="footnote" align="center">
-		{% block footer %}
-			{% if vanity.config['generator.template.seo.copyright_years']
-				and vanity.config['generator.template.seo.copyright_owner']
-				and vanity.config['generator.template.seo.copyright_owner_url'] %}
-				<small>Copyright &copy;
-					<span itemprop="copyrightYear">{{ vanity.config['generator.template.seo.copyright_years'] }}</span>&nbsp;
-					<a href="{{ vanity.config['generator.template.seo.copyright_owner_url'] }}" itemscope itemtype="http://schema.org/Organization">
-						<span itemprop="legalName">{{ vanity.config['generator.template.seo.copyright_owner'] }}</span>
-					</a>
-				</small>
-				<br>
-			{% elseif vanity.config['generator.template.seo.copyright_years']
-				and vanity.config['generator.template.seo.copyright_owner'] %}
-				<small>Copyright &copy;
-					<span itemprop="copyrightYear">{{ vanity.config['generator.template.seo.copyright_years'] }}</span>&nbsp;
-					<span itemscope itemtype="http://schema.org/Organization">
-						<span itemprop="legalName sourceOrganization">{{ vanity.config['generator.template.seo.copyright_owner'] }}</span>
-					</span>
-				</small>
-				<br>
-			{% endif %}
-			<small>Built on <span itemprop="dateCreated" content="{{ "now"|date('Y-m-d\\TH:i:sO') }}">{{ "now"|date('j M Y, g:ia T') }}</span>.</small>
-		{% endblock %}
-		</p>
-
 		<div id="bottom-spacer"></div>
 
 		{# Scripts #}
@@ -185,146 +37,12 @@
 		<script src="{{ vanity.base_path }}/jquery/jquery.easing.min.js" type="text/javascript" charset="utf-8" defer></script>
 		<script src="{{ vanity.base_path }}/prettify/prettify.js" type="text/javascript" charset="utf-8" defer></script>
 		<script src="{{ vanity.base_path }}/bootstrap/js/bootstrap.min.js" type="text/javascript" charset="utf-8" defer></script>
+		<script src="{{ vanity.base_path }}/scripts/app.js" type="text/javascript" charset="utf-8" defer></script>
 		<script src="{{ vanity.link.api_reference }}/typeahead.json" type="text/javascript" charset="utf-8" defer></script>
 		{% block scripts %}{% endblock %}
 
+		{% include "partials/social_scripts.twig" %}
 
-		<script type="text/javascript">
-
-		$(function() {
-
-			prettyPrint();
-			$('#nav-list').scrollspy();
-			$('#bottom-spacer').height($(window).height());
-
-			var top = $('#navTracker').offset().top - 77;
-
-			$(window).scroll(function(event) {
-
-				// what the y position of the scroll is
-				var y = $(this).scrollTop();
-
-				// whether that's below the form
-				if (y >= top) {
-
-					// if so, ad the fixed class
-					$('#navTracker').addClass('fixed');
-				}
-				else {
-
-					// otherwise remove it
-					$('#navTracker').removeClass('fixed');
-				}
-			});
-
-			$('#navTracker a').click(function(evt) {
-				evt.preventDefault();
-
-				var $node = $(this).attr('href'),
-				    scrollTo = $($node).offset().top - 62;
-
-				if ($.browser.webkit) {
-					$('body').stop().animate({
-						scrollTop: scrollTo
-					}, 600, 'easeInOutCubic');
-				}
-				else {
-					$('html').stop().animate({
-						scrollTop: scrollTo
-					}, 600, 'easeInOutExpo');
-				}
-
-				history.pushState({}, null, $node);
-			});
-
-			var splitQuery = function(query) {
-				return $.grep(query.split(/(\s+|\(\)?)/), function(string) {
-					return string.match(/\S/);
-				});
-			}
-
-			var buildRegexps = function(queries) {
-				return $.map(queries, function(query) {
-					return new RegExp(query.replace(/(.)/g, '([$1])([^$1]*?)'), 'i');
-				});
-			}
-
-			$('input.search-query').typeahead({
-				items: 15,
-				minLength: 2,
-				source: function(query, process) {
-					process($.grep(VANITY.TYPEAHEAD, function(a) {
-						// var regexes = buildRegexps(splitQuery(query));
-						return a.match(new RegExp(query, 'gi'));
-					}));
-				},
-				updater: function(item) {
-					var path = item.replace(/\\/g, '/');
-
-					if (path.indexOf('::') !== -1) {
-						path = path.replace(/::/g, '/').replace(/\(\)/g, '');
-						document.location = "{{ vanity.link.api_reference }}/" + path + '.html';
-					}
-					else {
-						document.location = "{{ vanity.link.api_reference }}/" + path + '/index.html';
-					}
-
-					return item;
-				}
-			});
-
-			{% if vanity.config['generator.template.comments.disqus'] %}
-			// Disqus comments
-			var disqus_shortname = '{{ vanity.config['generator.template.comments.disqus'] }}';
-			(function() {
-				var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-				dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-				(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-			})();
-			{% endif %}
-
-			{% if vanity.config['generator.template.comments.intense_debate'] %}
-			// Intense Debate comments
-			var idcomments_acct = '{{ vanity.config['generator.template.comments.intense_debate'] }}', idcomments_post_id, idcomments_post_url;
-			(function() {
-				var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-				dsq.src = '//intensedebate.com/js/genericCommentWrapperV2.js';
-				(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-			})();
-			{% endif %}
-
-			{% if vanity.config['generator.template.comments.facebook_app_id'] or vanity.config['generator.template.social_buttons.facebook_app_id'] %}
-				{% if method %}
-					{% set url = vanity.config['generator.template.web_root'] ~ 'api-reference/' ~ json.namespace_as_path ~ '/' ~ method.name ~ '.html' %}
-				{% elseif json %}
-					{% set url = vanity.config['generator.template.web_root'] ~ 'api-reference/' ~ json.namespace_as_path ~ '/index.html' %}
-				{% endif %}
-			// Facebook API
-			(function(d, s, id) {
-				var js, fjs = d.getElementsByTagName(s)[0];
-				if (d.getElementById(id)) return;
-				js = d.createElement(s); js.id = id;
-				js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId={{ vanity.config['generator.template.comments.facebook'] ? vanity.config['generator.template.comments.facebook'] : vanity.config['generator.template.social_buttons.facebook'] }}";
-				fjs.parentNode.insertBefore(js, fjs);
-			}(document, 'script', 'facebook-jssdk'));
-			{% endif %}
-
-			{% if vanity.config['generator.template.social_buttons.twitter_username'] %}
-			// Twitter API
-			!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
-			{% endif %}
-
-			{% if vanity.config['generator.template.social_buttons.google_plus'] %}
-			// Google +1
-			(function() {
-				var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-				po.src = 'https://apis.google.com/js/plusone.js';
-				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-			})();
-			{% endif %}
-		});
-
-		</script>
 	</body>
 </html>
 {% endspaceless %}

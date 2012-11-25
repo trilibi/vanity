@@ -1,0 +1,55 @@
+<script type="text/javascript">
+
+$(function() {
+	{% if vanity.config['generator.template.comments.disqus'] %}
+	// Disqus comments
+	var disqus_shortname = '{{ vanity.config['generator.template.comments.disqus'] }}';
+	(function() {
+		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+		dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	})();
+	{% endif %}
+
+	{% if vanity.config['generator.template.comments.intense_debate'] %}
+	// Intense Debate comments
+	var idcomments_acct = '{{ vanity.config['generator.template.comments.intense_debate'] }}', idcomments_post_id, idcomments_post_url;
+	(function() {
+		var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+		dsq.src = '//intensedebate.com/js/genericCommentWrapperV2.js';
+		(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	})();
+	{% endif %}
+
+	{% if vanity.config['generator.template.comments.facebook_app_id'] or vanity.config['generator.template.social_buttons.facebook_app_id'] %}
+		{% if method %}
+			{% set url = vanity.config['generator.template.web_root'] ~ 'api-reference/' ~ json.namespace_as_path ~ '/' ~ method.name ~ '.html' %}
+		{% elseif json %}
+			{% set url = vanity.config['generator.template.web_root'] ~ 'api-reference/' ~ json.namespace_as_path ~ '/index.html' %}
+		{% endif %}
+	// Facebook API
+	(function(d, s, id) {
+		var js, fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id)) return;
+		js = d.createElement(s); js.id = id;
+		js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId={{ vanity.config['generator.template.comments.facebook'] ? vanity.config['generator.template.comments.facebook'] : vanity.config['generator.template.social_buttons.facebook'] }}";
+		fjs.parentNode.insertBefore(js, fjs);
+	}(document, 'script', 'facebook-jssdk'));
+	{% endif %}
+
+	{% if vanity.config['generator.template.social_buttons.twitter_username'] %}
+	// Twitter API
+	!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+	{% endif %}
+
+	{% if vanity.config['generator.template.social_buttons.google_plus'] %}
+	// Google +1
+	(function() {
+		var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+		po.src = 'https://apis.google.com/js/plusone.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+	})();
+	{% endif %}
+});
+
+</script>

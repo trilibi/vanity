@@ -1,0 +1,26 @@
+{# Intense Debate comments #}
+{% if vanity.config['generator.template.comments.intense_debate'] %}
+<h2 id="comments">Comments</h2>
+<span id="IDCommentsPostTitle" style="display:none"></span>
+{% endif %}
+
+{# Disqus comments #}
+{% if vanity.config['generator.template.comments.disqus'] %}
+<h2 id="comments">Comments</h2>
+<div id="disqus_thread"></div>
+{% endif %}
+
+{# Facebook comments #}
+{% if vanity.config['generator.template.comments.facebook_app_id']
+	and vanity.config['generator.template.web_root'] %}
+
+	{% if method %}
+		{% set url = vanity.config['generator.template.web_root'] ~ 'api-reference/' ~ json.namespace_as_path ~ '/' ~ method.name ~ '.html' %}
+	{% elseif json %}
+		{% set url = vanity.config['generator.template.web_root'] ~ 'api-reference/' ~ json.namespace_as_path ~ '/index.html' %}
+	{% endif %}
+
+	<h2 id="comments">Comments</h2>
+	<div class="fb-comments" data-href="{{ url }}" data-num-posts="5" data-width="870"></div><div id="fb-root"></div>
+
+{% endif %}

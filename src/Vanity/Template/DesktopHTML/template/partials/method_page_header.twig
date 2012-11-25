@@ -1,0 +1,11 @@
+<div class="page-header">
+	<span class="label label-info">Method</span>
+
+	{% if method.parameters %}
+		<h1>{{ method.name }} <small>( ${{ names(method.parameters.parameter)|join(', $') }} )</small></h1>
+	{% else %}
+		<h1>{{ method.name }} <small>( )</small></h1>
+	{% endif %}
+
+	<span class="fullname">&rarr; {{ json.full_name }}::{{ method.name }}()</span>
+</div>

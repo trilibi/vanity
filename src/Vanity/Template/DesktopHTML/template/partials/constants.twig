@@ -1,0 +1,26 @@
+{# Let's show a table view of the constants in this class. #}
+{% if json.constants %}
+<h2 id="constants">Constants ({{ json.constants.count }})</h2>
+<div class="well">
+	<table cellpadding="0" cellspacing="0" border="0" width="100%" class="table table-striped">
+		<thead>
+			<tr>
+				<th><p>Name</p></th>
+				<th class="description"><p>Description</p></th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for constant in json.constants.constant %}
+			<tr>
+				<td>
+					<p><code>{{ constant.name }}</code></p>
+				</td>
+				<td class="description">
+					<p><code>{{ constant.type }}</code> {{ constant.value }}</p>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endif %}

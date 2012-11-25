@@ -1,0 +1,30 @@
+<div class="row">
+	<div class="span12">
+		<ul class="breadcrumb">
+			<li><i class="icon-map-marker"></i>&nbsp;</li>
+			<li><a href="{{ vanity.link.api_reference }}/index.html">API Reference</a> <span class="divider">\</span></li>
+
+			{# Loop through the breadcrumb object #}
+			{% for breadcrumb in vanity.breadcrumbs %}
+
+				{# Most items in the breadcrumb will have a path #}
+				{% if breadcrumb.path %}
+					<li itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+						<a href="{{ breadcrumb.path }}index.html" itemprop="url">
+							<span itemprop="title">{{ breadcrumb.name }}</span>
+						</a>
+						<span class="divider">\</span>
+					</li>
+
+				{# The currently-selected object will NOT have a path #}
+				{% else %}
+					<li class="active" itemscope itemtype="http://data-vocabulary.org/Breadcrumb">
+						<span itemprop="title">{{ breadcrumb.name }}</span>
+					</li>
+
+				{% endif %}
+			{% endfor %}
+
+		</ul>
+	</div>
+</div>

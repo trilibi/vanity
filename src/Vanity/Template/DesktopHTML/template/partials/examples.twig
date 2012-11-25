@@ -1,0 +1,14 @@
+<h2 id="examples">Examples</h2>
+<div class="example description">
+	<h3>Launch an EC2 instance.</h3>
+	<pre class="prettyprint linenums">// Instantiate the class
+$ec2 = new AmazonEC2();
+
+// Boot an instance of the image
+$response = $ec2->run_instances('ami-84db39ed', 1, 1, array(
+    'InstanceType' => 'm1.small'
+));
+
+// Success?
+var_dump($response->isOK());</pre>
+</div>
