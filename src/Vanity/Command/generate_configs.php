@@ -50,17 +50,20 @@ return array_merge(include __DIR__ . '/base_configs.php', array(
 			'strict_variables'    => array(InputOption::VALUE_OPTIONAL, 'If set to false, Twig will silently ignore invalid variables (variables and or attributes/methods that do not exist) and replace them with a null value. When set to true, Twig throws an exception instead.', false),
 		),
 
-		// Configurations that can be used in templates
+		// Configurations that can be used in templates. Enables better SEO.
 		'template' => array(
-			'metadata' => array(
+			'seo' => array(
 				'contributors'        => array(InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'The names of the primary contributors.', null),
 				'copyright_owner'     => array(InputOption::VALUE_OPTIONAL, 'The name of the person or organization who owns the copyright to this code and/or documentation.', null),
 				'copyright_owner_url' => array(InputOption::VALUE_OPTIONAL, 'The URL for the person or organization who owns the copyright to this code and/or documentation.', null),
 				'copyright_years'     => array(InputOption::VALUE_OPTIONAL, 'The years of copyright (e.g., 2010-' . date('Y') . ').', date('Y')),
 				'description'         => array(InputOption::VALUE_OPTIONAL, 'The description to use for the project. Text may be slightly longer than a tweet (155 characters) for optimal usage.', null),
+				'google_analytics'    => array(InputOption::VALUE_OPTIONAL, 'Your Google Analytics account ID for this site. Learn more at https://support.google.com/analytics/bin/answer.py?answer=1008080. (example: UA-XXXXX-Y)', null),
+				'google_verification' => array(InputOption::VALUE_OPTIONAL, 'Your Google Verification ID. Learn more at https://www.google.com/webmasters/verification/home. (example: m0EXAMPLE_rWlf0WEXAMPLE4wuYoEXAMPLEXSWcEMMs)', null),
 				'license_url'         => array(InputOption::VALUE_OPTIONAL, 'The URL for the licensing terms.', null),
 				'locale'              => array(InputOption::VALUE_OPTIONAL, 'The code that represents the locale of the language used. Should be in the {language} or the {language}-{region} format (e.g., en, en-US, en-GB, fr, fr-FR). See http://www.langtag.net/registries/lsr-language-utf8.txt and http://www.langtag.net/registries/lsr-region-utf8.txt for valid values.', 'en'),
 			),
+			// 'social' => array(),
 			'web_root' => array(InputOption::VALUE_OPTIONAL, 'The web root of the documentation URL. If the documentation homepage should live at `http://example.com/docs/index.html`, then the correct value would be `http://example.com/docs/` (with trailing slash).', null),
 		),
 	),

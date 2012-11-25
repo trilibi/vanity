@@ -34,16 +34,18 @@
 * Develop a template for reStructuredText output.
 * [TBD]
 
+<meta name="google-site-verification" content="m0LFjc4lG_rWlf0WeWG044B4wuYow4mYRkKXSWcEMMs" />
+
+<link rel="shortcut icon" href="http://cdn.last.fm/flatness/favicon.2.ico" />
+<link rel="apple-touch-icon" href="http://cdn.last.fm/flatness/apple-touch-icon.png" />
+<link rev="canonical" href="http://last.fm/+uChXT" />
+
 <meta name="application-name" content="Ryan Parman"/>
 <meta name="msapplication-TileColor" content="#58595B"/>
 <meta name="msapplication-TileImage" content="8b35978c-2e91-4fe6-b4ca-5ded8cf3335e.png"/>
-
-<meta name="application-name" content="Build My Pinned Site" />
 <meta name="msapplication-starturl" content="http://buildmypinnedsite.com" />
 <meta name="msapplication-navbutton-color" content="#3480C0" />
-<meta name="msapplication-window" content="width=1024;height=768" />
 <meta name="msapplication-tooltip" content="Start Build My Pinned Site" />
-
 <meta name="msapplication-task" content="name=Develop for Internet Explorer 9; action-uri=http://www.beautyoftheweb.com/#/startdeveloping; icon-uri=/favicon.ico">
 <meta name="msapplication-task" content="name=Attend a Web Camp; action-uri=http://www.beautyoftheweb.com/#/camps; icon-uri=/favicon.ico" />
 

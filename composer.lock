@@ -297,7 +297,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/skyzyx/service-listing/zipball/21c56d95ea4d10f3634a2ff5b0a7bae60289542d",
+                "url": "https://github.com/skyzyx/service-listing/archive/21c56d95ea4d10f3634a2ff5b0a7bae60289542d.zip",
                 "reference": "21c56d95ea4d10f3634a2ff5b0a7bae60289542d",
                 "shasum": ""
             },
@@ -328,7 +328,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/skyzyx/spdx-licenses/zipball/1.0",
+                "url": "https://github.com/skyzyx/spdx-licenses/archive/1.0.zip",
                 "reference": "1.0",
                 "shasum": ""
             },
@@ -749,7 +749,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/vanity/pandoc-templates/zipball/55adcec4c2e7a50e5b16dda1d6e2c761e4caf283",
+                "url": "https://github.com/vanity/pandoc-templates/archive/55adcec4c2e7a50e5b16dda1d6e2c761e4caf283.zip",
                 "reference": "55adcec4c2e7a50e5b16dda1d6e2c761e4caf283",
                 "shasum": ""
             },
@@ -796,7 +796,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/vanity/ReflectionDocBlock/zipball/4c8cee894cbde53efa228272d2b2ce0679e8e8d1",
+                "url": "https://github.com/vanity/ReflectionDocBlock/archive/4c8cee894cbde53efa228272d2b2ce0679e8e8d1.zip",
                 "reference": "4c8cee894cbde53efa228272d2b2ce0679e8e8d1",
                 "shasum": ""
             },

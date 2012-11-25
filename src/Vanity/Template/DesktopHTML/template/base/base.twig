@@ -3,8 +3,8 @@
 <html prefix="og: http://ogp.me/ns#">
 	<head profile="http://dublincore.org/documents/dcq-html/">
 
-		{% if vanity.config['generator.template.metadata.locale'] %}
-			{% set locale = vanity.config['generator.template.metadata.locale'] %}
+		{% if vanity.config['generator.template.seo.locale'] %}
+			{% set locale = vanity.config['generator.template.seo.locale'] %}
 		{% endif %}
 
 		{# Standard page metadata #}
@@ -28,11 +28,16 @@
 		<meta name="DC.type"   scheme="DCTERMS.DCMIType" content="Text">
 
 		{# Description metadata #}
-		{% if vanity.config['generator.template.metadata.description'] %}
-			<meta name="description"        lang="{{ locale }}" content="{{ vanity.config['generator.template.metadata.description'] }}">
-			<meta name="DC.description"     lang="{{ locale }}" content="{{ vanity.config['generator.template.metadata.description'] }}">
-			<meta name="DCTERMS.abstract"   lang="{{ locale }}" content="{{ vanity.config['generator.template.metadata.description'] }}">
-			<meta property="og:description" lang="{{ locale }}" content="{{ vanity.config['generator.template.metadata.description'] }}">
+		{% if vanity.config['generator.template.seo.google_verification'] %}
+			<meta name="google-site-verification" content="{{ vanity.config['generator.template.seo.google_verification'] }}">
+		{% endif %}
+
+		{# Description metadata #}
+		{% if vanity.config['generator.template.seo.description'] %}
+			<meta name="description"        lang="{{ locale }}" content="{{ vanity.config['generator.template.seo.description'] }}">
+			<meta name="DC.description"     lang="{{ locale }}" content="{{ vanity.config['generator.template.seo.description'] }}">
+			<meta name="DCTERMS.abstract"   lang="{{ locale }}" content="{{ vanity.config['generator.template.seo.description'] }}">
+			<meta property="og:description" lang="{{ locale }}" content="{{ vanity.config['generator.template.seo.description'] }}">
 		{% endif %}
 
 		{# Locale metadata #}
@@ -55,22 +60,22 @@
 		{% endif %}
 
 		{# License metadata #}
-		{% if vanity.config['generator.template.metadata.license_url'] %}
-			<link rel="DCTERMS.LicenseDocument" href="{{ vanity.config['generator.template.metadata.license_url'] }}">
+		{% if vanity.config['generator.template.seo.license_url'] %}
+			<link rel="DCTERMS.LicenseDocument" href="{{ vanity.config['generator.template.seo.license_url'] }}">
 		{% endif %}
 
 		{# Date metadata #}
 		<meta name="DC.date" scheme="DCTERMS.W3CDTF"   content="{{ "now"|date('Y-m-d\\TH:i:sO') }}">
 
 		{# Owner metadata #}
-		{% if vanity.config['generator.template.metadata.copyright_years']
-			and vanity.config['generator.template.metadata.copyright_owner'] %}
-			<meta name="DC.rights" lang="{{ locale }}" content="{{ vanity.config['generator.template.metadata.copyright_years'] }} {{ vanity.config['generator.template.metadata.copyright_owner'] }}">
+		{% if vanity.config['generator.template.seo.copyright_years']
+			and vanity.config['generator.template.seo.copyright_owner'] %}
+			<meta name="DC.rights" lang="{{ locale }}" content="{{ vanity.config['generator.template.seo.copyright_years'] }} {{ vanity.config['generator.template.seo.copyright_owner'] }}">
 		{% endif %}
 
 		{# Contributor metadata #}
-		{% if vanity.config['generator.template.metadata.contributors'] %}
-			{% for contributor in vanity.config['generator.template.metadata.contributors'] %}
+		{% if vanity.config['generator.template.seo.contributors'] %}
+			{% for contributor in vanity.config['generator.template.seo.contributors'] %}
 				<meta name="DC.contributor" scheme="DCTERMS.Agent" content="{{ contributor }}">
 			{% endfor %}
 		{% endif %}
@@ -149,22 +154,22 @@
 
 		<p class="footnote" align="center">
 			{% block footer %}
-				{% if vanity.config['generator.template.metadata.copyright_years']
-					and vanity.config['generator.template.metadata.copyright_owner']
-					and vanity.config['generator.template.metadata.copyright_owner_url'] %}
+				{% if vanity.config['generator.template.seo.copyright_years']
+					and vanity.config['generator.template.seo.copyright_owner']
+					and vanity.config['generator.template.seo.copyright_owner_url'] %}
 					<small>Copyright &copy;
-						<span itemprop="copyrightYear">{{ vanity.config['generator.template.metadata.copyright_years'] }}</span>&nbsp;
-						<a href="{{ vanity.config['generator.template.metadata.copyright_owner_url'] }}" itemscope itemtype="http://schema.org/Organization">
-							<span itemprop="legalName">{{ vanity.config['generator.template.metadata.copyright_owner'] }}</span>
+						<span itemprop="copyrightYear">{{ vanity.config['generator.template.seo.copyright_years'] }}</span>&nbsp;
+						<a href="{{ vanity.config['generator.template.seo.copyright_owner_url'] }}" itemscope itemtype="http://schema.org/Organization">
+							<span itemprop="legalName">{{ vanity.config['generator.template.seo.copyright_owner'] }}</span>
 						</a>
 					</small>
 					<br>
-				{% elseif vanity.config['generator.template.metadata.copyright_years']
-					and vanity.config['generator.template.metadata.copyright_owner'] %}
+				{% elseif vanity.config['generator.template.seo.copyright_years']
+					and vanity.config['generator.template.seo.copyright_owner'] %}
 					<small>Copyright &copy;
-						<span itemprop="copyrightYear">{{ vanity.config['generator.template.metadata.copyright_years'] }}</span>&nbsp;
+						<span itemprop="copyrightYear">{{ vanity.config['generator.template.seo.copyright_years'] }}</span>&nbsp;
 						<span itemscope itemtype="http://schema.org/Organization">
-							<span itemprop="legalName sourceOrganization">{{ vanity.config['generator.template.metadata.copyright_owner'] }}</span>
+							<span itemprop="legalName sourceOrganization">{{ vanity.config['generator.template.seo.copyright_owner'] }}</span>
 						</span>
 					</small>
 					<br>
