@@ -38,6 +38,8 @@
 * Support .vanity/static
 * Fix paths for vendor classes.
 * Fix GitHub lookups.
+* Fix method titles.
+
 
 
 
