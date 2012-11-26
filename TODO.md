@@ -34,6 +34,9 @@
 * Develop a template for reStructuredText output.
 * [TBD]
 
+* Support extensions to add commands to the CLI
+* Support .vanity/static
+
 <link rel="shortcut icon" href="http://cdn.last.fm/flatness/favicon.2.ico" />
 <link rel="apple-touch-icon" href="http://cdn.last.fm/flatness/apple-touch-icon.png" />
 <link rev="canonical" href="http://last.fm/+uChXT" />
@@ -45,7 +48,7 @@
 <meta name="msapplication-navbutton-color" content="#3480C0" />
 <meta name="msapplication-tooltip" content="Start Build My Pinned Site" />
 <meta name="msapplication-task" content="name=Develop for Internet Explorer 9; action-uri=http://www.beautyoftheweb.com/#/startdeveloping; icon-uri=/favicon.ico">
-<meta name="msapplication-task" content="name=Attend a Web Camp; action-uri=http://www.beautyoftheweb.com/#/camps; icon-uri=/favicon.ico" />
+<meta name="msapplication-task" content="name=Attend a Web Camp; action-uri=http://www.beautyoftheweb.com/#/camps; icon-uri=/favicon.ico">
 
 <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="GitHub">
 

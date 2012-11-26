@@ -272,7 +272,14 @@ class Utilities
 						break;
 
 					case 'link':
-						$output[] = '<a href="' . $desc['uri'] . '">' . $desc['description'] . '</a>';
+						if (isset($desc['description']))
+						{
+							$output[] = '<a href="' . $desc['uri'] . '">' . $desc['description'] . '</a>';
+						}
+						else
+						{
+							$output[] = '<a href="' . $desc['uri'] . '">' . $desc['uri'] . '</a>';
+						}
 						break;
 
 					case 'see':
