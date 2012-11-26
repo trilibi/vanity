@@ -39,6 +39,7 @@ use Vanity\Config\Store as ConfigStore;
 use Vanity\Console\Utilities as ConsoleUtil;
 use Vanity\Event\Event\Store as EventStore;
 use Vanity\Find\Find;
+use Vanity\Generate\GitHub;
 use Vanity\GlobalObject\Logger;
 use Vanity\Parse\User\ReflectAll;
 
@@ -120,6 +121,8 @@ class Parse extends BaseCommand
 		{
 			include_once $bootstrap;
 		}
+
+		#--------------------------------------------------------------------------#
 
 		$output->writeln($this->formatter->yellow->apply('MATCHED FILES:'));
 

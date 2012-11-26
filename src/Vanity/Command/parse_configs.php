@@ -48,5 +48,14 @@ return array_merge(include __DIR__ . '/base_configs.php', array(
 			'methods'    => array(InputOption::VALUE_OPTIONAL, 'Which methods should we exclude? Pass an array of explicit names, or a PCRE regex pattern as a string.', '/__([a-z]+)/i'),
 			'visibility' => array(InputOption::VALUE_OPTIONAL, 'Which visibility types should we exclude?', 'private'),
 		),
+
+		// GitHub integration
+		'github' => array(
+			'user'       => array(InputOption::VALUE_OPTIONAL, 'The GitHub username to use for authenticating.', null),
+			'pass'       => array(InputOption::VALUE_OPTIONAL, 'The GitHub password to use for authenticating. DO NOT STORE THIS IN YOUR CONFIG FILE!', null),
+			'repo_owner' => array(InputOption::VALUE_OPTIONAL, 'The GitHub user or organization which owns the repository.', null),
+			'repo_name'  => array(InputOption::VALUE_OPTIONAL, 'The GitHub repository name.', null),
+			// 'commit_sha' => array(InputOption::VALUE_OPTIONAL, 'The SHA hash of the Git commit to use. The commit must have been pushed to GitHub. Requires the GitHub username and password to be set. Will use the latest commit SHA by default.', null),
+		),
 	),
 ));

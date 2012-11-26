@@ -38,6 +38,7 @@ use Vanity\Console\Utilities as ConsoleUtil;
 use Vanity\Event\Event\Store as EventStore;
 use Vanity\GlobalObject\Dispatcher;
 use Vanity\GlobalObject\Logger;
+use Vanity\Parse\GitHub;
 use Vanity\Parse\User\Reflect\AncestryHandler;
 use Vanity\Parse\User\Reflect\ConstantHandler;
 use Vanity\Parse\User\Reflect\InlineTagHandler;
@@ -183,6 +184,24 @@ class Reflect
 		}
 
 		SystemStore::add('_.current', $this->class_name);
+
+		#--------------------------------------------------------------------------#
+
+		// Enable GitHub lookups for author data
+		if (ConfigStore::get('source.github.user') && ConfigStore::get('source.github.pass'))
+		{
+			$github = new GitHub(
+				ConfigStore::get('source.github.user'),
+				ConfigStore::get('source.github.pass')
+			);
+
+			$github->setRepository(
+				ConfigStore::get('source.github.repo_owner'),
+				ConfigStore::get('source.github.repo_name')
+			);
+
+			$this->data['github'] = $github->getAuthorsForFile($this->data['path']);
+		}
 
 		#--------------------------------------------------------------------------#
 

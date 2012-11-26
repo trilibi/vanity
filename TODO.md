@@ -36,6 +36,10 @@
 
 * Support extensions to add commands to the CLI
 * Support .vanity/static
+* Fix paths for vendor classes.
+* Fix GitHub lookups.
+
+
 
 <link rel="shortcut icon" href="http://cdn.last.fm/flatness/favicon.2.ico" />
 <link rel="apple-touch-icon" href="http://cdn.last.fm/flatness/apple-touch-icon.png" />
@@ -63,15 +67,6 @@
                    panel.search(s, true);
                }
            }
-
-
-http://developer.github.com/v3/#rate-limiting
-Tags: https://api.github.com/repos/aws/aws-sdk-php/git/refs/tags/:version
-Source: https://api.github.com/repos/aws/aws-sdk-php/git/trees/:sha
-Source for src/: https://api.github.com/repos/aws/aws-sdk-php/git/trees/:sha?recursive=1
-Committers: https://api.github.com/repos/aws/aws-sdk-php/commits?per_page=100&path=:path
-
-
 
 Get list of authors for a file:
 git blame -p README.md | grep committer-mail | sort -u | sed -n '1h;1!H;${;g;s/committer-mail <//g;s/>//g;p;}'
