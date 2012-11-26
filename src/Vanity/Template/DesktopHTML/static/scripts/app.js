@@ -44,26 +44,28 @@ $(function() {
 		history.pushState({}, null, $node);
 	});
 
-	$('input.search-query').typeahead({
-		items: 15,
-		minLength: 2,
-		source: function(query, process) {
-			process($.grep(VANITY.TYPEAHEAD, function(a) {
-				return a.match(new RegExp(query, 'gi'));
-			}));
-		},
-		updater: function(item) {
-			var path = item.replace(/\\/g, '/');
+	window.vanitySearch = function(apiReference) {
+		$('input.search-query').typeahead({
+			items: 15,
+			minLength: 2,
+			source: function(query, process) {
+				process($.grep(VANITY.TYPEAHEAD, function(a) {
+					return a.match(new RegExp(query, 'gi'));
+				}));
+			},
+			updater: function(item) {
+				var path = item.replace(/\\/g, '/');
 
-			if (path.indexOf('::') !== -1) {
-				path = path.replace(/::/g, '/').replace(/\(\)/g, '');
-				document.location = "{{ vanity.link.api_reference }}/" + path + '.html';
-			}
-			else {
-				document.location = "{{ vanity.link.api_reference }}/" + path + '/index.html';
-			}
+				if (path.indexOf('::') !== -1) {
+					path = path.replace(/::/g, '/').replace(/\(\)/g, '');
+					document.location = apiReference + "/" + path + '.html';
+				}
+				else {
+					document.location = apiReference + "/" + path + '/index.html';
+				}
 
-			return item;
-		}
-	});
+				return item;
+			}
+		});
+	}
 });

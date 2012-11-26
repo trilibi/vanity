@@ -65,7 +65,7 @@ class RegisterGlobal
 			$stop_time = Timer::stop();
 
 			echo PHP_EOL;
-			echo $formatter->pending->apply(' Completed in ' . ConsoleUtil::timeHMS(round($stop_time)) . ' (' . $stop_time . ') | Peak memory usage: ' . ConsoleUtil::formatSize(memory_get_peak_usage(true)) . ' (' . number_format(memory_get_peak_usage(true)) . ' bytes) ') . PHP_EOL;
+			echo $formatter->pending->apply(' Completed in ' . ConsoleUtil::timeHMS(round($stop_time)) . ' (' . $stop_time . ') | Peak memory usage: ' . ConsoleUtil::formatSize(memory_get_peak_usage()) . ' (' . number_format(memory_get_peak_usage()) . ' bytes) ') . PHP_EOL;
 		});
 
 		// vanity.command.log_path event

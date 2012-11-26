@@ -42,7 +42,6 @@
 
 
 
-
 <link rel="shortcut icon" href="http://cdn.last.fm/flatness/favicon.2.ico" />
 <link rel="apple-touch-icon" href="http://cdn.last.fm/flatness/apple-touch-icon.png" />
 <link rev="canonical" href="http://last.fm/+uChXT" />

@@ -1,6 +1,10 @@
 <script type="text/javascript">
 
 $(function() {
+
+	// Enable search
+	vanitySearch('{{ vanity.link.api_reference }}');
+
 	{% if vanity.config['generator.template.comments.disqus'] %}
 	// Disqus comments
 	var disqus_shortname = '{{ vanity.config['generator.template.comments.disqus'] }}';
