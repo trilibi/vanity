@@ -68,8 +68,11 @@
                }
            }
 
+Get commit history per file.
+
 Get list of authors for a file:
 git blame -p README.md | grep committer-mail | sort -u | sed -n '1h;1!H;${;g;s/committer-mail <//g;s/>//g;p;}'
+
 
 <?xml version="1.0"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
