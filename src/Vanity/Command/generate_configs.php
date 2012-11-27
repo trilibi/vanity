@@ -52,6 +52,14 @@ return array_merge(include __DIR__ . '/base_configs.php', array(
 
 		// Configurations that can be used in templates. Enables better SEO.
 		'template' => array(
+			'comments' => array(
+				'disqus'          => array(InputOption::VALUE_OPTIONAL, 'Your Disqus "shortcode" for this site. Learn more at http://disqus.com/admin/ > Settings > Site.', null),
+				'facebook_app_id' => array(InputOption::VALUE_OPTIONAL, 'Your Facebook App ID for this site. Create a new app at https://developers.facebook.com/apps/. The `generator.template.web_root` option must also be set correctly.', null),
+				'intense_debate'  => array(InputOption::VALUE_OPTIONAL, 'Your Intense Debate Site Account ID for this site. Learn more at http://intensedebate.com/sitekey/. (example: e074c11fd3d7example3a3786example)', null),
+			),
+			'meta' => array(
+				'windows_bgcolor' => array(InputOption::VALUE_OPTIONAL, 'The hex color code to use for Windows 7-style pinned sites, and Windows 8-style Metro tiles. Only used if your project has a .vanity/static/windows-pinned-site.png image.', '#fff'),
+			),
 			'seo' => array(
 				'contributors'        => array(InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'The names of the primary contributors.', null),
 				'copyright_owner'     => array(InputOption::VALUE_OPTIONAL, 'The name of the person or organization who owns the copyright to this code and/or documentation.', null),
@@ -62,11 +70,6 @@ return array_merge(include __DIR__ . '/base_configs.php', array(
 				'google_verification' => array(InputOption::VALUE_OPTIONAL, 'Your Google Verification ID. Learn more at https://www.google.com/webmasters/verification/home. (example: m0EXAMPLE_rWlf0WEXAMPLE4wuYoEXAMPLEXSWcEMMs)', null),
 				'license_url'         => array(InputOption::VALUE_OPTIONAL, 'The URL for the licensing terms.', null),
 				'locale'              => array(InputOption::VALUE_OPTIONAL, 'The code that represents the locale of the language used. Should be in the {language} or the {language}-{region} format (e.g., en, en-US, en-GB, fr, fr-FR). See http://www.langtag.net/registries/lsr-language-utf8.txt and http://www.langtag.net/registries/lsr-region-utf8.txt for valid values.', 'en'),
-			),
-			'comments' => array(
-				'disqus'          => array(InputOption::VALUE_OPTIONAL, 'Your Disqus "shortcode" for this site. Learn more at http://disqus.com/admin/ > Settings > Site.', null),
-				'facebook_app_id' => array(InputOption::VALUE_OPTIONAL, 'Your Facebook App ID for this site. Create a new app at https://developers.facebook.com/apps/. The `generator.template.web_root` option must also be set correctly.', null),
-				'intense_debate'  => array(InputOption::VALUE_OPTIONAL, 'Your Intense Debate Site Account ID for this site. Learn more at http://intensedebate.com/sitekey/. (example: e074c11fd3d7example3a3786example)', null),
 			),
 			'social_buttons' => array(
 				'facebook_app_id'  => array(InputOption::VALUE_OPTIONAL, 'Your Facebook App ID for this site. Create a new app at https://developers.facebook.com/apps/.', null),

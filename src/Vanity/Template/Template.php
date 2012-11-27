@@ -147,34 +147,17 @@ abstract class Template implements TemplateInterface
 		{
 			$formatter = ConsoleUtil::formatters();
 			$filesystem = new Filesystem();
-			$finder = new Finder();
 
 			$template = new $calledClass(
 				GenerateUtils::findTemplatesFor($calledClass),
 				$nameOfFormatterEvent
 			);
 
-			echo $formatter->yellow->apply('GENERATING: ' . strtoupper($nameOfFormatterEvent)) . PHP_EOL;
-
-			// Keep track of the number of files written
-			$count = 0;
-
-			$files = $event->get('files');
-			foreach ($files['absolute'] as $file)
-			{
-				foreach ($template->generateAPIReference($file) as $wrote)
-				{
-					echo TAB . $formatter->green->apply('-> ') . $wrote . PHP_EOL;
-					$count++;
-				}
-			}
-			echo TAB . $formatter->green->apply('-> ') . self::writeTypeahead(self::$typeahead) . PHP_EOL;
-			$count++;
-
-			self::wroteFileCount($count);
 			echo $formatter->yellow->apply('COPYING STATIC ASSETS:') . PHP_EOL;
 
-			$staticAssets = $finder
+			// Copy the template's static assets.
+			$staticAssets = new Finder();
+			$staticAssets = $staticAssets
 				->files()
 				->in(GenerateUtils::findStaticAssetsFor($calledClass). '/');
 
@@ -194,9 +177,52 @@ abstract class Template implements TemplateInterface
 				$assets++;
 			}
 
+			// Copy the project's static assets.
+			if (file_exists(ConfigStore::get('vanity.config_dir') . '/static/'))
+			{
+				$staticProjectAssets = new Finder();
+				$staticProjectAssets = $staticProjectAssets
+					->files()
+					->in(ConfigStore::get('vanity.config_dir') . '/static/');
+
+				foreach ($staticProjectAssets as $asset)
+				{
+					$filesystem->copy(
+						$asset->getRealPath(),
+						GenerateUtils::getAbsoluteBasePath($nameOfFormatterEvent) . '/' . str_replace(
+							ConfigStore::get('vanity.config_dir') . '/static/',
+							'',
+							$asset->getRealPath()
+						)
+					);
+
+					echo TAB . $formatter->green->apply('-> ') . ($asset->getRealPath()) . PHP_EOL;
+					$assets++;
+				}
+			}
+
 			echo PHP_EOL;
-			echo 'Copied ' . $formatter->info->apply(" ${assets} ") . ' static ' . ConsoleUtil::pluralize($assets, 'file', 'files') . '.';
+			echo 'Copied ' . $formatter->info->apply(" ${assets} ") . ' static ' . ConsoleUtil::pluralize($assets, 'file', 'files') . '.' . PHP_EOL;
 			echo PHP_EOL;
+
+			echo $formatter->yellow->apply('GENERATING: ' . strtoupper($nameOfFormatterEvent)) . PHP_EOL;
+
+			// Keep track of the number of files written
+			$count = 0;
+
+			$files = $event->get('files');
+			foreach ($files['absolute'] as $file)
+			{
+				foreach ($template->generateAPIReference($file) as $wrote)
+				{
+					echo TAB . $formatter->green->apply('-> ') . $wrote . PHP_EOL;
+					$count++;
+				}
+			}
+			echo TAB . $formatter->green->apply('-> ') . self::writeTypeahead(self::$typeahead) . PHP_EOL;
+			$count++;
+
+			self::wroteFileCount($count);
 		});
 	}
 
@@ -229,7 +255,19 @@ abstract class Template implements TemplateInterface
 				'page_title'           => $data['full_name'],
 				'project'              => ConfigStore::get('vanity.name'),
 				'project_with_version' => (ConfigStore::get('vanity.name') . ' ' . ConfigStore::get('vanity.version')),
-				'link'                 => array(
+				'assets'               => array(
+					'apple_touch_icon' => (file_exists(str_replace('%FORMAT%', self::$format_identifier, ConfigStore::get('generator.output')) . '/apple-touch-icon.png')
+							? GenerateUtils::getRelativeBasePath($data['full_name']) . '/apple-touch-icon.png'
+							: null),
+					'favicon' => (file_exists(str_replace('%FORMAT%', self::$format_identifier, ConfigStore::get('generator.output')) . '/favicon.ico')
+							? GenerateUtils::getRelativeBasePath($data['full_name']) . '/favicon.ico'
+							: null),
+					'windows_pinned_site' => (file_exists(str_replace('%FORMAT%', self::$format_identifier, ConfigStore::get('generator.output')) . '/windows-pinned-site.png')
+							? GenerateUtils::getRelativeBasePath($data['full_name']) . '/windows-pinned-site.png'
+							: null),
+				),
+				'link' => array(
+					'base_dir'      => GenerateUtils::getRelativeBasePath($data['full_name']),
 					'api_reference' => GenerateUtils::getRelativeBasePath($data['full_name']) . '/api-reference',
 					'user_guide'    => GenerateUtils::getRelativeBasePath($data['full_name']) . '/user-guide',
 				),
@@ -319,7 +357,6 @@ abstract class Template implements TemplateInterface
 
 		echo PHP_EOL;
 		echo 'Matched ' . $formatter->info->apply(" ${count} ") . ' ' . ConsoleUtil::pluralize($count, 'file', 'files') . '.' . PHP_EOL;
-		echo PHP_EOL;
 	}
 
 	/**
@@ -336,5 +373,33 @@ abstract class Template implements TemplateInterface
 		file_put_contents($filename, 'var VANITY={"TYPEAHEAD":' . json_encode($typeahead) . '}');
 
 		return $filename;
+	}
+
+	/**
+	 * Write the sitemap.xml file used by Google and other search engines.
+	 *
+	 * @return boolean Whether or not the file was written successfully. A value of `true` means that the file was
+	 *                 written successfully. A value of `false` means that the file was NOT written successfully.
+	 */
+	public function writeSitemap()
+	{
+		$path = str_replace('%FORMAT%', self::$format_identifier, ConfigStore::get('generator.output'));
+		$sitemap = simplexml_load_string('<?xml version="1.0"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"/>');
+		$current_date = gmdate(DATE_W3C);
+
+		$files = new Finder();
+		$files = $files
+			->files('*.html')
+			->in($path);
+
+		foreach ($files as $file)
+		{
+			$xurl = $sitemap->addChild('url');
+			$xurl->addChild('loc', ConfigStore::get('generator.template.web_root') . $file->getRelativePath() . '/' . $file->getFilename());
+			$xurl->addChild('lastmod', $current_date);
+			$xurl->addChild('changefreq', 'weekly');
+		}
+
+		return file_put_contents($path . '/sitemap.xml', $sitemap->asXML());
 	}
 }

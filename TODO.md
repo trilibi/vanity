@@ -35,52 +35,32 @@
 * [TBD]
 
 * Support extensions to add commands to the CLI
-* Support .vanity/static
 * Fix paths for vendor classes.
 * Fix GitHub lookups.
-* Fix method titles.
 
-
-
-<link rel="shortcut icon" href="http://cdn.last.fm/flatness/favicon.2.ico" />
-<link rel="apple-touch-icon" href="http://cdn.last.fm/flatness/apple-touch-icon.png" />
-<link rev="canonical" href="http://last.fm/+uChXT" />
-
-<meta name="application-name" content="Ryan Parman"/>
-<meta name="msapplication-TileColor" content="#58595B"/>
-<meta name="msapplication-TileImage" content="8b35978c-2e91-4fe6-b4ca-5ded8cf3335e.png"/>
-<meta name="msapplication-starturl" content="http://buildmypinnedsite.com" />
-<meta name="msapplication-navbutton-color" content="#3480C0" />
-<meta name="msapplication-tooltip" content="Start Build My Pinned Site" />
-<meta name="msapplication-task" content="name=Develop for Internet Explorer 9; action-uri=http://www.beautyoftheweb.com/#/startdeveloping; icon-uri=/favicon.ico">
-<meta name="msapplication-task" content="name=Attend a Web Camp; action-uri=http://www.beautyoftheweb.com/#/camps; icon-uri=/favicon.ico">
+Document project static assets
+* favicon.ico
+* apple-touch-icon.png
+* windows-pinned-site.png
+* tile.png
 
 <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="GitHub">
 
 <script>if(window.navigator&&window.navigator.loadPurpose==="preview"){window.location.href="https://www.icloud.com/topsites_preview/"};</script>
 
-           var s = window.parent.location.search.match(/\?q=([^&]+)/);
-           if (s) {
-               s = decodeURIComponent(s[1]).replace(/\+/g, ' ');
-               if (s.length > 0)
-               {
-                   $('#search').val(s);
-                   panel.search(s, true);
-               }
-           }
+var s = window.parent.location.search.match(/\?q=([^&]+)/);
+if (s) {
+   s = decodeURIComponent(s[1]).replace(/\+/g, ' ');
+   if (s.length > 0)
+   {
+       $('#search').val(s);
+       panel.search(s, true);
+   }
+}
 
 Get commit history per file.
 
-Get list of authors for a file:
-git blame -p README.md | grep committer-mail | sort -u | sed -n '1h;1!H;${;g;s/committer-mail <//g;s/>//g;p;}'
 
-
-<?xml version="1.0"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-	<url>
-		<loc>http://docs.amazonwebservices.com/AWSSDKforPHP/latest/index.html</loc>
-	</url>
-</urlset>
 
 ## Stage 4: User Guide Parsing
 

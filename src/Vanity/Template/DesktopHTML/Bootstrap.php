@@ -27,6 +27,7 @@
 
 namespace Vanity\Template\DesktopHTML;
 
+use Vanity\Config\Store as ConfigStore;
 use Vanity\Template\Template;
 
 class Bootstrap extends Template
@@ -38,5 +39,12 @@ class Bootstrap extends Template
 
 		// Set the extension that files produced by this template should use.
 		$this->setFileExtension('html');
+
+		// If we've set a web root...
+		if (ConfigStore::get('generator.template.web_root'))
+		{
+			// Make sure that a sitemap.xml file is produced.
+			$this->writeSitemap();
+		}
 	}
 }

@@ -8,15 +8,38 @@
 <meta property="og:type" content="website">
 <meta charset="{{ _charset }}">
 
+{% if vanity.assets.favicon %}
+	<link rel="icon" type="image/ico" href="{{ vanity.assets.favicon }}">
+	<link rel="shortcut icon" type="image/ico" href="{{ vanity.assets.favicon }}">
+{% endif %}
+
+{% if vanity.assets.apple_touch_icon %}
+	<link rel="apple-touch-icon" href="{{ vanity.assets.apple_touch_icon }}">
+{% endif %}
+
+{% if vanity.assets.windows_pinned_site %}
+	<meta name="application-name" content="{{ vanity.project }}">
+	<meta name="msapplication-TileColor" content="{{ vanity.config['generator.template.meta.windows_bgcolor'] }}">
+	<meta name="msapplication-TileImage" content="{{ vanity.assets.windows_pinned_site }}">
+
+	{% if vanity.config['generator.template.web_root'] %}
+		<meta name="msapplication-tooltip" content="Start {{ vanity.project }}">
+		<meta name="msapplication-starturl" content="{{ vanity.config['generator.template.web_root'] }}">
+		<meta name="msapplication-navbutton-color" content="{{ vanity.config['generator.template.meta.windows_bgcolor'] }}">
+		<meta name="msapplication-task" content="name=API Reference; action-uri={{ vanity.config['generator.template.web_root'] }}api-reference; icon-uri={{ vanity.assets.favicon }}">
+		<meta name="msapplication-task" content="name=User Guide; action-uri={{ vanity.config['generator.template.web_root'] }}user-guide; icon-uri={{ vanity.assets.favicon }}">
+	{% endif %}
+{% endif %}
+
 {# Define Dublin Core metadata namespaces #}
 <link rel="schema.DC"      href="http://purl.org/dc/elements/1.1/">
 <link rel="schema.DCTERMS" href="http://purl.org/dc/terms/">
 
 {# Title metadata #}
-<title>{{ vanity.page_title }} - {{ vanity.project_with_version }}</title>
-<meta name="DC.title" lang="{{ locale }}" content="{{ vanity.page_title }} - {{ vanity.project_with_version }}">
+<title>{{ vanity.page_title }}{% if method.name %}::{{ method.name }}(){% endif %} - {{ vanity.project_with_version }}</title>
+<meta name="DC.title" lang="{{ locale }}" content="{{ vanity.page_title }}{% if method.name %}::{{ method.name }}(){% endif %} - {{ vanity.project_with_version }}">
 <meta property="og:site_name" content="{{ vanity.project }}">
-<meta property="og:title" content="{{ vanity.page_title }}">
+<meta property="og:title" content="{{ vanity.page_title }}{% if method.name %}::{{ method.name }}(){% endif %}">
 
 {# Page-wide metadata #}
 <meta name="DC.format" scheme="DCTERMS.IMT"      content="text/html;charset={{ _charset }}">
