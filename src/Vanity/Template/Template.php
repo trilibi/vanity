@@ -389,7 +389,8 @@ abstract class Template implements TemplateInterface
 
 		$files = new Finder();
 		$files = $files
-			->files('*.html')
+			->files()
+			->name('*.html')
 			->in($path);
 
 		foreach ($files as $file)

@@ -154,7 +154,13 @@ class Reflect
 		// REFLECT ALL THE THINGS!
 		$rclass_methods = $this->rclass->getMethods();
 		$long_filename = $this->rclass->getFileName();
-		$short_filename = str_replace(VANITY_PROJECT_WORKING_DIR . '/', '', $long_filename);
+		$short_filename = str_replace(
+			array(
+				(VANITY_SYSTEM . '/'),
+				(VANITY_PROJECT_WORKING_DIR . '/'),
+			),
+			'', $long_filename
+		);
 
 		$this->triggerEvent("vanity.parse.user.reflect.pre", new EventStore(array(
 			'data' => &$this->data,

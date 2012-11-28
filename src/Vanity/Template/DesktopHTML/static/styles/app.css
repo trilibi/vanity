@@ -298,6 +298,10 @@ table.class-reference tr th p {
 
 table.class-reference tr p {
 	margin: 0.5em 0;
+	max-width: 53em;
+	white-space: nowrap;
+	overflow-x: hidden;
+	text-overflow: ellipsis;
 }
 
 table.class-reference tr td {

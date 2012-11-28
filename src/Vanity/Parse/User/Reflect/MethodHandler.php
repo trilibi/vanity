@@ -126,7 +126,14 @@ class MethodHandler
 
 			if ($rmethod->getFileName())
 			{
-				$entry['path'] = str_replace(VANITY_PROJECT_WORKING_DIR . '/', '', $rmethod->getFileName());
+				$entry['path'] = str_replace(
+					array(
+						(VANITY_SYSTEM . '/'),
+						(VANITY_PROJECT_WORKING_DIR . '/'),
+					),
+					'', $rmethod->getFileName()
+				);
+
 				$entry['lines'] = array(
 					'start' => $rmethod->getStartLine(),
 					'end'   => $rmethod->getEndLine(),

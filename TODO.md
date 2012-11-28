@@ -35,7 +35,6 @@
 * [TBD]
 
 * Support extensions to add commands to the CLI
-* Fix paths for vendor classes.
 * Fix GitHub lookups.
 
 Document project static assets
