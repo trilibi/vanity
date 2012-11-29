@@ -36,10 +36,57 @@ template, or even write an entirely new one yourself. Vanity is fundamentally
 designed to be flexible and customizable so that it can easily work with your
 projects.
 
+### And more!
+Here are some of the features that are either implemented or planned.
+
+* Designed to support the full gamut of project documentation, from the API reference to user guides, examples,
+  screencasts, and other sorts of documentation.
+* Leverages Reflection to parse the source code very, very quickly.
+* Uses ApiGen's TokenReflection library to resolve namespace aliases back to fully-qualified class names.
+* Uses an enhanced version of phpDocumentor 2's ReflectionDocBlock library for parsing DocBlocks.
+* Uses Twig as a template engine.
+* Support for multiple/custom templates.
+* Support for multiple output formats including HTML5, RTF, Microsoft Word, iBooks (ePub), Kindle, PDF, Markdown,
+  reStructuredText, LaTeX (and other TeX flavors), man pages, Mac OS X Dictionary definitions, etc. (planned)
+* Support for Sphinx-compatible output. (planned; #142)
+* Supports the latest version of the PHPDoc spec.
+* Supports draft specs for @method, @property, @param and @alias.
+* Detailed documentation of namespaces, classes, traits, interfaces, methods, constants and properties.
+* Driven by a config file or by the command line.
+* Leverages Symfony Event Dispatcher, enabling developers to modify behavior at runtime.
+* Highlighted source code samples and examples.
+* Optimizes for workflows that include Git and Composer.
+* Indexes for classes, interfaces, traits, exceptions, deprecated elements, and to-do tasks.
+* Enables you to exclude classes, methods or visibility based on patterns.
+* Enables you to lookup per-file author information from GitHub.
+* Support for grouping methods by task.
+* Rich with Google-friendly metadata (including Google Verification & Analytics).
+* Supports Disqus, Intense Debate and Facebook commenting systems out of the box.
+* Supports Windows 7 Pinned Sites and Windows 8 Metro tiles.
+* Supports Facebook, Twitter and Google+ social buttons (if enabled).
+* Create a downloadable archive from your documentation. `zip`, `tgz`, `tbz2`, `7z` and `xz` are supported out of
+  the box. (planned; #114, #115, #116, #117, #118, #119)
+* Provides warnings/reports for poorly-documented elements. Checkstyle support is planned. (#138)
+* Documentation of internal PHP classes that are extended. (planned; #120, #121, #122, #123, #124, #125, #126, #127,
+  #128, #129, #130)
+* Provides links to the starting line of an element in its source code. (planned; #139)
+* List of direct and indirect known subclasses, implementers and users for every class/interface/trait/exception.
+  (planned; #92)
+* Ability to self-update by checking for a new version. (planned; #140)
+* Google Custom Search support. (planned; #141)
+* OpenSearch support. (planned; #103)
+* Sitemap support.
+* Support for documenting multiple versions of your software. (planned)
+* User guide content can be written in HTML, Markdown, reStructuredText, or one of several other formats.
+* Easily manage user guide chapters, figures, and other content.
+* Support for internationalization in templates. (planned; #145)
+* Has a corporate-friendly [MIT license](http://www.opensource.org/licenses/mit-license.php).
+
 ### Not quite yet!
 **Vanity 3 is not yet ready for prime-time!** It is still being actively re-written
-from the ground-up. Most of the core is working, but none of the templating engine
-work has been started yet. Check the [TODO.md] file for more information.
+from the ground-up. The majority of the core parsing features are working. The default
+HTML template is nearly complete, but is not yet usable. Check out the
+[milestones](https://github.com/vanity/vanity/issues/milestones) to better understand where development is.
 
 
 ## Requirements
@@ -59,15 +106,28 @@ This software is **optional**, and is only used if you need to generate addition
 
 
 ## Installation
-{TBD}
+
+Assuming you already have [Composer](http://getcomposer.org) installed as `composer`:
+
+    git clone git://github.com/vanity/vanity.git &&
+    cd vanity &&
+    composer install
 
 
 ## How to use
-{TBD}
+
+Learn about the available commands:
+
+    vanity
+
+Get help with a specific command:
+
+    vanity help <command>
 
 
 ## Development/Contributing
-{TBD}
+
+Report issues to <https://github.com/vanity/vanity/issues/>.
 
 
 ## On the shoulders of giants
