@@ -45,7 +45,7 @@ return array_merge(include __DIR__ . '/base_configs.php', array(
 		// What should we exclude from the documentation?
 		'exclude' => array(
 			'classes'    => array(InputOption::VALUE_OPTIONAL, 'Which classes should we exclude? Pass an array of explicit names, or a PCRE regex pattern as a string.', null),
-			'methods'    => array(InputOption::VALUE_OPTIONAL, 'Which methods should we exclude? Pass an array of explicit names, or a PCRE regex pattern as a string.', '/__([a-z]+)/i'),
+			'methods'    => array(InputOption::VALUE_OPTIONAL, 'Which methods should we exclude? Pass an array of explicit names, or a PCRE regex pattern as a string.', null),
 			'visibility' => array(InputOption::VALUE_OPTIONAL, 'Which visibility types should we exclude?', 'private'),
 		),
 
