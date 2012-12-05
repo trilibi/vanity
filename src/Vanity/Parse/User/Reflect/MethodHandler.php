@@ -93,7 +93,12 @@ class MethodHandler
 		// Add methods and parameters
 		$rclass_methods = array_values(array_filter($rclass_methods, function($rmethod)
 		{
-			return !preg_match(ConfigStore::get('source.exclude.methods'), $rmethod->getName());
+			if ($exclusions = ConfigStore::get('source.exclude.methods'))
+			{
+				return !preg_match($exclusions, $rmethod->getName());
+			}
+
+			return true;
 		}));
 
 		foreach ($rclass_methods as $rmethod)

@@ -20,6 +20,6 @@
 		</small>
 		<br>
 	{% endif %}
-	<small>Built on <span itemprop="dateCreated" content="{{ "now"|date('Y-m-d\\TH:i:sO') }}">{{ "now"|date('j M Y, g:ia T') }}</span>.</small>
+	<small>Built on <span itemprop="dateCreated" content="{{ "now"|date('Y-m-d\\TH:i:sO') }}">{{ "now"|date('j M Y, g:ia T') }}</span> using <a href="http://vanitydoc.org" title="Vanity enables you to create a world-class documentation experience for your PHP projects.">Vanity</a> (version {{ constant('VANITY_VERSION') }}).</small>
 {% endblock %}
 </p>

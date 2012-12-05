@@ -14,7 +14,7 @@
 		<li><a href="#inherited-methods"><i class="icon-cog"></i> Inherited Methods</a></li>
 	{% endif %}
 
-	{% if json.properties %}
+	{% if json.properties and json.properties.count is not sameas(0) %}
 		<li><a href="#properties"><i class="icon-list-alt"></i> Properties</a></li>
 	{% endif %}
 
