@@ -124,15 +124,16 @@ abstract class Template implements TemplateInterface
 
 		// Extensions
 		$this->twig->addExtension(new Twig_Extension_Debug());
-		$this->twig->addExtension(new MarkdownExtension(new MarkdownParser));
+		// $this->twig->addExtension(new MarkdownExtension(new MarkdownParser));
 
-		// Functions
-		$this->twig->addFunction('description_as_html', new Twig_Function_Function('vanity_twig_description_as_html'));
-		$this->twig->addFunction('namespace_as_path', new Twig_Function_Function('vanity_twig_namespace_as_path'));
-		$this->twig->addFunction('filter_by_native', new Twig_Function_Function('vanity_twig_filter_by_native'));
-		$this->twig->addFunction('filter_by_inherited', new Twig_Function_Function('vanity_twig_filter_by_inherited'));
-		$this->twig->addFunction('filter_by_letter', new Twig_Function_Function('vanity_twig_filter_by_letter'));
-		$this->twig->addFunction('names', new Twig_Function_Function('vanity_twig_names'));
+		// Filters
+		$this->twig->addFilter('description_as_html', new Twig_Filter_Function('Vanity\Generate\Utilities::descriptionAsHTML'));
+		$this->twig->addFilter('namespace_as_path',   new Twig_Filter_Function('Vanity\Generate\Utilities::namespaceAsPath'));
+		$this->twig->addFilter('filter_by_native',    new Twig_Filter_Function('Vanity\Generate\Utilities::getNativeFilteredList'));
+		$this->twig->addFilter('filter_by_inherited', new Twig_Filter_Function('Vanity\Generate\Utilities::getInheritedFilteredList'));
+		$this->twig->addFilter('filter_by_letter',    new Twig_Filter_Function('Vanity\Generate\Utilities::getListByLetter'));
+		$this->twig->addFilter('markdown',            new Twig_Filter_Function('Vanity\Generate\Utilities::markdown'));
+		$this->twig->addFilter('names',               new Twig_Filter_Function('Vanity\Generate\Utilities::getNames'));
 
 		$this->triggerEvent('vanity.twig.environment.init', new EventStore(array(
 			'twig' => $this->twig,

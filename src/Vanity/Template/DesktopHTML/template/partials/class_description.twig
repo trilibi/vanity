@@ -1,7 +1,7 @@
 {# The description data processed into HTML. #}
 {% if json.description and json.description is iterable %}
 	<div itemprop="description">
-	{{ description_as_html(json.description)|raw }}
+	{{ json.description|description_as_html|raw }}
 	<br>
 	</div>
 {% else %}

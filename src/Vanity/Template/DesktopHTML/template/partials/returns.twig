@@ -18,7 +18,7 @@
 					{# Multiple return types #}
 						{% for type in method.return.types %}
 							{% if type|split('\\')|length > 1 %}
-								<p><code><a href="{{ vanity.link.api_reference }}/{{ namespace_as_path(type) }}/index.html">{{ type }}</a></code></p>
+								<p><code><a href="{{ vanity.link.api_reference }}/{{ type|namespace_as_path }}/index.html">{{ type }}</a></code></p>
 							{% elseif type %}
 								<p><code>{{ type }}</code></p>
 							{% else %}
@@ -29,7 +29,7 @@
 					{% else %}
 					{# Only a single return type #}
 						{% if method.return.type and method.return.type|split('\\')|length > 1 %}
-							<p><code><a href="{{ vanity.link.api_reference }}/{{ namespace_as_path(method.return.type) }}/index.html">{{ method.return.type }}</a></code></p>
+							<p><code><a href="{{ vanity.link.api_reference }}/{{ method.return.type|namespace_as_path }}/index.html">{{ method.return.type }}</a></code></p>
 						{% elseif method.return.type %}
 							<p><code>{{ method.return.type }}</code></p>
 						{% else %}

@@ -23,7 +23,7 @@
 						<p>
 						{% for type in parameter.types %}
 							{% if type|split('\\')|length > 1 %}
-								<code><a href="{{ vanity.link.api_reference }}/{{ namespace_as_path(type) }}/index.html">{{ type }}</a></code>
+								<code><a href="{{ vanity.link.api_reference }}/{{ type|namespace_as_path }}/index.html">{{ type }}</a></code>
 							{% elseif type %}
 								<code>{{ type }}</code>
 							{% else %}
@@ -40,7 +40,7 @@
 						{# Only a single return type #}
 						<p>
 						{% if parameter.type and parameter.type|split('\\')|length > 1 %}
-							<code><a href="{{ vanity.link.api_reference }}/{{ namespace_as_path(parameter.type) }}/index.html">{{ parameter.type }}</a></code>
+							<code><a href="{{ vanity.link.api_reference }}/{{ parameter.type|namespace_as_path }}/index.html">{{ parameter.type }}</a></code>
 						{% elseif parameter.type %}
 							<code>{{ parameter.type }}</code>
 						{% else %}

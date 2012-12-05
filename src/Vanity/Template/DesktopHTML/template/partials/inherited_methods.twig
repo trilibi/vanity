@@ -1,6 +1,6 @@
 {# Inherited methods #}
 {% if inherited.methods %}
-	{% set method_letters = filter_by_letter(inherited.methods) %}
+	{% set method_letters = inherited.methods|filter_by_letter %}
 
 	<h2 id="inherited-methods">Inherited Methods ({{ inherited.count }})</h2>
 	<div class="well">
@@ -10,7 +10,7 @@
 			<dd>
 				<ul>
 				{% for node in nodes.nodes %}
-					<li><a href="{{ vanity.link.api_reference }}/{{ namespace_as_path(json.full_name) }}/{{ node.name }}.html">{{ node.name }}</a></li>
+					<li><a href="{{ vanity.link.api_reference }}/{{ json.full_name|namespace_as_path }}/{{ node.name }}.html">{{ node.name }}</a></li>
 				{% endfor %}
 				</ul>
 			</dd>

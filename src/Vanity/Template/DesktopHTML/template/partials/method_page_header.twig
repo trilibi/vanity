@@ -2,7 +2,7 @@
 	<span class="label label-info">Method</span>
 
 	{% if method.parameters %}
-		<h1>{{ method.name }} <small>( ${{ names(method.parameters.parameter)|join(', $') }} )</small></h1>
+		<h1>{{ method.name }} <small>( ${{ method.parameters.parameter|names|join(', $') }} )</small></h1>
 	{% else %}
 		<h1>{{ method.name }} <small>( )</small></h1>
 	{% endif %}

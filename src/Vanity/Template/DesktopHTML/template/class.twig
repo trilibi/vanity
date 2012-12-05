@@ -3,8 +3,8 @@
 {% block yield %}
 
 	{# Parse these results into new variables #}
-	{% set native = filter_by_native(json.methods.method) %}
-	{% set inherited = filter_by_inherited(json.methods.method) %}
+	{% set native = json.methods.method|filter_by_native %}
+	{% set inherited = json.methods.method|filter_by_inherited %}
 
 	{# Side navigation bar #}
 	<div class="navigation-wrapper">

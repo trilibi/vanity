@@ -29,7 +29,7 @@
 					{% endfor %}
 
 					{% if property.description|join %}
-						{{ description_as_html(property.description)|raw }}
+						{{ property.description|description_as_html|raw }}
 					{% endif %}
 
 					{% for class in property.inheritance.class %}

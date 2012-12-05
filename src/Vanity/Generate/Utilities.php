@@ -185,6 +185,30 @@ class Utilities
 	}
 
 	/**
+	 * Get list filtered by native.
+	 *
+	 * @param  array $list The list of methods from the JSON model.
+	 * @return array       An array containing information about the `native` keys.
+	 */
+	public static function getNativeFilteredList(array $list)
+	{
+		$o = self::getFilteredList($list);
+		return $o['native'];
+	}
+
+	/**
+	 * Get list filtered by inherited.
+	 *
+	 * @param  array $list The list of methods from the JSON model.
+	 * @return array       An array containing information about the `inherited` keys.
+	 */
+	public static function getInheritedFilteredList(array $list)
+	{
+		$o = self::getFilteredList($list);
+		return $o['inherited'];
+	}
+
+	/**
 	 * Filters node names by letter.
 	 *
 	 * @param  array $list The list of methods from the JSON model.
@@ -233,6 +257,17 @@ class Utilities
 		}
 
 		return $output;
+	}
+
+	/**
+	 * Apply Markdown to a string.
+	 * @param  string $string A Markdown-formatted string.
+	 * @return string         An HTML representation of the Markdown-formatted string.
+	 */
+	public static function markdown($string)
+	{
+		$md = new Markdown();
+		return $md->transformMarkdown($string);
 	}
 
 	/**

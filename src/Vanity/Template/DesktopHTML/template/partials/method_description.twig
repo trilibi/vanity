@@ -1,6 +1,6 @@
 {# The description data processed into HTML. #}
 {% if method.description and method.description is iterable %}
-	{{ description_as_html(method.description)|raw }}
+	{{ method.description|description_as_html|raw }}
 	<br>
 {% else %}
 	<p>{{ vanity.message.not_yet_implemented|raw }}</p>
