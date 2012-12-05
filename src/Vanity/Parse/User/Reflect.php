@@ -362,7 +362,7 @@ class Reflect
 
 		// Write the file
 		file_put_contents($directory . '/' . $filename, $encoded_data);
-		$output->writeln(TAB . $this->formatter->green->apply('-> ') . $directory . '/' . $filename);
+		$output->writeln(TAB . $this->formatter->green->apply('-> ') . str_replace(VANITY_PROJECT_WORKING_DIR . '/', '', $directory) . '/' . $filename);
 	}
 
 	/**

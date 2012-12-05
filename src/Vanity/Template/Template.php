@@ -98,6 +98,10 @@ abstract class Template implements TemplateInterface
 		self::$format_identifier = $format_identifier;
 		$this->template_path = $template_path;
 
+		$path = str_replace('%FORMAT%', self::$format_identifier, ConfigStore::get('generator.output'));
+		$filesystem = new Filesystem();
+		$filesystem->mkdir($path);
+
 		Twig_Autoloader::register();
 
 		$this->twig = new Twig_Environment(
@@ -215,7 +219,7 @@ abstract class Template implements TemplateInterface
 			{
 				foreach ($template->generateAPIReference($file) as $wrote)
 				{
-					echo TAB . $formatter->green->apply('-> ') . $wrote . PHP_EOL;
+					echo TAB . $formatter->green->apply('-> ') . str_replace(VANITY_PROJECT_WORKING_DIR . '/', '', $wrote) . PHP_EOL;
 					$count++;
 				}
 			}
@@ -400,6 +404,8 @@ abstract class Template implements TemplateInterface
 			$xurl->addChild('lastmod', $current_date);
 			$xurl->addChild('changefreq', 'weekly');
 		}
+
+		$this->filesystem->mkdir($path);
 
 		return file_put_contents($path . '/sitemap.xml', $sitemap->asXML());
 	}
