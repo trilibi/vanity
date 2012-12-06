@@ -1,5 +1,8 @@
 {% spaceless %}
-{% set deprecated = json.metadata.tag|find_tag('deprecated', true) %}
+
+{% set api = json.metadata.tag|find_tag('api', true) or method.metadata.tag|find_tag('api', true) %}
+{% set deprecated = json.metadata.tag|find_tag('deprecated', true) or method.metadata.tag|find_tag('deprecated', true) %}
+{% set internal = json.metadata.tag|find_tag('internal', true) or method.metadata.tag|find_tag('internal', true) %}
 
 <!DOCTYPE html>
 <html prefix="og: http://ogp.me/ns#">
@@ -16,7 +19,7 @@
 
 		{% if deprecated %}
 		<style type="text/css">
-		body.deprecated {
+		body.status-deprecated {
 			background: #fff url({{ vanity.base_path }}/images/deprecated.png) repeat-x 0 20px;
 		}
 		</style>
@@ -24,7 +27,7 @@
 
 	</head>
 
-	<body data-spy="scroll" data-target="#navTracker" data-offset="100" itemscope itemtype="http://schema.org/WebPage" class="{% if deprecated %}deprecated{% endif %}">
+	<body data-spy="scroll" data-target="#navTracker" data-offset="100" itemscope itemtype="http://schema.org/WebPage" class="{% if api %}status-api{% endif %} {% if deprecated %}status-deprecated{% endif %} {% if internal %}status-internal{% endif %}">
 
 		{% include "partials/primary_navigation.twig" %}
 

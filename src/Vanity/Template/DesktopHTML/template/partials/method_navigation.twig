@@ -1,11 +1,20 @@
 <ul class="nav nav-list well">
 	<li class="nav-header">Contents</li>
 	<li><a href="#description"><i class="icon-book"></i> Description</a></li>
+
+	{% if deprecated or api %}
+		<li><a href="#notes"><i class="icon-bookmark"></i> Notes</a></li>
+	{% endif %}
+
 	<li><a href="#examples"><i class="icon-cog"></i> Examples</a></li>
 
-	{% if method.parameters %}<li><a href="#parameters"><i class="icon-th-list"></i> Parameters</a></li>{% endif %}
+	{% if method.parameters %}
+		<li><a href="#parameters"><i class="icon-th-list"></i> Parameters</a></li>
+	{% endif %}
 
-	{% if method.return %}<li><a href="#returns"><i class="icon-share-alt"></i> Returns</a></li>{% endif %}
+	{% if method.return %}
+		<li><a href="#returns"><i class="icon-share-alt"></i> Returns</a></li>
+	{% endif %}
 
 	{% if vanity.config['generator.template.comments.disqus']
 		or vanity.config['generator.template.comments.intense_debate']
@@ -13,5 +22,7 @@
 		<li><a href="#comments"><i class="icon-comment"></i> Comments</a></li>
 	{% endif %}
 
-	{% if vanity.config['generator.twig.debug'] %}<li><a href="#debugger"><i class="icon-wrench"></i> Debugger Data</a></li>{% endif %}
+	{% if vanity.config['generator.twig.debug'] %}
+		<li><a href="#debugger"><i class="icon-wrench"></i> Debugger Data</a></li>
+	{% endif %}
 </ul>

@@ -116,6 +116,8 @@ class DefaultKlass extends Klass implements KlassInterface
 	 * }
 	 *
 	 * @deprecated
+	 * @api
+	 * @internal
 	 */
 	public function setHash(array $options) {}
 

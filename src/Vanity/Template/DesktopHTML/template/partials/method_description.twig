@@ -1,10 +1,5 @@
 {# The description data processed into HTML. #}
 {% if method.description and method.description is iterable %}
-	{% if deprecated %}
-	<div class="alert alert-error well">
-		<p><strong>Deprecation warning:</strong> This method has been deprecated and will be removed in a future release. Please migrate your code appropriately.</p>
-	</div>
-	{% endif %}
 	{{ method.description|description_as_html|raw }}
 	<br>
 {% else %}

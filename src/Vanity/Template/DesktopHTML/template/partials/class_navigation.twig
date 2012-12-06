@@ -2,6 +2,10 @@
 	<li class="nav-header">Contents</li>
 	<li><a href="#description"><i class="icon-book"></i> Description</a></li>
 
+	{% if deprecated or api %}
+		<li><a href="#notes"><i class="icon-bookmark"></i> Notes</a></li>
+	{% endif %}
+
 	{% if json.constants %}
 		<li><a href="#constants"><i class="icon-lock"></i> Constants</a></li>
 	{% endif %}
