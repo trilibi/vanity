@@ -48,6 +48,7 @@ use VanityTest\Test\KlassInterface;
  *     @return string The description of the string response.
  * }
  *
+ * @deprecated
  * @example  http://example.com/source.phps
  * @example  http://example.com/source.phps Source code example.
  */
@@ -113,6 +114,8 @@ class DefaultKlass extends Klass implements KlassInterface
 	 *     @type boolean "visible" [description]
 	 *     @type string  "default" [description]
 	 * }
+	 *
+	 * @deprecated
 	 */
 	public function setHash(array $options) {}
 

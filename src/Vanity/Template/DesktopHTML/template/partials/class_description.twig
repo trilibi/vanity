@@ -1,6 +1,11 @@
 {# The description data processed into HTML. #}
 {% if json.description and json.description is iterable %}
 	<div itemprop="description">
+		{% if deprecated %}
+		<div class="alert alert-error well">
+			<p><strong>Deprecation warning:</strong> This class has been deprecated and will be removed in a future release. Please migrate your code appropriately.</p>
+		</div>
+		{% endif %}
 	{{ json.description|description_as_html|raw }}
 	<br>
 	</div>

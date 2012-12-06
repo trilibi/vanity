@@ -1,4 +1,6 @@
 {% spaceless %}
+{% set deprecated = json.metadata.tag|find_tag('deprecated', true) %}
+
 <!DOCTYPE html>
 <html prefix="og: http://ogp.me/ns#">
 	<head profile="http://dublincore.org/documents/dcq-html/">
@@ -12,9 +14,17 @@
 		<link rel="stylesheet" href="{{ vanity.base_path }}/prettify/prettify.css">
 		{% block styles %}{% endblock %}
 
+		{% if deprecated %}
+		<style type="text/css">
+		body.deprecated {
+			background: #fff url({{ vanity.base_path }}/images/deprecated.png) repeat-x 0 20px;
+		}
+		</style>
+		{% endif %}
+
 	</head>
 
-	<body data-spy="scroll" data-target="#navTracker" data-offset="100" itemscope itemtype="http://schema.org/WebPage">
+	<body data-spy="scroll" data-target="#navTracker" data-offset="100" itemscope itemtype="http://schema.org/WebPage" class="{% if deprecated %}deprecated{% endif %}">
 
 		{% include "partials/primary_navigation.twig" %}
 

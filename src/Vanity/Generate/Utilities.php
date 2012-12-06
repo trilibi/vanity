@@ -271,6 +271,35 @@ class Utilities
 	}
 
 	/**
+	 * Find a specific metadata tag in a list of metadata tags.
+	 *
+	 * @param  array   $list    The list of methods from the JSON model.
+	 * @param  string  $tagName The name of the tag to match.
+	 * @param  boolean $exists  Only return a boolean value about whether or not there was a match.
+	 * @return array            Matching nodes in the list.
+	 */
+	public static function findTag($list, $tagName, $exists = false)
+	{
+		if (is_array($list))
+		{
+			$results = array_filter($list, function($item) use ($tagName)
+			{
+				if (isset($item['name']) && strtolower($item['name']) === strtolower($tagName))
+				{
+					return $item;
+				}
+			});
+
+			if ($exists)
+			{
+				return (count($results) > 0);
+			}
+
+			return $results;
+		}
+	}
+
+	/**
 	 * Converts a description node into something HTML-appropriate.
 	 *
 	 * @param  array  $description The description node to handle.
