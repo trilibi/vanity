@@ -115,10 +115,10 @@ abstract class Template implements TemplateInterface
 				'optimizations'       => ConfigStore::get('generator.twig.optimizations'),
 				'strict_variables'    => ConfigStore::get('generator.twig.strict_variables'),
 				'cache'               => (
-		    		sys_get_temp_dir() .
-		    		'/' .
-		    		ConsoleUtil::asciify(ConfigStore::get('vanity.name'))
-		    	),
+					sys_get_temp_dir() .
+					'/' .
+					ConsoleUtil::asciify(ConfigStore::get('vanity.name'))
+				),
 			)
 		);
 
