@@ -3,6 +3,9 @@
 {% set availables = method.metadata.tag|find_tag('available') %}
 {% set uses = method.metadata.tag|find_tag('uses') %}
 {% set usedBys = method.metadata.tag|find_tag('used-by') %}
+{% set authors = method.metadata.tag|find_tag('author') %}
+{% set copyrights = method.metadata.tag|find_tag('copyright') %}
+{% set licenses = method.metadata.tag|find_tag('license') %}
 
 <table border="0" class="class-reference">
 	<tbody>
@@ -108,6 +111,34 @@
 					<p>{{ method.path }}:{{ method.lines.start }}</p>
 				{% else %}
 					<p>{{ method.path }}:{{ method.lines.start }}-{{ method.lines.end }}</p>
+				{% endif %}
+			</td>
+		</tr>
+		{% endif %}
+
+		{# Author, copyright and licensing information #}
+		{% if authors or copyrights or licenses %}
+		<tr>
+			<th><p>Credits</p></th>
+			<td>
+				{% if authors %}
+				<p>Authored by {{ authors|authors_as_links|raw }}.</p>
+				{% endif %}
+
+				{% if copyrights %}
+				<ul>
+					{% for copyright in copyrights %}
+					<li>Copyright &copy; {{ copyright.value }}.</li>
+					{% endfor %}
+				</ul>
+				{% endif %}
+
+				{% if licenses %}
+				<ul>
+					{% for license in licenses %}
+						<li>{{ license|license_as_link|raw }}</li>
+					{% endfor %}
+				</ul>
 				{% endif %}
 			</td>
 		</tr>

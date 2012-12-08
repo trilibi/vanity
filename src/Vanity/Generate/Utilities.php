@@ -300,9 +300,10 @@ class Utilities
 	}
 
 	/**
-	 * [authorsAsLinks description]
-	 * @param  array  $authors [description]
-	 * @return [type]          [description]
+	 * Convert author metadata into a hyperlinked, text list.
+	 *
+	 * @param  array  $authors An array of author metadata.
+	 * @return string          A hyperlinked, text list.
 	 */
 	public static function authorsAsLinks(array $authors)
 	{
@@ -314,6 +315,14 @@ class Utilities
 			{
 				case 'mail':
 					$a[] = sprintf('<a href="mailto:%s">%s</a>', $author['uri'], $author['author']);
+					break;
+
+				case 'url':
+					$a[] = sprintf('<a href="%s">%s</a>', $author['uri'], $author['author']);
+					break;
+
+				case 'service':
+					$a[] = sprintf('<a href="%s" title="%s">%s</a>', $author['uri'], $author['description'], $author['author']);
 					break;
 
 				default:
@@ -336,6 +345,20 @@ class Utilities
 		}
 
 		return $rest;
+	}
+
+	/**
+	 * Convert license metadata into hyperlinked text.
+	 *
+	 * @param  array  $license An array of license metadata.
+	 * @return string          Hyperlinked text.
+	 */
+	public static function licenseAsLink(array $license)
+	{
+		if (isset($license['uri']) && isset($license['description']))
+		{
+			return sprintf('<a href="%s">%s</a>', $license['uri'], $license['description']);
+		}
 	}
 
 	/**

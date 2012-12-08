@@ -4,6 +4,8 @@
 {% set uses = json.metadata.tag|find_tag('uses') %}
 {% set usedBys = json.metadata.tag|find_tag('used-by') %}
 {% set authors = json.metadata.tag|find_tag('author') %}
+{% set copyrights = json.metadata.tag|find_tag('copyright') %}
+{% set licenses = json.metadata.tag|find_tag('license') %}
 
 <table border="0" class="class-reference">
 	<tbody>
@@ -140,31 +142,46 @@
 		</tr>
 
 		{# Author, copyright and licensing information #}
-		{% if authors %}
+		{% if authors or copyrights or licenses %}
 		<tr>
 			<th><p>Credits</p></th>
 			<td>
+				{% if authors %}
 				<p>Authored by {{ authors|authors_as_links|raw }}.</p>
+				{% endif %}
+
+				{% if copyrights %}
+				<ul>
+					{% for copyright in copyrights %}
+					<li>Copyright &copy; {{ copyright.value }}.</li>
+					{% endfor %}
+				</ul>
+				{% endif %}
+
+				{% if licenses %}
+				<ul>
+					{% for license in licenses %}
+						<li>{{ license|license_as_link|raw }}</li>
+					{% endfor %}
+				</ul>
+				{% endif %}
 			</td>
 		</tr>
 		{% endif %}
 
-		{# @api #}
-		{% if api %}
-		<tr>
-			<th><p>Stable</p></th>
+		{% if api or internal %}
+		<tr class="long">
+			<th><p>Status</p></th>
 			<td>
-				<p>This class represents a stable, public API component. This API <strong>should not change</strong> unless the new version is tagged as breaking Backwards Compatibility.</p>
-			</td>
-		</tr>
-		{% endif %}
+				{# @api #}
+				{% if api %}
+				<p><strong>This class represents a stable, public API component.</strong> This API should not change unless the new version is tagged as breaking Backwards Compatibility.</p>
+				{% endif %}
 
-		{# @internal #}
-		{% if internal %}
-		<tr>
-			<th><p>Internal</p></th>
-			<td>
-				<p>This class is only intended for internal use. This API <strong>may change at any moment</strong>, likely with no warning whatsoever. It is advisable to not use this API.</p>
+				{# @internal #}
+				{% if internal %}
+				<p><strong>This class is only intended for internal use.</strong> This API may change at any moment, likely with no warning whatsoever. It is advisable to not use this API.</p>
+				{% endif %}
 			</td>
 		</tr>
 		{% endif %}
