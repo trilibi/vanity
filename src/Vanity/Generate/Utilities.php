@@ -300,6 +300,45 @@ class Utilities
 	}
 
 	/**
+	 * [authorsAsLinks description]
+	 * @param  array  $authors [description]
+	 * @return [type]          [description]
+	 */
+	public static function authorsAsLinks(array $authors)
+	{
+		$a = array();
+
+		foreach ($authors as $author)
+		{
+			switch ($author['uri_hint'])
+			{
+				case 'mail':
+					$a[] = sprintf('<a href="mailto:%s">%s</a>', $author['uri'], $author['author']);
+					break;
+
+				default:
+					$a[] = $author['author'];
+					break;
+			}
+		}
+
+		$last = null;
+		if (count($a) > 1)
+		{
+			$last = array_pop($a);
+		}
+
+		$rest = implode(', ', $a);
+
+		if ($last)
+		{
+			$rest .= ' and ' . $last;
+		}
+
+		return $rest;
+	}
+
+	/**
 	 * Converts a description node into something HTML-appropriate.
 	 *
 	 * @param  array  $description The description node to handle.

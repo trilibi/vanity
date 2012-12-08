@@ -1,5 +1,58 @@
+{% set versions = json.metadata.tag|find_tag('version') %}
+{% set sinces = json.metadata.tag|find_tag('since') %}
+{% set availables = json.metadata.tag|find_tag('available') %}
+{% set uses = json.metadata.tag|find_tag('uses') %}
+{% set usedBys = json.metadata.tag|find_tag('used-by') %}
+{% set authors = json.metadata.tag|find_tag('author') %}
+
 <table border="0" class="class-reference">
 	<tbody>
+		{# Do we have a version number? #}
+		{% if versions %}
+		<tr>
+			<th><p>Version</p></th>
+			<td>
+				{% for version in versions %}
+					<p>{{ version.value }}</p>
+				{% endfor %}
+			</td>
+		</tr>
+		{% endif %}
+
+		{# Do we have availability info? #}
+		{% if sinces or availables %}
+		<tr>
+			<th><p>Available since</p></th>
+			<td>
+				{% for since in sinces %}
+					<p>{{ since.value }}</p>
+				{% endfor %}
+
+				{% for available in availables %}
+					<p>{{ available.value }}</p>
+				{% endfor %}
+			</td>
+		</tr>
+		{% endif %}
+
+		{# Do we implement any interfaces? #}
+		{% if json.implements %}
+		<tr>
+			<th><p>Implements</p></th>
+			<td>
+				<ul>
+					{% for interface in json.implements.interface %}
+						{% if interface.path %}
+							<li><a href="{{ vanity.link.api_reference }}/{{ interface.namespace_as_path }}/index.html">{{ interface.name }}</a></li>
+						{% else %}
+							<li>{{ interface.name }}</li>
+						{% endif %}
+					{% endfor %}
+				</ul>
+			</td>
+		</tr>
+		{% endif %}
+
 		<tr>
 			{# Do we inherit? Or are we a base class? #}
 			<th><p>Inherits from</p></th>
@@ -20,24 +73,6 @@
 			</td>
 		</tr>
 
-		{# Do we implement any interfaces? #}
-		{% if json.implements %}
-		<tr>
-			<th><p>Implements</p></th>
-			<td>
-				<ul>
-					{% for interface in json.implements.interface %}
-						{% if interface.path %}
-							<li><a href="{{ vanity.link.api_reference }}/{{ interface.namespace_as_path }}/index.html">{{ interface.name }}</a></li>
-						{% else %}
-							<li>{{ interface.name }}</li>
-						{% endif %}
-					{% endfor %}
-				</ul>
-			</td>
-		</tr>
-		{% endif %}
-
 		{# Do we import any traits? #}
 		{% if json.traits %}
 		<tr>
@@ -55,12 +90,93 @@
 			</td>
 		</tr>
 		{% endif %}
+
+		{# Uses? #}
+		{% if uses %}
 		<tr>
+			<th><p>Uses</p></th>
+			<td>
+				<ul>
+					{% for used in uses %}
+						{% if used.entity_hint == 'class' %}
+							<li><a href="{{ vanity.link.api_reference }}/{{ used.entity|namespace_as_path }}/index.html">{{ used.entity }}</a></li>
+						{% elseif used.entity_hint == 'method' %}
+							<li><a href="{{ vanity.link.api_reference }}/{{ used.entity|namespace_as_path }}/index.html">{{ used.entity }}</a></li>
+						{% else %}
+							<li>{{ used.entity }}</li>
+						{% endif %}
+					{% endfor %}
+				</ul>
+			</td>
+		</tr>
+		{% endif %}
+
+		{# Used by? #}
+		{% if usedBys %}
+		<tr>
+			<th><p>Is used by</p></th>
+			<td>
+				<ul>
+					{% for used in usedBys %}
+						{% if used.entity_hint == 'class' %}
+							<li><a href="{{ vanity.link.api_reference }}/{{ used.entity|namespace_as_path }}/index.html">{{ used.entity }}</a></li>
+						{% elseif used.entity_hint == 'method' %}
+							<li><a href="{{ vanity.link.api_reference }}/{{ used.entity|namespace_as_path }}/index.html">{{ used.entity }}</a></li>
+						{% else %}
+							<li>{{ used.entity }}</li>
+						{% endif %}
+					{% endfor %}
+				</ul>
+			</td>
+		</tr>
+		{% endif %}
+
+		<tr class="nowrap">
 			<th><p>Location</p></th>
 			<td>
 				{# Where does this file live? #}
 				<p>{{ json.path }}</p>
 			</td>
 		</tr>
+
+		{# Author, copyright and licensing information #}
+		{% if authors %}
+		<tr>
+			<th><p>Credits</p></th>
+			<td>
+				<p>Authored by {{ authors|authors_as_links|raw }}.</p>
+			</td>
+		</tr>
+		{% endif %}
+
+		{# @api #}
+		{% if api %}
+		<tr>
+			<th><p>Stable</p></th>
+			<td>
+				<p>This class represents a stable, public API component. This API <strong>should not change</strong> unless the new version is tagged as breaking Backwards Compatibility.</p>
+			</td>
+		</tr>
+		{% endif %}
+
+		{# @internal #}
+		{% if internal %}
+		<tr>
+			<th><p>Internal</p></th>
+			<td>
+				<p>This class is only intended for internal use. This API <strong>may change at any moment</strong>, likely with no warning whatsoever. It is advisable to not use this API.</p>
+			</td>
+		</tr>
+		{% endif %}
+
 	</tbody>
 </table>
+
+{# Notes about the class #}
+{% if deprecated %}
+	<br>
+
+	<div class="alert alert-error well">
+		<p><strong>Deprecated:</strong> This class has been deprecated and will be removed in a future release. Please migrate your code appropriately.</p>
+	</div>
+{% endif %}

@@ -52,13 +52,14 @@ code {
 	color: #333;
 }
 
-table tr td {
+/*table tr td {
 	width: 1%;
 }
 
 table tr td.description {
 	width: 99%;
 }
+*/
 
 div#description {
 	margin: 60px auto 0 auto;
@@ -266,7 +267,7 @@ Class reference table
 table.class-reference {
 	margin: 1em 0;
 	padding: 0;
-	width: 1%;
+	/*width: 1%;*/
 }
 
 table.class-reference,
@@ -283,8 +284,22 @@ table.class-reference tr {}
 table.class-reference tr th,
 table.class-reference tr td {
 	vertical-align: text-top;
+	padding: 0 2em;
+}
+
+table.class-reference tr th,
+table.class-reference tr.nowrap td {
+	vertical-align: text-top;
 	white-space: nowrap;
 	padding: 0 2em;
+}
+
+table.class-reference tr.long td {
+	padding: 0 2em;
+}
+
+table.class-reference tr.long td p {
+	width: 100%;
 }
 
 table.class-reference tr th {
@@ -296,16 +311,21 @@ table.class-reference tr th p {
 	font-weight: bold;
 }
 
-table.class-reference tr p {
+table.class-reference tr td {
+	width: 100%;
+	border-left: 1px dotted #ddd;
+}
+
+table.class-reference tr th p,
+table.class-reference tr td p {
 	margin: 0.5em 0;
-	max-width: 53em;
+}
+
+table.class-reference tr.nowrap td p {
+	max-width: 51em;
 	white-space: nowrap;
 	overflow-x: hidden;
 	text-overflow: ellipsis;
-}
-
-table.class-reference tr td {
-	border-left: 1px dotted #ddd;
 }
 
 table.class-reference tr td ul {

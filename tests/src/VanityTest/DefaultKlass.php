@@ -27,6 +27,7 @@ use VanityTest\Test\KlassInterface;
  *
  * @uses Klass
  * @version 1.2.3
+ * @available 1.0
  *
  * @method string getString()
  * @method void setInteger(integer $integer)

@@ -1,9 +1,43 @@
+{% set versions = method.metadata.tag|find_tag('version') %}
+{% set sinces = method.metadata.tag|find_tag('since') %}
+{% set availables = method.metadata.tag|find_tag('available') %}
+{% set uses = method.metadata.tag|find_tag('uses') %}
+{% set usedBys = method.metadata.tag|find_tag('used-by') %}
+
 <table border="0" class="class-reference">
 	<tbody>
 		<tr>
 			<th><p>Visibility</p></th>
 			<td><p>{{ method.visibility|join(' ') }}</p></td>
 		</tr>
+
+		{# Do we have a version number? #}
+		{% if versions %}
+		<tr>
+			<th><p>Version</p></th>
+			<td>
+				{% for version in versions %}
+					<p>{{ version.value }}</p>
+				{% endfor %}
+			</td>
+		</tr>
+		{% endif %}
+
+		{# Do we have availability info? #}
+		{% if sinces or availables %}
+		<tr>
+			<th><p>Available since</p></th>
+			<td>
+				{% for since in sinces %}
+					<p>{{ since.value }}</p>
+				{% endfor %}
+
+				{% for available in availables %}
+					<p>{{ available.value }}</p>
+				{% endfor %}
+			</td>
+		</tr>
+		{% endif %}
 
 		<tr>
 			{# Do we inherit? Or are we a base class? #}
@@ -25,8 +59,48 @@
 			</td>
 		</tr>
 
-		{% if method.path %}
+		{# Uses? #}
+		{% if uses %}
 		<tr>
+			<th><p>Uses</p></th>
+			<td>
+				<ul>
+					{% for used in uses %}
+						{% if used.entity_hint == 'class' %}
+							<li><a href="{{ vanity.link.api_reference }}/{{ used.entity|namespace_as_path }}/index.html">{{ used.entity }}</a></li>
+						{% elseif used.entity_hint == 'method' %}
+							<li><a href="{{ vanity.link.api_reference }}/{{ used.entity|namespace_as_path }}/index.html">{{ used.entity }}</a></li>
+						{% else %}
+							<li>{{ used.entity }}</li>
+						{% endif %}
+					{% endfor %}
+				</ul>
+			</td>
+		</tr>
+		{% endif %}
+
+		{# Used by? #}
+		{% if usedBys %}
+		<tr>
+			<th><p>Is used by</p></th>
+			<td>
+				<ul>
+					{% for used in usedBys %}
+						{% if used.entity_hint == 'class' %}
+							<li><a href="{{ vanity.link.api_reference }}/{{ used.entity|namespace_as_path }}/index.html">{{ used.entity }}</a></li>
+						{% elseif used.entity_hint == 'method' %}
+							<li><a href="{{ vanity.link.api_reference }}/{{ used.entity|namespace_as_path }}/index.html">{{ used.entity }}</a></li>
+						{% else %}
+							<li>{{ used.entity }}</li>
+						{% endif %}
+					{% endfor %}
+				</ul>
+			</td>
+		</tr>
+		{% endif %}
+
+		{% if method.path %}
+		<tr class="nowrap">
 			<th><p>Location</p></th>
 			<td>
 				{# Where does this file live? #}
@@ -39,5 +113,31 @@
 		</tr>
 		{% endif %}
 
+		{% if api or internal %}
+		<tr class="long">
+			<th><p>Status</p></th>
+			<td>
+				{# @api #}
+				{% if api %}
+				<p><strong>This class represents a stable, public API component.</strong> This API should not change unless the new version is tagged as breaking Backwards Compatibility.</p>
+				{% endif %}
+
+				{# @internal #}
+				{% if internal %}
+				<p><strong>This class is only intended for internal use.</strong> This API may change at any moment, likely with no warning whatsoever. It is advisable to not use this API.</p>
+				{% endif %}
+			</td>
+		</tr>
+		{% endif %}
+
 	</tbody>
 </table>
+
+{# Notes about the method #}
+{% if deprecated %}
+	<br>
+
+	<div class="alert alert-error well">
+		<p><strong>Deprecated:</strong> This method has been deprecated and will be removed in a future release. Please migrate your code appropriately.</p>
+	</div>
+{% endif %}

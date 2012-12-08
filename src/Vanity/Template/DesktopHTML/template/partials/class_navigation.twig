@@ -2,20 +2,16 @@
 	<li class="nav-header">Contents</li>
 	<li><a href="#description"><i class="icon-book"></i> Description</a></li>
 
-	{% if deprecated or api %}
-		<li><a href="#notes"><i class="icon-bookmark"></i> Notes</a></li>
-	{% endif %}
-
-	{% if json.constants %}
-		<li><a href="#constants"><i class="icon-lock"></i> Constants</a></li>
-	{% endif %}
-
 	{% if native.methods %}
-		<li><a href="#native-methods"><i class="icon-cog"></i> Native Methods</a></li>
+		<li><a href="#class-methods"><i class="icon-cog"></i> Class Methods</a></li>
 	{% endif %}
 
 	{% if inherited.methods %}
 		<li><a href="#inherited-methods"><i class="icon-cog"></i> Inherited Methods</a></li>
+	{% endif %}
+
+	{% if json.constants %}
+		<li><a href="#constants"><i class="icon-lock"></i> Constants</a></li>
 	{% endif %}
 
 	{% if json.properties and json.properties.count is not sameas(0) %}

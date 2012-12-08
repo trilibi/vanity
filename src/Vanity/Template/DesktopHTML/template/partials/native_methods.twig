@@ -2,7 +2,7 @@
 {% if native.methods %}
 	{% set method_letters = native.methods|filter_by_letter %}
 
-	<h2 id="native-methods">Native Methods ({{ native.count }})</h2>
+	<h2 id="class-methods">Class Methods ({{ native.count }})</h2>
 	<div class="well">
 		<dl class="letter-list">
 			{% for nodes in method_letters %}
